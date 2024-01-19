@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import './LoginForm.css';
+import {useAuth} from "../context/AuthContext";
 
-function LoginForm({ onLogin }) {
-    const [username, setUsername] = useState('');
+function LoginForm () {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const {login} = useAuth();
 
-    function handleUsername (event){
-        setUsername(event.target.value);
+    function handleEmail (event){
+        setEmail(event.target.value);
         setError('');
     }
     function handlePassword (event){
@@ -20,9 +22,24 @@ function LoginForm({ onLogin }) {
         setLoading(true);
 
         try {
-            await onLogin(username, password);
+            const response = await fetch('http://localhost:5555/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                login(data.user, data.token);
+            } else {
+                setError('Login failed: ' + data.message);
+                throw new Error(data.message || 'Login failed');
+            }
         } catch (error) {
             setError(error.message);
+            console.error('Login error:', error);
         }
 
         setLoading(false);
@@ -36,8 +53,8 @@ function LoginForm({ onLogin }) {
                     <input
                         type="text"
                         id="username"
-                        value={username}
-                        onChange={handleUsername}
+                        value={email}
+                        onChange={handleEmail}
                         placeholder="Username"
                     />
                 </div>
@@ -50,8 +67,8 @@ function LoginForm({ onLogin }) {
                         placeholder="Password"
                     />
                 </div>
-                <div className="error">{"Test" + error}</div>
-                <button type="submit" disabled={!username || !password || loading}>
+                <div className="error">{error}</div>
+                <button type="submit" disabled={!email || !password || loading}>
                     {loading ? "Logging in..." : "Login"}
                 </button>
             </form>
