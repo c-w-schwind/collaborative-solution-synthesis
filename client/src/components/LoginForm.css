@@ -1,0 +1,80 @@
+/* LoginComponent.css */
+.login-container {
+    max-width: 380px;
+    margin: 180px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.login-heading {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: lighter;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+
+}
+
+.login-form div {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.login-form input {
+    display: block;
+    width: 85%;
+    margin: 0 auto;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-form .error {
+    min-height: 1.2em;
+    color: red;
+    text-align: center;
+}
+
+.login-form button {
+    padding: 10px 15px;
+    font-weight: bold;
+    background-color: #007bff;
+    transition: background-color 0.3s;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 40%;
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
+}
+
+.login-form button:active {
+    background-color: #004a9f;
+    transform: scale(0.98);
+}
+
+.login-form button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+.login-form button:disabled:hover,
+.login-form button:disabled:active {
+    background-color: #cccccc;
+    transform: none;
+}

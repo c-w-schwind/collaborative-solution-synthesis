@@ -1,0 +1,54 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f4f6;
+    padding: 10px 20px;
+}
+
+.logo a {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.navigation a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #555;
+    font-size: 18px;
+}
+
+.navigation a:hover {
+    color: #007bff;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+}
+
+.user-section span {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.logout-button, .login-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.logout-button:hover, .login-button:hover {
+    background-color: #0056b3;
+}
+
+.login-button a {
+    color: white;
+    text-decoration: none;
+}
