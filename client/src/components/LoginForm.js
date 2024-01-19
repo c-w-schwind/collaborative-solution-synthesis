@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './LoginForm.css';
 import {useAuth} from "../context/AuthContext";
+import { useNavigate } from 'react-router-dom'
+
 
 function LoginForm () {
     const [email, setEmail] = useState('');
@@ -8,6 +10,7 @@ function LoginForm () {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const {login} = useAuth();
+    const navigate = useNavigate();
 
     function handleEmail (event){
         setEmail(event.target.value);
@@ -33,6 +36,7 @@ function LoginForm () {
 
             if (response.ok) {
                 login(data.user, data.token);
+                navigate('/');
             } else {
                 setError('Login failed: ' + data.message);
                 throw new Error(data.message || 'Login failed');

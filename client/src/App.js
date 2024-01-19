@@ -6,6 +6,7 @@ import DiscussionSpace from "./components/DiscussionSpace";
 
 import './App.css';
 import Layout from "./components/Layout";
+import PublicRoute from "./routes/PublicRoute";
 
 function App() {
     return (
@@ -15,7 +16,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Layout />}>
                             <Route index element={<IndexPage />} />
-                            <Route path="login" element={<LoginPage />} />
+                            <Route path="login" element={<PublicRoute><LoginPage /></PublicRoute>} />
                             <Route path="discussionSpace" element={<DiscussionSpace />} />
                         </Route>
                     </Routes>
