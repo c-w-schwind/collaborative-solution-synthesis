@@ -9,7 +9,12 @@ function DiscussionSpace () {
     const limit = 30;
 
     useEffect(() => {
-        fetchPosts(1, 30)
+        fetchPosts(page, limit);
+        const interval = setInterval(() => {
+            fetchPosts(page, limit);
+        }, 30000); // Polling every 30 seconds
+
+        return () => clearInterval(interval); // Cleanup on component unmount
     }, [page, limit]);
 
     async function fetchPosts (page, limit) {
@@ -53,7 +58,7 @@ function DiscussionSpace () {
                     authorPictureUrl={message.authorPictureUrl}
                 />
                 ))};
-            <MessageInput/>
+            <MessageInput onPostSuccess={fetchPosts}/>
             <section className="pagination">
                 <button onClick={nextPage}>Next</button>
                 <span>You're on page {page}.</span>

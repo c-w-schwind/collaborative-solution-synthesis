@@ -1,53 +1,72 @@
 import { useState } from "react";
 import './MessageInput.css';
 
-function MessageInput() {
-    const [formData, setFormData] = useState({ postTitle: '', postMessage: '' });
+function MessageInput({onPostSuccess}) {
+    const [formData, setFormData] = useState({ title: '', content: '' });
     const [error, setError] = useState('');
 
     function handleChange(event) {
         const { name, value } = event.target;
         setFormData(prevState => ({ ...prevState, [name]: value }));
-        setError(''); // Clear error when user starts typing
+        setError('');
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
-        
-        if (!formData.postMessage.trim()) {
+
+        if (!formData.content.trim()) {
             setError('Message content cannot be empty');
             return;
         }
-        if (!formData.postTitle.trim()) {
+        if (!formData.title.trim()) {
             setError('Title cannot be empty');
             return;
         }
 
-        // Process form data
-        console.log("This is the title: " + formData.postTitle + "\nThis is the message: " + formData.postMessage);
+        try {
+            const response = await fetch('http://localhost:5555/discussionSpace', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
 
-        //only reset if successfully written into database? what is the way to check this?
-        setFormData({ postTitle: '', postMessage: '' });    //reset
+            if (!response.ok) {
+                throw new Error(`Failed to submit post: ${response.status}`);
+            }
+
+            const data = await response.json();
+            onPostSuccess();
+            setFormData({title: '', content: ''});
+            console.log('Post created:', data);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error.message);
+            setError("There was a problem submitting your post. Please try again later.");
+        }
     }
 
     return (
         <form onSubmit={handleSubmit} className="form-container">
             <textarea
-                name="postTitle"
-                value={formData.postTitle}
+                name="title"
+                value={formData.title}
                 onChange={handleChange}
                 className="title-area"
                 placeholder="Title"
             />
             <textarea
-                name="postMessage"
-                value={formData.postMessage}
+                name="content"
+                value={formData.content}
                 onChange={handleChange}
                 className="text-area"
                 placeholder="Write your message here..."
             />
-            {error && <div className="form-error">{error}</div>}
-            <button type="submit">Send</button>
+            <div className="action-area">
+                {error && <div className="form-error">{error}</div>}
+                <button type="submit">Send</button>
+            </div>
         </form>
     );
 }
