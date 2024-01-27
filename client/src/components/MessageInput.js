@@ -1,7 +1,9 @@
 import { useState } from "react";
 import './MessageInput.css';
+import {useToasts} from "../context/ToastContext";
 
 function MessageInput({onPostSuccess}) {
+    const {addToast} = useToasts();
     const [formData, setFormData] = useState({ title: '', content: '' });
     const [error, setError] = useState('');
 
@@ -42,8 +44,17 @@ function MessageInput({onPostSuccess}) {
             setFormData({title: '', content: ''});
             console.log('Post created:', data);
         } catch (error) {
+            const errorCode = error.message.match(/\d+/) ? error.message.match(/\d+/)[0] : null;
+
+            if (errorCode === '401') {
+                setError('Unauthorized: Your session might have expired. Please log in again.');
+            } else if (errorCode === '500') {
+                setError('Server Error: There was a problem on our end. Please try again later.');
+            } else {
+                setError('Error: There was a problem submitting your post. Please check your internet connection and try again.');
+            }
             console.error('There was a problem with the fetch operation:', error.message);
-            setError("There was a problem submitting your post. Please try again later.");
+            addToast("Warning: To prevent losing your message, please copy and save it before refreshing or retrying.", 20000);
         }
     }
 
