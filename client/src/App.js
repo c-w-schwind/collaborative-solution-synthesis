@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import {ToastProvider} from "./context/ToastContext";
 
 import LoginPage from './pages/LoginPage';
 import DiscussionSpace from "./components/DiscussionSpace";
@@ -11,17 +12,19 @@ import PublicRoute from "./routes/PublicRoute";
 function App() {
     return (
         <div className="App">
-            <AuthProvider>
+            <ToastProvider>
                 <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Layout />}>
-                            <Route index element={<IndexPage />} />
-                            <Route path="login" element={<PublicRoute><LoginPage /></PublicRoute>} />
-                            <Route path="discussionSpace" element={<DiscussionSpace />} />
-                        </Route>
-                    </Routes>
+                    <AuthProvider>
+                        <Routes>
+                            <Route path="/" element={<Layout/>}>
+                                <Route index element={<IndexPage/>}/>
+                                <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
+                                <Route path="discussionSpace" element={<DiscussionSpace/>}/>
+                            </Route>
+                        </Routes>
+                    </AuthProvider>
                 </BrowserRouter>
-            </AuthProvider>
+            </ToastProvider>
         </div>
     );
 }
