@@ -24,11 +24,11 @@ function Header () {
             <div className="user-section">
                 {isLoggedIn ? (
                     <div>
-                        <span>{user ? "Welcome, " + user.username : "Loading..."}</span>
+                        <span>{user ? "Logged in as " + user.username : "Loading..."}</span>
                         <button onClick={logout} className="logout-button">Logout</button>
                     </div>
                 ) : (
-                    <button className="login-button"><Link to="/login">Login</Link></button>
+                    <Link to="/login" className="login-button">Login</Link>
                 )}
             </div>
         </header>
