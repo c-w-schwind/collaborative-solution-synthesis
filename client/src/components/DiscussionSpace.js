@@ -6,6 +6,7 @@ import MessageInput from "./MessageInput";
 function DiscussionSpace () {
     const [messages, setMessages] = useState([]);
     const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
     const limit = 30;
 
     useEffect(() => {
@@ -24,26 +25,19 @@ function DiscussionSpace () {
             if (!response.ok){
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            const posts = await response.json();
-            setMessages(posts);
+            const data = await response.json();
+            setMessages(data.posts.reverse());
+            setTotalPages(data.totalPages);
         } catch (error) {
             console.error('Failed to fetch posts:', error);
         }
     }
 
-
-    function nextPage() {           // todo
-        setPage(page + 1);
+    function nextPage() {
+        if (page > 1) setPage(page - 1);
     }
-    function previousPage() {       // todo
-        if (page > 1) {
-            setPage(page - 1);
-        }
-    }
-
-    // post a new message
-    function addMessage([message]) {
-        setMessages([...messages, message])
+    function previousPage() {
+        if (page < totalPages) setPage(page + 1);
     }
 
     return (
@@ -60,9 +54,9 @@ function DiscussionSpace () {
                 ))};
             <MessageInput onPostSuccess={fetchPosts}/>
             <section className="pagination">
-                <button onClick={nextPage}>Next</button>
-                <span>You're on page {page}.</span>
-                <button onClick={previousPage}>Previous</button>
+                <button onClick={previousPage} disabled={page === totalPages}>Previous</button>
+                <span>You're on page {page} of {totalPages}.</span>
+                <button onClick={nextPage} disabled={page === 1}>Next</button>
             </section>
         </div>
     );

@@ -50,15 +50,18 @@ discussionSpaceRoutes.post('/discussionSpace', authenticateToken, async (req, re
 
 
 
-// Get Discussion Space posts                                                                   //TODO: Frontend query params
+// Get Discussion Space posts
 discussionSpaceRoutes.get('/discussionSpace', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 30;
     const skipIndex = (page - 1) * limit;
 
     try {
+        const totalNumberOfPosts = await DiscussionSpacePost.countDocuments();
+        const totalPages = Math.ceil(totalNumberOfPosts / limit);
+
         const posts = await DiscussionSpacePost.find()
-            .sort({ date: 1 })
+            .sort({ date: -1 })
             .limit(limit)
             .skip(skipIndex)
             .populate('author', 'username', 'User')
@@ -70,7 +73,8 @@ discussionSpaceRoutes.get('/discussionSpace', async (req, res) => {
                     select: 'username'
                 }
             });
-        res.status(200).send(posts);
+
+        res.status(200).send({ posts, totalPages });
     } catch (err) {
         console.log(err);
         if (err.name === 'ValidationError') {
