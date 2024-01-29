@@ -38,12 +38,12 @@ function LoginForm () {
                 login(data.user, data.token);
                 navigate('/');
             } else {
-                setError('Login failed: ' + data.message);
-                throw new Error(data.message || 'Login failed');
+                setError(data.message);
+                console.info('Login attempt failed:', data.message);
             }
         } catch (error) {
-            setError(error.message);
-            console.error('Login error:', error);
+            setError('An unexpected error occurred. Please try again later.');
+            console.error('Unexpected login error:', error);
         }
 
         setLoading(false);

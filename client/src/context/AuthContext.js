@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         if (!token) return;
 
-        const validateAndFetchUserData = async () => {
+        async function validateAndFetchUserData(retryCount = 0) {
             try {
                 const decodedData = jwtDecode(token);
                 if (isTokenExpired(decodedData)) {
@@ -46,9 +46,18 @@ export const AuthProvider = ({ children }) => {
                 addToast(`Welcome back, ${userData.username}!`, 5000);
             } catch (error) {
                 console.error('Authentication error:', error.message);
-                logout({ redirect: true, message: 'Session expired. Please log in again.', timeout:10000 });
+                if (error.name === 'FetchError' || error.name === 'TypeError' || error.code === 'ECONNREFUSED') {
+                    if (retryCount < 3) {
+                        addToast(`Server connection failed. Attempting to reconnect... (${retryCount + 1}/3)`, 3000);
+                        setTimeout(() => validateAndFetchUserData(retryCount + 1), 3000);
+                    } else {
+                        addToast('Unable to connect to the server. Please check your internet connection, then try again later.', 10000);
+                    }
+                } else {
+                    logout({ redirect: true, message: 'Session expired. Please log in again.', timeout: 10000 });
+                }
             }
-        };
+        }
 
         validateAndFetchUserData();
     }, []);
