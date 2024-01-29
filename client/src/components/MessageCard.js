@@ -8,7 +8,7 @@ function MessageCard({ title, content, author, timestamp, authorPictureUrl }) {
     return (
         <article className="message-card">
             <section className="user-info">
-                <img src={authorPictureUrl} alt={`${author}'s profile picture`} className="author-picture" onError={handleImageError} />
+                <img src='./default_profile_picture.jpg' /*{authorPictureUrl}*/ alt={`${author}'s profile picture`} className="author-picture" onError={handleImageError} />
                 <div className="author-name">{author}</div>
             </section>
             <section className="message-info">
