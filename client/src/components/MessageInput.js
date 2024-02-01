@@ -1,27 +1,46 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import './MessageInput.css';
-import {useToasts} from "../context/ToastContext";
 
-function MessageInput({onPostSuccess}) {
-    const {addToast} = useToasts();
+function MessageInput({onPostSuccess, onPostError, onInputChange}) {
     const [formData, setFormData] = useState({ title: '', content: '' });
+    const [isFormFilled, setIsFormFilled] = useState(false);
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        onInputChange(isFormFilled);
+    }, [isFormFilled, onInputChange]);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            if (isFormFilled) {
+                event.preventDefault();
+                event.returnValue = 'You have unsaved changes! Are you sure you want to leave?';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [isFormFilled]);
 
     function handleChange(event) {
         const { name, value } = event.target;
-        setFormData(prevState => ({ ...prevState, [name]: value }));
+        setFormData(prevState => {
+            const updatedFormData = { ...prevState, [name]: value };
+            setIsFormFilled(Object.values(updatedFormData).some(val => val.trim() !== ''));
+            return updatedFormData;
+        });
         setError('');
     }
 
     async function handleSubmit(event) {
         event.preventDefault();
 
-        if (!formData.content.trim()) {
-            setError('Message content cannot be empty');
-            return;
-        }
         if (!formData.title.trim()) {
             setError('Title cannot be empty');
+            return;
+        }
+        if (!formData.content.trim()) {
+            setError('Message content cannot be empty');
             return;
         }
 
@@ -44,6 +63,7 @@ function MessageInput({onPostSuccess}) {
             setFormData({title: '', content: ''});
             console.log('Post created:', data);
         } catch (error) {
+            onPostError();
             const errorCode = error.message.match(/\d+/) ? error.message.match(/\d+/)[0] : null;
 
             if (errorCode === '401') {
@@ -54,7 +74,6 @@ function MessageInput({onPostSuccess}) {
                 setError('Error: There was a problem submitting your post. Please check your internet connection and try again.');
             }
             console.error('There was a problem with the fetch operation:', error.message);
-            addToast("Warning: To prevent losing your message, please copy and save it before refreshing or retrying.", 20000);
         }
     }
 

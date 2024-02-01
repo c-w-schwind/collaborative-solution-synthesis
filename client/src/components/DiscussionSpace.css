@@ -14,3 +14,22 @@
     color: rgba(28, 27, 27, 0.35);
     background-color: #b6b2b2;
 }
+
+.errorBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 700px;
+    margin: 60px auto 0 auto;
+
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
