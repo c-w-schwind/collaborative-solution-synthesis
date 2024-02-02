@@ -1,23 +1,23 @@
-import './MessageCard.css';
+import './PostCard.css';
 
-function MessageCard({ title, content, author, timestamp, authorPictureUrl }) {
+function PostCard({ title, content, author, createdAt, authorPictureUrl }) {
     const handleImageError = (e) => {
         e.target.src = './default_profile_picture.jpg';
     };
 
     return (
-        <article className="message-card">
+        <article className="post-card">
             <section className="user-info">
                 <img src='https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg' /*{authorPictureUrl}*/ alt={`${author}'s profile picture`} className="author-picture" onError={handleImageError} />
                 <div className="author-name">{author}</div>
             </section>
-            <section className="message-info">
-                <header className="message-header">
-                    <div className="message-title">{title}</div>
-                    <div className="message-timestamp">{timestamp}</div>
+            <section className="post-info">
+                <header className="post-header">
+                    <div className="post-title">{title}</div>
+                    <div className="post-timestamp">{createdAt}</div>
                 </header>
-                <div className="message-content">{content}</div>
-                <div className="message-interactions">
+                <div className="post-content">{content}</div>
+                <div className="post-interactions">
                     <button className="reply-button">Reply</button>
                     <button className="flag-button">Flag Post</button>
                 </div>
@@ -26,4 +26,4 @@ function MessageCard({ title, content, author, timestamp, authorPictureUrl }) {
     );
 }
 
-export default MessageCard;
+export default PostCard;

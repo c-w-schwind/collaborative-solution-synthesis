@@ -1,5 +1,5 @@
 import {createContext, useContext, useState} from "react";
-import ToastManager from "../components/ToastManager";
+import ToastManager from "../components/ToastComponents/ToastManager";
 
 const ToastContext = createContext();
 

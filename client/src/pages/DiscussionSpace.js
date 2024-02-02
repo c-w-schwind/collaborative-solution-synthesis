@@ -1,11 +1,11 @@
 import './DiscussionSpace.css';
 import {useCallback, useEffect, useRef, useState} from "react";
-import MessageCard from "./MessageCard";
-import MessageInput from "./MessageInput";
+import PostCard from "../components/DiscussionSpaceComponents/PostCard";
+import PostInput from "../components/DiscussionSpaceComponents/PostInput";
 import {useToasts} from "../context/ToastContext";
 
 function DiscussionSpace () {
-    const [messages, setMessages] = useState([]);
+    const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [error, setError] = useState(null);
@@ -39,7 +39,7 @@ function DiscussionSpace () {
             }
             setError(null);
             const data = await response.json();
-            setMessages(data.posts.reverse());
+            setPosts(data.posts.reverse());
             setTotalPages(data.totalPages);
         } catch (err) {
             console.error('Failed to fetch posts:', err);
@@ -56,15 +56,15 @@ function DiscussionSpace () {
     }
 
     return (
-        <div className="messageBlock">
-            {messages.map(message => (
-                <MessageCard
-                    key={message._id}
-                    title={message.title}
-                    content={message.content}
-                    author={message.author.username}
-                    timestamp={message.timestamp}
-                    authorPictureUrl={message.authorPictureUrl}
+        <div className="tittBlock">
+            {posts.map(post => (
+                <PostCard
+                    key={post._id}
+                    title={post.title}
+                    content={post.content}
+                    author={post.author.username}
+                    createdAt={post.timestamp}
+                    authorPictureUrl={post.authorPictureUrl}
                 />
             ))}
             {error &&
@@ -72,9 +72,9 @@ function DiscussionSpace () {
                     <div className="error">{error}</div>
                     <button onClick={fetchPosts}>Retry</button>
                 </div>}
-            <MessageInput onPostSuccess={fetchPosts}
-                          onPostError={displayToastWarning}
-                          onInputChange={(isFilled) => setIsInputFilled(isFilled)}
+            <PostInput onPostSuccess={fetchPosts}
+                       onPostError={displayToastWarning}
+                       onInputChange={(isFilled) => setIsInputFilled(isFilled)}
             />
             <section className="pagination">
                 <button onClick={previousPage} disabled={page === totalPages || page > totalPages}>Previous</button>

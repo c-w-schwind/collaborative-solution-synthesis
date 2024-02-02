@@ -3,7 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import {ToastProvider} from "./context/ToastContext";
 
 import LoginPage from './pages/LoginPage';
-import DiscussionSpace from "./components/DiscussionSpace";
+import DiscussionSpace from "./pages/DiscussionSpace";
 
 import './App.css';
 import Layout from "./components/Layout";

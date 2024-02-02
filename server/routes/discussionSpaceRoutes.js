@@ -1,5 +1,5 @@
 import express from "express";
-import {DiscussionSpacePost} from "../models/discussionSpaceModel.js";
+import {DiscussionSpacePost} from "../models/discussionSpacePostModel.js";
 import {User} from "../models/userModel.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 

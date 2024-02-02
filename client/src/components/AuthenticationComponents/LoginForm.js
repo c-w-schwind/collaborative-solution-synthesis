@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './LoginForm.css';
-import {useAuth} from "../context/AuthContext";
+import {useAuth} from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom'
 
 

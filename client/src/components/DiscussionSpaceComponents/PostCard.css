@@ -1,4 +1,4 @@
-.message-card {
+.post-card {
     border: 1px solid #ccc;
     padding: 15px;
     margin: 10px auto;
@@ -33,7 +33,7 @@
     font-weight: bold;
 }
 
-.message-info {
+.post-info {
     flex-grow: 1;
     padding-left: 15px;
     display: flex;
@@ -41,24 +41,24 @@
     justify-content: space-between;
 }
 
-.message-header {
+.post-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
 }
 
-.message-title {
+.post-title {
     font-weight: bold;
     color: #333;
 }
 
-.message-timestamp {
+.post-timestamp {
     color: #666;
     font-size: 0.8em;
 }
 
-.message-content {
+.post-content {
     text-align: left;
     margin-bottom: 12px;
     margin-right: 20px;
@@ -68,16 +68,10 @@
     white-space: pre-wrap;
 }
 
-.message-interactions {
+.post-interactions {
     display: flex;
     justify-content: flex-end;
 }
-
-/*
-.reply-button {}
-.reply-button:hover {}
-.reply-button:active {}
-*/
 
 .flag-button {
     background-color: #dc3545;
@@ -93,7 +87,7 @@
 }
 
 @media screen and (max-width: 900px) {
-    .message-card {
+    .post-card {
         flex-direction: column;
         width: 90%;
         margin: 10px auto;
@@ -104,7 +98,7 @@
         border-bottom: 1px solid #ccc;
         margin-bottom: 15px;
     }
-    .message-info {
+    .post-info {
         padding-left: 0;
     }
 }

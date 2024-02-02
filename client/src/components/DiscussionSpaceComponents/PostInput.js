@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import './MessageInput.css';
+import './PostInput.css';
 
-function MessageInput({onPostSuccess, onPostError, onInputChange}) {
+function PostInput({onPostSuccess, onPostError, onInputChange}) {
     const [formData, setFormData] = useState({ title: '', content: '' });
     const [isFormFilled, setIsFormFilled] = useState(false);
     const [error, setError] = useState('');
@@ -101,4 +101,4 @@ function MessageInput({onPostSuccess, onPostError, onInputChange}) {
     );
 }
 
-export default MessageInput;
+export default PostInput;
