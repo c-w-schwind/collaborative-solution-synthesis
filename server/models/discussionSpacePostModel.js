@@ -14,15 +14,11 @@ const discussionSpacePostSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    date: {
-        type: Date,
-        required: true
-    },
     replyingTo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'DiscussionSpacePost',
         required: false
     }
-});
+}, { timestamps: true });
 
 export const DiscussionSpacePost = mongoose.model('DiscussionSpacePost', discussionSpacePostSchema);

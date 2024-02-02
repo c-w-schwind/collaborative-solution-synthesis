@@ -3,6 +3,7 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import PostCard from "../components/DiscussionSpaceComponents/PostCard";
 import PostInput from "../components/DiscussionSpaceComponents/PostInput";
 import {useToasts} from "../context/ToastContext";
+import { formatToGermanTimezone } from '../utils/dateUtils';
 
 function DiscussionSpace () {
     const [posts, setPosts] = useState([]);
@@ -63,7 +64,7 @@ function DiscussionSpace () {
                     title={post.title}
                     content={post.content}
                     author={post.author.username}
-                    createdAt={post.timestamp}
+                    createdAt={formatToGermanTimezone(post.createdAt)}
                     authorPictureUrl={post.authorPictureUrl}
                 />
             ))}

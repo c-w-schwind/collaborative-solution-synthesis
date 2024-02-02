@@ -36,7 +36,7 @@ discussionSpaceRoutes.post('/discussionSpace', authenticateToken, async (req, re
             }
         }
 
-        const newPostData = { title, content, author, date: new Date(), replyingTo };   //TODO: replying to optional. will be empty or missing? what is right thing to do here?
+        const newPostData = { title, content, author, replyingTo };
         const newPost = await DiscussionSpacePost.create(newPostData);
         return res.status(201).send(newPost);
     } catch (err) {
@@ -61,7 +61,7 @@ discussionSpaceRoutes.get('/discussionSpace', async (req, res) => {
         const totalPages = Math.ceil(totalNumberOfPosts / limit);
 
         const posts = await DiscussionSpacePost.find()
-            .sort({ date: -1 })
+            .sort({ createdAt: -1 })
             .limit(limit)
             .skip(skipIndex)
             .populate('author', 'username', 'User')
