@@ -13,10 +13,12 @@ app.use(express.json());
 import indexRoutes from "./routes/indexRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import discussionSpaceRoutes from "./routes/discussionSpaceRoutes.js";
+import solutionRoutes from "./routes/solutionRoutes.js";
 
 app.use(indexRoutes);
 app.use(userRoutes);
 app.use(discussionSpaceRoutes); //could also use app.use("/discussionSpace", discussionSpaceRoutes);
+app.use(solutionRoutes);
 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
