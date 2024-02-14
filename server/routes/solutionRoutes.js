@@ -1,10 +1,10 @@
 import express from "express";
-import authenticateToken from "../middleware/authenticateToken.js";
-import {User} from "../models/userModel.js";
-import {Solution} from "../models/solutionModel.js";
-import {SolutionElement} from "../models/solutionElementModel.js";
-import {Consideration} from "../models/considerationModel.js";
 import mongoose from "mongoose";
+import {Solution} from "../models/solutionModel.js";
+import authenticateToken from "../middleware/authenticateToken.js";
+import {createSolutionElements} from "../services/solutionElementService.js";
+import {createConsiderations} from "../services/considerationService.js";
+import {validateSolution} from "../services/solutionService.js";
 
 const solutionRoutes = express.Router();
 
@@ -13,44 +13,12 @@ solutionRoutes.post('/solutions', authenticateToken, async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        const { title, overview, description, solutionElementsData, solutionConsiderationsData } = req.body; // TODO: overview?
+        const { title, overview, description, solutionElementsData, solutionConsiderationsData } = req.body;
         const author = req.user._id;
+        await validateSolution({ title, overview, description }, solutionElementsData, solutionConsiderationsData, author);
 
-        if (!title) {
-            return res.status(400).send({message: 'Missing required field: title.'});
-        }
-        //TODO: overview? other stuff?
-        if (!description) {
-            return res.status(400).send({message: 'Missing required field: description.'});
-        }
-        const existingUser = await User.findById(author);
-        if (!existingUser) {
-            return res.status(404).send({message: 'User not found.'});
-        }
-
-        const solutionElementsIds = [];
-        if (solutionElementsData) {
-            for (const elementData of solutionElementsData) {
-                const element = new SolutionElement({
-                    ...elementData,
-                    proposedBy: author
-                });
-                await element.save({session});
-                solutionElementsIds.push(element._id);
-            }
-        }
-
-        const considerationsIds = [];
-        if (solutionConsiderationsData) {
-            for (const considerationData of solutionConsiderationsData) {
-                const consideration = new Consideration({
-                    ...considerationData,
-                    proposedBy: author
-                });
-                await consideration.save({session});
-                considerationsIds.push(consideration._id);
-            }
-        }
+        const solutionElementsIds = solutionElementsData && solutionElementsData.length > 0 ? await createSolutionElements(solutionElementsData, author, session) : [];
+        const solutionConsiderationsIds = solutionConsiderationsData && solutionConsiderationsData.length > 0 ? await createConsiderations(solutionConsiderationsData, author, session) : [];
 
         const newSolution = new Solution({
             title,
@@ -58,7 +26,7 @@ solutionRoutes.post('/solutions', authenticateToken, async (req, res) => {
             description,
             proposedBy: author,
             solutionElements: solutionElementsIds,
-            solutionConsiderations: considerationsIds
+            solutionConsiderations: solutionConsiderationsIds
         });
         await newSolution.save({session});
         await session.commitTransaction();
