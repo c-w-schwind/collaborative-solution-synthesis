@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {ConsiderationComment} from './considerationCommentModel.js'
 
 const considerationSchema = new mongoose.Schema({
     stance: {
@@ -28,7 +29,8 @@ const considerationSchema = new mongoose.Schema({
     votes: {
         upvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
         downvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
-    }
+    },
+    comments: [ConsiderationComment]
 }, { timestamps: true });
 
 export const Consideration = mongoose.model('Consideration', considerationSchema);
