@@ -1,8 +1,14 @@
 import mongoose from "mongoose";
 
 const solutionElementSchema = new mongoose.Schema({
-    elementType: {
+    status: {
         type: String,
+        enum: ['proposal', 'active', 'deprecated', 'declined'],
+        default: 'proposal',
+        required: true
+    },
+    elementType: {                          // primary = specific strategies, methods, actions
+        type: String,                       // supportive = additional components that enhance the solution
         enum: ['primary', 'supportive'],
         required: true
     },
@@ -28,7 +34,10 @@ const solutionElementSchema = new mongoose.Schema({
         ref: 'Consideration'
     }],
     proposals: [{}],
-    challengeAspects: {}
+    /*addressing: [{    //TODO: if primary: challengeAspectsIds; if secondary: primaryElementsIds
+        type: mongoose.Schema.Types.ObjectId,
+        ref: ''
+    }]*/
 }, { timestamps: true });
 
 export const SolutionElement = mongoose.model('SolutionElement', solutionElementSchema);

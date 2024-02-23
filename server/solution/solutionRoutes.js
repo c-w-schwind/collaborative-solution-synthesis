@@ -1,10 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
-import {Solution} from "../models/solutionModel.js";
+import {Solution} from "./solutionModel.js";
 import authenticateToken from "../middleware/authenticateToken.js";
-import {createSolutionElements} from "../services/solutionElementService.js";
-import {createConsiderations} from "../services/considerationService.js";
-import {validateSolution} from "../services/solutionService.js";
+import {createSolutionElements} from "../solutionElement/solutionElementService.js";
+import {createConsiderations} from "../consideration/considerationService.js";
+import {validateSolution} from "./solutionService.js";
 
 const solutionRoutes = express.Router();
 

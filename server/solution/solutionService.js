@@ -1,7 +1,7 @@
-import {validateSolutionElement} from "./solutionElementService.js";
-import {User} from "../models/userModel.js";
-import {validateConsideration} from "./considerationService.js";
-import {validateRequiredFields} from "./utils.js";
+import {validateSolutionElement} from "../solutionElement/solutionElementService.js";
+import {User} from "../user/userModel.js";
+import {validateConsideration} from "../consideration/considerationService.js";
+import {validateRequiredFields} from "../utils.js";
 
 export async function validateSolution(solutionData, solutionElementsData, solutionConsiderationsData, userId) {
     validateRequiredFields(solutionData, ['title', 'overview', 'description'], "Solution validation" )

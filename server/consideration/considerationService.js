@@ -1,5 +1,5 @@
-import {Consideration} from "../models/considerationModel.js";
-import {validateRequiredFields} from "./utils.js";
+import {Consideration} from "./considerationModel.js";
+import {validateRequiredFields} from "../utils.js";
 
 export async function validateConsideration(consideration) {
     validateRequiredFields(consideration, ['stance', 'title', 'description'], "Consideration validation");
