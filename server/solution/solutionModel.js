@@ -17,14 +17,11 @@ const solutionSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    solutionElements: [{    //contains proposals as well
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'SolutionElement'
-    }],
-    solutionConsiderations: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Consideration'
-    }]
+    activeConsiderationsCount: {  //TODO: better only active considerations? how to differentiate? how to handle best?
+        type: Number,
+        required: true,
+        default: 0
+    },
 }, { timestamps: true });
 
 export const Solution = mongoose.model('Solution', solutionSchema);

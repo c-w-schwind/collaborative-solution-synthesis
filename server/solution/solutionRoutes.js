@@ -8,8 +8,9 @@ import {validateSolution} from "./solutionService.js";
 
 const solutionRoutes = express.Router();
 
+
 // Create new Solution
-solutionRoutes.post('/solutions', authenticateToken, async (req, res) => {
+solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -17,20 +18,25 @@ solutionRoutes.post('/solutions', authenticateToken, async (req, res) => {
         const author = req.user._id;
         await validateSolution({ title, overview, description }, solutionElementsData, solutionConsiderationsData, author);
 
-        const solutionElementsIds = solutionElementsData && solutionElementsData.length > 0 ? await createSolutionElements(solutionElementsData, author, session) : [];
-        const solutionConsiderationsIds = solutionConsiderationsData && solutionConsiderationsData.length > 0 ? await createConsiderations(solutionConsiderationsData, author, session) : [];
+        const solutionElements = solutionElementsData && solutionElementsData.length > 0 ? await createSolutionElements(solutionElementsData, author, session) : [];
+        const solutionConsiderations = solutionConsiderationsData && solutionConsiderationsData.length > 0 ? await createConsiderations(solutionConsiderationsData, author, session) : [];
 
         const newSolution = new Solution({
             title,
             overview,
             description,
             proposedBy: author,
-            solutionElements: solutionElementsIds,
-            solutionConsiderations: solutionConsiderationsIds
+            activeConsiderationsCount: solutionConsiderations.length
         });
+
         await newSolution.save({session});
         await session.commitTransaction();
-        return res.status(201).send(newSolution);
+
+        return res.status(201).send({
+            solution: newSolution,
+            solutionElements,
+            solutionConsiderations
+        });
     } catch (err){
         await session.abortTransaction();
         console.log(err);

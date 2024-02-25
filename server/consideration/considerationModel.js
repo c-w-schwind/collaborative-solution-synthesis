@@ -2,6 +2,15 @@ import mongoose from "mongoose";
 import {ConsiderationComment} from './considerationCommentModel.js'
 
 const considerationSchema = new mongoose.Schema({
+    parentType: {
+        type: String,
+        required: true,
+        enum: ['Solution', 'SolutionElement']
+    },
+    parentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        refPath: 'targetType'
+    },
     stance: {
         type: String,
         enum: ['pro', 'con', 'neutral'],

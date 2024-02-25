@@ -7,6 +7,10 @@ const solutionElementSchema = new mongoose.Schema({
         default: 'proposal',
         required: true
     },
+    solutionId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Solution'
+    },
     elementType: {                          // primary = specific strategies, methods, actions
         type: String,                       // supportive = additional components that enhance the solution
         enum: ['primary', 'supportive'],
@@ -29,11 +33,16 @@ const solutionElementSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    considerations: [{
+    activeConsiderationsCount: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    changeProposalFor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Consideration'
-    }],
-    proposals: [{}],
+        ref: 'SolutionElement',
+        required: false
+    },
     /*addressing: [{    //TODO: if primary: challengeAspectsIds; if secondary: primaryElementsIds
         type: mongoose.Schema.Types.ObjectId,
         ref: ''
