@@ -5,6 +5,9 @@ import authenticateToken from "../middleware/authenticateToken.js";
 import {createSolutionElements} from "../solutionElement/solutionElementService.js";
 import {createConsiderations} from "../consideration/considerationService.js";
 import {validateSolution} from "./solutionService.js";
+import {SolutionElement} from "../solutionElement/solutionElementModel.js";
+import {Consideration} from "../consideration/considerationModel.js";
+import verifyUserExistence from "../middleware/verifyUserExistence.js";
 
 const solutionRoutes = express.Router();
 
@@ -46,6 +49,60 @@ solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, async 
         res.status(500).send({ message: 'Internal server error' });
     } finally {
         await session.endSession();
+    }
+});
+
+
+// Get all Solutions
+solutionRoutes.get('/solutions', async (req, res) => {
+    try {
+        const solutions = Solution.find().populate('proposedBy', 'username');
+        res.status(200).send({solutions});
+    } catch (err) {
+        console.log(err);
+        if (err.name === 'ValidationError') {
+            return res.status(400).send({ message: err.message });
+        }
+        res.status(500).send({ message: 'Internal server error' });
+    }
+});
+
+// Get single Solution w/ Solution Elements & Considerations
+solutionRoutes.get('/solutions/:id', async (req, res) => {
+    try {
+        const solutionId = req.params.id;
+        const solution = await Solution.findById(solutionId).populate('proposedBy', 'username').lean();
+        if (!solution) {
+            return res.status(404).send({ message: 'Solution not found' });
+        }
+
+        const solutionConsiderations = await Consideration.find({
+            parentType: 'Solution',
+            parentId: solutionId
+        }).populate('proposedBy', 'username').lean();
+        solution.considerations = solutionConsiderations;
+
+        const solutionElements = await SolutionElement.find({solutionId: solutionId}).populate('proposedBy', 'username').lean();
+
+        for (let element of solutionElements) {
+            const elementConsiderations = await Consideration.find({
+                parentType: 'SolutionElement',
+                parentId: element._id
+            }).populate('proposedBy', 'username').lean();
+
+            element.considerations = elementConsiderations;
+        }
+
+        return res.status(200).send({
+            solution: solution,
+            solutionElements: solutionElements,
+        })
+    } catch (err) {
+        console.log(err);
+        if (err.name === 'ValidationError') {
+            return res.status(400).send({ message: err.message });
+        }
+        res.status(500).send({ message: 'Internal server error' });
     }
 });
 
