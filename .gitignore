@@ -36,3 +36,6 @@ Thumbs.db
 # IDE files
 .idea/
 *.iml
+
+# TODO list
+TODOs.js
