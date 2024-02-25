@@ -67,6 +67,7 @@ solutionRoutes.get('/solutions', async (req, res) => {
     }
 });
 
+
 // Get single Solution w/ Solution Elements & Considerations
 solutionRoutes.get('/solutions/:id', async (req, res) => {
     try {
@@ -76,21 +77,18 @@ solutionRoutes.get('/solutions/:id', async (req, res) => {
             return res.status(404).send({ message: 'Solution not found' });
         }
 
-        const solutionConsiderations = await Consideration.find({
+        solution.considerations = await Consideration.find({
             parentType: 'Solution',
             parentId: solutionId
         }).populate('proposedBy', 'username').lean();
-        solution.considerations = solutionConsiderations;
 
         const solutionElements = await SolutionElement.find({solutionId: solutionId}).populate('proposedBy', 'username').lean();
 
         for (let element of solutionElements) {
-            const elementConsiderations = await Consideration.find({
+            element.considerations = await Consideration.find({
                 parentType: 'SolutionElement',
                 parentId: element._id
             }).populate('proposedBy', 'username').lean();
-
-            element.considerations = elementConsiderations;
         }
 
         return res.status(200).send({
