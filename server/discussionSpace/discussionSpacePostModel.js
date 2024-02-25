@@ -19,15 +19,15 @@ const discussionSpacePostSchema = new mongoose.Schema({
         ref: 'DiscussionSpacePost',
         required: false
     },
-    discussionSpaceTargetType: {
+    parentType: {
         type: String,
         required: true,
         enum: ['Solution', 'SolutionElement']
     },
-    discussionSpaceTargetId: {
+    parentId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        refPath: 'discussionSpaceTargetType'
+        refPath: 'targetType'
     }
 }, { timestamps: true });
 
