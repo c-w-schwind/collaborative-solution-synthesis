@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const considerationCommentSchema = new mongoose.Schema({
+export const considerationCommentSchema = new mongoose.Schema({
     text: {
         type: String,
         required: true
@@ -19,5 +19,3 @@ const considerationCommentSchema = new mongoose.Schema({
         default: Date.now
     }
 });
-
-export const ConsiderationComment = mongoose.model('ConsiderationComment', considerationCommentSchema);
