@@ -1,10 +1,10 @@
-import {validateSolutionElement} from "../solutionElement/solutionElementService.js";
-import {User} from "../user/userModel.js";
-import {validateConsideration} from "../consideration/considerationService.js";
 import {validateRequiredFields} from "../utils.js";
+import {validateSolutionElement} from "../solutionElement/solutionElementService.js";
+import {validateConsideration} from "../consideration/considerationService.js";
 
-export async function validateSolution(solutionData, solutionElementsData, solutionConsiderationsData, userId) {
-    validateRequiredFields(solutionData, ['title', 'overview', 'description'], "Solution validation" )
+
+export async function validateSolution(solutionData, solutionElementsData, solutionConsiderationsData) {
+    validateRequiredFields(solutionData, ['title', 'overview', 'description'], "Solution validation")
 
     if (solutionElementsData) {
         if (!Array.isArray(solutionElementsData)) {

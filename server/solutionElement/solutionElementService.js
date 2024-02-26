@@ -1,5 +1,6 @@
 import {SolutionElement} from "./solutionElementModel.js";
 import {validateRequiredFields} from "../utils.js";
+import {Solution} from "../solution/solutionModel.js";
 
 export async function validateSolutionElement(solutionElement) {
     validateRequiredFields(solutionElement, ['solutionId', 'title', 'overview', 'description'], "Solution element validation")
@@ -29,4 +30,8 @@ export async function createSolutionElements(solutionElementsData, userId, sessi
         console.error("Failed to create solution element(s):", err);
         throw err;
     }
+}
+
+export async function updateParentSolutionElementsCount(solutionId, delta, session) {    //delta: 1 = increase, -1 = decrease
+        await Solution.findByIdAndUpdate(solutionId, { $inc: { activeSolutionElementsCount: delta } }).session(session);
 }

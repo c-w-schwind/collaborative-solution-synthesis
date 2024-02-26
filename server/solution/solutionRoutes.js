@@ -1,13 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
-import {Solution} from "./solutionModel.js";
 import authenticateToken from "../middleware/authenticateToken.js";
-import {createSolutionElements} from "../solutionElement/solutionElementService.js";
-import {createConsiderations} from "../consideration/considerationService.js";
-import {validateSolution} from "./solutionService.js";
+import verifyUserExistence from "../middleware/verifyUserExistence.js";
+import {Solution} from "./solutionModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
-import verifyUserExistence from "../middleware/verifyUserExistence.js";
+import {validateSolution} from "./solutionService.js";
+import {createSolutionElements} from "../solutionElement/solutionElementService.js";
+import {createConsiderations} from "../consideration/considerationService.js";
 
 const solutionRoutes = express.Router();
 
@@ -19,7 +19,7 @@ solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, async 
     try {
         const { title, overview, description, solutionElementsData, solutionConsiderationsData } = req.body;
         const author = req.user._id;
-        await validateSolution({ title, overview, description }, solutionElementsData, solutionConsiderationsData, author);
+        await validateSolution({ title, overview, description }, solutionElementsData, solutionConsiderationsData);
 
         const solutionElements = solutionElementsData && solutionElementsData.length > 0 ? await createSolutionElements(solutionElementsData, author, session) : [];
         const solutionConsiderations = solutionConsiderationsData && solutionConsiderationsData.length > 0 ? await createConsiderations(solutionConsiderationsData, author, session) : [];
@@ -29,7 +29,8 @@ solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, async 
             overview,
             description,
             proposedBy: author,
-            activeConsiderationsCount: solutionConsiderations.length
+            activeConsiderationsCount: solutionConsiderations.length,
+            activeSolutionElementsCount: solutionElements.length
         });
 
         await newSolution.save({session});

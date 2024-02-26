@@ -17,11 +17,16 @@ const solutionSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    activeConsiderationsCount: {  //TODO: better only active considerations? how to differentiate? how to handle best?
+    activeElementsCount: {
         type: Number,
         required: true,
         default: 0
     },
+    activeConsiderationsCount: {
+        type: Number,
+        required: true,
+        default: 0
+    }
 }, { timestamps: true });
 
 export const Solution = mongoose.model('Solution', solutionSchema);

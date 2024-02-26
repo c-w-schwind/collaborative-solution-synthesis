@@ -1,7 +1,7 @@
 import {Consideration} from "./considerationModel.js";
-import {validateRequiredFields} from "../utils.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Solution} from "../solution/solutionModel.js";
+import {validateRequiredFields} from "../utils.js";
 
 export async function validateConsideration(consideration) {
     validateRequiredFields(consideration, ['parentType', 'parentId', 'stance', 'title', 'description'], "Consideration validation");
@@ -30,11 +30,11 @@ export async function createConsiderations(considerationsData, author, session =
     }
 }
 
-export async function updateParentConsiderationsCount(parentType, parentId, delta) {    //delta: 1 = increase, -1 = decrease
+export async function updateParentConsiderationsCount(parentType, parentId, delta, session) {    //delta: 1 = increase, -1 = decrease
     if (parentType === 'SolutionElement') {
-        await SolutionElement.findByIdAndUpdate(parentId, { $inc: { activeConsiderationsCount: delta } });
+        await SolutionElement.findByIdAndUpdate(parentId, { $inc: { activeConsiderationsCount: delta } }).session(session);
     } else if (parentType === 'Solution') {
-        await Solution.findByIdAndUpdate(parentId, { $inc: { activeConsiderationsCount: delta } });
+        await Solution.findByIdAndUpdate(parentId, { $inc: { activeConsiderationsCount: delta } }).session(session);
     }
 }
 

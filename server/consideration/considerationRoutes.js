@@ -1,29 +1,38 @@
 import express from "express";
+import mongoose from "mongoose";
+import authenticateToken from "../middleware/authenticateToken.js";
+import verifyUserExistence from "../middleware/verifyUserExistence.js";
+import {Consideration} from "./considerationModel.js";
 import {
     createConsiderations, toggleCommentVote, toggleConsiderationVote,
     updateParentConsiderationsCount,
     validateConsideration
 } from "./considerationService.js";
-import authenticateToken from "../middleware/authenticateToken.js";
-import verifyUserExistence from "../middleware/verifyUserExistence.js";
-import {Consideration} from "./considerationModel.js";
 
 const considerationRoutes = express.Router();
 
+
 // Create new Consideration
 considerationRoutes.post('/consideration', authenticateToken, verifyUserExistence, async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         await validateConsideration(req.body);
-        const consideration = await createConsiderations(req.body, req.user._id);
-        await updateParentConsiderationsCount(req.body.parentType, req.body.parentId, 1);
+        const consideration = await createConsiderations(req.body, req.user._id, session);
 
+        await updateParentConsiderationsCount(req.body.parentType, req.body.parentId, 1, session);
+
+        await session.commitTransaction();
         res.status(201).send(consideration);
     } catch (err) {
+        await session.abortTransaction();
         console.log(err);
         if (err.name === 'ValidationError') {
             return res.status(400).send({ message: err.message });
         }
         res.status(500).send({ message: 'Internal server error' });
+    } finally {
+        await session.endSession();
     }
 });
 
