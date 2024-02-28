@@ -1,5 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
+import {asyncHandler} from "../utils/asyncHandler.js";
+import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Solution} from "./solutionModel.js";
@@ -13,7 +15,7 @@ const solutionRoutes = express.Router();
 
 
 // Create new Solution
-solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, async (req, res) => {
+solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -43,66 +45,46 @@ solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, async 
         });
     } catch (err){
         await session.abortTransaction();
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
+        next(err);
     } finally {
         await session.endSession();
     }
-});
+}));
 
 
 // Get all Solutions
-solutionRoutes.get('/solutions', async (req, res) => {
-    try {
-        const solutions = Solution.find().populate('proposedBy', 'username');
-        res.status(200).send({solutions});
-    } catch (err) {
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
-    }
-});
+solutionRoutes.get('/solutions', asyncHandler(async (req, res) => {
+    const solutions = await Solution.find().populate('proposedBy', 'username');
+    res.status(200).send({solutions});
+}));
 
 
 // Get single Solution w/ Solution Elements & Considerations
-solutionRoutes.get('/solutions/:id', async (req, res) => {
-    try {
-        const solutionId = req.params.id;
-        const solution = await Solution.findById(solutionId).populate('proposedBy', 'username').lean();
-        if (!solution) {
-            return res.status(404).send({ message: 'Solution not found' });
-        }
+solutionRoutes.get('/solutions/:id', asyncHandler(async (req, res) => {
+    const parentSolution = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(parentSolution)) throw new BadRequestError('Invalid Consideration ID.');
 
-        solution.considerations = await Consideration.find({
-            parentType: 'Solution',
-            parentId: solutionId
+    const solution = await Solution.findById(parentSolution).populate('proposedBy', 'username').lean();
+    if (!solution) throw new NotFoundError('Solution not found');
+
+    solution.considerations = await Consideration.find({
+        parentType: 'Solution',
+        parentId: parentSolution
+    }).populate('proposedBy', 'username').lean();
+
+    const solutionElements = await SolutionElement.find({parentSolution: parentSolution}).populate('proposedBy', 'username').lean();
+
+    for (let element of solutionElements) {
+        element.considerations = await Consideration.find({
+            parentType: 'SolutionElement',
+            parentId: element._id
         }).populate('proposedBy', 'username').lean();
-
-        const solutionElements = await SolutionElement.find({solutionId: solutionId}).populate('proposedBy', 'username').lean();
-
-        for (let element of solutionElements) {
-            element.considerations = await Consideration.find({
-                parentType: 'SolutionElement',
-                parentId: element._id
-            }).populate('proposedBy', 'username').lean();
-        }
-
-        return res.status(200).send({
-            solution: solution,
-            solutionElements: solutionElements,
-        })
-    } catch (err) {
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
     }
-});
+
+    return res.status(200).send({
+        solution: solution,
+        solutionElements: solutionElements,
+    })
+}));
 
 export default solutionRoutes;

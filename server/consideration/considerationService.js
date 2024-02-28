@@ -1,33 +1,29 @@
+import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 import {Consideration} from "./considerationModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Solution} from "../solution/solutionModel.js";
-import {validateRequiredFields} from "../utils.js";
+import {validateRequiredFields} from "../utils/utils.js";
 
 export async function validateConsideration(consideration) {
     validateRequiredFields(consideration, ['parentType', 'parentId', 'stance', 'title', 'description'], "Consideration validation");
 
     if (!['pro', 'con', 'neutral'].includes(consideration.stance)) {
-        throw new Error("Invalid stance. Must be 'pro', 'con', or 'neutral'.");
+        throw new BadRequestError("Invalid stance. Must be 'pro', 'con', or 'neutral'.");
     }
 }
 
 export async function createConsiderations(considerationsData, author, session = null) {
     const considerations = Array.isArray(considerationsData) ? considerationsData : [considerationsData];
-    try {
-        const createdConsiderations = [];
-        for (const considerationData of considerations) {
-            const consideration = new Consideration({
-                ...considerationData,
-                proposedBy: author
-            });
-            await consideration.save({ session });
-            createdConsiderations.push(consideration._id);
-        }
-        return createdConsiderations;
-    } catch (err) {
-        console.error("Failed to create consideration(s):", err);
-        throw err;
+    const createdConsiderations = [];
+    for (const considerationData of considerations) {
+        const consideration = new Consideration({
+            ...considerationData,
+            proposedBy: author
+        });
+        await consideration.save({session});
+        createdConsiderations.push(consideration._id);
     }
+    return createdConsiderations;
 }
 
 export async function updateParentConsiderationsCount(parentType, parentId, delta, session) {    //delta: 1 = increase, -1 = decrease
@@ -39,6 +35,8 @@ export async function updateParentConsiderationsCount(parentType, parentId, delt
 }
 
 async function validateAndToggleVote(item, userId, voteType) {
+    if (!['upvote', 'downvote'].includes(voteType)) throw new BadRequestError("Invalid vote type. Must be 'upvote' or 'downvote'.");
+
     const upvotes = item.votes.upvotes.map(id => id.toString());
     const downvotes = item.votes.downvotes.map(id => id.toString());
 
@@ -66,17 +64,17 @@ async function validateAndToggleVote(item, userId, voteType) {
 
 export async function toggleConsiderationVote(considerationId, userId, voteType) {
     const consideration = await Consideration.findById(considerationId);
-    if (!consideration) throw new Error('Consideration not found');
+    if (!consideration) throw new NotFoundError('Consideration not found');
     await validateAndToggleVote(consideration, userId, voteType);
     return consideration;
 }
 
 export async function toggleCommentVote(considerationId, commentId, userId, voteType) {
     const consideration = await Consideration.findById(considerationId);
-    if (!consideration) throw new Error('Consideration not found');
+    if (!consideration) throw new NotFoundError('Consideration not found');
 
     const comment = consideration.comments.id(commentId);
-    if (!comment) throw new Error('Comment not found');
+    if (!comment) throw new NotFoundError('Comment not found');
 
     await validateAndToggleVote(comment, userId, voteType);
     return consideration;

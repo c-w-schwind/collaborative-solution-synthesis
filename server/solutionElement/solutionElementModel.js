@@ -7,7 +7,7 @@ const solutionElementSchema = new mongoose.Schema({
         default: 'proposal',
         required: true
     },
-    solutionId: {
+    parentSolution: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Solution'
     },

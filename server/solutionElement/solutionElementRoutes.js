@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import {asyncHandler} from "../utils/asyncHandler.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {
@@ -12,27 +13,23 @@ import {
 const solutionElementRoutes = express.Router();
 
 // Create new solution element
-solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExistence, async (req, res) => {
+solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExistence, asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
         await validateSolutionElement(req.body);
         const solutionElement = await createSolutionElements(req.body, req.user._id, session);
 
-        await updateParentSolutionElementsCount(req.body.solutionId, 1, session)
+        await updateParentSolutionElementsCount(req.body.parentSolution, 1, session)
 
         await session.commitTransaction();
-        return res.status(201).send(solutionElement);
+        res.status(201).send(solutionElement);
     } catch (err) {
         await session.abortTransaction();
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
+        next(err);
     } finally {
         await session.endSession();
     }
-});
+}));
 
 export default solutionElementRoutes;

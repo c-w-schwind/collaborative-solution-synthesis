@@ -1,92 +1,62 @@
 import express from "express";
-import { User } from "./userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import {asyncHandler} from "../utils/asyncHandler.js";
+import {validateRequiredFields} from "../utils/utils.js";
+import {BadRequestError, ConflictError, NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
+import verifyUserExistence from "../middleware/verifyUserExistence.js";
+import { User } from "./userModel.js";
 
 const userRoutes = express.Router();
 
 
-userRoutes.post('/users/register', async (req, res) => {
-    try {
-        const { username, email, password } = req.body;
+// Create new User
+userRoutes.post('/users/register', asyncHandler(async (req, res) => {
+    const { email} = req.body;
 
-        if (!username || !email || !password) {
-            return res.status(400).send({ message: 'Missing required fields: username, email, and password.' });
-        }
+    validateRequiredFields(req.body, ['username', 'email', 'password'], 'User registration')
 
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).send({ message: 'Email already in use.' });
-        }
+    const existingUser = await User.findOne({email});
+    if (existingUser) throw new ConflictError('Email already in use.');
 
-        const salt = await bcrypt.genSalt(10);
-        const passwordHash = await bcrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(req.body.password, salt);
 
-        const user = new User({ username, email, passwordHash });
-        await user.save();
+    const user = new User({username: req.body.username, email, passwordHash});
+    await user.save();
 
-        res.status(201).send({ message: 'User created successfully.' });
-    } catch (err) {
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
-    }
-});
+    res.status(201).send({message: 'User created successfully.'});
+}));
 
-userRoutes.post('/users/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(404).send({ message: 'User not found.' });
-        }
+// Login User
+userRoutes.post('/users/login', asyncHandler(async (req, res) => {
+    const user = await User.findOne({email: req.body.email});
+    if (!user) throw new NotFoundError('User not found.');
 
-        const isMatch = await bcrypt.compare(password, user.passwordHash);
-        if (!isMatch) {
-            return res.status(400).send({ message: 'Invalid credentials.' });
-        }
+    const isMatch = await bcrypt.compare(req.body.password, user.passwordHash);
+    if (!isMatch) throw new BadRequestError('Invalid credentials.');
 
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'});
 
-        const userForResponse = {
-            _id: user._id,
-            username: user.username,
-            email: user.email
-        };
+    const userForResponse = {
+        _id: user._id,
+        username: user.username,
+        email: user.email
+    };
 
-        res.status(200).header('auth-token', token).send({ user: userForResponse, token });
+    res.status(200).header('auth-token', token).send({user: userForResponse, token});
+}));
 
-    } catch (err) {
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
-    }
-});
 
-userRoutes.get('/users/:id', authenticateToken, async (req, res) => {
-    try {
-        const userID = req.params.id;
-        const user = await User.findById(userID).select('-passwordHash');
+// Retrieve User
+userRoutes.get('/users/:id', authenticateToken, verifyUserExistence, asyncHandler(async (req, res) => {
+    const userID = req.params.id;
+    const user = await User.findById(userID).select('-passwordHash');
+    if (!user) throw new NotFoundError('User not found.');
 
-        if (!user) {
-            return res.status(404).send({ message: 'User not found.' });
-        }
-
-        res.status(200).send(user);
-
-    } catch (err) {
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
-    }
-});
+    res.status(200).send(user);
+}));
 
 export default userRoutes;

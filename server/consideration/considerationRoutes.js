@@ -1,10 +1,14 @@
 import express from "express";
 import mongoose from "mongoose";
+import {asyncHandler} from "../utils/asyncHandler.js";
+import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Consideration} from "./considerationModel.js";
 import {
-    createConsiderations, toggleCommentVote, toggleConsiderationVote,
+    createConsiderations,
+    toggleCommentVote,
+    toggleConsiderationVote,
     updateParentConsiderationsCount,
     validateConsideration
 } from "./considerationService.js";
@@ -13,89 +17,66 @@ const considerationRoutes = express.Router();
 
 
 // Create new Consideration
-considerationRoutes.post('/consideration', authenticateToken, verifyUserExistence, async (req, res) => {
+considerationRoutes.post('/consideration', authenticateToken, verifyUserExistence, asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
         await validateConsideration(req.body);
         const consideration = await createConsiderations(req.body, req.user._id, session);
-
         await updateParentConsiderationsCount(req.body.parentType, req.body.parentId, 1, session);
 
         await session.commitTransaction();
         res.status(201).send(consideration);
     } catch (err) {
         await session.abortTransaction();
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
+        next(err);
     } finally {
         await session.endSession();
     }
-});
+}));
 
 
 // Create a new comment for a Consideration
-considerationRoutes.post('/consideration/:id/comment', authenticateToken, verifyUserExistence, async (req, res) => {
-    try {
-        if (!req.body.text) throw new Error('Consideration Comment: Missing required field: text.');
+considerationRoutes.post('/consideration/:id/comment', authenticateToken, verifyUserExistence, asyncHandler(async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) throw new BadRequestError('Invalid Consideration ID.');
+    if (!req.body.text) throw new BadRequestError('Consideration Comment: Missing required field: text.');
 
-        const consideration = await Consideration.findById(req.params.id);
-        if (!consideration) {
-            return res.status(404).send({ message: "Consideration not found." });
-        }
+    const consideration = await Consideration.findById(req.params.id);
+    if (!consideration) throw new NotFoundError('Consideration not found.');
 
-        const comment = {
-            text: req.body.text,
-            postedBy: req.user._id,
-            createdAt: new Date()
-        }
-
-        consideration.comments.push(comment);
-        await consideration.save();
-
-        res.status(201).send({consideration, comment});
-    } catch (err) {
-        console.error("Failed to add comment:", err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
+    const comment = {
+        text: req.body.text,
+        postedBy: req.user._id,
+        createdAt: new Date()
     }
-});
+
+    consideration.comments.push(comment);
+    await consideration.save();
+
+    res.status(201).send({consideration, comment});
+}));
 
 
 // Vote on Consideration
-considerationRoutes.post('/consideration/:id', authenticateToken, verifyUserExistence, async (req, res) => {
-    try {
-        const vote = req.body.vote;
-        const consideration = await toggleConsiderationVote(req.params.id, req.user._id, vote);
-        res.status(200).send({consideration, vote});
-    } catch (err) {
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
-    }
-});
+considerationRoutes.post('/consideration/:id/vote', authenticateToken, verifyUserExistence, asyncHandler(async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) throw new BadRequestError('Invalid Consideration ID.');
+
+    const vote = req.body.vote;
+    const consideration = await toggleConsiderationVote(req.params.id, req.user._id, vote);
+
+    res.status(200).send({consideration, vote});
+}));
 
 
 // Vote on Consideration comment
-considerationRoutes.post('/consideration/:considerationId/comment/:commentId/vote', authenticateToken, verifyUserExistence, async (req, res) => {
-    try {
-        const vote = req.body.vote;
-        const consideration = await toggleCommentVote(req.params.considerationId, req.params.commentId, req.user._id, vote);
-        res.status(200).send({consideration, vote});
-    } catch (err) {
-        console.log(err);
-        if (err.name === 'ValidationError') {
-            return res.status(400).send({ message: err.message });
-        }
-        res.status(500).send({ message: 'Internal server error' });
-    }
-});
+considerationRoutes.post('/consideration/:considerationId/comment/:commentId/vote', authenticateToken, verifyUserExistence, asyncHandler(async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) throw new BadRequestError('Invalid Consideration ID.');
+    if (!mongoose.Types.ObjectId.isValid(req.params.commentId)) throw new BadRequestError('Invalid Consideration comment ID.');
+
+    const vote = req.body.vote;
+    const consideration = await toggleCommentVote(req.params.considerationId, req.params.commentId, req.user._id, vote);
+
+    res.status(200).send({consideration, vote});
+}));
 
 export default considerationRoutes;
