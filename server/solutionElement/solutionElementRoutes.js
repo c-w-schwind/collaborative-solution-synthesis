@@ -6,7 +6,7 @@ import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {
     createSolutionElements,
     updateParentSolutionElementsCount,
-    validateSolutionElement
+    validateSolutionElementInput
 } from "./solutionElementService.js";
 
 
@@ -17,7 +17,7 @@ solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExi
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        await validateSolutionElement(req.body);
+        await validateSolutionElementInput(req.body);
         const solutionElement = await createSolutionElements(req.body, req.user._id, session);
 
         await updateParentSolutionElementsCount(req.body.parentSolution, 1, session)

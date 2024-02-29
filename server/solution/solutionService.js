@@ -1,27 +1,27 @@
 import {ValidationError} from "../utils/customErrors.js";
 import {validateRequiredFields} from "../utils/utils.js";
-import {validateSolutionElement} from "../solutionElement/solutionElementService.js";
-import {validateConsideration} from "../consideration/considerationService.js";
+import {validateSolutionElementInput} from "../solutionElement/solutionElementService.js";
+import {validateConsiderationInput} from "../consideration/considerationService.js";
 
 
-export async function validateSolution(solutionData, solutionElementsData, solutionConsiderationsData) {
-    validateRequiredFields(solutionData, ['title', 'overview', 'description'], "Solution validation")
+export async function validateSolutionInput(solutionInput, solutionElementInput, solutionConsiderationInput) {
+    validateRequiredFields(solutionInput, ['title', 'overview', 'description'], "Solution validation")
 
-    if (solutionElementsData) {
-        if (!Array.isArray(solutionElementsData)) {
-            throw new ValidationError("Solution elements data must be an array.");
+    if (solutionElementInput) {
+        if (!Array.isArray(solutionElementInput)) {
+            throw new ValidationError("Solution element input must be an array.");
         }
-        for (const element of solutionElementsData) {
-            await validateSolutionElement(element);
+        for (const solutionElement of solutionElementInput) {
+            await validateSolutionElementInput(solutionElement);
         }
     }
 
-    if (solutionConsiderationsData) {
-        if (!Array.isArray(solutionConsiderationsData)) {
-            throw new ValidationError("Solution considerations data must be an array.");
+    if (solutionConsiderationInput) {
+        if (!Array.isArray(solutionConsiderationInput)) {
+            throw new ValidationError("Solution consideration input must be an array.");
         }
-        for (const consideration of solutionConsiderationsData) {
-            await validateConsideration(consideration);
+        for (const consideration of solutionConsiderationInput) {
+            await validateConsiderationInput(consideration);
         }
     }
 }

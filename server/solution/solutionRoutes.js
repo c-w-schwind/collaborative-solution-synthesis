@@ -7,7 +7,7 @@ import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Solution} from "./solutionModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
-import {validateSolution} from "./solutionService.js";
+import {validateSolutionInput} from "./solutionService.js";
 import {createSolutionElements} from "../solutionElement/solutionElementService.js";
 import {createConsiderations} from "../consideration/considerationService.js";
 
@@ -19,12 +19,12 @@ solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, asyncH
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        const { title, overview, description, solutionElementsData, solutionConsiderationsData } = req.body;
+        const { title, overview, description, solutionElementsData: solutionElementInput, solutionConsiderationsData: solutionConsiderationInput } = req.body;
         const author = req.user._id;
-        await validateSolution({ title, overview, description }, solutionElementsData, solutionConsiderationsData);
+        await validateSolutionInput({ title, overview, description }, solutionElementInput, solutionConsiderationInput);
 
-        const solutionElements = solutionElementsData && solutionElementsData.length > 0 ? await createSolutionElements(solutionElementsData, author, session) : [];
-        const solutionConsiderations = solutionConsiderationsData && solutionConsiderationsData.length > 0 ? await createConsiderations(solutionConsiderationsData, author, session) : [];
+        const solutionElements = solutionElementInput && solutionElementInput.length > 0 ? await createSolutionElements(solutionElementInput, author, session) : [];
+        const solutionConsiderations = solutionConsiderationInput && solutionConsiderationInput.length > 0 ? await createConsiderations(solutionConsiderationInput, author, session) : [];
 
         const newSolution = new Solution({
             title,

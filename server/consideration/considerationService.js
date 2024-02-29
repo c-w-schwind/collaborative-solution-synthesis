@@ -4,26 +4,26 @@ import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Solution} from "../solution/solutionModel.js";
 import {validateRequiredFields} from "../utils/utils.js";
 
-export async function validateConsideration(consideration) {
-    validateRequiredFields(consideration, ['parentType', 'parentId', 'stance', 'title', 'description'], "Consideration validation");
+export async function validateConsiderationInput(considerationInput) {
+    validateRequiredFields(considerationInput, ['parentType', 'parentId', 'stance', 'title', 'description'], "Consideration validation");
 
-    if (!['pro', 'con', 'neutral'].includes(consideration.stance)) {
+    if (!['pro', 'con', 'neutral'].includes(considerationInput.stance)) {
         throw new BadRequestError("Invalid stance. Must be 'pro', 'con', or 'neutral'.");
     }
 }
 
-export async function createConsiderations(considerationsData, author, session = null) {
-    const considerations = Array.isArray(considerationsData) ? considerationsData : [considerationsData];
-    const createdConsiderations = [];
-    for (const considerationData of considerations) {
+export async function createConsiderations(considerationInput, author, session = null) {
+    const considerationsData = Array.isArray(considerationInput) ? considerationInput : [considerationInput];
+    const considerations = [];
+    for (const considerationData of considerationsData) {
         const consideration = new Consideration({
             ...considerationData,
             proposedBy: author
         });
         await consideration.save({session});
-        createdConsiderations.push(consideration._id);
+        considerations.push(consideration);
     }
-    return createdConsiderations;
+    return considerations;
 }
 
 export async function updateParentConsiderationsCount(parentType, parentId, delta, session) {    //delta: 1 = increase, -1 = decrease
