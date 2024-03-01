@@ -3,28 +3,39 @@ import {validateRequiredFields} from "../utils/utils.js";
 import {Solution} from "../solution/solutionModel.js";
 import {BadRequestError, NotFoundError, ValidationError} from "../utils/customErrors.js";
 
-export async function validateSolutionElementInput(solutionElementInput) {
-    validateRequiredFields(solutionElementInput, ['parentSolution', 'title', 'overview', 'description'], "Solution element validation")
+function validateSolutionElementData(solutionElementData) {
+         validateRequiredFields(solutionElementData, ['status', 'parentSolution', 'elementType', 'title', 'overview', 'description'], "Solution element validation")
 
-    if (!['primary', 'supportive'].includes(solutionElementInput.elementType)) {
-        throw new BadRequestError("Invalid elementType. Must be 'primary' or 'supportive'.");
-    }
-    if (!['proposal', 'active'].includes(solutionElementInput.status)) {
-        throw new ValidationError("For creation or update of a solution element, status needs to be proposal or active.");
-    }
+         if (!['proposal', 'active'].includes(solutionElementData.status)) {
+             throw new ValidationError("For creation or update of a solution element, status needs to be proposal or active.");
+         }
+
+         if (!['primary', 'supportive'].includes(solutionElementData.elementType)) {
+             throw new BadRequestError("Invalid elementType. Must be 'primary' or 'supportive'.");
+         }
 }
 
-export async function createSolutionElements(solutionElementInput, userId, session = null) {
-    const solutionElementsData = Array.isArray(solutionElementInput) ? solutionElementInput : [solutionElementInput];
+async function createSolutionElement(solutionElementData, userId, session = null) {
+    const solutionElement = new SolutionElement({
+        ...solutionElementData,
+        proposedBy: userId
+    });
+    await solutionElement.save({session});
+    return solutionElement;
+}
+
+export async function validateAndCreateSolutionElements (solutionElementsData, parentSolutionId, userId, session = null) {
     const solutionElements = [];
-    for (const solutionElementData of solutionElementsData) {
-        const solutionElement = new SolutionElement({
-            ...solutionElementData,
-            proposedBy: userId
-        });
-        await solutionElement.save({session});
-        solutionElements.push(solutionElement);
+
+    if (solutionElementsData) {
+        solutionElementsData = Array.isArray(solutionElementsData) ? solutionElementsData : [solutionElementsData];
+        for (let solutionElementData of solutionElementsData) {
+            solutionElementData = ({ ...solutionElementData, parentSolution: parentSolutionId });
+            validateSolutionElementData(solutionElementData);
+            solutionElements.push(await createSolutionElement(solutionElementData, userId, session));
+        }
     }
+
     return solutionElements;
 }
 

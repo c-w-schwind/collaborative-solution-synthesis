@@ -3,11 +3,7 @@ import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
-import {
-    createSolutionElements,
-    updateParentSolutionElementsCount,
-    validateSolutionElementInput
-} from "./solutionElementService.js";
+import {updateParentSolutionElementsCount, validateAndCreateSolutionElements,} from "./solutionElementService.js";
 
 
 const solutionElementRoutes = express.Router();
@@ -17,9 +13,7 @@ solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExi
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        await validateSolutionElementInput(req.body);
-        const solutionElement = await createSolutionElements(req.body, req.user._id, session);
-
+        const solutionElement = await validateAndCreateSolutionElements(req.body, req.body.parentSolution, req.user._id, session);
         await updateParentSolutionElementsCount(req.body.parentSolution, 1, session)
 
         await session.commitTransaction();

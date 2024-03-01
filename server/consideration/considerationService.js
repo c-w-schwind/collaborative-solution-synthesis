@@ -4,25 +4,35 @@ import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Solution} from "../solution/solutionModel.js";
 import {validateRequiredFields} from "../utils/utils.js";
 
-export async function validateConsiderationInput(considerationInput) {
-    validateRequiredFields(considerationInput, ['parentType', 'parentId', 'stance', 'title', 'description'], "Consideration validation");
+function validateConsiderationData(considerationData) {
+    validateRequiredFields(considerationData, ['parentType', 'parentId', 'stance', 'title', 'description'], "Consideration validation");
 
-    if (!['pro', 'con', 'neutral'].includes(considerationInput.stance)) {
+    if (!['pro', 'con', 'neutral'].includes(considerationData.stance)) {
         throw new BadRequestError("Invalid stance. Must be 'pro', 'con', or 'neutral'.");
     }
 }
 
-export async function createConsiderations(considerationInput, author, session = null) {
-    const considerationsData = Array.isArray(considerationInput) ? considerationInput : [considerationInput];
+async function createConsideration(considerationData, userId, session = null) {
+    const consideration = new Consideration({
+        ...considerationData,
+        proposedBy: userId
+    });
+    await consideration.save({session});
+    return consideration;
+}
+
+export async function validateAndCreateConsiderations(considerationsData, parentType, parentId, userId, session = null) {
     const considerations = [];
-    for (const considerationData of considerationsData) {
-        const consideration = new Consideration({
-            ...considerationData,
-            proposedBy: author
-        });
-        await consideration.save({session});
-        considerations.push(consideration);
+
+    if (considerationsData) {
+        considerationsData = Array.isArray(considerationsData) ? considerationsData : [considerationsData];
+        for (let considerationData of considerationsData) {
+            considerationData = ({ ...considerationData, parentType, parentId });
+            await validateConsiderationData(considerationData);
+            considerations.push(await createConsideration(considerationData, userId, session));
+        }
     }
+
     return considerations;
 }
 

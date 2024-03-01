@@ -17,7 +17,7 @@ const solutionSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    activeElementsCount: {
+    activeSolutionElementsCount: {
         type: Number,
         required: true,
         default: 0

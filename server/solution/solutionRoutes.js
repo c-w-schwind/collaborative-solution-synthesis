@@ -7,9 +7,9 @@ import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Solution} from "./solutionModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
-import {validateSolutionInput} from "./solutionService.js";
-import {createSolutionElements} from "../solutionElement/solutionElementService.js";
-import {createConsiderations} from "../consideration/considerationService.js";
+import {validateAndCreateSolutionElements} from "../solutionElement/solutionElementService.js";
+import {validateAndCreateConsiderations} from "../consideration/considerationService.js";
+import {validateAndCreateSolution} from "./solutionService.js";
 
 const solutionRoutes = express.Router();
 
@@ -19,27 +19,21 @@ solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, asyncH
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        const { title, overview, description, solutionElementsData: solutionElementInput, solutionConsiderationsData: solutionConsiderationInput } = req.body;
-        const author = req.user._id;
-        await validateSolutionInput({ title, overview, description }, solutionElementInput, solutionConsiderationInput);
+        const userId = req.user._id;
 
-        const solutionElements = solutionElementInput && solutionElementInput.length > 0 ? await createSolutionElements(solutionElementInput, author, session) : [];
-        const solutionConsiderations = solutionConsiderationInput && solutionConsiderationInput.length > 0 ? await createConsiderations(solutionConsiderationInput, author, session) : [];
+        const solution = validateAndCreateSolution(req.body, userId);
 
-        const newSolution = new Solution({
-            title,
-            overview,
-            description,
-            proposedBy: author,
-            activeConsiderationsCount: solutionConsiderations.length,
-            activeSolutionElementsCount: solutionElements.length
-        });
+        const solutionElements = await validateAndCreateSolutionElements(req.body.solutionElementsDataArray, solution._id, userId, session);
+        const solutionConsiderations = await validateAndCreateConsiderations(req.body.solutionConsiderationsDataArray, 'Solution', solution._id, userId, session);
 
-        await newSolution.save({session});
+        solution.activeSolutionElementsCount = solutionElements.length;
+        solution.activeConsiderationsCount = solutionConsiderations.length;
+
+        await solution.save({session});
         await session.commitTransaction();
 
         return res.status(201).send({
-            solution: newSolution,
+            solution,
             solutionElements,
             solutionConsiderations
         });
@@ -67,12 +61,9 @@ solutionRoutes.get('/solutions/:id', asyncHandler(async (req, res) => {
     const solution = await Solution.findById(parentSolution).populate('proposedBy', 'username').lean();
     if (!solution) throw new NotFoundError('Solution not found');
 
-    solution.considerations = await Consideration.find({
-        parentType: 'Solution',
-        parentId: parentSolution
+    const solutionElements = await SolutionElement.find({
+        parentSolution: parentSolution
     }).populate('proposedBy', 'username').lean();
-
-    const solutionElements = await SolutionElement.find({parentSolution: parentSolution}).populate('proposedBy', 'username').lean();
 
     for (let element of solutionElements) {
         element.considerations = await Consideration.find({
@@ -80,6 +71,11 @@ solutionRoutes.get('/solutions/:id', asyncHandler(async (req, res) => {
             parentId: element._id
         }).populate('proposedBy', 'username').lean();
     }
+
+    solution.considerations = await Consideration.find({
+        parentType: 'Solution',
+        parentId: parentSolution
+    }).populate('proposedBy', 'username').lean();
 
     return res.status(200).send({
         solution: solution,
