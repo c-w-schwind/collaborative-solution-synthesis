@@ -1,23 +1,20 @@
 import {SolutionElement} from "./solutionElementModel.js";
 import {validateRequiredFields} from "../utils/utils.js";
 import {Solution} from "../solution/solutionModel.js";
-import {BadRequestError, NotFoundError, ValidationError} from "../utils/customErrors.js";
+import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 
 function validateSolutionElementData(solutionElementData) {
-         validateRequiredFields(solutionElementData, ['status', 'parentSolution', 'elementType', 'title', 'overview', 'description'], "Solution element validation")
+    validateRequiredFields(solutionElementData, ['parentSolutionId', 'elementType', 'title', 'overview', 'description'], "Solution element validation")
 
-         if (!['proposal', 'active'].includes(solutionElementData.status)) {
-             throw new ValidationError("For creation or update of a solution element, status needs to be proposal or active.");
-         }
-
-         if (!['primary', 'supportive'].includes(solutionElementData.elementType)) {
-             throw new BadRequestError("Invalid elementType. Must be 'primary' or 'supportive'.");
-         }
+    if (!['primary', 'supportive'].includes(solutionElementData.elementType)) {
+        throw new BadRequestError("Invalid elementType. Must be 'primary' or 'supportive'.");
+    }
 }
 
 async function createSolutionElement(solutionElementData, userId, session = null) {
     const solutionElement = new SolutionElement({
         ...solutionElementData,
+        status: 'proposal',
         proposedBy: userId
     });
     await solutionElement.save({session});

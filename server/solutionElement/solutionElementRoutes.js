@@ -15,13 +15,13 @@ solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExi
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        if (!await Solution.findById(req.body.parentSolution)) throw new NotFoundError('Solution not found');
+        if (!await Solution.findById(req.body.parentSolutionId)) throw new NotFoundError('Solution not found');
 
-        const solutionElement = await validateAndCreateSolutionElements(req.body, req.body.parentSolution, req.user._id, session);
-        await updateParentSolutionElementsCount(req.body.parentSolution, 1, session)
+        const solutionElement = await validateAndCreateSolutionElements(req.body, req.body.parentSolutionId, req.user._id, session);
+        await updateParentSolutionElementsCount(req.body.parentSolutionId, 1, session)
 
         await session.commitTransaction();
-        res.status(201).send(solutionElement);
+        res.status(201).send(solutionElement[0]);
     } catch (err) {
         await session.abortTransaction();
         next(err);

@@ -27,7 +27,7 @@ considerationRoutes.post('/considerations', authenticateToken, verifyUserExisten
         await updateParentConsiderationsCount(req.body.parentType, req.body.parentId, 1, session);
 
         await session.commitTransaction();
-        res.status(201).send(consideration);
+        res.status(201).send(consideration[0]);
     } catch (err) {
         await session.abortTransaction();
         next(err);
