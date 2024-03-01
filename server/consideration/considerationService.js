@@ -1,8 +1,19 @@
+import {validateRequiredFields} from "../utils/utils.js";
 import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 import {Consideration} from "./considerationModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Solution} from "../solution/solutionModel.js";
-import {validateRequiredFields} from "../utils/utils.js";
+
+
+export async function validateParentDocument(parentType, parentId) {
+    if (!['Solution', 'SolutionElement'].includes(parentType)) {
+        throw new BadRequestError("Invalid parent type. Must be 'Solution', or 'SolutionElement'.");
+    }
+    const Model = parentType === 'Solution' ? Solution : SolutionElement;
+    if (!await Model.exists({_id: parentId})) {
+        throw new NotFoundError(`${parentType} not found.`);
+    }
+}
 
 function validateConsiderationData(considerationData) {
     validateRequiredFields(considerationData, ['parentType', 'parentId', 'stance', 'title', 'description'], "Consideration validation");
@@ -22,19 +33,19 @@ async function createConsideration(considerationData, userId, session = null) {
 }
 
 export async function validateAndCreateConsiderations(considerationsData, parentType, parentId, userId, session = null) {
-    const considerations = [];
+    if (!considerationsData) return [];
 
-    if (considerationsData) {
-        considerationsData = Array.isArray(considerationsData) ? considerationsData : [considerationsData];
-        for (let considerationData of considerationsData) {
-            considerationData = ({ ...considerationData, parentType, parentId });
-            await validateConsiderationData(considerationData);
-            considerations.push(await createConsideration(considerationData, userId, session));
-        }
-    }
+    considerationsData = Array.isArray(considerationsData) ? considerationsData : [considerationsData];
 
-    return considerations;
+    const considerationPromises = considerationsData.map(considerationData => {
+        considerationData = { ...considerationData, parentType, parentId };
+        validateConsiderationData(considerationData);
+        return createConsideration(considerationData, userId, session);
+    });
+
+    return await Promise.all(considerationPromises);
 }
+
 
 export async function updateParentConsiderationsCount(parentType, parentId, delta, session) {    //delta: 1 = increase, -1 = decrease
     if (parentType === 'SolutionElement') {

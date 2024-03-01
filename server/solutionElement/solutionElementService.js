@@ -25,18 +25,17 @@ async function createSolutionElement(solutionElementData, userId, session = null
 }
 
 export async function validateAndCreateSolutionElements (solutionElementsData, parentSolutionId, userId, session = null) {
-    const solutionElements = [];
+    if (!solutionElementsData) return [];
 
-    if (solutionElementsData) {
-        solutionElementsData = Array.isArray(solutionElementsData) ? solutionElementsData : [solutionElementsData];
-        for (let solutionElementData of solutionElementsData) {
-            solutionElementData = ({ ...solutionElementData, parentSolution: parentSolutionId });
-            validateSolutionElementData(solutionElementData);
-            solutionElements.push(await createSolutionElement(solutionElementData, userId, session));
-        }
-    }
+    solutionElementsData = Array.isArray(solutionElementsData) ? solutionElementsData : [solutionElementsData];
 
-    return solutionElements;
+    const returnedPromises = solutionElementsData.map(solutionElementData => {
+        solutionElementData = ({ ...solutionElementData, parentSolutionId });
+        validateSolutionElementData(solutionElementData);
+        return createSolutionElement(solutionElementData, userId, session);
+    })
+
+    return Promise.all(returnedPromises);
 }
 
 export async function updateParentSolutionElementsCount(parentSolution, delta, session) {    //delta: 1 = increase, -1 = decrease

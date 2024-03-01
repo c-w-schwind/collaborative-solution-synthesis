@@ -1,8 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
+import {NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
+import {Solution} from "../solution/solutionModel.js";
 import {updateParentSolutionElementsCount, validateAndCreateSolutionElements,} from "./solutionElementService.js";
 
 
@@ -13,6 +15,8 @@ solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExi
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
+        if (!await Solution.findById(req.body.parentSolution)) throw new NotFoundError('Solution not found');
+
         const solutionElement = await validateAndCreateSolutionElements(req.body, req.body.parentSolution, req.user._id, session);
         await updateParentSolutionElementsCount(req.body.parentSolution, 1, session)
 

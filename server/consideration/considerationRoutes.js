@@ -9,7 +9,8 @@ import {
     toggleCommentVote,
     toggleConsiderationVote,
     updateParentConsiderationsCount,
-    validateAndCreateConsiderations
+    validateAndCreateConsiderations,
+    validateParentDocument
 } from "./considerationService.js";
 
 const considerationRoutes = express.Router();
@@ -20,6 +21,8 @@ considerationRoutes.post('/considerations', authenticateToken, verifyUserExisten
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
+        await validateParentDocument(req.body.parentType, req.body.parentId);
+
         const consideration = await validateAndCreateConsiderations(req.body, req.body.parentType, req.body.parentId, req.user._id, session);
         await updateParentConsiderationsCount(req.body.parentType, req.body.parentId, 1, session);
 
