@@ -68,8 +68,7 @@ async function validateAndToggleVote(item, userId, voteType) {
             if (hasUpvoted) item.votes.upvotes.pull(userId);
         }
     }
-
-    await item.save();
+    if (item instanceof Consideration) await item.save();
 }
 
 export async function toggleConsiderationVote(considerationId, userId, voteType) {
@@ -87,5 +86,7 @@ export async function toggleCommentVote(considerationId, commentId, userId, vote
     if (!comment) throw new NotFoundError('Comment not found');
 
     await validateAndToggleVote(comment, userId, voteType);
+
+    await consideration.save();
     return consideration;
 }
