@@ -41,9 +41,22 @@
 }
 
 .login-form .error {
-    min-height: 1.2em;
     color: red;
     text-align: center;
+    visibility: hidden;
+    box-sizing: border-box;
+    width: 85%;
+    min-height: 38px;
+    margin: 0 auto 20px auto;
+    padding: 10px 10px;
+    overflow-wrap: break-word;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form .error.show {
+    visibility: visible;
 }
 
 .login-form button {

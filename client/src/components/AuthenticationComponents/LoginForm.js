@@ -71,7 +71,7 @@ function LoginForm () {
                         placeholder="Password"
                     />
                 </div>
-                <div className="error">{error}</div>
+                <div className={`error ${error ? 'show' : ''}`}>{error}</div>
                 <button type="submit" disabled={!email || !password || loading}>
                     {loading ? "Logging in..." : "Login"}
                 </button>
