@@ -3,12 +3,12 @@ import { AuthProvider } from './context/AuthContext';
 import {ToastProvider} from "./context/ToastContext";
 
 import LoginPage from './pages/LoginPage';
-import DiscussionSpace from "./pages/DiscussionSpace";
+import DiscussionSpacePage from "./pages/DiscussionSpacePage";
 
 import './App.css';
 import Layout from "./components/Layout";
 import PublicRoute from "./routes/PublicRoute";
-import Solutions from "./pages/Solutions";
+import SolutionsPage from "./pages/SolutionsPage";
 
 function App() {
     return (
@@ -20,8 +20,8 @@ function App() {
                             <Route path="/" element={<Layout/>}>
                                 <Route index element={<IndexPage/>}/>
                                 <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
-                                <Route path="discussionSpace" element={<DiscussionSpace/>}/>
-                                <Route path="solutions" element={<Solutions/>}/>
+                                <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                <Route path="solutions" element={<SolutionsPage/>}/>
                             </Route>
                         </Routes>
                     </AuthProvider>

@@ -1,11 +1,11 @@
-import './DiscussionSpace.css';
+import './DiscussionSpacePage.css';
 import {useCallback, useEffect, useRef, useState} from "react";
 import PostCard from "../components/DiscussionSpaceComponents/PostCard";
 import PostInput from "../components/DiscussionSpaceComponents/PostInput";
 import {useToasts} from "../context/ToastContext";
 import { formatToGermanTimezone } from '../utils/dateUtils';
 
-function DiscussionSpace () {
+function DiscussionSpacePage () {
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
@@ -86,4 +86,4 @@ function DiscussionSpace () {
     );
 }
 
-export default DiscussionSpace;
+export default DiscussionSpacePage;

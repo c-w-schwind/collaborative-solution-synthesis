@@ -1,9 +1,9 @@
-import './Solutions.css';
+import './SolutionsPage.css';
 import {useCallback, useEffect, useState} from "react";
 import SolutionCard from "../components/SolutionComponents/SolutionCard";
 import {formatToGermanTimezone} from "../utils/dateUtils";
 
-function Solutions () {
+function SolutionsPage () {
     const [solutions, setSolutions] = useState([]);
 
     useEffect(() => {
@@ -44,4 +44,4 @@ function Solutions () {
     )
 }
 
-export default Solutions;
+export default SolutionsPage;
