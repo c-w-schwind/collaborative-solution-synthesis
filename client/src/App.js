@@ -8,6 +8,7 @@ import DiscussionSpace from "./pages/DiscussionSpace";
 import './App.css';
 import Layout from "./components/Layout";
 import PublicRoute from "./routes/PublicRoute";
+import Solutions from "./pages/Solutions";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                                 <Route index element={<IndexPage/>}/>
                                 <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
                                 <Route path="discussionSpace" element={<DiscussionSpace/>}/>
+                                <Route path="solutions" element={<Solutions/>}/>
                             </Route>
                         </Routes>
                     </AuthProvider>
