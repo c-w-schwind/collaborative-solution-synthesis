@@ -57,7 +57,7 @@ function DiscussionSpace () {
     }
 
     return (
-        <div className="tittBlock">
+        <div className="postBlock">
             {posts.map(post => (
                 <PostCard
                     key={post._id}

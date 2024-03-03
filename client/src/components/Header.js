@@ -1,5 +1,5 @@
 import {useAuth} from "../context/AuthContext";
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import './Header.css';
 
 function Header () {
@@ -8,18 +8,14 @@ function Header () {
     return (
         <header className="header">
             <div className="logo">
-                <Link to="../public/favicon.ico">Your Logo</Link>
-                {/* <Link to="/">
-                    <img src="path-to-your-logo.png" alt="Your Logo" />
-                </Link> */}
+                <NavLink to="/"><img src="PlaceholderLogoCollectiveSynthesis2.jpg" alt="Your Logo"/></NavLink>
             </div>
             <nav className="navigation">
-                <Link to="/">Home</Link>
-                <Link to="/section3">Problem Space</Link>
-                <Link to="/section4">Solution Space</Link>
-                <Link to="/discussionSpace">Discussion Space</Link>
-                <Link to="/section5">Considerations</Link>
-                {/* <div className="nav-item"><Link to="/discussionSpace">Discussion Space</Link></div> */}
+                <NavLink to="/" className={({ isActive }) => isActive ? 'active' : undefined}>Home</NavLink>
+                <NavLink to="/section3" className={({ isActive }) => isActive ? 'active' : undefined}>Problem Space</NavLink>
+                <NavLink to="/solutions" className={({ isActive }) => isActive ? 'active' : undefined}>Solutions</NavLink>
+                <NavLink to="/discussionSpace" className={({ isActive }) => isActive ? 'active' : undefined}>Discussion Space</NavLink>
+                <NavLink to="/section5" className={({ isActive }) => isActive ? 'active' : undefined}>Considerations</NavLink>
             </nav>
             <div className="user-section">
                 {isLoggedIn ? (

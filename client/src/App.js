@@ -31,9 +31,17 @@ function App() {
 
 function IndexPage () {
     return (
-        <>
-            <h1 style={{padding : 40}}>Collective Solution Synthesis</h1>
-        </>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '80vh',
+        }}>
+            <img src="PlaceholderPictureCollectiveSynthesis.jpg" alt="Your Logo"
+                 style={{maxHeight: '500px', margin: 'auto', borderRadius: '10%'}}/>
+            <h1>Collective Solution Synthesis</h1>
+        </div>
     );
 }
 
