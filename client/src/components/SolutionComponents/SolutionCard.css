@@ -12,6 +12,7 @@
 }
 
 .solution-header {
+    position: relative;
     display: flex;
     justify-content: space-between;
     padding-left: 10px;
@@ -27,9 +28,17 @@
 }
 
 .header-right {
+    position: relative; /* Adjust if necessary to position the timestamp */
+    right: 0; /* Aligns to the right edge of the header */
+    top: 0; /* Aligns to the top edge of the header */
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+}
+
+.active-components {
+    position: absolute;
+    top: 23px;
 }
 
 .solution-timestamp, .active-components {
@@ -64,19 +73,46 @@
     justify-content: flex-end;
     align-items: flex-end;
     flex-grow: 1;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 .details-button {
     width: 100px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 500px) {
     .solution-card {
         flex-direction: column;
         width: 90%;
         margin: 10px auto;
     }
+    .solution-header {
+        padding-left: 0;
+    }
+    .solution-title {
+        min-height: 40px;
+        padding-top: 23px;
+        margin-right: 125px;
+    }
+    .header-right {
+        position: absolute;
+    }
+    .solution-timestamp {
+        margin-left: 0;
+    }
+    .active-components {
+        position: absolute;
+        top: 25px;
+    }
     .solution-body {
-        padding-left: 15px;
+        padding-left: 0;
+    }
+    .solution-body {
+        flex-direction: column;
+    }
+    .solution-content {
+        margin-right: 0;
+    }
+    .solution-interactions {
+        margin-top: 0;
     }
 }
