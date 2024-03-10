@@ -28,9 +28,9 @@
 }
 
 .header-right {
-    position: relative; /* Adjust if necessary to position the timestamp */
-    right: 0; /* Aligns to the right edge of the header */
-    top: 0; /* Aligns to the top edge of the header */
+    position: relative;
+    right: 0;
+    top: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -79,12 +79,7 @@
     width: 100px;
 }
 
-@media screen and (max-width: 500px) {
-    .solution-card {
-        flex-direction: column;
-        width: 90%;
-        margin: 10px auto;
-    }
+@media screen and (max-width: 600px) {
     .solution-header {
         padding-left: 0;
     }

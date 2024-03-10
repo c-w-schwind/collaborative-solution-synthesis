@@ -86,10 +86,9 @@
     background-color: #a71d2a;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 500px) {
     .post-card {
         flex-direction: column;
-        width: 90%;
         margin: 10px auto;
     }
     .user-info {
