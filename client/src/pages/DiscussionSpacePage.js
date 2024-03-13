@@ -1,11 +1,11 @@
 import './DiscussionSpacePage.css';
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import PostCard from "../components/DiscussionSpaceComponents/PostCard";
 import PostInput from "../components/DiscussionSpaceComponents/PostInput";
 import {useToasts} from "../context/ToastContext";
-import { formatToGermanTimezone } from '../utils/dateUtils';
+import {formatToGermanTimezone} from '../utils/dateUtils';
 
-function DiscussionSpacePage () {
+function DiscussionSpacePage() {
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
@@ -14,28 +14,25 @@ function DiscussionSpacePage () {
     const {addToast} = useToasts();
     const limit = 20;
 
-    const isInputFilledRef = useRef(isInputFilled);
-    isInputFilledRef.current = isInputFilled;
-
     useEffect(() => {
         fetchPosts(page, limit);
         const interval = setInterval(() => {
             fetchPosts(page, limit);
         }, 30000); // Polling every 30 seconds
 
-        return () => clearInterval(interval); // Cleanup on component unmount
+        return () => clearInterval(interval);
     }, [page, limit]);
 
     function displayToastWarning() {
-        if (isInputFilledRef.current) addToast("Warning: To prevent losing your message, please copy and save it before refreshing the page.", 30000);
+        if (isInputFilled) addToast("Warning: To prevent losing your message, please copy and save it before refreshing the page.", 30000);
     }
 
     const fetchPosts = useCallback(async (page, limit) => {
         if (error) setError("Fetching posts...");
-        const queryParams = new URLSearchParams({ page, limit}).toString();
-        try{
+        const queryParams = new URLSearchParams({page, limit}).toString();
+        try {
             const response = await fetch(`http://localhost:5555/discussionSpace?${queryParams}`);
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             setError(null);
@@ -52,6 +49,7 @@ function DiscussionSpacePage () {
     function nextPage() {
         if (page > 1) setPage(page - 1);
     }
+
     function previousPage() {
         if (page < totalPages) setPage(page + 1);
     }
