@@ -26,7 +26,7 @@ function Header() {
                 <NavLink to="/"><img src="PlaceholderLogoCollectiveSynthesis.jpg" alt="Your Logo"/></NavLink>
             </div>
             <div ref={navMenuRef}>
-                <button className="nav-menu-toggle" onClick={() => setIsNavMenuVisible(!isNavMenuVisible)}>
+                <button className={`nav-menu-toggle${isNavMenuVisible ? ' menu-open' : ''}`} onClick={() => setIsNavMenuVisible(!isNavMenuVisible)}>
                     <span>☰</span>
                 </button>
                 <nav className={`nav-menu${isNavMenuVisible ? ' displayed' : ''}`}>

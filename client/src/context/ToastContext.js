@@ -22,8 +22,9 @@ export const ToastProvider = ({children}) => {
             {children}
             <ToastManager toasts={toasts} removeToast={removeToast}/>
         </ToastContext.Provider>
-    )
-}
+    );
+};
+
 export function useToasts () {
     const context = useContext(ToastContext);
     if (context === undefined) {

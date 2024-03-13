@@ -27,9 +27,9 @@
     max-width: 66px;
     height: auto;
     border-radius: 50%;
-    border: 1px solid rgba(67, 67, 147, 0.75);
-    padding: 1px;
-    box-shadow: 0 0 5px 3px rgba(82, 52, 192, 0.05);
+    /*border: 1px solid rgba(67, 67, 147, 0.75);*/
+    box-shadow: 0 0 6px 4px rgba(82, 52, 192, 0.08);
+    margin-right: 10px;
 }
 
 .nav-menu-toggle {
@@ -47,7 +47,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     flex-direction: row;
+    white-space: nowrap;
     z-index: 1;
 }
 
@@ -71,7 +73,7 @@
 
 .nav-menu a.active:hover {
     background-color: #ffffff;
-    box-shadow: 0 -10px 60px 1px rgba(0,0,0,0.1);
+    box-shadow: 0 -5px 60px 1px rgba(0,0,0,0.15);
 }
 
 .user-section {
@@ -82,6 +84,7 @@
 .user-section span {
     margin-right: 10px;
     font-size: 18px;
+    text-align: right;
 }
 
 .user-menu-toggle {
@@ -94,7 +97,7 @@
 
 .user-menu-toggle.menu-open, .user-menu-toggle.menu-open:hover {
     background-color: #ffffff;
-    box-shadow: 10px 20px 35px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,0.2);
 }
 
 .user-menu-toggle:hover {
@@ -127,7 +130,7 @@
     right: 13px;
     width: 160px;
     background-color: #f3f4f6;
-    box-shadow: 10px 20px 35px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,0.2);
     border-radius: 5px;
     overflow: hidden;
     z-index: 1;
@@ -177,9 +180,9 @@
     color: #000;
     text-align: right;
     font-weight: bold;
-    margin: 1px 1px;
-    min-width: 158px;
+    min-width: 160px;
     min-height: 40px;
+    border-radius: 0;
 }
 
 .login-button:hover {
@@ -202,9 +205,13 @@
 }
 
 
-@media (max-width: 800px) {
+@media (max-width: 920px) {
     .nav-menu-toggle {
         display: flex;
+    }
+
+    .nav-menu-toggle.menu-open, .nav-menu-toggle.menu-open:hover {
+        box-shadow: 0 3px 5px 0 rgba(0,0,0,0.2);
     }
 
     .nav-menu {
@@ -212,11 +219,11 @@
         flex-direction: column;
         align-items: flex-start;
         position: absolute;
-        top: 58px;
+        top: 59px;
         left: 20px;
         width: 200px;
         background-color: #f3f4f6;
-        box-shadow: 10px 20px 35px 16px rgba(0,0,0,0.2);
+        box-shadow: 1px 3px 5px 0 rgba(0,0,0,0.2);
         border-radius: 5px;
         overflow: hidden;
     }
@@ -240,10 +247,9 @@
         transform: translateX(-50%);
     }
 
-    .logo img {
-        border: none;
-        padding: 0;
-        box-shadow: 0 0 6px 4px rgba(82, 52, 192, 0.1);
+    .user-menu {
+        top: 66px;
+        margin-right: 7px;
     }
 
     .user-menu-toggle img {
@@ -254,10 +260,5 @@
 
     .user-menu-toggle:hover {
         padding-right: 8px;
-    }
-
-    .user-menu {
-        top: 65px;
-        margin-right: 7px;
     }
 }
