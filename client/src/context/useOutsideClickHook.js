@@ -1,5 +1,8 @@
 import {useCallback, useEffect, useRef} from "react";
 
+// useEffect omits 'handleClickOutside' from dependencies to avoid frequent re-triggering.
+// Ensure the 'callback' provided to useOutsideClick does not change over the component's lifecycle.
+// Changing 'callback' requires a different handling strategy.
 function useOutsideClick (callback) {
     const ref = useRef();
 
@@ -17,7 +20,7 @@ function useOutsideClick (callback) {
             document.removeEventListener('mousedown', handleClickOutside);
             document.removeEventListener('touchstart', handleClickOutside);
         };
-    }, [handleClickOutside]);
+    }, []);
 
     return ref;
 }
