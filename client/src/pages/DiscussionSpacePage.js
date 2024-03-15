@@ -11,6 +11,7 @@ function DiscussionSpacePage() {
     const [totalPages, setTotalPages] = useState(0);
     const [error, setError] = useState(null);
     const [isInputFilled, setIsInputFilled] = useState(false);
+    const [hasPostsLoadedOnce, setHasPostsLoadedOnce] = useState(false);
     const {addToast} = useToasts();
     const limit = 20;
 
@@ -39,6 +40,7 @@ function DiscussionSpacePage() {
             const data = await response.json();
             setPosts(data.posts.reverse());
             setTotalPages(data.totalPages);
+            setHasPostsLoadedOnce(true);
         } catch (err) {
             console.error('Failed to fetch posts:', err);
             setError('Failed to load current posts. Please try again later.');
@@ -71,15 +73,15 @@ function DiscussionSpacePage() {
                     <div className="error">{error}</div>
                     <button onClick={fetchPosts}>Retry</button>
                 </div>}
-            <PostInput onPostSuccess={fetchPosts}
+            {hasPostsLoadedOnce && <PostInput onPostSuccess={fetchPosts}
                        onPostError={displayToastWarning}
                        onInputChange={(isFilled) => setIsInputFilled(isFilled)}
-            />
-            <section className="pagination">
+            />}
+            {hasPostsLoadedOnce && <section className="pagination">
                 <button onClick={previousPage} disabled={page === totalPages || page > totalPages}>Previous</button>
                 <span>You're on page {page} of {totalPages}.</span>
                 <button onClick={nextPage} disabled={page === 1}>Next</button>
-            </section>
+            </section>}
         </div>
     );
 }
