@@ -7,9 +7,9 @@ import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Solution} from "./solutionModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
+import {validateAndCreateSolution} from "./solutionService.js";
 import {validateAndCreateSolutionElements} from "../solutionElement/solutionElementService.js";
 import {validateAndCreateConsiderations} from "../consideration/considerationService.js";
-import {validateAndCreateSolution} from "./solutionService.js";
 
 const solutionRoutes = express.Router();
 
@@ -21,7 +21,7 @@ solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, asyncH
     try {
         const userId = req.user._id;
 
-        const solution = validateAndCreateSolution(req.body, userId);
+        const solution = await validateAndCreateSolution(req.body, userId, session);
 
         const solutionElements = await validateAndCreateSolutionElements(req.body.solutionElementsDataArray, solution._id, userId, session);
         const solutionConsiderations = await validateAndCreateConsiderations(req.body.solutionConsiderationsDataArray, 'Solution', solution._id, userId, session);

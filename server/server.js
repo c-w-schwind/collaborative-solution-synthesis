@@ -16,6 +16,7 @@ import solutionRoutes from "./solution/solutionRoutes.js";
 import solutionElementRoutes from "./solutionElement/solutionElementRoutes.js";
 import considerationRoutes from "./consideration/considerationRoutes.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
+import {initializeCounters} from "./counters/counterService.js";
 
 app.use(userRoutes);
 app.use(discussionSpaceRoutes); //could also use app.use("/discussionSpace", discussionSpaceRoutes);
@@ -25,8 +26,10 @@ app.use(considerationRoutes);
 app.use(errorMiddleware);
 
 mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {
+    .then(async () => {
         console.log("Connected to MongoDB");
+
+        await initializeCounters();
 
         app.listen(port, () => {
             console.log(`Server is running on port: ${port}`);

@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const solutionSchema = new mongoose.Schema({
+    solutionNumber: {
+        type: Number,
+        required: true,
+    },
     title: {
         type: String,
         required: true
