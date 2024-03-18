@@ -55,17 +55,17 @@ solutionRoutes.get('/solutions', asyncHandler(async (req, res) => {
 
 // Get single Solution w/ Solution Elements & Considerations
 solutionRoutes.get('/solutions/:id', asyncHandler(async (req, res) => {
-    const parentSolution = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(parentSolution)) throw new BadRequestError('Invalid Consideration ID.');
+    const solutionId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(solutionId)) throw new BadRequestError('Invalid Solution ID.');
 
-    const solution = await Solution.findById(parentSolution).populate('proposedBy', 'username').lean();
+    const solution = await Solution.findById(solutionId).populate('proposedBy', 'username').lean();
     if (!solution) throw new NotFoundError('Solution not found');
 
-    const solutionElements = await SolutionElement.find({
-        parentSolution: parentSolution
+    solution.solutionElements = await SolutionElement.find({
+        parentSolutionId: solutionId
     }).populate('proposedBy', 'username').lean();
 
-    for (let element of solutionElements) {
+    for (let element of solution.solutionElements) {        //TODO: service extraction
         element.considerations = await Consideration.find({
             parentType: 'SolutionElement',
             parentId: element._id
@@ -74,12 +74,11 @@ solutionRoutes.get('/solutions/:id', asyncHandler(async (req, res) => {
 
     solution.considerations = await Consideration.find({
         parentType: 'Solution',
-        parentId: parentSolution
+        parentId: solutionId
     }).populate('proposedBy', 'username').lean();
 
     return res.status(200).send({
-        solution: solution,
-        solutionElements: solutionElements,
+        solution: solution
     })
 }));
 
