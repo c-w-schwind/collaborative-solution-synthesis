@@ -99,5 +99,5 @@ export async function toggleCommentVote(considerationId, commentId, userId, vote
     await validateAndToggleVote(comment, userId, voteType);
 
     await consideration.save();
-    return consideration;
+    return comment;
 }
