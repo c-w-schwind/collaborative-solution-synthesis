@@ -9,6 +9,7 @@ import './App.css';
 import Layout from "./components/Layout";
 import PublicRoute from "./routes/PublicRoute";
 import SolutionsPage from "./pages/SolutionsPage";
+import SolutionDetailsPage from "./pages/SolutionDetailsPage";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                                 <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
                                 <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
                                 <Route path="solutions" element={<SolutionsPage/>}/>
+                                <Route path="solutions/:solutionNumber" element={<SolutionDetailsPage/>}/>
                             </Route>
                         </Routes>
                     </AuthProvider>
@@ -40,7 +42,7 @@ function IndexPage () {
             alignItems: 'center',
             height: '80vh',
         }}>
-            <img src="PlaceholderPictureCollectiveSynthesis.jpg" alt="Your Logo"
+            <img src="http://localhost:3000/PlaceholderPictureCollectiveSynthesis.jpg" alt="Your Logo"
                  style={{maxHeight: '500px', margin: 'auto', borderRadius: '10%'}}/>
             <h1>Collective Solution Synthesis</h1>
         </div>

@@ -29,18 +29,36 @@ function SolutionsPage () {
     }, []);
 
     return (
-        <div className="solutionsBlock">
-            {solutions.map(solution => (
-                <SolutionCard
-                    key={solution._id}
-                    title={solution.title}
-                    overview={solution.overview}
-                    activeSolutionElementsCount={solution.activeSolutionElementsCount}
-                    activeConsiderationsCount={solution.activeConsiderationsCount}
-                    updatedAt={formatToGermanTimezone(solution.updatedAt)}
-                />
-            ))}
-        </div>
+        <>
+            {solutions.length === 0 ? (
+                <>
+                    <div className="no-solutions-message">
+                        Currently, there are no solutions available. This is your opportunity to lead the way!
+                    </div>
+                </>
+            ) : (
+                <div className="solutionsBlock">
+                    {solutions.map(solution => (
+                        <SolutionCard
+                            key={solution._id}
+                            solutionId={solution._id}
+                            solutionNumber={solution.solutionNumber}
+                            title={solution.title}
+                            overview={solution.overview}
+                            activeSolutionElementsCount={solution.activeSolutionElementsCount}
+                            activeConsiderationsCount={solution.activeConsiderationsCount}
+                            updatedAt={formatToGermanTimezone(solution.updatedAt)}
+                        />
+                    ))}
+                </div>
+            )}
+            <div className="action-button-container">
+                <div className="no-solutions-call-to-action">
+                    Share your own solution and collaborate with the community<br/> to refine and explore new possibilities.
+                </div>
+                <button className="action-button">Add new Solution!</button>
+            </div>
+        </>
     )
 }
 

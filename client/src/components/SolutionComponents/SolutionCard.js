@@ -1,6 +1,10 @@
 import './SolutionCard.css';
+import {useNavigate} from "react-router-dom";
 
-function SolutionCard({ title, overview, activeSolutionElementsCount, activeConsiderationsCount, updatedAt }) {
+
+function SolutionCard({solutionId, solutionNumber, title, overview, activeSolutionElementsCount, activeConsiderationsCount, updatedAt }) {
+    const navigate = useNavigate();
+
     return (
         <article className="solution-card">
             <header className="solution-header">
@@ -16,7 +20,7 @@ function SolutionCard({ title, overview, activeSolutionElementsCount, activeCons
             <section className="solution-body">
                 <div className="solution-content">{overview}</div>
                 <div className="solution-interactions">
-                    <button className="details-button">Details</button>
+                    <button className="details-button" onClick={() => navigate(`/solutions/${solutionNumber}`, { state: { _id: solutionId }})}>Details</button>
                 </div>
             </section>
         </article>
