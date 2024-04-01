@@ -1,10 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
-import {NotFoundError} from "../utils/customErrors.js";
+import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Solution} from "../solution/solutionModel.js";
+import {SolutionElement} from "./solutionElementModel.js";
+import {Consideration} from "../consideration/considerationModel.js";
 import {updateParentSolutionElementsCount, validateAndCreateSolutionElements,} from "./solutionElementService.js";
 
 
@@ -28,6 +30,22 @@ solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExi
     } finally {
         await session.endSession();
     }
+}));
+
+// Get solution element
+solutionElementRoutes.get('/solutionElements/:id', asyncHandler(async (req, res) => {
+    const elementId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(elementId)) throw new BadRequestError('Invalid Solution Element ID');
+
+    const solutionElement = await SolutionElement.findById(elementId).populate('proposedBy', 'username').lean();
+    if (!solutionElement) throw new NotFoundError('Solution Element not found');
+
+    solutionElement.considerations = await Consideration.find({
+        parentType: 'SolutionElement',
+        parentId: solutionElement._id
+    }).populate('proposedBy', 'username').lean();
+
+    return res.status(200).send({solutionElement});
 }));
 
 export default solutionElementRoutes;

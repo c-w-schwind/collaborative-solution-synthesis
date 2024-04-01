@@ -53,33 +53,24 @@ solutionRoutes.get('/solutions', asyncHandler(async (req, res) => {
 }));
 
 
-// Get single Solution w/ Solution Elements & Considerations
-solutionRoutes.get('/solutions/:id', asyncHandler(async (req, res) => {
-    const solutionId = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(solutionId)) throw new BadRequestError('Invalid Solution ID.');
+// Get single Solution w/ Solution Elements & Considerations by SolutionNumber
+solutionRoutes.get('/solutions/:solutionNumber', asyncHandler(async (req, res) => {
+    let solutionNumber = parseInt(req.params.solutionNumber, 10);
+    if (isNaN(solutionNumber)) throw new BadRequestError('Invalid Solution Number');
 
-    const solution = await Solution.findById(solutionId).populate('proposedBy', 'username').lean();
+    const solution = await Solution.findOne({solutionNumber: solutionNumber}).populate('proposedBy', 'username').lean();
     if (!solution) throw new NotFoundError('Solution not found');
 
     solution.solutionElements = await SolutionElement.find({
-        parentSolutionId: solutionId
-    }).populate('proposedBy', 'username').lean();
-
-    for (let element of solution.solutionElements) {        //TODO: service extraction
-        element.considerations = await Consideration.find({
-            parentType: 'SolutionElement',
-            parentId: element._id
-        }).populate('proposedBy', 'username').lean();
-    }
+        parentSolutionId: solution._id
+    }).select('_id title elementType overview').lean();
 
     solution.considerations = await Consideration.find({
         parentType: 'Solution',
-        parentId: solutionId
-    }).populate('proposedBy', 'username').lean();
+        parentId: solution._id
+    }).select('_id title stance description comments').lean();
 
-    return res.status(200).send({
-        solution: solution
-    })
+    return res.status(200).send({solution})
 }));
 
 export default solutionRoutes;
