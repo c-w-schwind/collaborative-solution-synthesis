@@ -1,0 +1,38 @@
+.consideration {
+    background-color: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 12px;
+}
+
+.consideration-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.consideration-text {
+    padding-left: 5px;
+    margin-right: 8px;
+    flex: 3;
+}
+
+.consideration-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 7px;
+    margin-left: 5px;
+}
+
+.consideration-actions {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.add-comment-button {
+    padding: 5px 10px;
+}
