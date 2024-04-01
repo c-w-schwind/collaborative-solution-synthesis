@@ -36,3 +36,32 @@
 .add-comment-button {
     padding: 5px 10px;
 }
+
+.toggle-comments-button {
+    background-color: rgba(0, 123, 255, 0.5);
+    color: darkblue;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toggle-comments-button:hover {
+    background-color: rgba(0, 86, 179, 0.8);
+    color: #f4f2ff;
+}
+
+.toggle-comments-button:disabled {
+    background: rgba(238, 238, 238, 0.75);
+    color: #555;
+    cursor: default;
+}
+
+.toggle-comments-button:disabled:hover {
+    background: rgba(225, 225, 225, 0.5);
+    color: #555;
+}
+
+.toggle-comments-button:disabled:active {
+    transform: none;
+}

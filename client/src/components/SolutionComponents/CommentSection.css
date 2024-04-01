@@ -1,0 +1,73 @@
+.comments-container {
+    background-color: #e9ecef;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+}
+
+.comment {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.comment-content {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.comment-text {
+    padding: 0;
+    margin: 0;
+}
+
+.comment-content button {
+    margin-top: 10px;
+}
+
+.comment-interactions {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: right;
+    text-align: right;
+    margin-left: auto;
+
+}
+
+.comment-interactions section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.comment-interactions button {
+    margin: 1px 1px 1px 10px;
+    width: 30px;
+}
+
+.comment-upvote-button {
+    padding: 10px;
+    background-color: #67bd21;
+    border: 0.1px solid #000000;
+}
+
+.comment-upvote-button:hover {
+    background-color: #5ba81c;
+}
+
+.comment-downvote-button {
+    padding: 10px;
+    background-color: #dc3535;
+    border: 0.1px solid #000000;
+}
+
+.comment-downvote-button:hover {
+    background-color: #c03030;
+}
