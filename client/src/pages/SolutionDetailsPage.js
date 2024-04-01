@@ -1,5 +1,5 @@
 import './SolutionDetailsPage.css';
-import {useParams} from "react-router-dom";
+import {Outlet, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import SolutionOverviewSection from "../components/SolutionComponents/SolutionOverviewSection";
 import SolutionElementsList from "../components/SolutionComponents/SolutionElementList";
@@ -36,6 +36,7 @@ function SolutionDetailsPage() {
                     <SolutionElementsList elements={solution.solutionElements}/>
                     <ConsiderationsList considerations={solution.considerations}/>
                 </div>
+                <Outlet/>
             </>
         ) : (
             <p>Loading solution details...</p>

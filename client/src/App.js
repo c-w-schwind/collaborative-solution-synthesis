@@ -10,6 +10,8 @@ import Layout from "./components/Layout";
 import PublicRoute from "./routes/PublicRoute";
 import SolutionListPage from "./pages/SolutionListPage";
 import SolutionDetailsPage from "./pages/SolutionDetailsPage";
+import SolutionElementModal from "./pages/SolutionElementModal";
+
 
 function App() {
     return (
@@ -23,7 +25,9 @@ function App() {
                                 <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
                                 <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
                                 <Route path="solutions" element={<SolutionListPage/>}/>
-                                <Route path="solutions/:solutionNumber" element={<SolutionDetailsPage/>}/>
+                                <Route path="solutions/:solutionNumber" element={<SolutionDetailsPage/>}>
+                                    <Route path="element/:elementId" element={<SolutionElementModal/>}/>
+                                </Route>
                             </Route>
                         </Routes>
                     </AuthProvider>
