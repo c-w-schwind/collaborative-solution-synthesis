@@ -1,6 +1,7 @@
 import './SolutionDetailsPage.css';
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import SolutionOverviewSection from "../components/SolutionComponents/SolutionOverviewSection";
 
 
 function SolutionDetailsPage() {
@@ -28,7 +29,9 @@ function SolutionDetailsPage() {
     return (
         solution ? (
             <>
-                <div className="solution-details-container"></div>
+                <div className="solution-details-container">
+                    <SolutionOverviewSection solution={solution}/>
+                </div>
             </>
         ) : (
             <p>Loading solution details...</p>
