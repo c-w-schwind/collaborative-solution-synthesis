@@ -1,9 +1,9 @@
-import './SolutionsPage.css';
+import './SolutionListPage.css';
 import {useCallback, useEffect, useState} from "react";
 import SolutionCard from "../components/SolutionComponents/SolutionCard";
 import {formatToGermanTimezone} from "../utils/dateUtils";
 
-function SolutionsPage () {
+function SolutionListPage () {
     const [solutions, setSolutions] = useState([]);
 
     useEffect(() => {
@@ -41,7 +41,6 @@ function SolutionsPage () {
                     {solutions.map(solution => (
                         <SolutionCard
                             key={solution._id}
-                            solutionId={solution._id}
                             solutionNumber={solution.solutionNumber}
                             title={solution.title}
                             overview={solution.overview}
@@ -62,4 +61,4 @@ function SolutionsPage () {
     )
 }
 
-export default SolutionsPage;
+export default SolutionListPage;

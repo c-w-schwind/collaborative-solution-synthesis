@@ -19,13 +19,14 @@
 }
 
 .solution-title {
+    font-size: 24px;
     font-weight: bold;
     color: #333;
-    font-size: 1.4em;
     flex: 3;
     padding-bottom: 20px;
     padding-top: 4px;
-}
+    margin-bottom: 15px;
+ }
 
 .header-right {
     position: relative;
@@ -83,10 +84,9 @@
     .solution-header {
         padding-left: 0;
     }
-    .solution-title {
-        min-height: 40px;
-        padding-top: 23px;
-        margin-right: 125px;
+    .solution-title {           /* Measured for current layout of solution cards. */
+        padding-top: 23px;      /* for avoiding collision with "last updated" */
+        margin-right: 125px;    /* for avoiding collision with active components section of solution cards */
     }
     .header-right {
         position: absolute;

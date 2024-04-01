@@ -2,8 +2,12 @@ import './SolutionCard.css';
 import {useNavigate} from "react-router-dom";
 
 
-function SolutionCard({solutionId, solutionNumber, title, overview, activeSolutionElementsCount, activeConsiderationsCount, updatedAt }) {
+function SolutionCard({solutionNumber, title, overview, activeSolutionElementsCount, activeConsiderationsCount, updatedAt }) {
     const navigate = useNavigate();
+
+    const handleDetailsClick = () => {
+        navigate(`/solutions/${solutionNumber}`);
+    }
 
     return (
         <article className="solution-card">
@@ -20,7 +24,7 @@ function SolutionCard({solutionId, solutionNumber, title, overview, activeSoluti
             <section className="solution-body">
                 <div className="solution-content">{overview}</div>
                 <div className="solution-interactions">
-                    <button className="details-button" onClick={() => navigate(`/solutions/${solutionNumber}`, { state: { _id: solutionId }})}>Details</button>
+                    <button className="details-button" onClick={handleDetailsClick}>Details</button>
                 </div>
             </section>
         </article>
