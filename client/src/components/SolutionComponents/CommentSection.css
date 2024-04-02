@@ -17,7 +17,7 @@
 .comment-content {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     justify-content: space-between;
 }
 
@@ -33,7 +33,7 @@
 .comment-interactions {
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: flex-end;
     justify-content: right;
     text-align: right;
     margin-left: auto;

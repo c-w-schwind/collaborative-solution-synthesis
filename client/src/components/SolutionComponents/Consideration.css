@@ -8,7 +8,7 @@
 .consideration-content {
     display: flex;
     justify-content: space-between;
-    align-items: start;
+    align-items: flex-end;
 }
 
 .consideration-text {

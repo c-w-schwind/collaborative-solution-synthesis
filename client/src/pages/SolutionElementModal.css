@@ -33,7 +33,7 @@
 .solution-element-header {
     display: flex;
     justify-content: space-between;
-    align-items: start;
+    align-items: flex-start;
 }
 
 .solution-element-close-button {
