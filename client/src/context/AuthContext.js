@@ -1,4 +1,4 @@
-import {createContext, useState, useEffect, useContext} from 'react';
+import {createContext, useState, useEffect, useContext, useCallback} from 'react';
 import {jwtDecode} from "jwt-decode";
 import {useToasts} from "./ToastContext";
 import {useNavigate} from "react-router-dom";
@@ -20,6 +20,23 @@ export const AuthProvider = ({ children }) => {
     const {addToast} = useToasts();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+
+    const login = (userData, token) => {
+        localStorage.setItem('token', token);
+        setIsLoggedIn(true);
+        setUser(userData);
+        addToast(`Welcome back, ${userData.username}!`, 5000);
+    };
+
+    const logout = useCallback(({redirect = true, message = "You have successfully been logged out.", timeout = 5000} = {}) => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        setUser(null);
+        if (redirect) {
+            navigate('/login');
+        }
+        addToast(message, timeout);
+    }, [addToast, navigate]);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -43,7 +60,10 @@ export const AuthProvider = ({ children }) => {
                 const userData = await response.json();
                 setUser(userData);
                 setIsLoggedIn(true);
-                addToast(`Welcome back, ${userData.username}!`, 5000);
+                if (!sessionStorage.getItem('welcomeBackShown')) {
+                    addToast(`Welcome back, ${userData.username}!`, 5000);
+                    sessionStorage.setItem('welcomeBackShown', 'true');
+                }
             } catch (error) {
                 console.error('Authentication error:', error.message);
                 if (error.name === 'FetchError' || error.name === 'TypeError' || error.code === 'ECONNREFUSED') {
@@ -60,24 +80,7 @@ export const AuthProvider = ({ children }) => {
         }
 
         validateAndFetchUserData();
-    }, []);
-
-    const login = (userData, token) => {
-        localStorage.setItem('token', token);
-        setIsLoggedIn(true);
-        setUser(userData);
-        addToast(`Welcome back, ${userData.username}!`, 5000);
-    };
-
-    const logout = ({ redirect = true, message = "You have successfully been logged out.", timeout = 5000  } = {}) => {
-        localStorage.removeItem('token');
-        setIsLoggedIn(false);
-        setUser(null);
-        if (redirect) {
-            navigate('/login');
-        }
-        addToast(message, timeout);
-    };
+    }, [logout, addToast]);
 
     return (
         <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>

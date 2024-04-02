@@ -1,4 +1,4 @@
-import {createContext, useContext, useState} from "react";
+import {createContext, useCallback, useContext, useState} from "react";
 import ToastManager from "../components/ToastComponents/ToastManager";
 
 const ToastContext = createContext();
@@ -6,12 +6,12 @@ const ToastContext = createContext();
 export const ToastProvider = ({children}) => {
     const [toasts, setToasts] = useState([]);
 
-    function addToast(message, timeout = 4000) {
+    const addToast = useCallback((message, timeout = 4000) => {
         const id = Date.now();
-        setToasts(currentToasts => [...currentToasts, { message, id, timeout }]);
+        setToasts(currentToasts => [...currentToasts, {message, id, timeout}]);
 
         setTimeout(() => removeToast(id), timeout);
-    }
+    }, []);
 
     function removeToast (id) {
         setToasts(currentToasts => currentToasts.filter(toast => toast.id !== id));
