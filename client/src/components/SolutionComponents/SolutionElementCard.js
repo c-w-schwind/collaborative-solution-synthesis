@@ -5,7 +5,7 @@ const SolutionElementCard = ({element}) => {
     const {solutionNumber} = useParams();
 
     const handleClick = () => {
-        navigate(`/solutions/${solutionNumber}/element/${element._id}`, {state: {fromElementCard: true}});
+        navigate(`/solutions/${solutionNumber}/element/${element.elementNumber}`, {state: {fromElementCard: true}});
     }
 
     return (

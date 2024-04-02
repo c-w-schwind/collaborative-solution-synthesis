@@ -8,12 +8,12 @@ function SolutionElementModal() {
     const [solutionElement, setSolutionElement] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
-    const {elementId} = useParams();
+    const {elementNumber} = useParams();
 
     useEffect(() => {
         const fetchSolutionElement = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/solutionElements/${elementId}`);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/solutionElements/${elementNumber}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
@@ -34,7 +34,7 @@ function SolutionElementModal() {
             document.body.style.overflow = '';
             document.body.style.paddingRight = '';
         };
-    }, [elementId]);
+    }, [elementNumber]);
 
     const handleClosing = () => {
         setSolutionElement(null);
