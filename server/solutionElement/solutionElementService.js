@@ -2,6 +2,7 @@ import {SolutionElement} from "./solutionElementModel.js";
 import {validateRequiredFields} from "../utils/utils.js";
 import {Solution} from "../solution/solutionModel.js";
 import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
+import {getNextCounterValue} from "../counters/counterService.js";
 
 function validateSolutionElementData(solutionElementData) {
     validateRequiredFields(solutionElementData, ['parentSolutionId', 'elementType', 'title', 'overview', 'description'], "Solution element validation")
@@ -12,8 +13,11 @@ function validateSolutionElementData(solutionElementData) {
 }
 
 async function createSolutionElement(solutionElementData, userId, session = null) {
+    const elementCounterValue = await getNextCounterValue("elementCounter", session)
+
     const solutionElement = new SolutionElement({
         ...solutionElementData,
+        elementNumber: elementCounterValue,
         status: 'proposal',
         proposedBy: userId
     });

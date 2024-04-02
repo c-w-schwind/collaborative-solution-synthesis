@@ -55,7 +55,7 @@ solutionRoutes.get('/solutions', asyncHandler(async (req, res) => {
 
 // Get single Solution w/ Solution Elements & Considerations by SolutionNumber
 solutionRoutes.get('/solutions/:solutionNumber', asyncHandler(async (req, res) => {
-    let solutionNumber = parseInt(req.params.solutionNumber, 10);
+    const solutionNumber = parseInt(req.params.solutionNumber, 10);
     if (isNaN(solutionNumber)) throw new BadRequestError('Invalid Solution Number');
 
     const solution = await Solution.findOne({solutionNumber: solutionNumber}).populate('proposedBy', 'username').lean();
@@ -63,7 +63,7 @@ solutionRoutes.get('/solutions/:solutionNumber', asyncHandler(async (req, res) =
 
     solution.solutionElements = await SolutionElement.find({
         parentSolutionId: solution._id
-    }).select('_id title elementType overview').lean();
+    }).select('_id elementNumber title elementType overview').lean();
 
     solution.considerations = await Consideration.find({
         parentType: 'Solution',

@@ -12,7 +12,7 @@ import {updateParentSolutionElementsCount, validateAndCreateSolutionElements,} f
 
 const solutionElementRoutes = express.Router();
 
-// Create new solution element
+// Create new Solution Element
 solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExistence, asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -32,18 +32,18 @@ solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExi
     }
 }));
 
-// Get solution element
-solutionElementRoutes.get('/solutionElements/:id', asyncHandler(async (req, res) => {
-    const elementId = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(elementId)) throw new BadRequestError('Invalid Solution Element ID');
+// Get single Solution Element w/ Considerations by elementNumber
+solutionElementRoutes.get('/solutionElements/:elementNumber', asyncHandler(async (req, res) => {
+    const elementNumber = parseInt(req.params.elementNumber, 10);
+    if (isNaN(elementNumber)) throw new BadRequestError('Invalid Solution Element Number.');
 
-    const solutionElement = await SolutionElement.findById(elementId).populate('proposedBy', 'username').lean();
-    if (!solutionElement) throw new NotFoundError('Solution Element not found');
+    const solutionElement = await SolutionElement.findOne({elementNumber: elementNumber}).populate('proposedBy', 'username').lean();
+    if (!solutionElement) throw new NotFoundError('Solution Element not found.');
 
     solutionElement.considerations = await Consideration.find({
         parentType: 'SolutionElement',
         parentId: solutionElement._id
-    }).populate('proposedBy', 'username').lean();
+    }).select('_id title stance description comments').lean();
 
     return res.status(200).send({solutionElement});
 }));

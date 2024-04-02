@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const solutionElementSchema = new mongoose.Schema({
+    elementNumber: {
+        type: Number,
+        required: true,
+    },
     status: {
         type: String,
         enum: ['proposal', 'active', 'deprecated', 'declined'],
