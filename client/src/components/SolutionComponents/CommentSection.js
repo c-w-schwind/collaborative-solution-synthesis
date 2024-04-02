@@ -8,7 +8,7 @@ const CommentSection = ({ comments, considerationId }) => {
     const handleVote = async (considerationId, commentId, voteType) => {
         const vote = voteType === 'upvote' ? {vote: 'upvote'} : {vote: 'downvote'};
         try {
-            const response = await fetch(`http://localhost:5555/considerations/${considerationId}/comment/${commentId}/vote`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/considerations/${considerationId}/comment/${commentId}/vote`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,

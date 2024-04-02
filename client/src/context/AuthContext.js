@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
                     throw new Error('Token expired');
                 }
 
-                const response = await fetch(`http://localhost:5555/users/${decodedData._id}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${decodedData._id}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 

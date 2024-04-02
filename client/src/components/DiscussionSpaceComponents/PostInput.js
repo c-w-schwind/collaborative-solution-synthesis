@@ -45,7 +45,7 @@ function PostInput({onPostSuccess, onPostError, onInputChange}) {
         }
 
         try {
-            const response = await fetch('http://localhost:5555/discussionSpace', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/discussionSpace`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,

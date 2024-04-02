@@ -17,7 +17,7 @@ function SolutionListPage () {
 
     const fetchSolutions = useCallback(async () => {
         try{
-            const response = await fetch(`http://localhost:5555/solutions`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/solutions`);
             if (!response.ok){
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
