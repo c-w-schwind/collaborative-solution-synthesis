@@ -1,24 +1,15 @@
 import './SolutionListPage.css';
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import SolutionCard from "../components/SolutionComponents/SolutionCard";
 import {formatToGermanTimezone} from "../utils/dateUtils";
 
-function SolutionListPage () {
+function SolutionListPage() {
     const [solutions, setSolutions] = useState([]);
 
-    useEffect(() => {
-        fetchSolutions();
-        const interval = setInterval(() => {
-            fetchSolutions();
-        }, 120000); // Polling every 2 minutes
-
-        return () => clearInterval(interval); // Cleanup on component unmount
-    }, []);
-
-    const fetchSolutions = useCallback(async () => {
-        try{
+    const fetchSolutions = async () => {
+        try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/solutions`);
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
@@ -26,16 +17,22 @@ function SolutionListPage () {
         } catch (err) {
             console.error('Failed to fetch solutions:', err);
         }
+    };
+
+    useEffect(() => {
+        fetchSolutions();
+        const interval = setInterval(fetchSolutions, 120000); // Polling every 2 minutes
+
+        return () => clearInterval(interval);
     }, []);
+
 
     return (
         <>
             {solutions.length === 0 ? (
-                <>
-                    <div className="no-solutions-message">
-                        Currently, there are no solutions available. This is your opportunity to lead the way!
-                    </div>
-                </>
+                <div className="no-solutions-message">
+                    Currently, there are no solutions available. This is your opportunity to lead the way!
+                </div>
             ) : (
                 <div className="solutionsBlock">
                     {solutions.map(solution => (
@@ -55,7 +52,7 @@ function SolutionListPage () {
                 <div className="no-solutions-call-to-action">
                     Share your own solution and collaborate with the community<br/> to refine and explore new possibilities.
                 </div>
-                <button className="action-button">Add new Solution!</button>
+                <button className="solution-action-button">Add new Solution!</button>
             </div>
         </>
     )
