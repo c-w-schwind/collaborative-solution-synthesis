@@ -45,7 +45,7 @@ function Header() {
                             {user.profilePicture ? (
                                 <img src={user.profilePicture} alt="User Profile"/>
                             ) : (
-                                <img src={'https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg'} alt={`${user.username}'s profile picture`}></img>
+                                <img src={'https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg'} alt={`${user.username}'s profile pic`}></img>
                             )}
 
                         </div>

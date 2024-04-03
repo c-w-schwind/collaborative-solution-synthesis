@@ -1,11 +1,10 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const SolutionElementCard = ({element}) => {
     const navigate = useNavigate();
-    const {solutionNumber} = useParams();
 
     const handleClick = () => {
-        navigate(`/solutions/${solutionNumber}/element/${element.elementNumber}`, {state: {fromElementCard: true}});
+        navigate(`./element/${element.elementNumber}`, {state: {fromElementCard: true}});
     }
 
     return (
