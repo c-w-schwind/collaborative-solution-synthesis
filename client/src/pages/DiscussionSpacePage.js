@@ -15,21 +15,11 @@ function DiscussionSpacePage() {
     const {addToast} = useToasts();
     const limit = 20;
 
-    useEffect(() => {
-        fetchPosts(page, limit);
-        const interval = setInterval(() => {
-            fetchPosts(page, limit);
-        }, 30000); // Polling every 30 seconds
-
-        return () => clearInterval(interval);
-    }, [page, limit]);
-
-    function displayToastWarning() {
+    const displayToastWarning = useCallback(() => {
         if (isInputFilled) addToast("Warning: To prevent losing your message, please copy and save it before refreshing the page.", 30000);
-    }
+    }, [isInputFilled, addToast]);
 
-    const fetchPosts = useCallback(async (page, limit) => {
-        if (error) setError("Fetching posts...");
+    const fetchPosts = useCallback(async () => {
         const queryParams = new URLSearchParams({page, limit}).toString();
         try {
             const response = await fetch(`http://localhost:5555/discussionSpace?${queryParams}`);
@@ -46,7 +36,7 @@ function DiscussionSpacePage() {
             setError('Failed to load current posts. Please try again later.');
             displayToastWarning();
         }
-    }, []);
+    }, [page, limit, displayToastWarning]);
 
     function nextPage() {
         if (page > 1) setPage(page - 1);
@@ -55,6 +45,13 @@ function DiscussionSpacePage() {
     function previousPage() {
         if (page < totalPages) setPage(page + 1);
     }
+
+    useEffect(() => {
+        fetchPosts();
+        const interval = setInterval(fetchPosts, 30000); // Polling every 30 seconds
+
+        return () => clearInterval(interval);
+    }, [fetchPosts]);
 
     return (
         <div className="postBlock">
