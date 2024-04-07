@@ -4,6 +4,8 @@ import PostCard from "../components/DiscussionSpaceComponents/PostCard";
 import PostInput from "../components/DiscussionSpaceComponents/PostInput";
 import {useToasts} from "../context/ToastContext";
 import {formatToGermanTimezone} from '../utils/dateUtils';
+import {useLocation} from "react-router-dom";
+
 
 function DiscussionSpacePage() {
     const [posts, setPosts] = useState([]);
@@ -12,7 +14,9 @@ function DiscussionSpacePage() {
     const [error, setError] = useState(null);
     const [isInputFilled, setIsInputFilled] = useState(false);
     const [hasPostsLoadedOnce, setHasPostsLoadedOnce] = useState(false);
+
     const {addToast} = useToasts();
+    const {state: {parentType, parentId}} = useLocation();
     const limit = 20;
 
     const displayToastWarning = useCallback(() => {
@@ -20,7 +24,7 @@ function DiscussionSpacePage() {
     }, [isInputFilled, addToast]);
 
     const fetchPosts = useCallback(async () => {
-        const queryParams = new URLSearchParams({page, limit}).toString();
+        const queryParams = new URLSearchParams({page, limit, parentType, parentId}).toString();
         try {
             const response = await fetch(`http://localhost:5555/discussionSpace?${queryParams}`);
             if (!response.ok) {
@@ -36,7 +40,7 @@ function DiscussionSpacePage() {
             setError('Failed to load current posts. Please try again later.');
             displayToastWarning();
         }
-    }, [page, limit, displayToastWarning]);
+    }, [page, limit, parentType, parentId, displayToastWarning]);
 
     function nextPage() {
         if (page > 1) setPage(page - 1);
@@ -47,11 +51,15 @@ function DiscussionSpacePage() {
     }
 
     useEffect(() => {
+        if (!parentType || !parentId) {
+            setError("Error: Required information is missing. Please refresh the page.");
+            return;
+        }
         fetchPosts();
         const interval = setInterval(fetchPosts, 30000); // Polling every 30 seconds
 
         return () => clearInterval(interval);
-    }, [fetchPosts]);
+    }, [fetchPosts, page, limit, parentType, parentId]);
 
     return (
         <div className="postBlock">
@@ -71,8 +79,10 @@ function DiscussionSpacePage() {
                     <button onClick={fetchPosts}>Retry</button>
                 </div>}
             {hasPostsLoadedOnce && <PostInput onPostSuccess={fetchPosts}
-                       onPostError={displayToastWarning}
-                       onInputChange={(isFilled) => setIsInputFilled(isFilled)}
+                                              onPostError={displayToastWarning}
+                                              onInputChange={(isFilled) => setIsInputFilled(isFilled)}
+                                              parentType={parentType}
+                                              parentId={parentId}
             />}
             {hasPostsLoadedOnce && <section className="pagination">
                 <button onClick={previousPage} disabled={page === totalPages || page > totalPages}>Previous</button>

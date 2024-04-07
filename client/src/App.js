@@ -26,7 +26,10 @@ function App() {
                                 <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
                                 <Route path="solutions" element={<SolutionListPage/>}/>
                                 <Route path="solutions/:solutionNumber" element={<SolutionDetailsPage/>}>
-                                    <Route path="element/:elementNumber" element={<SolutionElementModal/>}/>
+                                    <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                    <Route path="element/:elementNumber" element={<SolutionElementModal/>}>
+                                        <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                    </Route>
                                 </Route>
                             </Route>
                         </Routes>

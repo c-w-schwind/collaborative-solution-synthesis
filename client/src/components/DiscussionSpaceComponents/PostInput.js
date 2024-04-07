@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import './PostInput.css';
 
-function PostInput({onPostSuccess, onPostError, onInputChange}) {
-    const [formData, setFormData] = useState({ title: '', content: '' });
+function PostInput({onPostSuccess, onPostError, onInputChange, parentType, parentId}) {
+    const [formData, setFormData] = useState({title: '', content: '', parentType: parentType, parentId: parentId});
     const [isFormFilled, setIsFormFilled] = useState(false);
     const [error, setError] = useState('');
 
