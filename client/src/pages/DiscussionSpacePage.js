@@ -4,7 +4,7 @@ import PostCard from "../components/DiscussionSpaceComponents/PostCard";
 import PostInput from "../components/DiscussionSpaceComponents/PostInput";
 import {useToasts} from "../context/ToastContext";
 import {formatToGermanTimezone} from '../utils/utils';
-import {useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 
 function DiscussionSpacePage() {
@@ -14,8 +14,11 @@ function DiscussionSpacePage() {
     const [error, setError] = useState(null);
     const [isInputFilled, setIsInputFilled] = useState(false);
     const [hasPostsLoadedOnce, setHasPostsLoadedOnce] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
 
     const {addToast} = useToasts();
+    const location = useLocation();
+    const navigate = useNavigate();
     const limit = 20;
     const { solutionNumber, elementNumber } = useParams();
     const parentType = elementNumber ? "SolutionElement" : "Solution";
@@ -63,8 +66,17 @@ function DiscussionSpacePage() {
         return () => clearInterval(interval);
     }, [fetchPosts, page, limit, parentType, parentNumber]);
 
+    useEffect(() => {
+        const pathSegments = location.pathname.split('/');
+        const isFullscreenPath = pathSegments.includes('fullscreen');
+        setIsFullscreen(isFullscreenPath);
+    }, [location.pathname]);
+
     return (
-        <>
+        <div style={{margin: isFullscreen ? '30px 50px' : '0'}}>
+            {isFullscreen && <div className={"discussion-space-full-screen-button-area"}>
+                <button onClick={() => navigate(-1)}>Close Full Screen Mode</button>
+            </div>}
             {posts.map(post => (
                 <PostCard
                     key={post._id}
@@ -91,7 +103,7 @@ function DiscussionSpacePage() {
                 <span>You're on page {page} of {totalPages}.</span>
                 <button onClick={nextPage} disabled={page === 1}>Next</button>
             </section>}
-        </>
+        </div>
     );
 }
 

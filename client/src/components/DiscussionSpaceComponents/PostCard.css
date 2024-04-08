@@ -1,7 +1,7 @@
 .post-card {
     border: 1px solid #ccc;
     padding: 15px;
-    margin: 10px auto;
+    margin: 0 auto 10px;
     border-radius: 8px;
     max-width: 800px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

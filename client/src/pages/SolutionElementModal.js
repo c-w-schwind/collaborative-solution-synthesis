@@ -97,6 +97,10 @@ function SolutionElementModal() {
         }
     }
 
+    const handleFullScreenButton = () => {
+        navigate("discussionSpace/fullscreen");
+    }
+
     return (
         solutionElement !== null ? (
             <div className={`overlay ${isOverlayActive ? 'overlay-active' : ''}`} onClick={handleClosing}>
@@ -130,6 +134,7 @@ function SolutionElementModal() {
                     <div className="modal-header">
                         <h2>Discussion Space</h2>
                         <div className="solution-element-button-section">
+                            <button className="solution-element-action-button solution-element-action-button--propose" onClick={handleFullScreenButton}>Full Screen Mode</button>
                             <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={handleToggleDiscussionSpace}>X</button>
                         </div>
                     </div>

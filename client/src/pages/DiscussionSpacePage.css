@@ -29,3 +29,12 @@
     margin-bottom: 20px;
     text-align: center;
 }
+
+.discussion-space-full-screen-button-area {
+    position: sticky;
+    top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10vw;
+    z-index: 100;
+}
