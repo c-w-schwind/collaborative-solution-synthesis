@@ -2,13 +2,13 @@
 export function formatToGermanTimezone(isoDateString) {
     if (!isoDateString) {
         console.error('Invalid or missing date string:', isoDateString);
-        return 'Invalid date'; // or any fallback value you see fit
+        return 'Invalid date';
     }
 
     const date = new Date(isoDateString);
     if (isNaN(date.getTime())) {
         console.error('Invalid date created from:', isoDateString);
-        return 'Invalid date'; // or the original isoDateString for reference
+        return 'Invalid date';
     }
 
     const options = {
@@ -23,6 +23,20 @@ export function formatToGermanTimezone(isoDateString) {
 
     const formattedDate = new Intl.DateTimeFormat('de-DE', options).format(date);
 
-    // Replace ':' with ' Uhr ' for the hour and minute separator
     return `${formattedDate} Uhr`;
 }
+
+
+export const debounce = (func, wait) => {
+    let timeout;
+
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};

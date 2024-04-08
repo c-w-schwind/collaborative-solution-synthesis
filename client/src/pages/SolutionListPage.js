@@ -1,7 +1,7 @@
 import './SolutionListPage.css';
 import {useEffect, useState} from "react";
 import SolutionCard from "../components/SolutionComponents/SolutionCard";
-import {formatToGermanTimezone} from "../utils/dateUtils";
+import {formatToGermanTimezone} from "../utils/utils";
 
 function SolutionListPage() {
     const [solutions, setSolutions] = useState([]);
