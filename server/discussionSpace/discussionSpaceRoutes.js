@@ -12,7 +12,7 @@ const discussionSpaceRoutes = express.Router();
 
 // Create new Discussion Space post
 discussionSpaceRoutes.post('/discussionSpace', authenticateToken, verifyUserExistence, asyncHandler(async (req, res) => {
-    validateRequiredFields(req.body, ['title', 'content', 'parentType', 'parentId'], 'Discussion Space Post');
+    validateRequiredFields(req.body, ['title', 'content', 'parentType', 'parentNumber'], 'Discussion Space Post');
 
     if (req.body.replyingTo) {
         const existingPost = await DiscussionSpacePost.findById(req.body.replyingTo);
@@ -31,10 +31,10 @@ discussionSpaceRoutes.post('/discussionSpace', authenticateToken, verifyUserExis
 
 // Get Discussion Space posts
 discussionSpaceRoutes.get('/discussionSpace', asyncHandler(async (req, res) => {
-    const {page = 1, limit = 30, parentType, parentId} = req.query;
+    const {page = 1, limit = 30, parentType, parentNumber} = req.query;
     const skipIndex = (page - 1) * limit;
 
-    const query = {parentType, parentId};
+    const query = {parentType, parentNumber};
     const totalNumberOfPosts = await DiscussionSpacePost.countDocuments(query);
     const totalPages = Math.ceil(totalNumberOfPosts / limit);
 

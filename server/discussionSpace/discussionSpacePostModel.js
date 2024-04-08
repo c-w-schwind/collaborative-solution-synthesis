@@ -24,13 +24,12 @@ const discussionSpacePostSchema = new mongoose.Schema({
         required: true,
         enum: ['Solution', 'SolutionElement']
     },
-    parentId: {
-        type: mongoose.Schema.Types.ObjectId,
+    parentNumber: {
+        type: Number,
         required: true,
-        refPath: 'targetType'
     }
 }, { timestamps: true });
 
-discussionSpacePostSchema.index({ discussionSpaceTargetType: 1, discussionSpaceTargetId: 1 });
+discussionSpacePostSchema.index({ parentType: 1, parentNumber: 1 });
 
 export const DiscussionSpacePost = mongoose.model('DiscussionSpacePost', discussionSpacePostSchema);
