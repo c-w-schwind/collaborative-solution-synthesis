@@ -1,11 +1,17 @@
 import './SolutionElementModal.css'
+import {useEffect, useRef, useState} from "react";
 import ConsiderationsList from "../components/SolutionComponents/ConsiderationsList";
-import {useEffect, useState} from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {debounce} from "../utils/utils";
+import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 
 
 function SolutionElementModal() {
     const [solutionElement, setSolutionElement] = useState(null);
+    const [isOverlayActive, setIsOverlayActive] = useState(false);
+    const [isDiscussionSpaceOpen, setIsDiscussionSpaceOpen] = useState(false);
+    const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
+
+    const titleRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
     const {elementNumber} = useParams();
@@ -24,46 +30,114 @@ function SolutionElementModal() {
             }
         };
 
+        fetchSolutionElement();
+
         const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.body.style.overflow = 'hidden';
         document.body.style.paddingRight = `${scrollbarWidth}px`;
 
-        fetchSolutionElement();
+        // Using delay to ensure CSS fade-in transition is visible, working around React's batched state updates.
+        const timer = setTimeout(() => {
+            setIsOverlayActive(true);
+        }, 80);
 
         return () => {
+            clearTimeout(timer);
             document.body.style.overflow = '';
             document.body.style.paddingRight = '';
+            setIsOverlayActive(false);
         };
     }, [elementNumber]);
 
-    const handleClosing = () => {
-        setSolutionElement(null);
-        location.state?.fromElementCard ? navigate(-1) : navigate("../..", {relative: "path"});
+    useEffect(() => {
+        const pathSegments = location.pathname.split('/');
+        const isDiscussionPath = pathSegments.includes('discussionSpace');
+        setIsDiscussionSpaceOpen(isDiscussionPath);
+    }, [location.pathname]);
+
+
+    useEffect(() => {
+        const checkOverflow = () => {
+            if (titleRef.current) {
+                const element = titleRef.current;
+                const isOverflowing = element.offsetWidth < element.scrollWidth;
+                setIsTitleOverflowing(isOverflowing);
+            }
+        };
+
+        const timeoutId = setTimeout(()=> {
+            checkOverflow();
+        }, 500);
+
+        const debouncedCheckOverflow = debounce(checkOverflow, 100);
+        window.addEventListener('resize', debouncedCheckOverflow);
+        return () => {
+            clearTimeout(timeoutId);
+            window.removeEventListener('resize', debouncedCheckOverflow);
+        };
+    }, [solutionElement, isDiscussionSpaceOpen]);
+
+    const handleClosing = (e) => {
+        setIsOverlayActive(false);
+        setTimeout(() => {
+            setSolutionElement(null);
+            navigate (location.state?.fromElementCard ? -1 : "../..", {relative: "path"});
+        }, 200); // Matches the --transition-duration CSS variable in SolutionElementModal.css
     };
+
+    const handleToggleDiscussionSpace = () => {
+        const willDiscussionSpaceBeOpen = (!isDiscussionSpaceOpen);
+        setIsDiscussionSpaceOpen(willDiscussionSpaceBeOpen);
+        if (willDiscussionSpaceBeOpen) {
+            navigate("./discussionSpace", {state: {parentType: 'SolutionElement', parentNumber: solutionElement.elementNumber, fromElementModal: true}});
+        } else {
+            setTimeout(() => {
+                navigate (location.state?.fromElementModal ? -1 : ".", {relative: "path"});
+            }, 400); // Matches the --transition-duration CSS variable in SolutionElementModal.css
+        }
+    }
 
     return (
         solutionElement !== null ? (
-            <div className="overlay" onClick={handleClosing}>
-                <div className="solution-element-container" onClick={(e) => e.stopPropagation()}>
-                    <div className="solution-element-container-content">
-                        <div className="solution-element-header">
-                            <h2 style={{marginTop: 0}}>{solutionElement.title} ({solutionElement.elementType})</h2>
-                            <button className="solution-element-close-button" aria-label="Close" onClick={handleClosing}>X</button>
-                        </div>
+            <div className={`overlay ${isOverlayActive ? 'overlay-active' : ''}`} onClick={handleClosing}>
 
-                        <div className="solution-details-list-container">
+                <div className={`modal-container ${isDiscussionSpaceOpen ? 'solution-element-modal-ds-open' : ''}`} onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-header">
+                        <h2 ref={titleRef}>
+                            {solutionElement.title} ({solutionElement.elementType})
+                            {isTitleOverflowing && <div className="full-title-overlay">{solutionElement.title} ({solutionElement.elementType})</div>}
+                        </h2>
+                        <div className="solution-element-button-section">
+                            <button className="solution-element-action-button solution-element-action-button--propose">Propose Changes</button>
+                            <button className="solution-element-action-button discussion-space-button" onClick={handleToggleDiscussionSpace}>Discussion Space</button>
+                            <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={handleClosing}>X</button>
+                        </div>
+                    </div>
+                    <div className="modal-container-scrollable">
+                        <div className="solution-details-list-container" style={{marginTop: 0}}>
                             <h3 className={"solution-details-list-container-title"}>Overview</h3>
                             <p>{solutionElement.overview}</p>
                         </div>
-
                         <div className="solution-details-list-container">
                             <h3 className="solution-details-list-container-title">Detailed Description</h3>
                             <p>{solutionElement.description}</p>
                         </div>
-
                         <ConsiderationsList considerations={solutionElement.considerations}/>
                     </div>
                 </div>
+
+                <div className={`modal-container discussion-space-modal ${isDiscussionSpaceOpen ? 'discussion-space-modal-ds-open' : ''}`} onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-header">
+                        <h2>Discussion Space</h2>
+                        <div className="solution-element-button-section">
+                            <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={handleToggleDiscussionSpace}>X</button>
+                        </div>
+                    </div>
+                    <div className="modal-container-scrollable">
+                        <Outlet/>
+                    </div>
+                </div>
+
             </div>
         ) : (
             <p>Loading Solution Element details...</p>
