@@ -11,7 +11,7 @@
     box-sizing: border-box;
 }
 
-.solution-header {
+.solution-card-header {
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -81,7 +81,7 @@
 }
 
 @media screen and (max-width: 600px) {
-    .solution-header {
+    .solution-card-header {
         padding-left: 0;
     }
     .solution-title {           /* Measured for current layout of solution cards. */

@@ -11,7 +11,7 @@ function SolutionCard({solutionNumber, title, overview, activeSolutionElementsCo
 
     return (
         <article className="solution-card">
-            <header className="solution-header">
+            <header className="solution-card-header">
                 <div className="solution-title">{title}</div>
                 <div className="header-right">
                     <div className="solution-timestamp">Last Updated: {updatedAt}</div>
