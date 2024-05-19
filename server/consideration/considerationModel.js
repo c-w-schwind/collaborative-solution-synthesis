@@ -9,7 +9,7 @@ const considerationSchema = new mongoose.Schema({
     },
     parentId: {
         type: mongoose.Schema.Types.ObjectId,
-        refPath: 'targetType'
+        refPath: 'parentType'
     },
     stance: {
         type: String,
