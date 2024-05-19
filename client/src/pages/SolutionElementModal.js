@@ -2,18 +2,14 @@ import './SolutionElementModal.css'
 import {useEffect, useRef, useState} from "react";
 import ConsiderationsList from "../components/SolutionComponents/ConsiderationsList";
 import {debounce} from "../utils/utils";
-import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 
-function SolutionElementModal() {
+function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscussionSpaceOpen, setEntityTitle}) {
     const [solutionElement, setSolutionElement] = useState(null);
-    const [isOverlayActive, setIsOverlayActive] = useState(false);
-    const [isDiscussionSpaceOpen, setIsDiscussionSpaceOpen] = useState(false);
     const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
 
     const titleRef = useRef(null);
-    const navigate = useNavigate();
-    const location = useLocation();
     const {elementNumber} = useParams();
 
     useEffect(() => {
@@ -31,30 +27,11 @@ function SolutionElementModal() {
         };
 
         fetchSolutionElement();
-
-        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-        document.body.style.overflow = 'hidden';
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-
-        // Using delay to ensure CSS fade-in transition is visible, working around React's batched state updates.
-        const timer = setTimeout(() => {
-            setIsOverlayActive(true);
-        }, 80);
-
-        return () => {
-            clearTimeout(timer);
-            document.body.style.overflow = '';
-            document.body.style.paddingRight = '';
-            setIsOverlayActive(false);
-        };
     }, [elementNumber]);
 
     useEffect(() => {
-        const pathSegments = location.pathname.split('/');
-        const isDiscussionPath = pathSegments.includes('discussionSpace');
-        setIsDiscussionSpaceOpen(isDiscussionPath);
-    }, [location.pathname]);
-
+        if(solutionElement) setEntityTitle(solutionElement.title);
+    }, [solutionElement]);
 
     useEffect(() => {
         const checkOverflow = () => {
@@ -65,7 +42,7 @@ function SolutionElementModal() {
             }
         };
 
-        const timeoutId = setTimeout(()=> {
+        const timeoutId = setTimeout(() => {
             checkOverflow();
         }, 500);
 
@@ -77,34 +54,9 @@ function SolutionElementModal() {
         };
     }, [solutionElement, isDiscussionSpaceOpen]);
 
-    const handleClosing = (e) => {
-        setIsOverlayActive(false);
-        setTimeout(() => {
-            setSolutionElement(null);
-            navigate (location.state?.fromElementCard ? -1 : "../..", {relative: "path"});
-        }, 200); // Matches the --transition-duration CSS variable in SolutionElementModal.css
-    };
-
-    const handleToggleDiscussionSpace = () => {
-        const willDiscussionSpaceBeOpen = (!isDiscussionSpaceOpen);
-        setIsDiscussionSpaceOpen(willDiscussionSpaceBeOpen);
-        if (willDiscussionSpaceBeOpen) {
-            navigate("./discussionSpace", {state: {parentType: 'SolutionElement', parentNumber: solutionElement.elementNumber, fromElementModal: true}});
-        } else {
-            setTimeout(() => {
-                navigate (location.state?.fromElementModal ? -1 : ".", {relative: "path"});
-            }, 400); // Matches the --transition-duration CSS variable in SolutionElementModal.css
-        }
-    }
-
-    const handleFullScreenButton = () => {
-        navigate("discussionSpace/fullscreen");
-    }
 
     return (
         solutionElement !== null ? (
-            <div className={`overlay ${isOverlayActive ? 'overlay-active' : ''}`} onClick={handleClosing}>
-
                 <div className={`modal-container ${isDiscussionSpaceOpen ? 'solution-element-modal-ds-open' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <div className="modal-header">
                         <h2 ref={titleRef}>
@@ -113,8 +65,8 @@ function SolutionElementModal() {
                         </h2>
                         <div className="solution-element-button-section">
                             <button className="solution-element-action-button solution-element-action-button--propose">Propose Changes</button>
-                            <button className="solution-element-action-button discussion-space-button" onClick={handleToggleDiscussionSpace}>Discussion Space</button>
-                            <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={handleClosing}>X</button>
+                            <button className="solution-element-action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
+                            <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={onClosingModal}>X</button>
                         </div>
                     </div>
                     <div className="modal-container-scrollable">
@@ -129,21 +81,6 @@ function SolutionElementModal() {
                         <ConsiderationsList considerations={solutionElement.considerations}/>
                     </div>
                 </div>
-
-                <div className={`modal-container discussion-space-modal ${isDiscussionSpaceOpen ? 'discussion-space-modal-ds-open' : ''}`} onClick={(e) => e.stopPropagation()}>
-                    <div className="modal-header">
-                        <h2>Discussion Space</h2>
-                        <div className="solution-element-button-section">
-                            <button className="solution-element-action-button solution-element-action-button--propose" onClick={handleFullScreenButton}>Full Screen Mode</button>
-                            <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={handleToggleDiscussionSpace}>X</button>
-                        </div>
-                    </div>
-                    <div className="modal-container-scrollable">
-                        <Outlet/>
-                    </div>
-                </div>
-
-            </div>
         ) : (
             <p>Loading Solution Element details...</p>
         )

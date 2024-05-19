@@ -1,10 +1,24 @@
+.solution-details-area {
+    display: flex;
+    position: absolute;
+    margin-top: 0;
+    padding-bottom: 300px;
+    left: 25vw;
+    top: 0;
+    width: 50vw;
+    z-index: 2;
+    transition: width 0.4s ease-in-out, left 0.4s ease-in-out;
+}
+
+.solution-details-area-ds-open {
+    width: 46vw;
+    left: 3.8vw;
+}
+
 .solution-details-container {
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: calc(100% - 80px);
-    margin: 20px auto;
     padding: 20px;
     box-sizing: border-box;
 }
@@ -23,6 +37,17 @@
     padding: 15px 20px;
     border-radius: 8px;
     margin-top: 30px;
+}
+
+.solution-overview-and-details-container {
+    background-color: #f5f5f5;
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.solution-overview-and-details-container h3.solution-details-list-container-title:first-of-type + p {
+    margin-bottom: 40px; /* Add space below the Overview paragraph */
 }
 
 .solution-details-list-container-title {
@@ -63,17 +88,58 @@
     color: #000000;
 }
 
-.solution-details-card-details {
-    font-size: 14px;
-    color: #495057;
-}
-
 .solution-details-add-card-button-container {
     text-align: right;
     margin-top: 15px;
 }
-.solution-details-add-card-button {}
 
-.no-scroll {
-    overflow: hidden;
+.loading-retry-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    width: 50vw;
+    position: fixed;
+    top: 40%;
+    left: 25vw;
+    background-color: #cccccc;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.loading-retry-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    width: 20vw;
+    position: fixed;
+    top: 40%;
+    left: 40vw;
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.loading-retry-message {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+    width: 90%;
+}
+
+.retry-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    width: 40%;
+}
+
+.retry-placeholder {
+    height: 25px;
+    width: 40%;
+    margin-top: 8px;
+    display: block;
 }

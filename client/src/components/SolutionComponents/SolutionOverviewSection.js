@@ -2,7 +2,8 @@ import './SolutionOverviewSection.css'
 import {useState} from "react";
 import useOutsideClick from "../../context/useOutsideClickHook";
 
-const SolutionOverviewSection = ({solution}) => {
+
+const SolutionOverviewSection = ({solution, onToggleDiscussionSpace}) => {
     const [showMeta, setShowMeta] = useState(false);
     const metaRef = useOutsideClick(() => setShowMeta(false));
 
@@ -16,7 +17,7 @@ const SolutionOverviewSection = ({solution}) => {
         <section className="solution-overview-section">
             <div className="solution-header">
                 <h2 className="solution-title">{solution.title}</h2>
-                <button>Discussion Space</button>
+                <button onClick={onToggleDiscussionSpace}>Discussion Space</button>
                 <div ref={metaRef} className="meta-button-container">
                     <button className={`solution-meta-button ${showMeta ? 'active' : ''}`} onClick={handleMetaButtonClick}>i</button>
                     {showMeta && (

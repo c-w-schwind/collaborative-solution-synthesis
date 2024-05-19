@@ -9,8 +9,7 @@ import './App.css';
 import Layout from "./components/Layout";
 import PublicRoute from "./routes/PublicRoute";
 import SolutionListPage from "./pages/SolutionListPage";
-import SolutionDetailsPage from "./pages/SolutionDetailsPage";
-import SolutionElementModal from "./pages/SolutionElementModal";
+import {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal} from "./components/HOC/withDiscussionSpace";
 
 
 function App() {
@@ -23,11 +22,10 @@ function App() {
                             <Route path="/" element={<Layout/>}>
                                 <Route index element={<IndexPage/>}/>
                                 <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
-                                <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
                                 <Route path="solutions" element={<SolutionListPage/>}/>
-                                <Route path="solutions/:solutionNumber" element={<SolutionDetailsPage/>}>
+                                <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
                                     <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
-                                    <Route path="element/:elementNumber" element={<SolutionElementModal/>}>
+                                    <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
                                         <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
                                     </Route>
                                 </Route>
