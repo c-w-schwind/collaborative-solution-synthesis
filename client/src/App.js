@@ -32,6 +32,7 @@ function App() {
                                     </Route>
                                 </Route>
                                 <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
+                                <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
                             </Route>
                         </Routes>
                     </AuthProvider>

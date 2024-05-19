@@ -15,6 +15,7 @@ function DiscussionSpacePage() {
     const [isInputFilled, setIsInputFilled] = useState(false);
     const [hasPostsLoadedOnce, setHasPostsLoadedOnce] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [entityTitle, setEntityTitle] = useState('');
 
     const {addToast} = useToasts();
     const location = useLocation();
@@ -70,40 +71,58 @@ function DiscussionSpacePage() {
         const pathSegments = location.pathname.split('/');
         const isFullscreenPath = pathSegments.includes('fullscreen');
         setIsFullscreen(isFullscreenPath);
+
+        if (isFullscreenPath) {
+            if (location.state?.entityTitle) {
+                setEntityTitle(location.state?.entityTitle);
+            } else {
+                navigate("..", {relative: "path"});
+            }
+        }
+
     }, [location.pathname]);
 
     return (
-        <div style={{margin: isFullscreen ? '30px 50px' : '0'}}>
+        <>
             {isFullscreen && <div className={"discussion-space-full-screen-button-area"}>
-                <button onClick={() => navigate(-1)}>Close Full Screen Mode</button>
+                <button className="discussion-space-full-screen-button" onClick={() => navigate(-1)}>Close Full Screen Mode</button>
             </div>}
-            {posts.map(post => (
-                <PostCard
-                    key={post._id}
-                    title={post.title}
-                    content={post.content}
-                    author={post.author.username}
-                    createdAt={formatToGermanTimezone(post.createdAt)}
-                    authorPictureUrl={post.authorPictureUrl}
-                />
-            ))}
-            {error &&
-                <div className="errorBlock">
-                    <div className="error">{error}</div>
-                    <button onClick={fetchPosts}>Retry</button>
-                </div>}
-            {hasPostsLoadedOnce && <PostInput onPostSuccess={fetchPosts}
-                                              onPostError={displayToastWarning}
-                                              onInputChange={(isFilled) => setIsInputFilled(isFilled)}
-                                              parentType={parentType}
-                                              parentNumber={parentNumber}
-            />}
-            {hasPostsLoadedOnce && <section className="pagination">
-                <button onClick={previousPage} disabled={page === totalPages || page > totalPages}>Previous</button>
-                <span>You're on page {page} of {totalPages}.</span>
-                <button onClick={nextPage} disabled={page === 1}>Next</button>
-            </section>}
-        </div>
+            <div className={isFullscreen ? 'fullscreen-wrapper' : ''}>
+                <div className={isFullscreen ? 'discussion-space-full-screen-container' : ''}>
+                    {isFullscreen && <div className='discussion-space-full-screen-header'>
+                        <div className='discussion-space-full-screen-title'>{entityTitle} ({parentType === 'SolutionElement' ? 'Solution Element' : parentType})</div>
+                    </div>}
+                    <div className={isFullscreen ? 'discussion-space-full-screen-content' : ''}>
+                        {posts.map(post => (
+                            <PostCard
+                                key={post._id}
+                                title={post.title}
+                                content={post.content}
+                                author={post.author.username}
+                                createdAt={formatToGermanTimezone(post.createdAt)}
+                                authorPictureUrl={post.authorPictureUrl}
+                            />
+                        ))}
+                        {error &&
+                            <div className="discussion-space-errorBlock">
+                                <div className="error">{error}</div>
+                                <button onClick={fetchPosts}>Retry</button>
+                            </div>}
+                        {hasPostsLoadedOnce && <PostInput onPostSuccess={fetchPosts}
+                                                          onPostError={displayToastWarning}
+                                                          onInputChange={(isFilled) => setIsInputFilled(isFilled)}
+                                                          parentType={parentType}
+                                                          parentNumber={parentNumber}
+                        />}
+                        {hasPostsLoadedOnce && <section className="discussion-space-pagination">
+                            <button onClick={previousPage} disabled={page === totalPages || page > totalPages}>Previous</button>
+                            <span>You're on page {page} of {totalPages}.</span>
+                            <button onClick={nextPage} disabled={page === 1}>Next</button>
+                        </section>}
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }
 
