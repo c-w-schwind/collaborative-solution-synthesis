@@ -10,6 +10,7 @@ import {Consideration} from "../consideration/considerationModel.js";
 import {validateAndCreateSolution} from "./solutionService.js";
 import {validateAndCreateSolutionElements} from "../solutionElement/solutionElementService.js";
 import {validateAndCreateConsiderations} from "../consideration/considerationService.js";
+import translateEntityNumberToId from "../middleware/translateEntityNumberToId.js";
 
 const solutionRoutes = express.Router();
 
@@ -54,11 +55,8 @@ solutionRoutes.get('/solutions', asyncHandler(async (req, res) => {
 
 
 // Get single Solution w/ Solution Elements & Considerations by SolutionNumber
-solutionRoutes.get('/solutions/:solutionNumber', asyncHandler(async (req, res) => {
-    const solutionNumber = parseInt(req.params.solutionNumber, 10);
-    if (isNaN(solutionNumber)) throw new BadRequestError('Invalid Solution Number');
-
-    const solution = await Solution.findOne({solutionNumber: solutionNumber}).populate('proposedBy', 'username').lean();
+solutionRoutes.get('/solutions/:solutionNumber', translateEntityNumberToId("Solution", "solutionNumber"), asyncHandler(async (req, res) => {
+    const solution = await Solution.findById(req.params.id).populate('proposedBy', 'username').lean();
     if (!solution) throw new NotFoundError('Solution not found');
 
     solution.solutionElements = await SolutionElement.find({

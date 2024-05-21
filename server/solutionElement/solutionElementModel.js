@@ -4,6 +4,7 @@ const solutionElementSchema = new mongoose.Schema({
     elementNumber: {
         type: Number,
         required: true,
+        unique: true
     },
     status: {
         type: String,
