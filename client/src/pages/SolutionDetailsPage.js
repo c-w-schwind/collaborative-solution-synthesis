@@ -64,13 +64,14 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
 
     const handleRetry = () => {
         setRetryCount(1);
-        setFetchAnimationDots(".")
+        setFetchAnimationDots(".");
     };
 
     return (
         solution ? (
             <>
-                <div className={`solution-details-area ${isDiscussionSpaceOpen ? 'solution-details-area-ds-open' : ''}`}>
+                {/*Added key to force rerender to avoid inheriting loading-retry-area styles during transitions*/}
+                <div key={`solution-${solutionNumber}`} className={`solution-details-area ${isDiscussionSpaceOpen ? 'solution-details-area-ds-open' : ''}`}>
                     <div ref={solutionContainerRef} className="solution-details-container">
                         <SolutionOverviewSection solution={solution} onToggleDiscussionSpace={onToggleDiscussionSpace}/>
                         <SolutionElementsList elements={solution.solutionElements} onToggleDiscussionSpace={onToggleDiscussionSpace} isDiscussionSpaceOpen={isDiscussionSpaceOpen}/>
@@ -88,7 +89,6 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                     {retryCount >= 4 ? <button className="retry-button" onClick={handleRetry}>Retry</button> : <span className="retry-placeholder"></span>}
                 </div>
             </div>
-
         )
     );
 }

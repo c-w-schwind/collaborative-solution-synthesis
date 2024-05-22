@@ -94,14 +94,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 150px;
-    width: 50vw;
     position: fixed;
-    top: 40%;
-    left: 25vw;
-    background-color: #cccccc;
-    padding: 20px;
-    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .loading-retry-container {
@@ -111,12 +109,9 @@
     align-items: center;
     min-height: 150px;
     width: 20vw;
-    position: fixed;
-    top: 40%;
-    left: 40vw;
     background-color: #f8f9fa;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
