@@ -1,0 +1,45 @@
+.loading-retry-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.loading-retry-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    width: 20vw;
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.loading-retry-message {
+    font-size: 16px;
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    width: 90%;
+}
+
+.retry-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    width: 40%;
+}
+
+.retry-placeholder {
+    height: 25px;
+    width: 40%;
+    margin-top: 8px;
+    display: block;
+}

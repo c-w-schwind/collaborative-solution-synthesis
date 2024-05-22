@@ -3,11 +3,13 @@ import {useEffect, useRef, useState} from "react";
 import ConsiderationsList from "../components/SolutionComponents/ConsiderationsList";
 import {debounce} from "../utils/utils";
 import {useParams} from "react-router-dom";
+import LoadingRetryOverlay from "../components/CommonComponents/LoadingRetryOverlay";
 
 
 function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscussionSpaceOpen, setEntityTitle}) {
     const [solutionElement, setSolutionElement] = useState(null);
     const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
 
     const titleRef = useRef(null);
     const {elementNumber} = useParams();
@@ -21,17 +23,23 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                 }
                 const data = await response.json();
                 setSolutionElement(data.solutionElement);
+                setRetryCount(0);
             } catch (err) {
                 console.error('Failed to fetch element:', err);
+                setTimeout(() => {
+                    if (retryCount < 4) {
+                        setRetryCount(prev => prev + 1);
+                    }
+                }, 5000);
             }
         };
 
         fetchSolutionElement();
-    }, [elementNumber]);
+    }, [elementNumber, retryCount]);
 
     useEffect(() => {
         if(solutionElement) setEntityTitle(solutionElement.title);
-    }, [solutionElement]);
+    }, [solutionElement, setEntityTitle]);
 
     useEffect(() => {
         const checkOverflow = () => {
@@ -54,35 +62,38 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         };
     }, [solutionElement, isDiscussionSpaceOpen]);
 
+    const handleRetry = () => {
+        setRetryCount(1);
+    };
 
     return (
         solutionElement !== null ? (
-                <div className={`modal-container ${isDiscussionSpaceOpen ? 'solution-element-modal-ds-open' : ''}`} onClick={(e) => e.stopPropagation()}>
-                    <div className="modal-header">
-                        <h2 ref={titleRef}>
-                            {solutionElement.title} ({solutionElement.elementType})
-                            {isTitleOverflowing && <div className="full-title-overlay">{solutionElement.title} ({solutionElement.elementType})</div>}
-                        </h2>
-                        <div className="solution-element-button-section">
-                            <button className="solution-element-action-button solution-element-action-button--propose">Propose Changes</button>
-                            <button className="solution-element-action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
-                            <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={onClosingModal}>X</button>
-                        </div>
-                    </div>
-                    <div className="modal-container-scrollable">
-                        <div className="solution-details-list-container" style={{marginTop: 0}}>
-                            <h3 className={"solution-details-list-container-title"}>Overview</h3>
-                            <p>{solutionElement.overview}</p>
-                        </div>
-                        <div className="solution-details-list-container">
-                            <h3 className="solution-details-list-container-title">Detailed Description</h3>
-                            <p>{solutionElement.description}</p>
-                        </div>
-                        <ConsiderationsList considerations={solutionElement.considerations}/>
+            <div className={`modal-container ${isDiscussionSpaceOpen ? 'solution-element-modal-ds-open' : ''}`} onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header">
+                    <h2 ref={titleRef}>
+                        {solutionElement.title} ({solutionElement.elementType})
+                        {isTitleOverflowing && <div className="full-title-overlay">{solutionElement.title} ({solutionElement.elementType})</div>}
+                    </h2>
+                    <div className="solution-element-button-section">
+                        <button className="solution-element-action-button solution-element-action-button--propose">Propose Changes</button>
+                        <button className="solution-element-action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
+                        <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={onClosingModal}>X</button>
                     </div>
                 </div>
+                <div className="modal-container-scrollable">
+                    <div className="solution-details-list-container" style={{marginTop: 0}}>
+                        <h3 className={"solution-details-list-container-title"}>Overview</h3>
+                        <p>{solutionElement.overview}</p>
+                    </div>
+                    <div className="solution-details-list-container">
+                        <h3 className="solution-details-list-container-title">Detailed Description</h3>
+                        <p>{solutionElement.description}</p>
+                    </div>
+                    <ConsiderationsList considerations={solutionElement.considerations}/>
+                </div>
+            </div>
         ) : (
-            <p>Loading Solution Element details...</p>
+            <LoadingRetryOverlay componentName={"element"} retryCount={retryCount} onHandleRetry={handleRetry}/>
         )
     );
 }
