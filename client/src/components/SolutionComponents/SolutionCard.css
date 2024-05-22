@@ -3,7 +3,8 @@
     padding: 15px;
     margin: 10px auto;
     border-radius: 8px;
-    max-width: 800px;
+    max-width: 50vw;
+    min-width: 800px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     display: flex;
@@ -80,7 +81,11 @@
     width: 100px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 840px) {
+    .solution-card {
+        max-width: 800px;
+        min-width: 0;
+    }
     .solution-card-header {
         padding-left: 0;
     }
