@@ -2,7 +2,6 @@ import './DiscussionSpacePage.css';
 import {useCallback, useEffect, useState} from "react";
 import PostCard from "../components/DiscussionSpaceComponents/PostCard";
 import PostInput from "../components/DiscussionSpaceComponents/PostInput";
-import {useToasts} from "../context/ToastContext";
 import {formatToGermanTimezone} from '../utils/utils';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
@@ -12,12 +11,10 @@ function DiscussionSpacePage() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [error, setError] = useState(null);
-    const [isInputFilled, setIsInputFilled] = useState(false);
     const [hasPostsLoadedOnce, setHasPostsLoadedOnce] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [entityTitle, setEntityTitle] = useState('');
 
-    const {addToast} = useToasts();
     const location = useLocation();
     const navigate = useNavigate();
     const limit = 20;
@@ -25,9 +22,6 @@ function DiscussionSpacePage() {
     const parentType = elementNumber ? "SolutionElement" : "Solution";
     const parentNumber = elementNumber || solutionNumber;
 
-    const displayToastWarning = useCallback(() => {
-        if (isInputFilled) addToast("Warning: To prevent losing your message, please copy and save it before refreshing the page.", 30000);
-    }, [isInputFilled, addToast]);
 
     const fetchPosts = useCallback(async () => {
         const queryParams = new URLSearchParams({page, limit, parentType, parentNumber}).toString();
@@ -44,9 +38,8 @@ function DiscussionSpacePage() {
         } catch (err) {
             console.error('Failed to fetch posts:', err);
             setError('Failed to load current posts. Please try again later.');
-            displayToastWarning();
         }
-    }, [page, limit, parentType, parentNumber, displayToastWarning]);
+    }, [page, limit, parentType, parentNumber]);
 
     function nextPage() {
         if (page > 1) setPage(page - 1);
@@ -104,13 +97,11 @@ function DiscussionSpacePage() {
                             />
                         ))}
                         {error &&
-                            <div className="discussion-space-errorBlock">
+                            <div className="discussion-space-error-block">
                                 <div className="error">{error}</div>
                                 <button onClick={fetchPosts}>Retry</button>
                             </div>}
-                        {hasPostsLoadedOnce && <PostInput onPostSuccess={fetchPosts}
-                                                          onPostError={displayToastWarning}
-                                                          onInputChange={(isFilled) => setIsInputFilled(isFilled)}
+                        {hasPostsLoadedOnce && <PostInput onSuccessfulSubmit={fetchPosts}
                                                           parentType={parentType}
                                                           parentNumber={parentNumber}
                         />}

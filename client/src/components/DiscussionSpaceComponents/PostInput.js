@@ -1,48 +1,13 @@
-import {useEffect, useState} from "react";
-import './PostInput.css';
+import GenericForm from "../Forms/GenericForm";
 
-function PostInput({onPostSuccess, onPostError, onInputChange, parentType, parentNumber}) {
-    const [formData, setFormData] = useState({title: '', content: '', parentType: parentType, parentNumber: parentNumber});
-    const [isFormFilled, setIsFormFilled] = useState(false);
-    const [error, setError] = useState('');
+function PostInput({onSuccessfulSubmit, parentType, parentNumber}) {
+    const discussionSpacePost = [
+        {name: 'title', label: 'Title', type: 'text', validation: {required: true}, height: "40px"},
+        {name: 'content', label: 'Message', type: 'textarea', validation: {required: true}, height: "100px"},
+    ];
 
-    useEffect(() => {
-        onInputChange(isFormFilled);
-    }, [isFormFilled, onInputChange]);
-
-    useEffect(() => {
-        const handleBeforeUnload = (event) => {
-            if (isFormFilled) {
-                event.preventDefault();
-                event.returnValue = 'You have unsaved changes! Are you sure you want to leave?';
-            }
-        };
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-    }, [isFormFilled]);
-
-    function handleChange(event) {
-        const { name, value } = event.target;
-        setFormData(prevState => {
-            const updatedFormData = { ...prevState, [name]: value };
-            setIsFormFilled(Object.values(updatedFormData).some(val => val.trim() !== ''));
-            return updatedFormData;
-        });
-        setError('');
-    }
-
-    async function handleSubmit(event) {
-        event.preventDefault();
-
-        if (!formData.title.trim()) {
-            setError('Title cannot be empty');
-            return;
-        }
-        if (!formData.content.trim()) {
-            setError('Message content cannot be empty');
-            return;
-        }
+    const submitPost = async (formData) => {
+        const postData = { ...formData, parentType, parentNumber };
 
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/discussionSpace`, {
@@ -51,53 +16,39 @@ function PostInput({onPostSuccess, onPostError, onInputChange, parentType, paren
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(postData)
             });
 
             if (!response.ok) {
-                throw new Error(`Failed to submit post: ${response.status}`);
+                const errorText = await response.text();
+                if (response.status === 401) {
+                    throw new Error('Unauthorized: Your session might have expired. Please log in again.');
+                } else if (response.status === 500) {
+                    throw new Error('Server Error: There was a problem on our end. Please try again later.');
+                } else {
+                    throw new Error(errorText || `Failed to submit post: ${response.status}`);
+                }
             }
 
             const data = await response.json();
-            onPostSuccess();
-            setFormData({title: '', content: ''});
             console.log('Post created:', data);
-        } catch (error) {
-            onPostError();
-            const errorCode = error.message.match(/\d+/) ? error.message.match(/\d+/)[0] : null;
-
-            if (errorCode === '401') {
-                setError('Unauthorized: Your session might have expired. Please log in again.');
-            } else if (errorCode === '500') {
-                setError('Server Error: There was a problem on our end. Please try again later.');
-            } else {
-                setError('Error: There was a problem submitting your post. Please check your internet connection and try again.');
+            onSuccessfulSubmit();
+        } catch (err) {
+            console.error('There was a problem with the fetch operation:', err.message);
+            let errorMessage = 'Error: There was a problem submitting your post. Please check your internet connection and try again.';
+            if (err.message.includes('Unauthorized')) {
+                errorMessage = 'Unauthorized: Your session might have expired. Please log in again.';
+            } else if (err.message.includes('Server Error')) {
+                errorMessage = 'Server Error: There was a problem on our end. Please try again later.';
+            } else if (err.message.includes('Failed to fetch')) {
+                errorMessage = 'Network Error: There was a problem connecting to the server. Please check your internet connection and try again.';
             }
-            console.error('There was a problem with the fetch operation:', error.message);
+            throw new Error(errorMessage);
         }
-    }
+    };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
-            <textarea
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="title-area"
-                placeholder="Title"
-            />
-            <textarea
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                className="text-area"
-                placeholder="Write your message here..."
-            />
-            <div className="action-area">
-                {error && <div className="form-error">{error}</div>}
-                <button type="submit">Send</button>
-            </div>
-        </form>
+        <GenericForm onSubmit={submitPost} config={discussionSpacePost}/>
     );
 }
 
