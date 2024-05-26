@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {NavLink, Link} from 'react-router-dom';
 import {useAuth} from "../context/AuthContext";
 import {useToasts} from "../context/ToastContext";
-import useOutsideClick from "../context/useOutsideClickHook";
+import useOutsideClick from "../hooks/useOutsideClickHook";
 
 
 function Header() {

@@ -1,6 +1,6 @@
 import './SolutionOverviewSection.css'
 import {useState} from "react";
-import useOutsideClick from "../../context/useOutsideClickHook";
+import useOutsideClick from "../../hooks/useOutsideClickHook";
 
 
 const SolutionOverviewSection = ({solution, onToggleDiscussionSpace}) => {
