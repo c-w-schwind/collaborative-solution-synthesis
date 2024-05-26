@@ -1,11 +1,10 @@
 import GenericForm from "../Forms/GenericForm";
+import {useFormData} from "../../context/FormDataContext";
+import {formConfigurations} from "../Forms/formConfigurations";
 
 function PostInput({onSuccessfulSubmit, parentType, parentNumber}) {
-    const discussionSpacePost = [
-        {name: 'title', label: 'Title', type: 'text', validation: {required: true}, height: "40px"},
-        {name: 'content', label: 'Message', type: 'textarea', validation: {required: true}, height: "100px"},
-    ];
-
+    const {discussionSpaceFormData, setDiscussionSpaceFormData} = useFormData()
+    const discussionSpaceConfig = formConfigurations.discussionSpacePost;
     const submitPost = async (formData) => {
         const postData = { ...formData, parentType, parentNumber };
 
@@ -48,7 +47,7 @@ function PostInput({onSuccessfulSubmit, parentType, parentNumber}) {
     };
 
     return (
-        <GenericForm onSubmit={submitPost} config={discussionSpacePost}/>
+        <GenericForm onSubmit={submitPost} config={discussionSpaceConfig} formData={discussionSpaceFormData} setFormData={setDiscussionSpaceFormData}/>
     );
 }
 

@@ -2,13 +2,16 @@ import {useCallback, useEffect, useState} from "react";
 import {useToasts} from "../../context/ToastContext";
 import './GenericForm.css';
 
-const GenericForm = ({config, onSubmit}) => {
-    const [formData, setFormData] = useState(() => config.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
+const GenericForm = ({onSubmit, config, formData, setFormData}) => {
     const [isFormFilled, setIsFormFilled] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
     const {addToast} = useToasts();
+
+    useEffect(() => {
+        setIsFormFilled(Object.values(formData).some(val => val.trim() !== ''));
+    }, [])
 
     useEffect(() => {
         const handleBeforeUnload = (e) => {
@@ -38,6 +41,7 @@ const GenericForm = ({config, onSubmit}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
 
         for (const {name} of config) {
             if (!formData[name].trim()) {
@@ -48,7 +52,7 @@ const GenericForm = ({config, onSubmit}) => {
 
         const token = localStorage.getItem('token');
         if (!token) {
-            setError('Unauthorized: Please log in to submit your post.');
+            setError('Unauthorized: Please log in to submit your contribution.');
             return;
         }
 

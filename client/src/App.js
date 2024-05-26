@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import {ToastProvider} from "./context/ToastContext";
+import {FormDataProvider} from "./context/FormDataContext";
 
 import LoginPage from './pages/LoginPage';
 import DiscussionSpacePage from "./pages/DiscussionSpacePage";
@@ -18,21 +19,23 @@ function App() {
             <ToastProvider>
                 <BrowserRouter>
                     <AuthProvider>
-                        <Routes>
-                            <Route path="/" element={<Layout/>}>
-                                <Route index element={<IndexPage/>}/>
-                                <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
-                                <Route path="solutions" element={<SolutionListPage/>}/>
-                                <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
-                                    <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
-                                    <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
+                        <FormDataProvider>
+                            <Routes>
+                                <Route path="/" element={<Layout/>}>
+                                    <Route index element={<IndexPage/>}/>
+                                    <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
+                                    <Route path="solutions" element={<SolutionListPage/>}/>
+                                    <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
                                         <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                        <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
+                                            <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                        </Route>
                                     </Route>
+                                    <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
+                                    <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
                                 </Route>
-                                <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
-                                <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
-                            </Route>
-                        </Routes>
+                            </Routes>
+                        </FormDataProvider>
                     </AuthProvider>
                 </BrowserRouter>
             </ToastProvider>
