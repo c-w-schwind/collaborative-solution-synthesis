@@ -34,7 +34,7 @@
     width: 50vw;
     left: 25vw;
     opacity: 0;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: #fff;
     overflow-y: auto;
     box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.1);

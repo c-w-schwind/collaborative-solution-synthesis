@@ -101,10 +101,14 @@ function DiscussionSpacePage() {
                                 <div className="error">{error}</div>
                                 <button onClick={fetchPosts}>Retry</button>
                             </div>}
-                        {hasPostsLoadedOnce && <PostInput onSuccessfulSubmit={fetchPosts}
-                                                          parentType={parentType}
-                                                          parentNumber={parentNumber}
-                        />}
+                        {hasPostsLoadedOnce &&
+                            <div className="discussion-space-post-input">
+                                <PostInput onSuccessfulSubmit={fetchPosts}
+                                           parentType={parentType}
+                                           parentNumber={parentNumber}
+                                />
+                            </div>
+                        }
                         {hasPostsLoadedOnce && <section className="discussion-space-pagination">
                             <button onClick={previousPage} disabled={page === totalPages || page > totalPages}>Previous</button>
                             <span>You're on page {page} of {totalPages}.</span>

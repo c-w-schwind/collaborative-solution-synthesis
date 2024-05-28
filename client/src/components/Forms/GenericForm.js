@@ -11,7 +11,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
 
     useEffect(() => {
         setIsFormFilled(Object.values(formData).some(val => val.trim() !== ''));
-    }, [])
+    }, [formData])
 
     useEffect(() => {
         const handleBeforeUnload = (e) => {
@@ -30,12 +30,8 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
     }, [isFormFilled, addToast]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => {
-            const updatedFormData = { ...prevState, [name]: value };
-            setIsFormFilled(Object.values(updatedFormData).some(val => val.trim() !== ''));
-            return updatedFormData;
-        });
+        const {name, value} = e.target;
+        setFormData(prevState => ({...prevState, [name]: value}));
         setError('');
     };
 
@@ -43,9 +39,9 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
         e.preventDefault();
         setError('');
 
-        for (const {name} of config) {
+        for (const {name, label} of config) {
             if (!formData[name].trim()) {
-                setError(`Field "${name[0].toUpperCase() + name.slice(1)}" cannot be empty.`);
+                setError(`Field "${label}" cannot be empty.`);
                 return;
             }
         }
@@ -60,7 +56,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
 
         try {
             await onSubmit(formData);
-            setFormData(config.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})); // Resets formData with all fields set to empty strings
+            setFormData(config.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
         } catch (err) {
             displayToastWarning();
             setError(err.message);
@@ -80,10 +76,10 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
                                 value={formData[field.name] || ""}
                                 onChange={handleChange}
                                 placeholder=" "
-                                style={{ height: field.height || 'auto' }}
-                                className="text-area"
+                                style={{height: field.height || 'auto'}}
+                                className="form-text-area"
                             />
-                            <label className="label">{field.label}</label>
+                            <label className="form-label">{field.label}</label>
                         </>
                     ) : (
                         <>
@@ -93,15 +89,15 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
                                 value={formData[field.name] || ""}
                                 onChange={handleChange}
                                 placeholder=" "
-                                style={{ height: field.height || 'auto' }}
-                                className="input-field"
+                                style={{height: field.height || 'auto'}}
+                                className="form-input-field"
                             />
-                            <label className="label">{field.label}</label>
+                            <label className="form-label">{field.label}</label>
                         </>
                     )}
                 </div>
             ))}
-            <div className="action-area">
+            <div className="form-action-area">
                 {error && <div className="form-error">{error}</div>}
                 <button type="submit" disabled={!isFormFilled || loading}>Submit</button>
             </div>

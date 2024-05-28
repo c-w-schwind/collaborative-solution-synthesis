@@ -17,7 +17,7 @@ const SolutionOverviewSection = ({solution, onToggleDiscussionSpace}) => {
         <section className="solution-overview-section">
             <div className="solution-header">
                 <h2 className="solution-title">{solution.title}</h2>
-                <button onClick={onToggleDiscussionSpace}>Discussion Space</button>
+                <button className="discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
                 <div ref={metaRef} className="meta-button-container">
                     <button className={`solution-meta-button ${showMeta ? 'active' : ''}`} onClick={handleMetaButtonClick}>i</button>
                     {showMeta && (

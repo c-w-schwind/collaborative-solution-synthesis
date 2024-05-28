@@ -29,6 +29,10 @@
     text-align: center;
 }
 
+.discussion-space-post-input {
+    margin-top: 50px;
+}
+
 .discussion-space-full-screen-button-area {
     position: sticky;
     top: 20px;

@@ -1,6 +1,6 @@
 .form-container {
-    max-width: 800px;
-    margin: 50px auto 10px auto;
+    width: 100%;
+    margin: 10px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,7 +12,7 @@
     margin: 10px 0;
 }
 
-.input-field, .text-area {
+.form-input-field, .form-text-area {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -24,13 +24,13 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.input-field:focus, .text-area:focus {
+.form-input-field:focus, .form-text-area:focus {
     outline: none;
     border-color: rgba(56, 114, 171, 0.51);
     box-shadow: 0 1px 4px rgba(0, 100, 100, 0.3);
 }
 
-.label {
+.form-label {
     position: absolute;
     top: 20px;
     left: 10px;
@@ -41,10 +41,10 @@
     font-size: 14px;
 }
 
-.input-field:focus + .label,
-.input-field:not(:placeholder-shown) + .label,
-.text-area:focus + .label,
-.text-area:not(:placeholder-shown) + .label {
+.form-input-field:focus + .form-label,
+.form-input-field:not(:placeholder-shown) + .form-label,
+.form-text-area:focus + .form-label,
+.form-text-area:not(:placeholder-shown) + .form-label {
     top: -10px;
     left: 0;
     font-weight: bold;
@@ -53,41 +53,45 @@
     transform: translateY(-50%);
 }
 
-.text-area {
+.form-text-area {
     resize: vertical;
     min-height: 100px;
 }
 
-.input-field, .text-area {
+.form-input-field, .form-text-area {
     position: relative;
 }
 
-.action-area {
+.form-action-area {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
 }
 
 .form-error {
     color: #dc3545;
-    margin-right: auto;
+    margin-right: 20px;
+    margin-left: 3px;
+    text-align: left;
+    flex: 1;
+    word-wrap: break-word;
 }
 
 .form-container button {
-    align-self: center;
+    align-self: flex-start;
     width: 100px;
     margin-left: auto;
     transition: background-color 0.3s ease-in-out;
 }
 
-.form-container button:disabled {
-    background: rgba(238, 238, 238, 0.75);
-    color: #555;
+.form-action-area button:disabled {
+    background: rgba(197, 197, 197, 0.75);
+    color: #777777;
     cursor: not-allowed;
 }
 
-.form-container button:disabled:active {
+.form-action-area button:disabled:active {
     transform: none;
 }
 
@@ -97,7 +101,7 @@
         margin: 10px auto;
     }
 
-    .title-area, .input-field {
+    .form-input-field, .form-text-area {
         width: 100%;
     }
 }

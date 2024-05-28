@@ -15,7 +15,7 @@
 
 .solution-meta-button {
     margin-left: 5px;
-    background-color: #9b9b9b;
+    background-color: #49a2ff;
     border-radius: 4px;
     position: relative;
     z-index: 1;
@@ -25,7 +25,7 @@
 }
 
 .solution-meta-button:hover, .solution-meta-button.active {
-    background-color: #868686;
+    background-color: #2584e5;
     border-radius: 7px;
     color: white;
 }
