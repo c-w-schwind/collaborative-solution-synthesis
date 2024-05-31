@@ -1,8 +1,30 @@
+.consideration-container {
+    padding: 15px 20px;
+
+    border-radius: 8px;
+    margin-top: 30px;
+    border: 1px solid #d5d5d5;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
+}
+
+.consideration-container.pro {
+    background-color: rgba(212, 237, 218, 0.8);
+}
+
+.consideration-container.con {
+    background-color: rgba(248, 215, 218, 0.8);
+}
+
+.consideration-container.neutral {
+    background-color: rgba(248, 237, 206, 0.4);
+}
+
 .consideration {
     background-color: #fdfdfd;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 12px;
+    box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.1);
 }
 
 .consideration-content {
@@ -43,6 +65,7 @@
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .toggle-comments-button:hover {

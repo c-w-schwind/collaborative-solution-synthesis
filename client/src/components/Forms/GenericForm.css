@@ -12,7 +12,7 @@
     margin: 10px 0;
 }
 
-.form-input-field, .form-text-area {
+.form-input-field, .form-text-area, .form-select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -24,7 +24,7 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.form-input-field:focus, .form-text-area:focus {
+.form-input-field:focus, .form-text-area:focus, .form-select:focus {
     outline: none;
     border-color: rgba(56, 114, 171, 0.51);
     box-shadow: 0 1px 4px rgba(0, 100, 100, 0.3);
@@ -44,7 +44,9 @@
 .form-input-field:focus + .form-label,
 .form-input-field:not(:placeholder-shown) + .form-label,
 .form-text-area:focus + .form-label,
-.form-text-area:not(:placeholder-shown) + .form-label {
+.form-text-area:not(:placeholder-shown) + .form-label,
+.form-select:focus + .form-label,
+.form-select:not(:placeholder-shown) + .form-label{
     top: -10px;
     left: 0;
     font-weight: bold;

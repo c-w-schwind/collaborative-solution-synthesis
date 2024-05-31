@@ -1,9 +1,9 @@
 import './SolutionDetailsPage.css';
 import {Outlet, useLocation, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import SolutionOverviewSection from "../components/SolutionComponents/SolutionOverviewSection";
 import SolutionElementsList from "../components/SolutionComponents/SolutionElementList";
-import ConsiderationsList from "../components/SolutionComponents/ConsiderationsList";
+import ConsiderationsList from "../components/ConsiderationComponents/ConsiderationsList";
 import LoadingRetryOverlay from "../components/CommonComponents/LoadingRetryOverlay";
 
 function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionContainerRef}) {
@@ -13,28 +13,28 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const [retryCount, setRetryCount] = useState(0);
     const location = useLocation();
 
-    useEffect(() => {
-        const fetchSolution = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/solutions/${solutionNumber}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                setSolution(data.solution);
-                setRetryCount(0);
-            } catch (err) {
-                console.error('Failed to fetch solution:', err);
-                setTimeout(() => {
-                    if (retryCount < 4) {
-                        setRetryCount(prev => prev + 1);
-                    }
-                }, 5000);
+    const fetchSolution = useCallback(async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/solutions/${solutionNumber}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
-        };
-
-        fetchSolution();
+            const data = await response.json();
+            setSolution(data.solution);
+            setRetryCount(0);
+        } catch (err) {
+            console.error('Failed to fetch solution:', err);
+            setTimeout(() => {
+                if (retryCount < 4) {
+                    setRetryCount(prev => prev + 1);
+                }
+            }, 5000);
+        }
     }, [solutionNumber, retryCount]);
+
+    useEffect(() => {
+        fetchSolution();
+    }, [fetchSolution]);
 
     useEffect(() => {
         if (solution) setEntityTitle(solution.title);
@@ -62,7 +62,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                     <div ref={solutionContainerRef} className="solution-details-container">
                         <SolutionOverviewSection solution={solution} onToggleDiscussionSpace={onToggleDiscussionSpace}/>
                         <SolutionElementsList elements={solution.solutionElements} onToggleDiscussionSpace={onToggleDiscussionSpace} isDiscussionSpaceOpen={isDiscussionSpaceOpen}/>
-                        <ConsiderationsList considerations={solution.considerations}/>
+                        <ConsiderationsList considerations={solution.considerations} onSuccessfulSubmit={fetchSolution} parentType={"Solution"} parentNumber={solutionNumber}/>
                     </div>
                 </div>
                 {renderElementOutlet && <Outlet/>}

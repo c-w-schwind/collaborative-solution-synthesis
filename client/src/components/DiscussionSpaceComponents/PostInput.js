@@ -5,7 +5,7 @@ import formSubmissionService from "../Forms/formSubmissionService";
 
 function PostInput({onSuccessfulSubmit, parentType, parentNumber}) {
     const {discussionSpaceFormData, setDiscussionSpaceFormData} = useFormData();
-    const discussionSpaceConfig = formConfigurations.discussionSpacePost;
+    const discussionSpaceConfig = formConfigurations.discussionSpaceForm;
 
     const submitPost = async (formData) => {
         const postData = { ...formData, parentType, parentNumber };

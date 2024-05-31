@@ -6,12 +6,13 @@ const FormDataContext = createContext();
 export const FormDataProvider = ({children}) => {
     const initFormData = (config) => config.reduce((acc, field) => ({...acc, [field.name]: ''}), {});
 
-    const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpacePost));
+    const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
+    const [considerationFormData, setConsiderationFormData] = useState(initFormData(formConfigurations.considerationForm));
 
-    console.log(discussionSpaceFormData);
     const value = useMemo(() => ({
-        discussionSpaceFormData, setDiscussionSpaceFormData
-    }), [discussionSpaceFormData]);
+        discussionSpaceFormData, setDiscussionSpaceFormData, considerationFormData, setConsiderationFormData
+    }), [discussionSpaceFormData, considerationFormData]);
+
 
     return (
         <FormDataContext.Provider value={value}>

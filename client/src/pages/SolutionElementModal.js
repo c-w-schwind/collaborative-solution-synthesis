@@ -1,6 +1,6 @@
 import './SolutionElementModal.css'
-import {useEffect, useRef, useState} from "react";
-import ConsiderationsList from "../components/SolutionComponents/ConsiderationsList";
+import {useCallback, useEffect, useRef, useState} from "react";
+import ConsiderationsList from "../components/ConsiderationComponents/ConsiderationsList";
 import {debounce} from "../utils/utils";
 import {useParams} from "react-router-dom";
 import LoadingRetryOverlay from "../components/CommonComponents/LoadingRetryOverlay";
@@ -14,28 +14,28 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const titleRef = useRef(null);
     const {elementNumber} = useParams();
 
-    useEffect(() => {
-        const fetchSolutionElement = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/solutionElements/${elementNumber}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                setSolutionElement(data.solutionElement);
-                setRetryCount(0);
-            } catch (err) {
-                console.error('Failed to fetch element:', err);
-                setTimeout(() => {
-                    if (retryCount < 4) {
-                        setRetryCount(prev => prev + 1);
-                    }
-                }, 5000);
+    const fetchSolutionElement = useCallback(async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/solutionElements/${elementNumber}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
-        };
-
-        fetchSolutionElement();
+            const data = await response.json();
+            setSolutionElement(data.solutionElement);
+            setRetryCount(0);
+        } catch (err) {
+            console.error('Failed to fetch element:', err);
+            setTimeout(() => {
+                if (retryCount < 4) {
+                    setRetryCount(prev => prev + 1);
+                }
+            }, 5000);
+        }
     }, [elementNumber, retryCount]);
+
+    useEffect(() => {
+        fetchSolutionElement();
+    }, [fetchSolutionElement]);
 
     useEffect(() => {
         if(solutionElement) setEntityTitle(solutionElement.title);
@@ -89,7 +89,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                         <h3 className="solution-details-list-container-title">Detailed Description</h3>
                         <p>{solutionElement.description}</p>
                     </div>
-                    <ConsiderationsList considerations={solutionElement.considerations}/>
+                    <ConsiderationsList considerations={solutionElement.considerations} onSuccessfulSubmit={fetchSolutionElement} parentType={"SolutionElement"} parentNumber={elementNumber}/>
                 </div>
             </div>
         ) : (

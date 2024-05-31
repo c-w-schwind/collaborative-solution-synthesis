@@ -11,7 +11,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
 
     useEffect(() => {
         setIsFormFilled(Object.values(formData).some(val => val.trim() !== ''));
-    }, [formData])
+    }, [formData]);
 
     useEffect(() => {
         const handleBeforeUnload = (e) => {
@@ -79,6 +79,21 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
                                 style={{height: field.height || 'auto'}}
                                 className="form-text-area"
                             />
+                            <label className="form-label">{field.label}</label>
+                        </>
+                    ) : field.type === 'select' ? (
+                        <>
+                            <select
+                                name={field.name}
+                                value={formData[field.name] || ""}
+                                onChange={handleChange}
+                                className="form-select"
+                            >
+                                <option value="" disabled hidden>Select the stance of your consideration</option>
+                                {field.options.map(option => (
+                                    <option key={option} value={option}>{option}</option>
+                                ))}
+                            </select>
                             <label className="form-label">{field.label}</label>
                         </>
                     ) : (
