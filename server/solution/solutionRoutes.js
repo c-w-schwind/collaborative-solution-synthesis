@@ -9,7 +9,7 @@ import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
 import {validateAndCreateSolution} from "./solutionService.js";
 import {validateAndCreateSolutionElements} from "../solutionElement/solutionElementService.js";
-import {validateAndCreateConsiderations} from "../consideration/considerationService.js";
+import {groupAndSortConsiderationsByStance, validateAndCreateConsiderations} from "../consideration/considerationService.js";
 import translateEntityNumberToId from "../middleware/translateEntityNumberToId.js";
 
 const solutionRoutes = express.Router();
@@ -55,18 +55,20 @@ solutionRoutes.get('/solutions', asyncHandler(async (req, res) => {
 
 
 // Get single Solution w/ Solution Elements & Considerations by SolutionNumber
-solutionRoutes.get('/solutions/:solutionNumber', translateEntityNumberToId("Solution", "solutionNumber"), asyncHandler(async (req, res) => {
-    const solution = await Solution.findById(req.params.id).populate('proposedBy', 'username').lean();
+solutionRoutes.get('/solutions/:solutionNumber', (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), asyncHandler(async (req, res) => {
+    const solution = await Solution.findById(req.entityId).populate('proposedBy', 'username').lean();
     if (!solution) throw new NotFoundError('Solution not found');
 
     solution.solutionElements = await SolutionElement.find({
         parentSolutionId: solution._id
     }).select('_id elementNumber title elementType overview').lean();
 
-    solution.considerations = await Consideration.find({
+    const considerations = await Consideration.find({
         parentType: 'Solution',
         parentId: solution._id
-    }).select('_id title stance description comments').lean();
+    }).select('_id title stance description comments votes').lean();
+
+    solution.considerations = groupAndSortConsiderationsByStance(considerations);
 
     return res.status(200).send({solution})
 }));

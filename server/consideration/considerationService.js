@@ -101,3 +101,24 @@ export async function toggleCommentVote(considerationId, commentId, userId, vote
     await consideration.save();
     return comment;
 }
+
+export function groupAndSortConsiderationsByStance(considerations) {
+    const groupedConsiderations = {pro: [], con: [], neutral: []};
+
+    considerations.forEach(consideration => {
+        consideration.netScore = consideration.votes.upvotes.length - consideration.votes.downvotes.length;
+        if (consideration.stance === 'pro') {
+            groupedConsiderations.pro.push(consideration);
+        } else if (consideration.stance === 'con') {
+            groupedConsiderations.con.push(consideration);
+        } else if (consideration.stance === 'neutral') {
+            groupedConsiderations.neutral.push(consideration);
+        }
+    });
+
+    Object.keys(groupedConsiderations).forEach(stance => {
+        groupedConsiderations[stance].sort((a, b) => b.netScore - a.netScore);
+    });
+
+    return groupedConsiderations;
+}

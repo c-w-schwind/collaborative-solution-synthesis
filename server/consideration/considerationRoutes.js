@@ -6,25 +6,38 @@ import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Consideration} from "./considerationModel.js";
 import {
+    groupAndSortConsiderationsByStance,
     toggleCommentVote,
     toggleConsiderationVote,
     updateParentConsiderationsCount,
     validateAndCreateConsiderations,
     validateParentDocument
 } from "./considerationService.js";
+import translateEntityNumberToId from "../middleware/translateEntityNumberToId.js";
 
 const considerationRoutes = express.Router();
 
+// Get grouped & sorted Considerations for Solution or Solution Element
+considerationRoutes.get('/considerations/:parentType/:parentNumber', (req, res, next) => translateEntityNumberToId(req.params.parentType, req.params.parentNumber)(req, res, next), asyncHandler(async (req, res) => {
+    const unsortedConsiderations = await Consideration.find({
+        parentType: req.params.parentType,
+        parentId: req.entityId
+    }).select('_id title stance description comments votes').lean();
+
+    const considerations = groupAndSortConsiderationsByStance(unsortedConsiderations);
+
+    return res.status(200).send({considerations});
+}));
 
 // Create new Consideration
-considerationRoutes.post('/considerations', authenticateToken, verifyUserExistence, asyncHandler(async (req, res, next) => {
+considerationRoutes.post('/considerations', (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber)(req, res, next), authenticateToken, verifyUserExistence, asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        await validateParentDocument(req.body.parentType, req.body.parentId);
+        await validateParentDocument(req.body.parentType, req.entityId);
 
-        const consideration = await validateAndCreateConsiderations(req.body, req.body.parentType, req.body.parentId, req.user._id, session);
-        await updateParentConsiderationsCount(req.body.parentType, req.body.parentId, 1, session);
+        const consideration = await validateAndCreateConsiderations(req.body, req.body.parentType, req.entityId, req.user._id, session);
+        await updateParentConsiderationsCount(req.body.parentType, req.entityId, 1, session);
 
         await session.commitTransaction();
         res.status(201).send(consideration[0]);

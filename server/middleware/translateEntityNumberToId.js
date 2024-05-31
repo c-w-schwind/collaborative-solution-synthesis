@@ -12,9 +12,9 @@ const fieldMap = {
     "SolutionElement": "elementNumber",
 };
 
-const translateEntityNumberToId = (entityType, paramName) => async (req, res, next) => {
+const translateEntityNumberToId = (entityType, entityNum) => async (req, res, next) => {
     try {
-        const entityNumber = parseInt(req.params[paramName], 10);
+        const entityNumber = parseInt(entityNum, 10);
         if (!entityType || isNaN(entityNumber)) throw new BadRequestError("Entity type or entity number missing or invalid");
 
         const model = modelMap[entityType];
@@ -26,7 +26,7 @@ const translateEntityNumberToId = (entityType, paramName) => async (req, res, ne
         const entity = await model.findOne({[entityNumberField]: entityNumber});
         if (!entity) throw new NotFoundError(`${entityType} not found`);
 
-        req.params.id = entity._id.toString();
+        req.entityId = entity._id.toString();
         next();
     } catch (error) {
         next(error);
