@@ -2,6 +2,7 @@ import './Consideration.css';
 import ConsiderationCard from './ConsiderationCard';
 import {useCallback, useEffect, useState} from "react";
 import ConsiderationInput from "./ConsiderationInput";
+import {useFormData} from "../../context/FormDataContext";
 
 const ConsiderationsList = ({considerations: initialConsiderations, parentType, parentNumber}) => {
     const [considerations, setConsiderations] = useState(initialConsiderations);
@@ -9,6 +10,7 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
     const [visibility, setVisibility] = useState({pro: true, con: true, neutral: true});
 
     const stances = Object.entries(considerations);
+    const inputStance = useFormData().considerationFormData.stance;
 
     useEffect(() => {
         setConsiderations(initialConsiderations);
@@ -65,14 +67,15 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
             })}
 
             <div className="solution-details-add-card-button-container">
-                <button className={!isFormActive ? "solution-details-add-card-button" : "solution-element-action-button--close"}
-                        onClick={toggleConsiderationForm}>{!isFormActive ? "Add Consideration" : "X"}</button>
-                {isFormActive && <ConsiderationInput
-                    onSuccessfulSubmit={() => {toggleConsiderationForm(); fetchConsiderations();}}
-                    parentType={parentType}
-                    parentNumber={parentNumber}
-                />
-                }
+                <div className={!isFormActive ? "" : `consideration-container ${inputStance.toLowerCase()}`}>
+                    <button className={!isFormActive ? "solution-details-add-card-button" : "solution-element-action-button--close"}
+                            onClick={toggleConsiderationForm}>{!isFormActive ? "Add Consideration" : "X"}</button>
+                    {isFormActive && <ConsiderationInput
+                        onSuccessfulSubmit={() => {toggleConsiderationForm();fetchConsiderations();}}
+                        parentType={parentType}
+                        parentNumber={parentNumber}
+                    />}
+                </div>
             </div>
         </div>
     );

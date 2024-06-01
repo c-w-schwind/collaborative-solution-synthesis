@@ -4,6 +4,22 @@
     margin-top: 30px;
     border: 1px solid #d5d5d5;
     box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
+    background-color: #f1f1ff;
+}
+
+.consideration-container.pro {
+    transition: background-color 0.5s ease-in-out;
+    background-color: #D4EDDAFF;
+}
+
+.consideration-container.con {
+    transition: background-color 0.5s ease-in-out;
+    background-color: #ffe0e2;
+}
+
+.consideration-container.neutral {
+    transition: background-color 0.5s ease-in-out;
+    background-color: #fff8ea;
 }
 
 .consideration-header {
@@ -16,18 +32,6 @@
     margin-top: 0;
     margin-bottom: 0;
     color: #353a3f;
-}
-
-.consideration-container.pro {
-    background-color: rgba(212, 237, 218, 0.8);
-}
-
-.consideration-container.con {
-    background-color: rgba(248, 215, 218, 0.8);
-}
-
-.consideration-container.neutral {
-    background-color: rgba(248, 237, 206, 0.4);
 }
 
 .consideration-list {
