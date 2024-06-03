@@ -72,11 +72,15 @@ considerationRoutes.post('/considerations/:id/comment', authenticateToken, verif
 
 
 // Vote on Consideration
-considerationRoutes.post('/considerations/:id/vote', authenticateToken, verifyUserExistence, asyncHandler(async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) throw new BadRequestError('Invalid Consideration ID.');
+considerationRoutes.post('/considerations/:considerationId/vote', authenticateToken, verifyUserExistence, asyncHandler(async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) throw new BadRequestError('Invalid Consideration ID.');
 
     const vote = req.body.vote;
-    const consideration = await toggleConsiderationVote(req.params.id, req.user._id, vote);
+    if (vote !== 'upvote' && vote !== 'downvote') {
+        throw new BadRequestError('Invalid vote type. Expected "upvote" for upvote or "downvote" for downvote.');
+    }
+
+    const consideration = await toggleConsiderationVote(req.params.considerationId, req.user._id, vote);
 
     res.status(200).send({consideration, vote});
 }));

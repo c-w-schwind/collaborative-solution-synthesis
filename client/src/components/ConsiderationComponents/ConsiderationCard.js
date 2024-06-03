@@ -1,12 +1,22 @@
-import {useState} from 'react';
-import CommentSection from './CommentSection';
 import './Consideration.css';
+import {useEffect, useState} from 'react';
+import CommentSection from './CommentSection';
+import VotingModule from "../VotingModule";
 
 
-const ConsiderationCard = ({ consideration }) => {
+const ConsiderationCard = ({considerationData}) => {
+    const [consideration, setConsideration] = useState(considerationData)
     const [showComments, setShowComments] = useState(false);
 
+    useEffect(() => {
+        setConsideration(considerationData);
+    }, [considerationData]);
+
     const toggleComments = () => setShowComments(!showComments);
+
+    const handleVoteSuccess = (data) => {
+        setConsideration(data.consideration);
+    }
 
     return (
         <div className={`consideration ${consideration.stance}`}>
@@ -21,8 +31,16 @@ const ConsiderationCard = ({ consideration }) => {
                     </button>
                     <button className="add-comment-button">Add Comment</button>
                 </div>
+                <VotingModule
+                    votableItem={consideration}
+                    onVoteSuccess={handleVoteSuccess}
+                    voteEndpoint={`considerations/${consideration._id}/vote`}
+                />
             </div>
-            {showComments && <CommentSection comments={consideration.comments} considerationId={consideration._id}/>}
+            {showComments && <CommentSection
+                comments={consideration.comments}
+                considerationId={consideration._id}
+            />}
         </div>
     );
 };

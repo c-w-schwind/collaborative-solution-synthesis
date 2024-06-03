@@ -55,7 +55,7 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
                                 {stanceSet.map(consideration => (
                                     <ConsiderationCard
                                         key={consideration._id}
-                                        consideration={consideration}
+                                        considerationData={consideration}
                                     />
                                 ))}
                             </div>

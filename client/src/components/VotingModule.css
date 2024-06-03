@@ -1,0 +1,42 @@
+.voting-module {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: right;
+    text-align: right;
+    margin-left: auto;
+}
+
+.voting-module section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.voting-module button {
+    margin: 1px 1px 1px 10px;
+    width: 30px;
+}
+
+.vote-button {
+    padding: 10px;
+    border: 0.1px solid #8d8d8d;
+    color: black;
+}
+
+.vote-button.upvote {
+    background-color: #67bd21;
+}
+
+.vote-button.upvote:hover {
+    background-color: #5ba81c;
+}
+
+.vote-button.downvote {
+    background-color: #dc3535;
+}
+
+.vote-button.downvote:hover {
+    background-color: #c03030;
+}
