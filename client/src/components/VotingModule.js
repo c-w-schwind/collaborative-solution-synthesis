@@ -1,8 +1,10 @@
 import './VotingModule.css';
 import {useToasts} from "../context/ToastContext";
+import {useAuth} from "../context/AuthContext";
 
 const VotingModule = ({votableItem, onVoteSuccess, voteEndpoint}) => {
     const {addToast} = useToasts();
+    const userId = useAuth().user._id;
 
     const handleVote = async (voteType) => {
         const token = localStorage.getItem('token');
@@ -10,15 +12,14 @@ const VotingModule = ({votableItem, onVoteSuccess, voteEndpoint}) => {
             return addToast('Please log in to cast your vote.');
         }
 
-        const vote = {vote: voteType};
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/${voteEndpoint}`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(vote)
+                body: JSON.stringify({vote: voteType})
             });
 
             if (!response.ok) {
@@ -29,18 +30,24 @@ const VotingModule = ({votableItem, onVoteSuccess, voteEndpoint}) => {
             onVoteSuccess(data);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
+            addToast('An error occurred while voting. Please try again.');
         }
     };
+
+    const userHasVoted = (voteType) => votableItem.votes[voteType].includes(userId);
+
+    const upvoteClass = userHasVoted("upvotes") ? "user-has-voted" : userHasVoted("downvotes") ? "opposite-vote-upvote" : "";
+    const downvoteClass = userHasVoted("downvotes") ? "user-has-voted" : userHasVoted("upvotes") ? "opposite-vote-downvote" : "";
 
     return (
         <div className="voting-module">
             <section>
                 <div>{votableItem.votes.upvotes.length}</div>
-                <button className="vote-button upvote" onClick={() => handleVote('upvote')}>^</button>
+                <button className={`vote-button upvote ${upvoteClass}`} onClick={() => handleVote('upvote')}>^</button>
             </section>
             <section>
                 <div>{votableItem.votes.downvotes.length}</div>
-                <button className="vote-button downvote" onClick={() => handleVote('downvote')}>v</button>
+                <button className={`vote-button downvote ${downvoteClass}`} onClick={() => handleVote('downvote')}>v</button>
             </section>
         </div>
     );
