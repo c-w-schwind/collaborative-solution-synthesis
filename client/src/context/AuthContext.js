@@ -15,7 +15,7 @@ const isTokenExpired = (decodedTokenData) => {
     }
 };
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
     const navigate = useNavigate();
     const {addToast} = useToasts();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
                 }
 
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${decodedData._id}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: {'Authorization': `Bearer ${token}`}
                 });
 
                 if (!response.ok) {
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
                         addToast('Unable to connect to the server. Please check your internet connection, then try again later.', 10000);
                     }
                 } else {
-                    logout({ redirect: true, message: 'Session expired. Please log in again.', timeout: 10000 });
+                    logout({redirect: true, message: 'Session expired. Please log in again.', timeout: 10000});
                 }
             }
         }
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     }, [logout, addToast]);
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+        <AuthContext.Provider value={{isLoggedIn, user, login, logout}}>
             {children}
         </AuthContext.Provider>
     );

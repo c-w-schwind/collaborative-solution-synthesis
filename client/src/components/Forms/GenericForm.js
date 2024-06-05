@@ -76,7 +76,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
                                 value={formData[field.name] || ""}
                                 onChange={handleChange}
                                 placeholder=" "
-                                style={{height: field.height || 'auto'}}
+                                style={{minHeight: field.height || 'auto'}}
                                 className="form-text-area"
                             />
                             <label className="form-label">{field.label}</label>

@@ -16,13 +16,14 @@
 
 .voting-module button {
     margin: 1px 1px 1px 10px;
-    width: 30px;
+    width: 35px;
+    height: 25px;
 }
 
 .vote-button {
-    padding: 10px;
     border: 0.1px solid #8d8d8d;
     color: black;
+    filter: brightness(1.1);
 }
 
 .vote-button.upvote {
@@ -34,7 +35,7 @@
 }
 
 .vote-button.downvote {
-    background-color: #dc3535;
+    background-color: #c02d2d;
 }
 
 .vote-button.downvote:hover {
@@ -45,7 +46,6 @@
     filter: brightness(1.3) hue-rotate(10deg);
     box-shadow: inset 0 0 6px 1px rgba(50, 50, 50, 0.3);
     border: 0.1px solid #8d8d8d;
-
 }
 
 .vote-button.opposite-vote-upvote {

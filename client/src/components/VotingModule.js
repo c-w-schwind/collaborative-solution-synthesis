@@ -1,10 +1,19 @@
 import './VotingModule.css';
 import {useToasts} from "../context/ToastContext";
 import {useAuth} from "../context/AuthContext";
+import {useEffect, useState} from "react";
 
 const VotingModule = ({votableItem, onVoteSuccess, voteEndpoint}) => {
+    const [userId, setUserId] = useState(null);
+
     const {addToast} = useToasts();
-    const userId = useAuth().user._id;
+    const {user} = useAuth();
+
+    useEffect(() => {
+        if(user) {
+            setUserId(user._id);
+        }
+    }, [user]);
 
     const handleVote = async (voteType) => {
         const token = localStorage.getItem('token');
