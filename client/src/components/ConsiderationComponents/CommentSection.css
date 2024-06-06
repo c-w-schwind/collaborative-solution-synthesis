@@ -3,6 +3,7 @@
     border-radius: 5px;
     padding: 20px;
     margin: 10px;
+    box-shadow: inset 0 0 6px 1px rgba(20, 20, 20, 0.1);
 }
 
 .comment {
@@ -12,6 +13,7 @@
     padding: 15px 20px;
     border-radius: 5px;
     margin-bottom: 10px;
+    box-shadow:  0 0 6px 1px rgba(0, 0, 0, 0.1);
 }
 
 .comment-content {
@@ -19,13 +21,15 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+    white-space: pre-wrap;
 }
 
 .comment-text {
     padding: 0;
-    margin: 0;
+    margin: 0 20px 0 0;
 }
 
-.comment-content button {
+.comment-action-button {
     margin-top: 10px;
+    padding: 5px 10px;
 }

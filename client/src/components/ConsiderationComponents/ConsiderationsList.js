@@ -1,4 +1,4 @@
-import './Consideration.css';
+import './ConsiderationList.css';
 import ConsiderationCard from './ConsiderationCard';
 import {useCallback, useEffect, useState} from "react";
 import ConsiderationInput from "./ConsiderationInput";
@@ -46,7 +46,7 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
                     <div key={stance} className={`consideration-container ${stance}`}>
                         <div className="consideration-header">
                             <h3 className="consideration-header-title">{stance[0].toUpperCase() + stance.slice(1) + (visibility[stance] ? "" : ` (${stanceSet.length})`)}</h3>
-                            {stanceSet.length > 0 && <button className="consideration-header-toggle-button" onClick={() => toggleVisibility(stance)}>
+                            {stanceSet.length > 0 && <button className="consideration-header-toggle" onClick={() => toggleVisibility(stance)}>
                                 {visibility[stance] ? "Hide" : `Show [${stanceSet.length}]`}
                             </button>}
                         </div>

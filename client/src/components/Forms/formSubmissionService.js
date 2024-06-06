@@ -22,7 +22,7 @@ const formSubmissionService = async (url, formData, entityType, onSuccessfulSubm
 
         const data = await response.json();
         console.log('Submit successful:', data);
-        onSuccessfulSubmit();
+        onSuccessfulSubmit(data);
     } catch (err) {
         console.error('Fetch operation failed:', err.message);
         let errorMessage = `Error: There was a problem submitting your ${entityType}. Please check your internet connection and try again.`;

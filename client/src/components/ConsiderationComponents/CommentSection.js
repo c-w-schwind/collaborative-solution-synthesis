@@ -1,9 +1,10 @@
 import './CommentSection.css';
 import React, {useEffect, useState} from 'react';
 import VotingModule from "../VotingModule";
+import CommentInput from "./CommentInput";
 
 
-const CommentSection = ({ comments, considerationId }) => {
+const CommentSection = ({comments, considerationId, onAddingCommentSuccess}) => {
     const [considerationComments, setConsiderationComments] = useState(comments);
 
     useEffect(() => {
@@ -22,11 +23,12 @@ const CommentSection = ({ comments, considerationId }) => {
 
     return (
         <div className="comments-container">
+            {considerationComments.length === 0 && <div>There aren't any comments yet.</div>}
             {considerationComments.map(comment => (
                 <div key={comment._id} className="comment">
                     <div className="comment-content">
                         <p className="comment-text">{comment.text}</p>
-                        <button className="add-comment-button">Reply</button>
+                        {/*<button className="comment-action-button">Reply</button>*/}
                     </div>
                     <VotingModule
                         votableItem={comment}
@@ -35,6 +37,10 @@ const CommentSection = ({ comments, considerationId }) => {
                     />
                 </div>
             ))}
+            <CommentInput
+                onSuccessfulSubmit={onAddingCommentSuccess}
+                parentId={considerationId}
+            />
         </div>
     );
 };

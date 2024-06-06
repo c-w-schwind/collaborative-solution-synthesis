@@ -8,10 +8,11 @@ export const FormDataProvider = ({children}) => {
 
     const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
     const [considerationFormData, setConsiderationFormData] = useState(initFormData(formConfigurations.considerationForm));
+    const [commentFormData, setCommentFormData] = useState(initFormData(formConfigurations.commentForm));
 
     const value = useMemo(() => ({
-        discussionSpaceFormData, setDiscussionSpaceFormData, considerationFormData, setConsiderationFormData
-    }), [discussionSpaceFormData, considerationFormData]);
+        discussionSpaceFormData, setDiscussionSpaceFormData, considerationFormData, setConsiderationFormData, commentFormData, setCommentFormData
+    }), [discussionSpaceFormData, considerationFormData, commentFormData]);
 
 
     return (

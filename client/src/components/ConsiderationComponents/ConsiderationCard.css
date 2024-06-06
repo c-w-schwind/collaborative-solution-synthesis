@@ -1,0 +1,70 @@
+.consideration {
+    background-color: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 12px;
+    box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.consideration.comments-expanded {
+    border: 2px solid rgba(175, 175, 175, 0.9);
+    box-shadow: 0 0 6px 1px rgba(175, 175, 175, 0.9);
+    margin: 15px 0;
+}
+
+.consideration-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    white-space: pre-wrap;
+}
+
+.consideration-text {
+    padding-left: 5px;
+    margin-right: 8px;
+    flex: 3;
+}
+
+.consideration-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 7px;
+}
+
+.consideration-action-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    align-content: flex-end;
+    margin-top: 9px;
+    gap: 8px;
+}
+
+.consideration-action-area img {
+    width: 24px;
+    margin-right: 2px;
+}
+
+.consideration-action-area button {
+    display: flex;
+    align-content: start;
+    background-color: #5e76ee;
+    margin: 0;
+    padding: 4px 10px;
+    color: white;
+    font-weight: bolder;
+
+}
+
+.consideration-action-area button:hover {
+    background-color: #475fd9;
+    box-shadow: 0 0 6px 1px rgba(175, 175, 175, 0.3);
+}
+
+.comment-section-animated {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+}
