@@ -1,35 +1,39 @@
 import './ConsiderationCard.css';
-import {useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import CommentSection from './CommentSection';
 import VotingModule from "../VotingModule";
+import {useFormData} from "../../context/FormDataContext";
 
 
 const ConsiderationCard = ({considerationData}) => {
-    const [consideration, setConsideration] = useState(considerationData)
+    const [consideration, setConsideration] = useState(considerationData);
     const [showComments, setShowComments] = useState(false);
     const commentsContainerRef = useRef(null);
+    const {toggleCommentSection, openedCommentsId} = useFormData();
 
     useEffect(() => {
         setConsideration(considerationData);
     }, [considerationData]);
 
-    const toggleComments = () => setShowComments(!showComments);
+    useEffect(() => {
+        setShowComments(openedCommentsId === consideration._id);
+    }, [openedCommentsId, consideration._id]);
 
-    const handleInteractionSuccess = (data) => {
+    const handleInteractionSuccess = useCallback((data) => {
         setConsideration(data.consideration);
-    }
+    }, []);
 
     useEffect(() => {
-        // Using setTimeout to defer height adjustment until after DOM updates are completed for correct adaptation when new comments have been added
-        setTimeout(() => {
+        // Adjust height after DOM updates to adapt to new comments
+        requestAnimationFrame(() => {
             if (commentsContainerRef.current) {
                 commentsContainerRef.current.style.height = showComments ? `${commentsContainerRef.current.scrollHeight}px` : '0px';
             }
-        }, 0);
+        });
     }, [showComments, consideration]);
 
     return (
-        <div className={`consideration ${showComments && "comments-expanded"}`}>
+        <div className={`consideration ${showComments ? "comments-expanded" : ""}`}>
             <div className="consideration-content">
                 <div className="consideration-text">
                     <h4 className="consideration-title">{consideration.title}</h4>
@@ -41,7 +45,7 @@ const ConsiderationCard = ({considerationData}) => {
                         onVoteSuccess={handleInteractionSuccess}
                         voteEndpoint={`considerations/${consideration._id}/vote`}
                     />
-                    <button onClick={toggleComments}>
+                    <button onClick={() => toggleCommentSection(consideration._id)}>
                         <img src="http://localhost:3000/comments.png" alt="comments"/>
                         {consideration.comments.length}
                     </button>
