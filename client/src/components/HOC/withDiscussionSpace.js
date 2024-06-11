@@ -4,6 +4,7 @@ import SolutionDetailsPage from "../../pages/SolutionDetailsPage";
 import SolutionElementModal from "../../pages/SolutionElementModal";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {debounce} from "../../utils/utils";
+import {useFormData} from "../../context/FormDataContext";
 
 const withDiscussionSpace = (WrappedComponent, entityType) => {
     return function EnhancedComponent({...props}) {
@@ -13,8 +14,11 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         const [entityTitle, setEntityTitle] = useState('');
         const location = useLocation();
         const navigate = useNavigate();
+        const {canNavigate} = useFormData();
 
-        const handleToggleDiscussionSpace = () => {
+        const handleToggleDiscussionSpace = (checkNavigate = true) => {
+            if (checkNavigate && !canNavigate({checkDiscussionSpaceForm: true})) return;
+
             const willDiscussionSpaceBeOpen = !isDiscussionSpaceOpen;
             setIsDiscussionSpaceOpen(willDiscussionSpaceBeOpen);
 
@@ -26,7 +30,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                 const discussionSpaceContainer = document.querySelector(baseSelector);
                 if (discussionSpaceContainer) {
                     discussionSpaceContainer.addEventListener('transitionend', function onTransitionEnd(event) {
-                        if (event.propertyName === 'opacity' || event.propertyName === 'width' || event.propertyName === 'left') {
+                        if (event.propertyName === 'opacity') {
                             discussionSpaceContainer.removeEventListener('transitionend', onTransitionEnd);
                             navigate(location.state?.fromNavigation ? -1 : ".", {relative: "path"});
                         }
@@ -36,19 +40,23 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         };
 
         const handleFullScreenButton = () => {
-            navigate("./discussionSpace/fullscreen", {state: {entityTitle}});
+            if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, saveDiscussionSpaceData: true})) {
+                navigate("./discussionSpace/fullscreen", {state: {entityTitle}});
+            }
         };
 
         const handleClosingModal = () => {
-            setIsOverlayActive(false);
-            const modalElement = document.querySelector('.overlay');
-            if (modalElement) {
-                modalElement.addEventListener('transitionend', function onTransitionEnd(event) {
-                    if (event.propertyName === 'opacity') {
-                        navigate(location.state?.fromElementCard ? -1 : "../..", {relative: "path"});
-                        modalElement.removeEventListener('transitionend', onTransitionEnd);
-                    }
-                });
+            if (canNavigate({checkAll: true})) {
+                setIsOverlayActive(false);
+                const modalElement = document.querySelector('.overlay');
+                if (modalElement) {
+                    modalElement.addEventListener('transitionend', function onTransitionEnd(event) {
+                        if (event.propertyName === 'opacity') {
+                            navigate(location.state?.fromElementCard ? -1 : "../..", {relative: "path"});
+                            modalElement.removeEventListener('transitionend', onTransitionEnd);
+                        }
+                    });
+                }
             }
         };
 
@@ -108,7 +116,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                     document.body.style.overflow = 'hidden';
                     document.body.style.paddingRight = `${scrollbarWidth}px`;
                 }
-            }, 1);
+            }, 100);
 
             isElementPath ? setIsSolutionDSOutletOpen(false) : setIsSolutionDSOutletOpen(true);
 
@@ -123,13 +131,13 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         useEffect(() => {
             if (entityType !== "SolutionElement") return;
 
-            // Ensure overlay activation happens after UI updates, preventing rendering glitches
-            const timeoutId = setTimeout(() => {
+            // Ensure overlay activation happens after UI updates, preventing rendering glitches (esp. when transitioning from open discussion space)
+            const rafId = requestAnimationFrame(() => {
                 setIsOverlayActive(true);
-            }, 0);
+            });
 
             return () => {
-                clearTimeout(timeoutId);
+                cancelAnimationFrame(rafId);
                 setIsOverlayActive(false);
             };
         }, []);
