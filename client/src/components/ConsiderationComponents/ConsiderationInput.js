@@ -7,14 +7,13 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber}) {
     const {considerationFormData, setConsiderationFormData} = useFormData();
     const considerationConfig = formConfigurations.considerationForm;
 
-    const submitPost = async (formData) => {
-        formData.stance = formData.stance.toLowerCase();
-        const postData = { ...formData, parentType, parentNumber };
+    const submitConsiderationPost = async (formData) => {
+        const postData = {...formData, parentType, parentNumber};
         await formSubmissionService("considerations", postData, "consideration", onSuccessfulSubmit);
     };
 
     return (
-        <GenericForm onSubmit={submitPost} config={considerationConfig} formData={considerationFormData} setFormData={setConsiderationFormData}/>
+        <GenericForm onSubmit={submitConsiderationPost} config={considerationConfig} formData={considerationFormData} setFormData={setConsiderationFormData}/>
     );
 }
 

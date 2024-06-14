@@ -1,7 +1,7 @@
-const formSubmissionService = async (url, formData, entityType, onSuccessfulSubmit) => {
+const formSubmissionService = async (url, formData, entityType, onSuccessfulSubmit, method = "POST") => {
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/${url}`, {
-            method: 'POST',
+            method: method,
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'

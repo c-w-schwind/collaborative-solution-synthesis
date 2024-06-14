@@ -13,7 +13,7 @@ const considerationSchema = new mongoose.Schema({
     },
     stance: {
         type: String,
-        enum: ['pro', 'con', 'neutral'],
+        enum: ['Pro', 'Con', 'Neutral'],
         required: true
     },
     status: {

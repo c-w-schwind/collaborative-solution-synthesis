@@ -7,7 +7,7 @@ import {useFormData} from "../../context/FormDataContext";
 const ConsiderationsList = ({considerations: initialConsiderations, parentType, parentNumber}) => {
     const [considerations, setConsiderations] = useState(initialConsiderations);
     const [isFormActive, setIsFormActive] = useState(false);
-    const [visibility, setVisibility] = useState({pro: true, con: true, neutral: true});
+    const [visibility, setVisibility] = useState({Pro: true, Con: true, Neutral: true});
 
     const stances = Object.entries(considerations);
     const inputStance = useFormData().considerationFormData.stance;
@@ -43,9 +43,9 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
 
             {stances.length > 0 && stances.map(([stance, stanceSet]) => {
                 return (
-                    <div key={stance} className={`consideration-container ${stance}`}>
+                    <div key={stance} className={`consideration-container ${stance.toLowerCase()}`}>
                         <div className="consideration-header">
-                            <h3 className="consideration-header-title">{stance[0].toUpperCase() + stance.slice(1) + (visibility[stance] ? "" : ` (${stanceSet.length})`)}</h3>
+                            <h3 className="consideration-header-title">{stance + (visibility[stance] ? "" : ` (${stanceSet.length})`)}</h3>
                             {stanceSet.length > 0 && <button className="consideration-header-toggle" onClick={() => toggleVisibility(stance)}>
                                 {visibility[stance] ? "Hide" : `Show [${stanceSet.length}]`}
                             </button>}
@@ -71,7 +71,10 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
                     <button className={!isFormActive ? "solution-details-add-card-button" : "solution-element-action-button--close"}
                             onClick={toggleConsiderationForm}>{!isFormActive ? "Add Consideration" : "X"}</button>
                     {isFormActive && <ConsiderationInput
-                        onSuccessfulSubmit={() => {toggleConsiderationForm();fetchConsiderations();}}
+                        onSuccessfulSubmit={() => {
+                            toggleConsiderationForm();
+                            fetchConsiderations();
+                        }}
                         parentType={parentType}
                         parentNumber={parentNumber}
                     />}

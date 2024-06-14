@@ -15,11 +15,11 @@ export async function validateParentDocument(parentType, parentId) {
     }
 }
 
-function validateConsiderationData(considerationData) {
+export function validateConsiderationData(considerationData) {
     validateRequiredFields(considerationData, ['parentType', 'parentId', 'stance', 'title', 'description'], "Consideration validation");
 
-    if (!['pro', 'con', 'neutral'].includes(considerationData.stance)) {
-        throw new BadRequestError("Invalid stance. Must be 'pro', 'con', or 'neutral'.");
+    if (!['Pro', 'Con', 'Neutral'].includes(considerationData.stance)) {
+        throw new BadRequestError("Invalid stance. Must be 'Pro', 'Con', or 'Neutral'.");
     }
 }
 
@@ -38,7 +38,7 @@ export async function validateAndCreateConsiderations(considerationsData, parent
     considerationsData = Array.isArray(considerationsData) ? considerationsData : [considerationsData];
 
     const considerationPromises = considerationsData.map(considerationData => {
-        considerationData = { ...considerationData, parentType, parentId };
+        considerationData = {...considerationData, parentType, parentId};
         validateConsiderationData(considerationData);
         return createConsideration(considerationData, userId, session);
     });
@@ -49,9 +49,9 @@ export async function validateAndCreateConsiderations(considerationsData, parent
 
 export async function updateParentConsiderationsCount(parentType, parentId, delta, session) {    //delta: 1 = increase, -1 = decrease
     if (parentType === 'SolutionElement') {
-        await SolutionElement.findByIdAndUpdate(parentId, { $inc: { activeConsiderationsCount: delta } }).session(session);
+        await SolutionElement.findByIdAndUpdate(parentId, {$inc: {activeConsiderationsCount: delta}}).session(session);
     } else if (parentType === 'Solution') {
-        await Solution.findByIdAndUpdate(parentId, { $inc: { activeConsiderationsCount: delta } }).session(session);
+        await Solution.findByIdAndUpdate(parentId, {$inc: {activeConsiderationsCount: delta}}).session(session);
     }
 }
 
@@ -103,16 +103,16 @@ export async function toggleCommentVote(considerationId, commentId, userId, vote
 }
 
 export function groupAndSortConsiderationsByStance(considerations) {
-    const groupedConsiderations = {pro: [], con: [], neutral: []};
+    const groupedConsiderations = {Pro: [], Con: [], Neutral: []};
 
     considerations.forEach(consideration => {
         consideration.netScore = consideration.votes.upvotes.length - consideration.votes.downvotes.length;
-        if (consideration.stance === 'pro') {
-            groupedConsiderations.pro.push(consideration);
-        } else if (consideration.stance === 'con') {
-            groupedConsiderations.con.push(consideration);
-        } else if (consideration.stance === 'neutral') {
-            groupedConsiderations.neutral.push(consideration);
+        if (consideration.stance === 'Pro') {
+            groupedConsiderations.Pro.push(consideration);
+        } else if (consideration.stance === 'Con') {
+            groupedConsiderations.Con.push(consideration);
+        } else if (consideration.stance === 'Neutral') {
+            groupedConsiderations.Neutral.push(consideration);
         }
     });
 

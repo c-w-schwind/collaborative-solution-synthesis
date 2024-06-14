@@ -7,13 +7,13 @@ function CommentInput({onSuccessfulSubmit, parentId}) {
     const {commentFormData, setCommentFormData} = useFormData();
     const commentConfig = formConfigurations.commentForm;
 
-    const submitPost = async (formData) => {
+    const submitCommentPost = async (formData) => {
         const postData = {...formData, parentId};
         await formSubmissionService(`considerations/${parentId}/comment`, postData, "comment", onSuccessfulSubmit);
     };
 
     return (
-        <GenericForm onSubmit={submitPost} config={commentConfig} formData={commentFormData} setFormData={setCommentFormData}/>
+        <GenericForm onSubmit={submitCommentPost} config={commentConfig} formData={commentFormData} setFormData={setCommentFormData}/>
     );
 }
 
