@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
-import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
+import {NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Solution} from "../solution/solutionModel.js";
@@ -42,7 +42,7 @@ solutionElementRoutes.get('/solutionElements/:elementNumber', (req, res, next) =
     const considerations = await Consideration.find({
         parentType: 'SolutionElement',
         parentId: solutionElement._id
-    }).select('_id title stance description comments votes').lean();
+    }).select('_id title stance description comments votes proposedBy').lean();
 
     solutionElement.considerations = groupAndSortConsiderationsByStance(considerations);
 

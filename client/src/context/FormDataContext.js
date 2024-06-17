@@ -9,7 +9,10 @@ export const FormDataProvider = ({children}) => {
     const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
     const [considerationFormData, setConsiderationFormData] = useState(initFormData(formConfigurations.considerationForm));
     const [commentFormData, setCommentFormData] = useState(initFormData(formConfigurations.commentForm));
-    const [openedCommentsId, setOpenedCommentsId] = useState(null);
+
+    const [openedCommentSectionId, setOpenedCommentSectionId] = useState(null);
+    const [openedConsiderationFormId, setOpenedConsiderationFormId] = useState(null);
+
 
     const isDiscussionSpaceFormFilled = useMemo(() =>
         Object.values(discussionSpaceFormData).some(val => val.trim() !== ''),
@@ -63,21 +66,43 @@ export const FormDataProvider = ({children}) => {
         }
 
         // Close open comment section when navigating away from a consideration form
-        if (checkCommentForm) setOpenedCommentsId(null);
+        if (checkCommentForm) setOpenedCommentSectionId(null);
+        if (checkConsiderationForm) setOpenedConsiderationFormId(null);
 
         return true;
     };
 
     const toggleCommentSection = (considerationId) => {
-        if (isCommentFormFilled && !window.confirm("You have unsaved text in a comment form. Continuing will delete your comment. Proceed?")) {
-            return;
-        }
-        setOpenedCommentsId(prevId => (prevId === considerationId ? null : considerationId));
-        if (isCommentFormFilled) {
-            setTimeout(() => {
-                setCommentFormData(initFormData(formConfigurations.commentForm));
-            }, 150);    // 1/2 of 300ms closing animation - input field shouldn't be visible anymore (or yet, if opening new comment section)
-        }
+        setOpenedCommentSectionId(prevId => {
+            const sameForm = prevId === considerationId;
+            if (isCommentFormFilled && !window.confirm(`You have unsaved text in ${sameForm ? "this" : "a different"} comment form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other comment"}. Proceed?`)) {
+                return prevId;
+            }
+
+            if (isCommentFormFilled) {
+                setTimeout(() => {
+                    setCommentFormData(initFormData(formConfigurations.commentForm));
+                }, 150);    // 1/2 of 300ms closing animation - input field shouldn't be visible anymore (or yet, if opening new comment section)
+            }
+
+            return sameForm ? null : considerationId;
+        });
+    };
+
+    // if general form, considerationId = "generalForm"
+    const toggleConsiderationForm = (considerationId) => {
+        setOpenedConsiderationFormId((prevId) => {
+            const sameForm = prevId === considerationId;
+            if (isConsiderationFormFilled && !window.confirm(`You have unsaved text in ${sameForm ? "this" : openedConsiderationFormId === "generalConsiderationForm" ? "the \"Add Consideration\"" : "another opened consideration"} form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other input"}. Proceed?`)) {
+                return prevId;
+            }
+
+            if (isConsiderationFormFilled) {
+                setConsiderationFormData(initFormData(formConfigurations.considerationForm));
+            }
+
+            return sameForm ? null : considerationId;
+        });
     };
 
     const value = useMemo(() => ({
@@ -91,8 +116,10 @@ export const FormDataProvider = ({children}) => {
         isConsiderationFormFilled,
         isCommentFormFilled,
         canNavigate,
-        openedCommentsId,
-        toggleCommentSection
+        toggleCommentSection,
+        openedCommentSectionId,
+        toggleConsiderationForm,
+        openedConsiderationFormId
     }), [
         discussionSpaceFormData,
         considerationFormData,
@@ -101,8 +128,10 @@ export const FormDataProvider = ({children}) => {
         isConsiderationFormFilled,
         isCommentFormFilled,
         canNavigate,
-        openedCommentsId,
-        toggleCommentSection
+        openedCommentSectionId,
+        toggleCommentSection,
+        openedConsiderationFormId,
+        toggleConsiderationForm
     ]);
 
     return (

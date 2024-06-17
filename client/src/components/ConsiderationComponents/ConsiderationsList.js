@@ -10,11 +10,16 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
     const [visibility, setVisibility] = useState({Pro: true, Con: true, Neutral: true});
 
     const stances = Object.entries(considerations);
-    const inputStance = useFormData().considerationFormData.stance;
+    const {considerationFormData, toggleConsiderationForm, openedConsiderationFormId} = useFormData();
+    const inputStance = considerationFormData.stance;
 
     useEffect(() => {
         setConsiderations(initialConsiderations);
     }, [initialConsiderations]);
+
+    useEffect(() => {
+        setIsFormActive(openedConsiderationFormId === "generalConsiderationForm");
+    }, [openedConsiderationFormId]);
 
     const fetchConsiderations = useCallback(async () => {
         try {
@@ -28,10 +33,6 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
             console.error('Failed to fetch considerations:', err);
         }
     }, [parentType, parentNumber]);
-
-    const toggleConsiderationForm = () => {
-        setIsFormActive(prevState => !prevState);
-    };
 
     const toggleVisibility = (stance) => {
         setVisibility(prevState => ({...prevState, [stance]: !prevState[stance]}));
@@ -56,6 +57,8 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
                                     <ConsiderationCard
                                         key={consideration._id}
                                         considerationData={consideration}
+                                        parentType={parentType}
+                                        parentNumber={parentNumber}
                                     />
                                 ))}
                             </div>
@@ -69,7 +72,7 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
             <div className="solution-details-add-card-button-container">
                 <div className={!isFormActive ? "" : `consideration-container ${inputStance.toLowerCase()}`}>
                     <button className={!isFormActive ? "solution-details-add-card-button" : "solution-element-action-button--close"}
-                            onClick={toggleConsiderationForm}>{!isFormActive ? "Add Consideration" : "X"}</button>
+                            onClick={() => toggleConsiderationForm("generalConsiderationForm")}>{!isFormActive ? "Add Consideration" : "X"}</button>
                     {isFormActive && <ConsiderationInput
                         onSuccessfulSubmit={() => {
                             toggleConsiderationForm();
