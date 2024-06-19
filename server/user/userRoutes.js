@@ -7,21 +7,20 @@ import {validateEmail, validateRequiredFields} from "../utils/utils.js";
 import {BadRequestError, ConflictError, NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
-import { User } from "./userModel.js";
+import {User} from "./userModel.js";
 
 const userRoutes = express.Router();
 
 const loginRateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,   // 15 minutes
     max: 5,                     // IP limit to 5 login requests per windowMs
-    message: JSON.stringify({ message: "Too many login attempts from this IP, please try again after 15 minutes" })
+    message: JSON.stringify({message: "Too many login attempts from this IP, please try again after 15 minutes"})
 });
-
 
 
 // Create new User
 userRoutes.post('/users/register', asyncHandler(async (req, res) => {
-    const { email} = req.body;
+    const {email} = req.body;
 
     validateEmail(email);
     validateRequiredFields(req.body, ['username', 'email', 'password'], 'User registration')
@@ -54,6 +53,8 @@ userRoutes.post('/users/login', loginRateLimiter, asyncHandler(async (req, res) 
         username: user.username,
         email: user.email
     };
+
+    loginRateLimiter.resetKey(req.ip);
 
     res.status(200).header('auth-token', token).send({user: userForResponse, token});
 }));

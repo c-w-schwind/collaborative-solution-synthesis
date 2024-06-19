@@ -1,8 +1,8 @@
 import {BadRequestError, ValidationError, UnauthorizedError, NotFoundError, ConflictError} from "../utils/customErrors.js";
 
 
-function errorMiddleware(err, req, res) {
-    console.log("Error: ", err);
+function errorMiddleware(err, req, res, next) {
+    console.log("Error:", err);
 
     const isDevelopment = process.env.NODE_ENV === 'development';
     const errorResponse = {
