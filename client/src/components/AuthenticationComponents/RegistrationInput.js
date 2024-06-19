@@ -13,7 +13,7 @@ const RegistrationInput = ({onSuccessfulSubmit}) => {
         return () => {
             wipeFormData({wipeRegistrationFormData: true});
         }
-    }, [])
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleRegister = async (data) => {
         try {
@@ -35,7 +35,7 @@ const RegistrationInput = ({onSuccessfulSubmit}) => {
             if (error.message === 'NetworkError when attempting to fetch resource.') {
                 throw new Error("Network error: Unable to reach the server. Please check your connection and try again.");
             } else {
-                throw new Error("An unexpected error occurred. Please try again.");
+                throw new Error(error.message);
             }
         }
     };

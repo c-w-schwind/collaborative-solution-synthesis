@@ -92,10 +92,10 @@ export const FormDataProvider = ({children}) => {
     },[isCommentFormFilled]);
 
     // Use "generalConsiderationForm" for the general consideration form instead of editing a specific one.
-    const toggleConsiderationForm = useCallback((considerationId) => {
+    const toggleConsiderationForm = useCallback((considerationId, warnUser = true) => {
         setOpenedConsiderationFormId((prevId) => {
             const sameForm = prevId === considerationId;
-            if (isConsiderationFormFilled && !window.confirm(`You have unsaved text in ${sameForm ? "this" : openedConsiderationFormId === "generalConsiderationForm" ? "the \"Add Consideration\"" : "another opened consideration"} form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other input"}. Proceed?`)) {
+            if (isConsiderationFormFilled && warnUser && !window.confirm(`You have unsaved text in ${sameForm ? "this" : openedConsiderationFormId === "generalConsiderationForm" ? "the \"Add Consideration\"" : "another opened consideration"} form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other input"}. Proceed?`)) {
                 return prevId;
             }
 

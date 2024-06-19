@@ -45,7 +45,6 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
 
     const handleInteractionSuccess = useCallback((data) => {
         setConsideration(data);
-        toggleConsiderationForm(consideration._id);
     }, []);
 
     return (

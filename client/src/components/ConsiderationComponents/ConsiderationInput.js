@@ -5,12 +5,12 @@ import {formConfigurations} from "../Forms/formConfigurations";
 import formSubmissionService from "../Forms/formSubmissionService";
 
 function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, existingData}) {
-    const {considerationFormData, setConsiderationFormData, openedConsiderationFormId} = useFormData();
+    const {considerationFormData, setConsiderationFormData, openedConsiderationFormId, toggleConsiderationForm} = useFormData();
     const considerationConfig = formConfigurations.considerationForm;
 
     useEffect(() => {
         existingData && setConsiderationFormData(existingData);
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const submitConsiderationPost = async (formData) => {
         const postData = {...formData, parentType, parentNumber};
@@ -18,6 +18,7 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, exist
         const url = existingData ? `considerations/${openedConsiderationFormId}` : "considerations";
 
         await formSubmissionService(url, postData, "consideration", onSuccessfulSubmit, method);
+        toggleConsiderationForm(openedConsiderationFormId, false);
     };
 
     return (
