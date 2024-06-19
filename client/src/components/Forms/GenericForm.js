@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 import {useToasts} from "../../context/ToastContext";
 import './GenericForm.css';
 
-const GenericForm = ({onSubmit, config, formData, setFormData}) => {
+const GenericForm = ({onSubmit, config, formData, setFormData, authorizationCheck=true}) => {
     const [isFormFilled, setIsFormFilled] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -46,10 +46,12 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
             }
         }
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setError('Unauthorized: Please log in to submit your contribution.');
-            return;
+        if (authorizationCheck) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setError('Unauthorized: Please log in to submit your contribution.');
+                return;
+            }
         }
 
         setLoading(true);
@@ -66,9 +68,9 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
+        <form onSubmit={handleSubmit} className="generic-form-container">
             {config.map(field => (
-                <div key={field.name} className="form-group">
+                <div key={field.name} className="generic-form-group">
                     {field.type === 'textarea' ? (
                         <>
                             <textarea
@@ -77,9 +79,9 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
                                 onChange={handleChange}
                                 placeholder=" "
                                 style={{minHeight: field.height || 'auto'}}
-                                className="form-text-area"
+                                className="generic-form-text-area"
                             />
-                            <label className="form-label">{field.label}</label>
+                            <label className="generic-form-label">{field.label}</label>
                         </>
                     ) : field.type === 'select' ? (
                         <>
@@ -87,14 +89,14 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
                                 name={field.name}
                                 value={formData[field.name] || ""}
                                 onChange={handleChange}
-                                className="form-select"
+                                className="generic-form-select"
                             >
                                 <option value="" disabled hidden>Select the stance of your consideration</option>
                                 {field.options.map(option => (
                                     <option key={option} value={option}>{option}</option>
                                 ))}
                             </select>
-                            <label className="form-label">{field.label}</label>
+                            <label className="generic-form-label">{field.label}</label>
                         </>
                     ) : (
                         <>
@@ -105,15 +107,15 @@ const GenericForm = ({onSubmit, config, formData, setFormData}) => {
                                 onChange={handleChange}
                                 placeholder=" "
                                 style={{height: field.height || 'auto'}}
-                                className="form-input-field"
+                                className="generic-form-input-field"
                             />
-                            <label className="form-label">{field.label}</label>
+                            <label className="generic-form-label">{field.label}</label>
                         </>
                     )}
                 </div>
             ))}
-            <div className="form-action-area">
-                {error && <div className="form-error">{error}</div>}
+            <div className="generic-form-action-area">
+                {error && <div className="generic-form-error">{error}</div>}
                 <button type="submit" disabled={!isFormFilled || loading}>Submit</button>
             </div>
         </form>

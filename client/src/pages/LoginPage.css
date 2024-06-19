@@ -1,3 +1,27 @@
-body {
+.login-page {
     background-color: #f0f0f0;
+    min-height: calc(100vh - 77px);
+}
+
+.register-link {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    padding: 20px 0;
+}
+
+.register-link button {
+    background: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: inherit;
+    padding: 10px 0;
+}
+
+.register-link button:hover {
+    text-decoration: underline;
+    background: none;
 }

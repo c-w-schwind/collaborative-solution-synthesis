@@ -1,7 +1,6 @@
-/* LoginComponent.css */
 .login-container {
     max-width: 380px;
-    margin: 180px auto;
+    margin: 180px auto 100px;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;

@@ -20,12 +20,18 @@ export const AuthProvider = ({children}) => {
     const {addToast} = useToasts();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [firstTime, setFirstTime] = useState(false);
 
     const login = (userData, token) => {
         localStorage.setItem('token', token);
         setIsLoggedIn(true);
         setUser(userData);
-        addToast(`Welcome back, ${userData.username}!`, 5000);
+        if (!firstTime) {
+            addToast(`Welcome back, ${userData.username}!`, 5000);
+        } else {
+            addToast(`Welcome on board, ${userData.username}. Happy to have you!`, 5000);
+            setFirstTime(false);
+        }
     };
 
     const logout = useCallback(({redirect = true, message = "You have successfully been logged out.", timeout = 5000} = {}) => {
@@ -82,8 +88,10 @@ export const AuthProvider = ({children}) => {
         validateAndFetchUserData();
     }, [logout, addToast]);
 
+    const handleFirstTime = () => setFirstTime(true);
+
     return (
-        <AuthContext.Provider value={{isLoggedIn, user, login, logout}}>
+        <AuthContext.Provider value={{isLoggedIn, user, login, logout, handleFirstTime}}>
             {children}
         </AuthContext.Provider>
     );

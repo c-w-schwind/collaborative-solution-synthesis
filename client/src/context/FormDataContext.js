@@ -9,6 +9,7 @@ export const FormDataProvider = ({children}) => {
     const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
     const [considerationFormData, setConsiderationFormData] = useState(initFormData(formConfigurations.considerationForm));
     const [commentFormData, setCommentFormData] = useState(initFormData(formConfigurations.commentForm));
+    const [registrationFormData, setRegistrationFormData] = useState(initFormData(formConfigurations.registrationForm));
 
     const [openedCommentSectionId, setOpenedCommentSectionId] = useState(null);
     const [openedConsiderationFormId, setOpenedConsiderationFormId] = useState(null);
@@ -29,10 +30,11 @@ export const FormDataProvider = ({children}) => {
         [commentFormData]
     );
 
-    const wipeFormData = ({wipeDiscussionSpaceForm, wipeConsiderationForm, wipeCommentForm}) => {
+    const wipeFormData = ({wipeDiscussionSpaceForm, wipeConsiderationForm, wipeCommentForm, wipeRegistrationFormData}) => {
         wipeDiscussionSpaceForm && setDiscussionSpaceFormData(initFormData(formConfigurations.discussionSpaceForm));
         wipeConsiderationForm && setConsiderationFormData(initFormData(formConfigurations.considerationForm));
         wipeCommentForm && setCommentFormData(initFormData(formConfigurations.commentForm));
+        wipeRegistrationFormData && setRegistrationFormData(initFormData(formConfigurations.registrationForm));
     };
 
     // Allows selective navigation checks and form data wiping. Prompts users only if specified forms
@@ -89,7 +91,7 @@ export const FormDataProvider = ({children}) => {
         });
     };
 
-    // if general form, considerationId = "generalForm"
+    // Use "generalConsiderationForm" for the general consideration form instead of editing a specific one.
     const toggleConsiderationForm = (considerationId) => {
         setOpenedConsiderationFormId((prevId) => {
             const sameForm = prevId === considerationId;
@@ -112,10 +114,13 @@ export const FormDataProvider = ({children}) => {
         setConsiderationFormData,
         commentFormData,
         setCommentFormData,
+        registrationFormData,
+        setRegistrationFormData,
         isDiscussionSpaceFormFilled,
         isConsiderationFormFilled,
         isCommentFormFilled,
         canNavigate,
+        wipeFormData,
         toggleCommentSection,
         openedCommentSectionId,
         toggleConsiderationForm,
@@ -124,10 +129,12 @@ export const FormDataProvider = ({children}) => {
         discussionSpaceFormData,
         considerationFormData,
         commentFormData,
+        registrationFormData,
         isDiscussionSpaceFormFilled,
         isConsiderationFormFilled,
         isCommentFormFilled,
         canNavigate,
+        wipeFormData,
         openedCommentSectionId,
         toggleCommentSection,
         openedConsiderationFormId,

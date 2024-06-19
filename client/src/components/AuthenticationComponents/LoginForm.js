@@ -4,7 +4,7 @@ import {useAuth} from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom'
 
 
-function LoginForm () {
+function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -16,10 +16,12 @@ function LoginForm () {
         setEmail(event.target.value);
         setError('');
     }
+
     function handlePassword (event){
         setPassword(event.target.value);
         setError('');
     }
+
     async function handleSubmit (event) {
         event.preventDefault();
         setLoading(true);
@@ -38,7 +40,7 @@ function LoginForm () {
                 login(data.user, data.token);
                 navigate('/');
             } else {
-                setError(data.message);
+                setError(data.message || 'An error occurred during login.');
                 console.info('Login attempt failed:', data.message);
             }
         } catch (error) {
@@ -55,11 +57,11 @@ function LoginForm () {
             <form className="login-form" onSubmit={handleSubmit}>
                 <div>
                     <input
-                        type="text"
-                        id="username"
+                        type="email"
+                        id="email"
                         value={email}
                         onChange={handleEmail}
-                        placeholder="Username"
+                        placeholder="Email"
                     />
                 </div>
                 <div>
