@@ -1,4 +1,4 @@
-import {createContext, useContext, useMemo, useState} from "react";
+import {createContext, useCallback, useContext, useMemo, useState} from "react";
 import {formConfigurations} from "../components/Forms/formConfigurations";
 
 const FormDataContext = createContext();
@@ -30,16 +30,16 @@ export const FormDataProvider = ({children}) => {
         [commentFormData]
     );
 
-    const wipeFormData = ({wipeDiscussionSpaceForm, wipeConsiderationForm, wipeCommentForm, wipeRegistrationFormData}) => {
+    const wipeFormData = useCallback(({wipeDiscussionSpaceForm, wipeConsiderationForm, wipeCommentForm, wipeRegistrationFormData}) => {
         wipeDiscussionSpaceForm && setDiscussionSpaceFormData(initFormData(formConfigurations.discussionSpaceForm));
         wipeConsiderationForm && setConsiderationFormData(initFormData(formConfigurations.considerationForm));
         wipeCommentForm && setCommentFormData(initFormData(formConfigurations.commentForm));
         wipeRegistrationFormData && setRegistrationFormData(initFormData(formConfigurations.registrationForm));
-    };
+    },[]);
 
     // Allows selective navigation checks and form data wiping. Prompts users only if specified forms
     // have unsaved data, enabling navigation while preserving or ignoring certain fields as needed.
-    const canNavigate = ({checkDiscussionSpaceForm, checkConsiderationForm, checkCommentForm, checkAll, saveDiscussionSpaceData}) => {
+    const canNavigate = useCallback(({checkDiscussionSpaceForm, checkConsiderationForm, checkCommentForm, checkAll, saveDiscussionSpaceData}) => {
         const filledForms = [];
 
         if (checkAll) {
@@ -72,9 +72,9 @@ export const FormDataProvider = ({children}) => {
         if (checkConsiderationForm) setOpenedConsiderationFormId(null);
 
         return true;
-    };
+    },[isDiscussionSpaceFormFilled, isConsiderationFormFilled, isCommentFormFilled, wipeFormData]);
 
-    const toggleCommentSection = (considerationId) => {
+    const toggleCommentSection = useCallback((considerationId) => {
         setOpenedCommentSectionId(prevId => {
             const sameForm = prevId === considerationId;
             if (isCommentFormFilled && !window.confirm(`You have unsaved text in ${sameForm ? "this" : "a different"} comment form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other comment"}. Proceed?`)) {
@@ -89,10 +89,10 @@ export const FormDataProvider = ({children}) => {
 
             return sameForm ? null : considerationId;
         });
-    };
+    },[isCommentFormFilled]);
 
     // Use "generalConsiderationForm" for the general consideration form instead of editing a specific one.
-    const toggleConsiderationForm = (considerationId) => {
+    const toggleConsiderationForm = useCallback((considerationId) => {
         setOpenedConsiderationFormId((prevId) => {
             const sameForm = prevId === considerationId;
             if (isConsiderationFormFilled && !window.confirm(`You have unsaved text in ${sameForm ? "this" : openedConsiderationFormId === "generalConsiderationForm" ? "the \"Add Consideration\"" : "another opened consideration"} form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other input"}. Proceed?`)) {
@@ -105,7 +105,7 @@ export const FormDataProvider = ({children}) => {
 
             return sameForm ? null : considerationId;
         });
-    };
+    },[isConsiderationFormFilled, openedConsiderationFormId]);
 
     const value = useMemo(() => ({
         discussionSpaceFormData,
