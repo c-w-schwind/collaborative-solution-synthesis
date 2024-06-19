@@ -1,6 +1,6 @@
 import './ConsiderationList.css';
 import ConsiderationCard from './ConsiderationCard';
-import {useCallback, useEffect, useState} from "react";
+import {/*useCallback,*/ useEffect, useState} from "react";
 import ConsiderationInput from "./ConsiderationInput";
 import {useFormData} from "../../context/FormDataContext";
 
@@ -21,22 +21,29 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
         setIsFormActive(openedConsiderationFormId === "generalConsiderationForm");
     }, [openedConsiderationFormId]);
 
-    const fetchConsiderations = useCallback(async () => {
+    /*const fetchConsiderations = useCallback(async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/considerations/${parentType}/${parentNumber}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            setConsiderations(data.considerations);
+            setConsiderations(data);
         } catch (err) {
             console.error('Failed to fetch considerations:', err);
         }
-    }, [parentType, parentNumber]);
+    }, [parentType, parentNumber]);*/
 
     const toggleVisibility = (stance) => {
         setVisibility(prevState => ({...prevState, [stance]: !prevState[stance]}));
     };
+
+    const handleSuccessfulSubmit = (newConsideration) => {
+        setConsiderations(prev => ({
+            ...prev,
+            [newConsideration.stance]: [...prev[newConsideration.stance], newConsideration]
+        }));
+    }
 
     return (
         <div className="solution-details-list-container">
@@ -74,10 +81,7 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
                     <button className={!isFormActive ? "solution-details-add-card-button" : "solution-element-action-button--close"}
                             onClick={() => toggleConsiderationForm("generalConsiderationForm")}>{!isFormActive ? "Add Consideration" : "X"}</button>
                     {isFormActive && <ConsiderationInput
-                        onSuccessfulSubmit={() => {
-                            toggleConsiderationForm();
-                            fetchConsiderations();
-                        }}
+                        onSuccessfulSubmit={handleSuccessfulSubmit}
                         parentType={parentType}
                         parentNumber={parentNumber}
                     />}

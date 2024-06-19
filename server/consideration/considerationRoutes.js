@@ -28,7 +28,7 @@ considerationRoutes.get('/considerations/:parentType/:parentNumber', (req, res, 
 
     const considerations = groupAndSortConsiderationsByStance(unsortedConsiderations);
 
-    return res.status(200).send({considerations});
+    return res.status(200).send(considerations);
 }));
 
 
@@ -61,7 +61,6 @@ considerationRoutes.put('/considerations/:id', (req, res, next) => translateEnti
     const consideration = await Consideration.findByIdAndUpdate(req.params.id, req.body, {new: true});
     if (!consideration) throw new NotFoundError('Consideration not found.');
 
-    console.log(consideration);
     res.status(200).send(consideration);
 }));
 
@@ -98,7 +97,7 @@ considerationRoutes.post('/considerations/:considerationId/vote', authenticateTo
 
     const consideration = await toggleConsiderationVote(req.params.considerationId, req.user._id, vote);
 
-    res.status(200).send({consideration, vote});
+    res.status(200).send(consideration);
 }));
 
 
@@ -114,7 +113,7 @@ considerationRoutes.post('/considerations/:considerationId/comment/:commentId/vo
 
     const comment = await toggleCommentVote(req.params.considerationId, req.params.commentId, req.user._id, vote);
 
-    res.status(200).send({comment, vote});
+    res.status(200).send(comment);
 }));
 
 export default considerationRoutes;

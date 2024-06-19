@@ -12,7 +12,7 @@ const CommentSection = ({comments, considerationId, onAddingCommentSuccess}) => 
     }, [comments]);
 
     const handleVoteSuccess = (data) => {
-        const updatedComment = data.comment;
+        const updatedComment = data;
 
         const updatedComments = considerationComments.map(considerationComment => (
             considerationComment._id === updatedComment._id ? updatedComment : considerationComment
