@@ -28,7 +28,7 @@ function SolutionListPage() {
 
 
     return (
-        <>
+        <div className="solution-list">
             {solutions.length === 0 ? (
                 <div className="no-solutions-message">
                     Currently, there are no solutions available. This is your opportunity to lead the way!
@@ -54,7 +54,7 @@ function SolutionListPage() {
                 </div>
                 <button className="solution-action-button">Add new Solution!</button>
             </div>
-        </>
+        </div>
     )
 }
 
