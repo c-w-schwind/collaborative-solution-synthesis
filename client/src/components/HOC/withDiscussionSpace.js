@@ -139,7 +139,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         };
 
         const handleFullScreenButton = () => {
-            if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, saveDiscussionSpaceData: true})) {
+            if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkElementForm: true, saveDiscussionSpaceData: true})) {
                 navigate("./discussionSpace/fullscreen", {state: {entityTitle}});
             }
         };

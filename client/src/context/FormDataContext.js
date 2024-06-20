@@ -13,8 +13,9 @@ export const FormDataProvider = ({children}) => {
     const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
     const [registrationFormData, setRegistrationFormData] = useState(initFormData(formConfigurations.registrationForm));
 
-    const [openedCommentSectionId, setOpenedCommentSectionId] = useState(null);
     const [openedConsiderationFormId, setOpenedConsiderationFormId] = useState(null);
+    const [openedCommentSectionId, setOpenedCommentSectionId] = useState(null);
+    const [isElementFormOpen, setIsElementFormOpen] = useState(false);
 
 
     const isSolutionFormFilled = useMemo(() =>
@@ -90,10 +91,21 @@ export const FormDataProvider = ({children}) => {
         // Close open forms & sections when navigating away
         if (checkCommentForm) setOpenedCommentSectionId(null);
         if (checkConsiderationForm) setOpenedConsiderationFormId(null);
+        if (checkElementForm) setIsElementFormOpen(false);
 
         return true;
-    },[isDiscussionSpaceFormFilled, isConsiderationFormFilled, isCommentFormFilled, wipeFormData]);
     },[isSolutionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, wipeFormData]);
+
+    const toggleElementForm = useCallback((askUser = true) => {
+        if (askUser && isElementFormOpen && isElementFormFilled) {
+            if (window.confirm(`You have unsaved text in this form. Closing it will delete your input. Proceed?`)) {
+                setIsElementFormOpen(prevState => !prevState);
+                wipeFormData({wipeElementForm: true});
+            }
+        } else {
+            setIsElementFormOpen(prevState => !prevState);
+        }
+    }, [isSolutionFormFilled, isElementFormFilled, isElementFormOpen]);
 
     const toggleCommentSection = useCallback((considerationId) => {
         setOpenedCommentSectionId(prevId => {
@@ -129,37 +141,60 @@ export const FormDataProvider = ({children}) => {
     },[isConsiderationFormFilled, openedConsiderationFormId]);
 
     const value = useMemo(() => ({
-        discussionSpaceFormData,
-        setDiscussionSpaceFormData,
+        solutionFormData,
+        elementFormData,
         considerationFormData,
+        commentFormData,
+        discussionSpaceFormData,
+        registrationFormData,
+
+        setSolutionFormData,
+        setElementFormData,
         setConsiderationFormData,
-        commentFormData,
         setCommentFormData,
-        registrationFormData,
+        setDiscussionSpaceFormData,
         setRegistrationFormData,
-        isDiscussionSpaceFormFilled,
+
+        isSolutionFormFilled,
+        isElementFormFilled,
         isConsiderationFormFilled,
         isCommentFormFilled,
+        isDiscussionSpaceFormFilled,
+
         canNavigate,
         wipeFormData,
-        toggleCommentSection,
-        openedCommentSectionId,
+
+        toggleElementForm,
         toggleConsiderationForm,
-        openedConsiderationFormId
+        toggleCommentSection,
+
+        isElementFormOpen,
+        openedConsiderationFormId,
+        openedCommentSectionId
     }), [
-        discussionSpaceFormData,
+        solutionFormData,
+        elementFormData,
         considerationFormData,
         commentFormData,
+        discussionSpaceFormData,
         registrationFormData,
-        isDiscussionSpaceFormFilled,
+
+        isSolutionFormFilled,
+        isElementFormFilled,
         isConsiderationFormFilled,
         isCommentFormFilled,
+        isDiscussionSpaceFormFilled,
+
         canNavigate,
         wipeFormData,
-        openedCommentSectionId,
+
+        toggleElementForm,
+        toggleConsiderationForm,
         toggleCommentSection,
+
+        isElementFormOpen,
         openedConsiderationFormId,
-        toggleConsiderationForm
+        openedCommentSectionId
     ]);
 
     return (

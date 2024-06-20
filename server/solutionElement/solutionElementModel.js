@@ -18,7 +18,7 @@ const solutionElementSchema = new mongoose.Schema({
     },
     elementType: {                          // primary = specific strategies, methods, actions
         type: String,                       // supportive = additional components that enhance the solution
-        enum: ['primary', 'supportive'],
+        enum: ['Primary', 'Supportive'],
         required: true
     },
     title: {

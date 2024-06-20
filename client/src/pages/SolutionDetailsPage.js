@@ -68,6 +68,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                             elements={solution.solutionElements}
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
                             isDiscussionSpaceOpen={isDiscussionSpaceOpen}
+                            parentNumber={solutionNumber}
                         />
                         <ConsiderationsList
                             considerations={solution.considerations}

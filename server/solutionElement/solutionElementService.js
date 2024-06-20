@@ -7,7 +7,7 @@ import {getNextCounterValue} from "../counters/counterService.js";
 function validateSolutionElementData(solutionElementData) {
     validateRequiredFields(solutionElementData, ['parentSolutionId', 'elementType', 'title', 'overview', 'description'], "Solution element validation")
 
-    if (!['primary', 'supportive'].includes(solutionElementData.elementType)) {
+    if (!['Primary', 'Supportive'].includes(solutionElementData.elementType)) {
         throw new BadRequestError("Invalid elementType. Must be 'primary' or 'supportive'.");
     }
 }

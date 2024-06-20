@@ -15,14 +15,14 @@ import {groupAndSortConsiderationsByStance} from "../consideration/consideration
 const solutionElementRoutes = express.Router();
 
 // Create new Solution Element
-solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExistence, asyncHandler(async (req, res, next) => {
+solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExistence, (req, res, next) => translateEntityNumberToId("Solution", req.body.parentNumber, "parentSolutionId")(req, res, next), asyncHandler(async (req, res, next) => {    //TODO translateEntityNumberToId
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        if (!await Solution.findById(req.body.parentSolutionId)) throw new NotFoundError('Solution not found');
+        if (!await Solution.findById(req.parentSolutionId)) throw new NotFoundError('Solution not found');
 
-        const solutionElement = await validateAndCreateSolutionElements(req.body, req.body.parentSolutionId, req.user._id, session);
-        await updateParentSolutionElementsCount(req.body.parentSolutionId, 1, session)
+        const solutionElement = await validateAndCreateSolutionElements(req.body, req.parentSolutionId, req.user._id, session);
+        await updateParentSolutionElementsCount(req.parentSolutionId, 1, session)
 
         await session.commitTransaction();
         res.status(201).send(solutionElement[0]);
