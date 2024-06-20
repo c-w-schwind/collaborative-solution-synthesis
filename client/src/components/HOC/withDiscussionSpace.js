@@ -16,8 +16,107 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         const navigate = useNavigate();
         const {canNavigate} = useFormData();
 
-        const handleToggleDiscussionSpace = (checkNavigate = true) => {
-            if (checkNavigate && !canNavigate({checkDiscussionSpaceForm: true})) return;
+        // Update discussion space and solution outlet states & disable scrollbar when modal is open
+        useEffect(() => {
+            const pathSegments = location.pathname.split('/');
+            const isDiscussionPath = pathSegments.includes('discussionSpace');
+            const isElementPath = pathSegments.includes('element');
+
+            if (!(entityType === "Solution" && isElementPath)) {
+                setIsDiscussionSpaceOpen(isDiscussionPath);
+            }
+
+            // Delay DOM updates to ensure execution after React's render cycle
+            const timeoutId = setTimeout(() => {
+                if (isElementPath && entityType === 'Solution') {
+                    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.paddingRight = `${scrollbarWidth}px`;
+                }
+            }, 100);
+
+            setIsSolutionDSOutletOpen(!isElementPath);
+
+            return () => {
+                clearTimeout(timeoutId);
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            };
+        }, [location.pathname]);
+
+        // Activate overlay for solution elements
+        useEffect(() => {
+            if (entityType !== "SolutionElement") return;
+
+            // Ensure overlay activation happens after UI updates, preventing rendering glitches (esp. when transitioning from open discussion space)
+            const rafId = requestAnimationFrame(() => {
+                setIsOverlayActive(true);
+            });
+
+            return () => {
+                cancelAnimationFrame(rafId);
+                setIsOverlayActive(false);
+            };
+        }, []);
+
+        // Ensure the discussion space scrolls in sync with the solution details container, adjusting heights for a flush stop at the same level
+        useEffect(() => {
+            if (entityType !== 'Solution' || !isDiscussionSpaceOpen) return;
+
+            const adjustContainerHeight = () => {
+                const entityContainer = document.querySelector('.entity-container-for-ds-addition');
+                const solutionContainer = document.querySelector('.solution-details-container');
+
+                if (entityContainer && solutionContainer) {
+                    entityContainer.style.height = `${solutionContainer.offsetHeight}px`;
+                    return true;
+                }
+                return false;
+            };
+
+            // Retry adjusting container height to handle cases where DOM elements might not be immediately ready
+            const tryAdjustHeight = (retries = 20) => {
+                if (!adjustContainerHeight() && retries > 0) {
+                    setTimeout(() => tryAdjustHeight(retries - 1), 100);
+                }
+            };
+
+            const solutionDetailsArea = document.querySelector('.solution-details-area');
+            if (solutionDetailsArea) {
+                const handleTransitionEnd = (event) => {
+                    if (event.propertyName === 'width' || event.propertyName === 'left') {
+                        solutionDetailsArea.removeEventListener('transitionend', handleTransitionEnd);
+                        adjustContainerHeight();
+                    }
+                };
+                solutionDetailsArea.addEventListener('transitionend', handleTransitionEnd);
+
+            } else {
+                tryAdjustHeight();
+            }
+
+            const debouncedAdjustContainerHeight = debounce(adjustContainerHeight, 100);
+            window.addEventListener('resize', debouncedAdjustContainerHeight);
+
+            return () => {
+                window.removeEventListener('resize', debouncedAdjustContainerHeight);
+            };
+        }, [isDiscussionSpaceOpen]);
+
+        // Preserve scroll position of solution details page after closing discussion space
+        useEffect(() => {
+            const originalScrollRestoration = window.history.scrollRestoration;
+            if ('scrollRestoration' in window.history) {
+                window.history.scrollRestoration = 'manual';
+            }
+
+            return () => {
+                window.history.scrollRestoration = originalScrollRestoration;
+            };
+        }, []);
+
+        const toggleDiscussionSpace = (checkBeforeNavigation = true) => {
+            if (checkBeforeNavigation && !canNavigate({checkDiscussionSpaceForm: true})) return;
 
             const willDiscussionSpaceBeOpen = !isDiscussionSpaceOpen;
             setIsDiscussionSpaceOpen(willDiscussionSpaceBeOpen);
@@ -69,8 +168,15 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                                 <div className="modal-header">
                                     <h2>Discussion Space</h2>
                                     <div className="solution-element-button-section">
-                                        <button className="solution-element-action-button solution-element-action-button--propose" onClick={handleFullScreenButton}>Full Screen Mode</button>
-                                        <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={handleToggleDiscussionSpace}>X</button>
+                                        <button
+                                            className="solution-element-action-button solution-element-action-button--propose"
+                                            onClick={handleFullScreenButton}
+                                        >Full Screen Mode</button>
+                                        <button
+                                            className="solution-element-action-button solution-element-action-button--close"
+                                            aria-label="Close"
+                                            onClick={toggleDiscussionSpace}
+                                        >X</button>
                                     </div>
                                 </div>
                                 <div className="modal-container-scrollable">
@@ -81,12 +187,22 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                     );
                 case 'SolutionElement':
                     return (
-                        <div className={`modal-container discussion-space-modal ${isDiscussionSpaceOpen ? 'discussion-space-modal-ds-open' : ''}`} onClick={(e) => e.stopPropagation()}>
+                        <div
+                            className={`modal-container discussion-space-modal ${isDiscussionSpaceOpen ? 'discussion-space-modal-ds-open' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                        >
                             <div className="modal-header">
                                 <h2>Discussion Space</h2>
                                 <div className="solution-element-button-section">
-                                    <button className="solution-element-action-button solution-element-action-button--propose" onClick={handleFullScreenButton}>Full Screen Mode</button>
-                                    <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={handleToggleDiscussionSpace}>X</button>
+                                    <button
+                                        className="solution-element-action-button solution-element-action-button--propose"
+                                        onClick={handleFullScreenButton}
+                                    >Full Screen Mode</button>
+                                    <button
+                                        className="solution-element-action-button solution-element-action-button--close"
+                                        aria-label="Close"
+                                        onClick={toggleDiscussionSpace}
+                                    >X</button>
                                 </div>
                             </div>
                             <div className="modal-container-scrollable">
@@ -99,107 +215,19 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
             }
         };
 
-        // Update discussion space and solution outlet states & disable scrollbar when modal is open
-        useEffect(() => {
-            const pathSegments = location.pathname.split('/');
-            const isDiscussionPath = pathSegments.includes('discussionSpace');
-            const isElementPath = pathSegments.includes('element');
-
-            if (!(entityType === "Solution" && isElementPath)) {
-                setIsDiscussionSpaceOpen(isDiscussionPath);
-            }
-
-            // Delay DOM updates to ensure execution after React's render cycle
-            const timeoutId = setTimeout(() => {
-                if (isElementPath && entityType === 'Solution') {
-                    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-                    document.body.style.overflow = 'hidden';
-                    document.body.style.paddingRight = `${scrollbarWidth}px`;
-                }
-            }, 100);
-
-            isElementPath ? setIsSolutionDSOutletOpen(false) : setIsSolutionDSOutletOpen(true);
-
-            return () => {
-                clearTimeout(timeoutId);
-                document.body.style.overflow = '';
-                document.body.style.paddingRight = '';
-            };
-        }, [location.pathname]);
-
-        // Activate overlay for solution elements
-        useEffect(() => {
-            if (entityType !== "SolutionElement") return;
-
-            // Ensure overlay activation happens after UI updates, preventing rendering glitches (esp. when transitioning from open discussion space)
-            const rafId = requestAnimationFrame(() => {
-                setIsOverlayActive(true);
-            });
-
-            return () => {
-                cancelAnimationFrame(rafId);
-                setIsOverlayActive(false);
-            };
-        }, []);
-
-        // Ensure the discussion space scrolls in sync with the solution details container, adjusting heights for a flush stop at the same level
-        useEffect(() => {
-            if (entityType !== 'Solution' || !isDiscussionSpaceOpen) return;
-
-            function adjustContainerHeight() {
-                const entityContainer = document.querySelector('.entity-container-for-ds-addition');
-                const solutionContainer = document.querySelector('.solution-details-container');
-
-                if (entityContainer && solutionContainer) {
-                    entityContainer.style.height = `${solutionContainer.offsetHeight}px`;
-                    return true;
-                }
-                return false;
-            }
-
-            // Retry adjusting container height to handle cases where DOM elements might not be immediately ready
-            function tryAdjustHeight(retries = 20) {
-                if (!adjustContainerHeight() && retries > 0) {
-                    setTimeout(() => tryAdjustHeight(retries - 1), 100);
-                }
-            }
-
-            const solutionDetailsArea = document.querySelector('.solution-details-area');
-            if (solutionDetailsArea) {
-                solutionDetailsArea.addEventListener('transitionend', function onTransitionEnd(event) {
-                    if (event.propertyName === 'width' || event.propertyName === 'left') {
-                        solutionDetailsArea.removeEventListener('transitionend', onTransitionEnd);
-                        adjustContainerHeight();
-                    }
-                });
-            } else {
-                tryAdjustHeight();
-            }
-
-            const debouncedAdjustContainerHeight = debounce(adjustContainerHeight, 100);
-            window.addEventListener('resize', debouncedAdjustContainerHeight);
-
-            return () => {
-                window.removeEventListener('resize', debouncedAdjustContainerHeight);
-            };
-        }, [isDiscussionSpaceOpen]);
-
-        // Preserve scroll position of solution details page after closing discussion space
-        useEffect(() => {
-            const originalScrollRestoration = window.history.scrollRestoration;
-            if ('scrollRestoration' in window.history) {
-                window.history.scrollRestoration = 'manual';
-            }
-
-            return () => {
-                window.history.scrollRestoration = originalScrollRestoration;
-            };
-        }, []);
-
         return (
-            <div className={entityType === "SolutionElement" ? `overlay ${isOverlayActive ? 'overlay-active' : ''}` : ''} onClick={entityType === "SolutionElement" ? handleClosingModal : undefined}>
+            <div
+                className={entityType === "SolutionElement" ? `overlay ${isOverlayActive ? 'overlay-active' : ''}` : ''}
+                onClick={entityType === "SolutionElement" ? handleClosingModal : undefined}
+            >
                 <div className="entity-container-for-ds-addition">
-                    <WrappedComponent {...props} onToggleDiscussionSpace={handleToggleDiscussionSpace} onClosingModal={handleClosingModal} isDiscussionSpaceOpen={isDiscussionSpaceOpen} setEntityTitle={setEntityTitle}/>
+                    <WrappedComponent
+                        {...props}
+                        onToggleDiscussionSpace={toggleDiscussionSpace}
+                        onClosingModal={handleClosingModal}
+                        isDiscussionSpaceOpen={isDiscussionSpaceOpen}
+                        setEntityTitle={setEntityTitle}
+                    />
                     {renderDiscussionSpace()}
                 </div>
             </div>
