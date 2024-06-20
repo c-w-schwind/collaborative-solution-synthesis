@@ -21,7 +21,6 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    white-space: pre-wrap;
 }
 
 .comment-text {

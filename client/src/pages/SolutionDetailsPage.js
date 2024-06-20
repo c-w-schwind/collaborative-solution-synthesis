@@ -60,9 +60,21 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
             <>
                 <div className={`solution-details-area ${isDiscussionSpaceOpen ? 'solution-details-area-ds-open' : ''}`}>
                     <div ref={solutionContainerRef} className="solution-details-container">
-                        <SolutionOverviewSection solution={solution} onToggleDiscussionSpace={onToggleDiscussionSpace}/>
-                        <SolutionElementsList elements={solution.solutionElements} onToggleDiscussionSpace={onToggleDiscussionSpace} isDiscussionSpaceOpen={isDiscussionSpaceOpen}/>
-                        <ConsiderationsList considerations={solution.considerations} onSuccessfulSubmit={fetchSolution} parentType={"Solution"} parentNumber={solutionNumber}/>
+                        <SolutionOverviewSection
+                            solution={solution}
+                            onToggleDiscussionSpace={onToggleDiscussionSpace}
+                        />
+                        <SolutionElementsList
+                            elements={solution.solutionElements}
+                            onToggleDiscussionSpace={onToggleDiscussionSpace}
+                            isDiscussionSpaceOpen={isDiscussionSpaceOpen}
+                        />
+                        <ConsiderationsList
+                            considerations={solution.considerations}
+                            onSuccessfulSubmit={fetchSolution}
+                            parentType={"Solution"}
+                            parentNumber={solutionNumber}
+                        />
                     </div>
                 </div>
                 {renderElementOutlet && <Outlet/>}

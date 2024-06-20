@@ -53,8 +53,13 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
                 return (
                     <div key={stance} className={`consideration-container ${stance.toLowerCase()}`}>
                         <div className="consideration-header">
-                            <h3 className="consideration-header-title">{stance + (visibility[stance] ? "" : ` (${stanceSet.length})`)}</h3>
-                            {stanceSet.length > 0 && <button className="consideration-header-toggle" onClick={() => toggleVisibility(stance)}>
+                            <h3 className="consideration-header-title">
+                                {stance + (visibility[stance] ? "" : ` (${stanceSet.length})`)}
+                            </h3>
+                            {stanceSet.length > 0 && <button
+                                className="consideration-header-toggle"
+                                onClick={() => toggleVisibility(stance)}
+                            >
                                 {visibility[stance] ? "Hide" : `Show [${stanceSet.length}]`}
                             </button>}
                         </div>
@@ -77,9 +82,16 @@ const ConsiderationsList = ({considerations: initialConsiderations, parentType, 
             })}
 
             <div className="solution-details-add-card-button-container">
-                <div className={!isFormActive ? "" : `consideration-container ${inputStance.toLowerCase()}`}>
-                    <button className={!isFormActive ? "solution-details-add-card-button" : "solution-element-action-button--close"}
-                            onClick={() => toggleConsiderationForm("generalConsiderationForm")}>{!isFormActive ? "Add Consideration" : "X"}</button>
+                <div
+                    className={isFormActive ? `consideration-container ${inputStance.toLowerCase()}` : ''}
+                    style={isFormActive ? {padding: "15px 25px"} : {}}
+                >
+                    <button
+                        className={!isFormActive ? "solution-details-add-card-button" : "solution-element-action-button--close"}
+                        onClick={() => toggleConsiderationForm("generalConsiderationForm")}
+                    >
+                        {!isFormActive ? "Add Consideration" : "X"}
+                    </button>
                     {isFormActive && <ConsiderationInput
                         onSuccessfulSubmit={handleSuccessfulSubmit}
                         parentType={parentType}
