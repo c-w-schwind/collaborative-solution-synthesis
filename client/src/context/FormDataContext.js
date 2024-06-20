@@ -6,18 +6,25 @@ const FormDataContext = createContext();
 export const FormDataProvider = ({children}) => {
     const initFormData = (config) => config.reduce((acc, field) => ({...acc, [field.name]: ''}), {});
 
-    const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
+    const [solutionFormData, setSolutionFormData] = useState(initFormData(formConfigurations.solutionForm));
+    const [elementFormData, setElementFormData] = useState(initFormData(formConfigurations.elementForm));
     const [considerationFormData, setConsiderationFormData] = useState(initFormData(formConfigurations.considerationForm));
     const [commentFormData, setCommentFormData] = useState(initFormData(formConfigurations.commentForm));
+    const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
     const [registrationFormData, setRegistrationFormData] = useState(initFormData(formConfigurations.registrationForm));
 
     const [openedCommentSectionId, setOpenedCommentSectionId] = useState(null);
     const [openedConsiderationFormId, setOpenedConsiderationFormId] = useState(null);
 
 
-    const isDiscussionSpaceFormFilled = useMemo(() =>
-        Object.values(discussionSpaceFormData).some(val => val.trim() !== ''),
-        [discussionSpaceFormData]
+    const isSolutionFormFilled = useMemo(() =>
+        Object.values(solutionFormData).some(val => val.trim() !== ''),
+        [solutionFormData]
+    );
+
+    const isElementFormFilled = useMemo(() =>
+        Object.values(elementFormData).some(val => val.trim() !== ''),
+        [elementFormData]
     );
 
     const isConsiderationFormFilled = useMemo(() =>
@@ -30,27 +37,38 @@ export const FormDataProvider = ({children}) => {
         [commentFormData]
     );
 
-    const wipeFormData = useCallback(({wipeDiscussionSpaceForm, wipeConsiderationForm, wipeCommentForm, wipeRegistrationFormData}) => {
-        wipeDiscussionSpaceForm && setDiscussionSpaceFormData(initFormData(formConfigurations.discussionSpaceForm));
+    const isDiscussionSpaceFormFilled = useMemo(() =>
+        Object.values(discussionSpaceFormData).some(val => val.trim() !== ''),
+        [discussionSpaceFormData]
+    );
+
+    const wipeFormData = useCallback(({wipeSolutionForm, wipeElementForm, wipeConsiderationForm, wipeCommentForm, wipeDiscussionSpaceForm, wipeRegistrationFormData}) => {
+        wipeSolutionForm && setSolutionFormData(initFormData(formConfigurations.solutionForm));
+        wipeElementForm && setElementFormData(initFormData(formConfigurations.elementForm));
         wipeConsiderationForm && setConsiderationFormData(initFormData(formConfigurations.considerationForm));
         wipeCommentForm && setCommentFormData(initFormData(formConfigurations.commentForm));
+        wipeDiscussionSpaceForm && setDiscussionSpaceFormData(initFormData(formConfigurations.discussionSpaceForm));
         wipeRegistrationFormData && setRegistrationFormData(initFormData(formConfigurations.registrationForm));
     },[]);
 
-    // Allows selective navigation checks and form data wiping. Prompts users only if specified forms
-    // have unsaved data, enabling navigation while preserving or ignoring certain fields as needed.
-    const canNavigate = useCallback(({checkDiscussionSpaceForm, checkConsiderationForm, checkCommentForm, checkAll, saveDiscussionSpaceData}) => {
+    // Allows selective navigation checks and form data wiping. Prompts users only if specified forms have unsaved data,
+    // enabling navigation while preserving or ignoring certain fields as needed. Closes open forms on navigation.
+    const canNavigate = useCallback(({checkSolutionForm, checkElementForm, checkConsiderationForm, checkCommentForm, checkDiscussionSpaceForm, checkAll, saveDiscussionSpaceData}) => {
         const filledForms = [];
 
         if (checkAll) {
-            checkDiscussionSpaceForm = true;
+            checkSolutionForm = true;
+            checkElementForm = true;
             checkConsiderationForm = true;
             checkCommentForm = true;
+            checkDiscussionSpaceForm = true;
         }
 
-        if (checkDiscussionSpaceForm && isDiscussionSpaceFormFilled) filledForms.push("Discussion Space Form");
+        if (checkSolutionForm && isSolutionFormFilled) filledForms.push("Solution Form");
+        if (checkElementForm && isElementFormFilled) filledForms.push("Solution Element Form");
         if (checkConsiderationForm && isConsiderationFormFilled) filledForms.push("Consideration Form");
         if (checkCommentForm && isCommentFormFilled) filledForms.push("Comment Form");
+        if (checkDiscussionSpaceForm && isDiscussionSpaceFormFilled) filledForms.push("Discussion Space Form");
 
         if (filledForms.length > 0) {
             const filledFormsMessage = filledForms.map(form => `   - ${form}`).join("\n");
@@ -61,18 +79,21 @@ export const FormDataProvider = ({children}) => {
             }
 
             wipeFormData({
-                wipeDiscussionSpaceForm: saveDiscussionSpaceData ? false : checkDiscussionSpaceForm,
+                wipeSolutionForm: checkSolutionForm,
+                wipeElementForm: checkElementForm,
                 wipeConsiderationForm: checkConsiderationForm,
-                wipeCommentForm: checkCommentForm
+                wipeCommentForm: checkCommentForm,
+                wipeDiscussionSpaceForm: saveDiscussionSpaceData ? false : checkDiscussionSpaceForm
             });
         }
 
-        // Close open comment section when navigating away from a consideration form
+        // Close open forms & sections when navigating away
         if (checkCommentForm) setOpenedCommentSectionId(null);
         if (checkConsiderationForm) setOpenedConsiderationFormId(null);
 
         return true;
     },[isDiscussionSpaceFormFilled, isConsiderationFormFilled, isCommentFormFilled, wipeFormData]);
+    },[isSolutionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, wipeFormData]);
 
     const toggleCommentSection = useCallback((considerationId) => {
         setOpenedCommentSectionId(prevId => {

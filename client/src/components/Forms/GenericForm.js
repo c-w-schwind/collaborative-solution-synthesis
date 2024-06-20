@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 import {useToasts} from "../../context/ToastContext";
 import './GenericForm.css';
 
-const GenericForm = ({onSubmit, config, formData, setFormData, authorizationCheck=true}) => {
+const GenericForm = ({onSubmit, config, formData, setFormData, authorizationCheck = true}) => {
     const [isFormFilled, setIsFormFilled] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -68,7 +68,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
     };
 
     return (
-        <form onSubmit={handleSubmit} className="generic-form-container">
+        <form onSubmit={handleSubmit} className="generic-form-area">
             {config.map(field => (
                 <div key={field.name} className="generic-form-group">
                     {field.type === 'textarea' ? (
@@ -91,7 +91,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
                                 onChange={handleChange}
                                 className="generic-form-select"
                             >
-                                <option value="" disabled hidden>Select the stance of your consideration</option>
+                                <option value="" disabled hidden>{field.placeholder || 'Select an option'}</option>
                                 {field.options.map(option => (
                                     <option key={option} value={option}>{option}</option>
                                 ))}

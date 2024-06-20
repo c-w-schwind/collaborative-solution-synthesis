@@ -1,4 +1,4 @@
-.generic-form-container {
+.generic-form-area {
     width: 100%;
     margin: 10px auto;
     display: flex;
@@ -96,7 +96,7 @@
     width: 100%;
 }
 
-.generic-form-container button {
+.generic-form-area button {
     align-self: flex-start;
     width: 100px;
     margin-left: auto;
@@ -128,7 +128,7 @@
 }
 
 @media screen and (max-width: 900px) {
-    .generic-form-container {
+    .generic-form-area {
         width: 90%;
         margin: 10px auto;
     }
