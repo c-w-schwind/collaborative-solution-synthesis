@@ -1,6 +1,6 @@
 import './SolutionElementModal.css'
 import {useCallback, useEffect, useRef, useState} from "react";
-import ConsiderationsList from "../components/ConsiderationComponents/ConsiderationsList";
+import ConsiderationList from "../components/ConsiderationComponents/ConsiderationList";
 import {debounce} from "../utils/utils";
 import {useParams} from "react-router-dom";
 import LoadingRetryOverlay from "../components/CommonComponents/LoadingRetryOverlay";
@@ -89,7 +89,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                         <h3 className="solution-details-list-container-title">Detailed Description</h3>
                         <p>{solutionElement.description}</p>
                     </div>
-                    <ConsiderationsList considerations={solutionElement.considerations} onSuccessfulSubmit={fetchSolutionElement} parentType={"SolutionElement"} parentNumber={elementNumber}/>
+                    <ConsiderationList considerations={solutionElement.considerations} onSuccessfulSubmit={fetchSolutionElement} parentType={"SolutionElement"} parentNumber={elementNumber}/>
                 </div>
             </div>
         ) : (

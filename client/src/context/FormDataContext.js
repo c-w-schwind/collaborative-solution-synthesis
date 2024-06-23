@@ -50,7 +50,7 @@ export const FormDataProvider = ({children}) => {
         wipeCommentForm && setCommentFormData(initFormData(formConfigurations.commentForm));
         wipeDiscussionSpaceForm && setDiscussionSpaceFormData(initFormData(formConfigurations.discussionSpaceForm));
         wipeRegistrationFormData && setRegistrationFormData(initFormData(formConfigurations.registrationForm));
-    },[]);
+    }, []);
 
     // Allows selective navigation checks and form data wiping. Prompts users only if specified forms have unsaved data,
     // enabling navigation while preserving or ignoring certain fields as needed. Closes open forms on navigation.
@@ -94,7 +94,7 @@ export const FormDataProvider = ({children}) => {
         if (checkElementForm) setIsElementFormOpen(false);
 
         return true;
-    },[isSolutionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, wipeFormData]);
+    }, [isSolutionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, wipeFormData]);
 
     const toggleElementForm = useCallback((askUser = true) => {
         if (askUser && isElementFormOpen && isElementFormFilled) {
@@ -105,7 +105,7 @@ export const FormDataProvider = ({children}) => {
         } else {
             setIsElementFormOpen(prevState => !prevState);
         }
-    }, [isSolutionFormFilled, isElementFormFilled, isElementFormOpen]);
+    }, [isElementFormFilled, isElementFormOpen, wipeFormData]);
 
     const toggleCommentSection = useCallback((considerationId) => {
         setOpenedCommentSectionId(prevId => {
@@ -122,7 +122,7 @@ export const FormDataProvider = ({children}) => {
 
             return sameForm ? null : considerationId;
         });
-    },[isCommentFormFilled]);
+    }, [isCommentFormFilled]);
 
     // Use "generalConsiderationForm" for the general consideration form instead of editing a specific one.
     const toggleConsiderationForm = useCallback((considerationId, warnUser = true) => {
@@ -138,7 +138,7 @@ export const FormDataProvider = ({children}) => {
 
             return sameForm ? null : considerationId;
         });
-    },[isConsiderationFormFilled, openedConsiderationFormId]);
+    }, [isConsiderationFormFilled, openedConsiderationFormId]);
 
     const value = useMemo(() => ({
         solutionFormData,

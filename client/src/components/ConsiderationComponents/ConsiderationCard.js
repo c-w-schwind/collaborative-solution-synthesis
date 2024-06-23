@@ -10,6 +10,7 @@ import ConsiderationInput from "./ConsiderationInput";
 const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
     const [consideration, setConsideration] = useState(considerationData);
     const [showComments, setShowComments] = useState(false);
+    const [renderComments, setRenderComments] = useState(false);
     const [showConsiderationEditing, setShowConsiderationEditing] = useState(false);
     const [userId, setUserId] = useState(null);
 
@@ -31,17 +32,24 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
     }, [openedCommentSectionId, consideration._id]);
 
     useEffect(() => {
-        setShowConsiderationEditing(openedConsiderationFormId === consideration._id);
-    }, [openedConsiderationFormId, consideration._id]);
+        let timeoutId;
+        if (commentsContainerRef.current) {
+            if (showComments) {
+                setRenderComments(true);
+                timeoutId = setTimeout(() => commentsContainerRef.current.style.height = `${commentsContainerRef.current.scrollHeight}px`);
+            } else {
+                commentsContainerRef.current.style.height = '0px';
+                timeoutId = setTimeout(() => {
+                    setRenderComments(false);
+                }, 300);
+            }
+        }
+        return () => clearTimeout(timeoutId);
+    }, [showComments, consideration]);
 
     useEffect(() => {
-        // Adjust height after DOM updates to adapt to new comments
-        requestAnimationFrame(() => {
-            if (commentsContainerRef.current) {
-                commentsContainerRef.current.style.height = showComments ? `${commentsContainerRef.current.scrollHeight}px` : '0px';
-            }
-        });
-    }, [showComments, consideration]);
+        setShowConsiderationEditing(openedConsiderationFormId === consideration._id);
+    }, [openedConsiderationFormId, consideration._id]);
 
     const handleInteractionSuccess = useCallback((data) => {
         setConsideration(data);
@@ -83,11 +91,11 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
                 </div>
             </div>
             <div className="comment-section-animated" ref={commentsContainerRef}>
-                <CommentSection
+                {renderComments && <CommentSection
                     comments={consideration.comments}
                     considerationId={consideration._id}
                     onAddingCommentSuccess={handleInteractionSuccess}
-                />
+                />}
             </div>
         </div>
     );

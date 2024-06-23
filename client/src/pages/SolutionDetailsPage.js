@@ -2,8 +2,8 @@ import './SolutionDetailsPage.css';
 import {Outlet, useLocation, useParams} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
 import SolutionOverviewSection from "../components/SolutionComponents/SolutionOverviewSection";
-import SolutionElementsList from "../components/SolutionComponents/SolutionElementList";
-import ConsiderationsList from "../components/ConsiderationComponents/ConsiderationsList";
+import SolutionElementList from "../components/SolutionComponents/SolutionElementList";
+import ConsiderationList from "../components/ConsiderationComponents/ConsiderationList";
 import LoadingRetryOverlay from "../components/CommonComponents/LoadingRetryOverlay";
 
 function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionContainerRef}) {
@@ -64,13 +64,13 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                             solution={solution}
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
                         />
-                        <SolutionElementsList
+                        <SolutionElementList
                             elements={solution.solutionElements}
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
                             isDiscussionSpaceOpen={isDiscussionSpaceOpen}
                             parentNumber={solutionNumber}
                         />
-                        <ConsiderationsList
+                        <ConsiderationList
                             considerations={solution.considerations}
                             onSuccessfulSubmit={fetchSolution}
                             parentType={"Solution"}
