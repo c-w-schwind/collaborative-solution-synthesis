@@ -1,8 +1,8 @@
-import './DiscussionSpacePage.css';
+import "./DiscussionSpacePage.css";
 import {useCallback, useEffect, useState} from "react";
 import PostCard from "../components/DiscussionSpaceComponents/PostCard";
 import PostInput from "../components/DiscussionSpaceComponents/PostInput";
-import {formatToGermanTimezone} from '../utils/utils';
+import {formatToGermanTimezone} from "../utils/utils";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 
@@ -13,7 +13,7 @@ function DiscussionSpacePage() {
     const [error, setError] = useState(null);
     const [hasPostsLoadedOnce, setHasPostsLoadedOnce] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [entityTitle, setEntityTitle] = useState('');
+    const [entityTitle, setEntityTitle] = useState("");
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -36,8 +36,8 @@ function DiscussionSpacePage() {
             setTotalPages(data.totalPages);
             setHasPostsLoadedOnce(true);
         } catch (err) {
-            console.error('Failed to fetch posts:', err);
-            setError('Failed to load current posts. Please try again later.');
+            console.error("Failed to fetch posts:", err);
+            setError("Failed to load current posts. Please try again later.");
         }
     }, [page, limit, parentType, parentNumber]);
 
@@ -61,8 +61,8 @@ function DiscussionSpacePage() {
     }, [fetchPosts, page, limit, parentType, parentNumber]);
 
     useEffect(() => {
-        const pathSegments = location.pathname.split('/');
-        const isFullscreenPath = pathSegments.includes('fullscreen');
+        const pathSegments = location.pathname.split("/");
+        const isFullscreenPath = pathSegments.includes("fullscreen");
         setIsFullscreen(isFullscreenPath);
 
         if (isFullscreenPath) {
@@ -80,36 +80,38 @@ function DiscussionSpacePage() {
             {isFullscreen && <div className={"discussion-space-full-screen-button-area"}>
                 <button className="discussion-space-full-screen-button" onClick={() => navigate(-1)}>Close Full Screen Mode</button>
             </div>}
-            <div className={isFullscreen ? 'fullscreen-wrapper' : ''}>
-                <div className={isFullscreen ? 'discussion-space-full-screen-container' : ''}>
-                    {isFullscreen && <div className='discussion-space-full-screen-header'>
-                        <div className='discussion-space-full-screen-title'>{entityTitle} ({parentType === 'SolutionElement' ? 'Solution Element' : parentType})</div>
+            <div className={isFullscreen ? "fullscreen-wrapper" : ""}>
+                <div className={isFullscreen ? "discussion-space-full-screen-container" : ""}>
+                    {isFullscreen && <div className="discussion-space-full-screen-header">
+                        <div className="discussion-space-full-screen-title">{entityTitle} ({parentType === "SolutionElement" ? "Solution Element" : parentType})</div>
                     </div>}
-                    <div className={isFullscreen ? 'discussion-space-full-screen-content' : ''}>
-                        {posts.map(post => (
-                            <PostCard
-                                key={post._id}
-                                title={post.title}
-                                content={post.content}
-                                author={post.author.username}
-                                createdAt={formatToGermanTimezone(post.createdAt)}
-                                authorPictureUrl={post.authorPictureUrl}
-                            />
-                        ))}
-                        {error &&
-                            <div className="discussion-space-error-block">
-                                <div className="error">{error}</div>
-                                <button onClick={fetchPosts}>Retry</button>
+                    <div className={isFullscreen ? "discussion-space-full-screen-content" : ""}>
+                        {posts.length > 0
+                            ? posts.map(post => (
+                                <PostCard
+                                    key={post._id}
+                                    title={post.title}
+                                    content={post.content}
+                                    author={post.author.username}
+                                    createdAt={formatToGermanTimezone(post.createdAt)}
+                                    authorPictureUrl={post.authorPictureUrl}
+                                />))
+                            : <div className="discussion-space-no-posts-message-area">
+                                <div className="discussion-space-no-posts-message">
+                                    No posts available yet. Be the first to start a discussion!
+                                </div>
                             </div>}
-                        {hasPostsLoadedOnce &&
-                            <div className="discussion-space-post-input">
-                                <PostInput onSuccessfulSubmit={fetchPosts}
-                                           parentType={parentType}
-                                           parentNumber={parentNumber}
-                                />
-                            </div>
-                        }
-                        {hasPostsLoadedOnce && <section className="discussion-space-pagination">
+                        {error && <div className="discussion-space-error-block">
+                            <div className="error">{error}</div>
+                            <button onClick={fetchPosts}>Retry</button>
+                        </div>}
+                        {hasPostsLoadedOnce && <div className="discussion-space-post-input">
+                            <PostInput onSuccessfulSubmit={fetchPosts}
+                                       parentType={parentType}
+                                       parentNumber={parentNumber}
+                            />
+                        </div>}
+                        {hasPostsLoadedOnce && posts.length > 0 && <section className="discussion-space-pagination">
                             <button onClick={previousPage} disabled={page === totalPages || page > totalPages}>Previous</button>
                             <span>You're on page {page} of {totalPages}.</span>
                             <button onClick={nextPage} disabled={page === 1}>Next</button>

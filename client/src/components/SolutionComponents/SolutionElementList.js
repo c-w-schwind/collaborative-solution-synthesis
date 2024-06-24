@@ -18,43 +18,43 @@ const SolutionElementList = ({elements: initialElements, onToggleDiscussionSpace
     }, [initialElements]);
 
 
-useEffect(() => {
-    let timeoutId, animationId;
-    if (elementFormContainerRef.current) {
-        if (isElementFormOpen) {
-            setRenderElementForm(true);
-            timeoutId = setTimeout(() => {
-                animationId = requestAnimationFrame(() => {
-                    elementFormContainerRef.current.style.height = `${elementFormContainerRef.current.scrollHeight}px`;
-                    elementFormContainerRef.current.style.marginTop = "-70px";
-                });
-            }, 10); // Necessary delay to ensure form appears in Safari. See fallback check.
-        } else {
-            elementFormContainerRef.current.style.height = "0px";
-            elementFormContainerRef.current.style.marginTop = "0px";
-            timeoutId = setTimeout(() => {
-                setRenderElementForm(false);
-            }, 300);
-        }
-    }
-    // Fallback check to ensure form visibility
-    if (isElementFormOpen && renderElementForm) {
-        const fallbackTimeout = setTimeout(() => {
-            const formHeight = elementFormContainerRef.current.offsetHeight;
-            if (formHeight < 50) {
-                addToast("An error occurred. Please try opening the form again. If the problem persists, please contact the developer.", 10000);
-                toggleElementForm(false);
-                setRenderElementForm(false);
+    useEffect(() => {
+        let timeoutId, animationId;
+        if (elementFormContainerRef.current) {
+            if (isElementFormOpen) {
+                setRenderElementForm(true);
+                timeoutId = setTimeout(() => {
+                    animationId = requestAnimationFrame(() => {
+                        elementFormContainerRef.current.style.height = `${elementFormContainerRef.current.scrollHeight}px`;
+                        elementFormContainerRef.current.style.marginTop = "-70px";
+                    });
+                }, 10); // Necessary delay to ensure form appears in Safari. See fallback check.
+            } else {
+                elementFormContainerRef.current.style.height = "0px";
+                elementFormContainerRef.current.style.marginTop = "0px";
+                timeoutId = setTimeout(() => {
+                    setRenderElementForm(false);
+                }, 300);
             }
-        }, 500); // Above animation duration so check happens after animation
+        }
+        // Fallback check to ensure form visibility
+        if (isElementFormOpen && renderElementForm) {
+            const fallbackTimeout = setTimeout(() => {
+                const formHeight = elementFormContainerRef.current.offsetHeight;
+                if (formHeight < 50) {
+                    addToast("An error occurred. Please try opening the form again. If the problem persists, please contact the developer.", 10000);
+                    toggleElementForm(false);
+                    setRenderElementForm(false);
+                }
+            }, 500); // Above animation duration so check happens after animation
 
-        return () => clearTimeout(fallbackTimeout);
-    }
-    return () => {
-        clearTimeout(timeoutId);
-        cancelAnimationFrame(animationId);
-    };
-}, [elements, isElementFormOpen, renderElementForm, toggleElementForm, addToast]);
+            return () => clearTimeout(fallbackTimeout);
+        }
+        return () => {
+            clearTimeout(timeoutId);
+            cancelAnimationFrame(animationId);
+        };
+    }, [elements, isElementFormOpen, renderElementForm, toggleElementForm, addToast]);
 
 
     const handleSubmit = (elementProposal) => {

@@ -5,10 +5,10 @@ import {useNavigate} from "react-router-dom";
 
 export const AuthContext = createContext();
 
-const isTokenExpired = (decodedTokenData) => {
+const isTokenExpired = (decodedToken) => {
     try {
         const currentTime = Date.now() / 1000;
-        return decodedTokenData.exp < currentTime;
+        return decodedToken.exp < currentTime;
     } catch (error) {
         console.error('Error decoding token:', error);
         return true;
@@ -16,21 +16,21 @@ const isTokenExpired = (decodedTokenData) => {
 };
 
 export const AuthProvider = ({children}) => {
+    const [user, setUser] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isFirstTime, setIsFirstTime] = useState(false);
     const navigate = useNavigate();
     const {addToast} = useToasts();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState(null);
-    const [firstTime, setFirstTime] = useState(false);
 
     const login = (userData, token) => {
         localStorage.setItem('token', token);
         setIsLoggedIn(true);
         setUser(userData);
-        if (!firstTime) {
+        if (!isFirstTime) {
             addToast(`Welcome back, ${userData.username}!`, 5000);
         } else {
             addToast(`Welcome on board, ${userData.username}. Happy to have you!`, 5000);
-            setFirstTime(false);
+            setIsFirstTime(false);
         }
     };
 
@@ -48,14 +48,14 @@ export const AuthProvider = ({children}) => {
         const token = localStorage.getItem('token');
         if (!token) return;
 
-        async function validateAndFetchUserData(retryCount = 0) {
+        async function validateTokenAndFetchUser(retryCount = 0) {
             try {
-                const decodedData = jwtDecode(token);
-                if (isTokenExpired(decodedData)) {
+                const decodedToken = jwtDecode(token);
+                if (isTokenExpired(decodedToken)) {
                     throw new Error('Token expired');
                 }
 
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${decodedData._id}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${decodedToken._id}`, {
                     headers: {'Authorization': `Bearer ${token}`}
                 });
 
@@ -75,7 +75,7 @@ export const AuthProvider = ({children}) => {
                 if (error.name === 'FetchError' || error.name === 'TypeError' || error.code === 'ECONNREFUSED') {
                     if (retryCount < 3) {
                         addToast(`Server connection failed. Attempting to reconnect... (${retryCount + 1}/3)`, 3000);
-                        setTimeout(() => validateAndFetchUserData(retryCount + 1), 3000);
+                        setTimeout(() => validateTokenAndFetchUser(retryCount + 1), 3000);
                     } else {
                         addToast('Unable to connect to the server. Please check your internet connection, then try again later.', 10000);
                     }
@@ -85,10 +85,10 @@ export const AuthProvider = ({children}) => {
             }
         }
 
-        validateAndFetchUserData();
+        validateTokenAndFetchUser();
     }, [logout, addToast]);
 
-    const handleFirstTime = () => setFirstTime(true);
+    const handleFirstTime = () => setIsFirstTime(true);
 
     return (
         <AuthContext.Provider value={{isLoggedIn, user, login, logout, handleFirstTime}}>
