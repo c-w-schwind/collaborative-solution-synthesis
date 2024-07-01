@@ -145,7 +145,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         };
 
         const handleClosingModal = () => {
-            if (canNavigate({checkAll: true})) {
+            if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true})) {
                 setIsOverlayActive(false);
                 const modalElement = document.querySelector('.overlay');
                 if (modalElement) {
@@ -171,7 +171,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                                         <button
                                             className="solution-element-action-button solution-element-action-button--propose"
                                             onClick={handleFullScreenButton}
-                                        >Full Screen Mode</button>
+                                        >Fullscreen Mode</button>
                                         <button
                                             className="solution-element-action-button solution-element-action-button--close"
                                             aria-label="Close"
@@ -197,7 +197,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                                     <button
                                         className="solution-element-action-button solution-element-action-button--propose"
                                         onClick={handleFullScreenButton}
-                                    >Full Screen Mode</button>
+                                    >Fullscreen Mode</button>
                                     <button
                                         className="solution-element-action-button solution-element-action-button--close"
                                         aria-label="Close"

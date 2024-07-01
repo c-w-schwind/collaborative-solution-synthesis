@@ -57,7 +57,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
     };
 
     return (
-        <div className="solution-details-add-card-button-container">
+        <div className="solution-details-add-card-button-container"> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
             <button
                 className="solution-details-add-card-button"
                 onClick={toggleElementForm}

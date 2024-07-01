@@ -85,7 +85,7 @@
     color: #000000;
 }
 
-.solution-details-add-card-button-container {
+.solution-details-add-card-button-container { /* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */
     text-align: right;
     margin-top: 30px;
 }

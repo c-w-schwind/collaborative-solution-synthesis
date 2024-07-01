@@ -1,4 +1,4 @@
-.comments-container {
+.comments-container { /* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */
     background-color: #e9ecef;
     border-radius: 5px;
     padding: 20px;

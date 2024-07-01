@@ -54,6 +54,8 @@
     text-align: center;
 }
 
+.discussion-space-input-area {} /* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */
+
 .discussion-space-post-input {
     margin: 50px auto 0;
     max-width: 800px;

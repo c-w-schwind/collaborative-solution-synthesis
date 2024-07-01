@@ -58,7 +58,7 @@ function DiscussionSpacePage() {
         const interval = setInterval(fetchPosts, 30000); // Polling every 30 seconds
 
         return () => clearInterval(interval);
-    }, [fetchPosts, page, limit, parentType, parentNumber]);
+    }, [fetchPosts, parentType, parentNumber]);
 
     useEffect(() => {
         const pathSegments = location.pathname.split("/");
@@ -72,13 +72,12 @@ function DiscussionSpacePage() {
                 navigate("..", {relative: "path"});
             }
         }
-
-    }, [location.pathname]);
+    }, [location, navigate]);
 
     return (
         <>
             {isFullscreen && <div className={"discussion-space-full-screen-button-area"}>
-                <button className="discussion-space-full-screen-button" onClick={() => navigate(-1)}>Close Full Screen Mode</button>
+                <button className="discussion-space-full-screen-button" onClick={() => navigate(-1)}>Close Fullscreen Mode</button>
             </div>}
             <div className={isFullscreen ? "fullscreen-wrapper" : ""}>
                 <div className={isFullscreen ? "discussion-space-full-screen-container" : ""}>
@@ -105,12 +104,14 @@ function DiscussionSpacePage() {
                             <div className="error">{error}</div>
                             <button onClick={fetchPosts}>Retry</button>
                         </div>}
-                        {hasPostsLoadedOnce && <div className="discussion-space-post-input">
-                            <PostInput onSuccessfulSubmit={fetchPosts}
-                                       parentType={parentType}
-                                       parentNumber={parentNumber}
-                            />
-                        </div>}
+                        <section className="discussion-space-input-area"> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                            {hasPostsLoadedOnce && <div className="discussion-space-post-input">
+                                <PostInput onSuccessfulSubmit={fetchPosts}
+                                           parentType={parentType}
+                                           parentNumber={parentNumber}
+                                />
+                            </div>}
+                        </section>
                         {hasPostsLoadedOnce && posts.length > 0 && <section className="discussion-space-pagination">
                             <button onClick={previousPage} disabled={page === totalPages || page > totalPages}>Previous</button>
                             <span>You're on page {page} of {totalPages}.</span>

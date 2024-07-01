@@ -22,7 +22,7 @@ const CommentSection = ({comments, considerationId, onAddingCommentSuccess}) => 
     }
 
     return (
-        <div className="comments-container">
+        <div className="comments-container"> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
             {considerationComments.length === 0 && <div>There aren't any comments yet.</div>}
             {considerationComments.map(comment => (
                 <div key={comment._id} className="comment">
