@@ -119,7 +119,7 @@ export const FormDataProvider = ({children}) => {
 
     // Allows selective navigation checks and form data wiping. Prompts users only if specified forms have unsaved data,
     // enabling navigation while preserving or ignoring certain fields as needed. Closes open forms on navigation.
-    const canNavigate = useCallback(({checkSolutionForm, checkElementForm, checkConsiderationForm, checkCommentForm, checkDiscussionSpaceForm, checkAll, saveDiscussionSpaceData}) => {
+    const canNavigate = useCallback(({checkSolutionForm, checkElementForm, checkConsiderationForm, checkCommentForm, checkDiscussionSpaceForm, checkAll, saveDiscussionSpaceData, saveElementFormData}) => {
         const filledForms = [];
 
         if (checkAll) {
@@ -142,7 +142,10 @@ export const FormDataProvider = ({children}) => {
             const discussionSpaceMessage = saveDiscussionSpaceData && isDiscussionSpaceFormFilled
                 ? "\nYour Discussion Space input will be transmitted into the fullscreen view.\n"
                 : "";
-            const confirmationMessage = `Warning!\n\nYou have unsaved text in the following form${pluralSuffix}:\n${filledFormsMessage}\nContinuing will delete your input${pluralSuffix}.\n${discussionSpaceMessage}\nProceed?`;
+            const elementFormMessage = saveElementFormData && isElementFormFilled
+                ? "\\nYour Solution Element Proposal input will be preserved and still available.\n"
+                : "";
+            const confirmationMessage = `Warning!\n\nYou have unsaved text in the following form${pluralSuffix}:\n${filledFormsMessage}\nContinuing will delete your input${pluralSuffix}.\n${discussionSpaceMessage}${elementFormMessage}\nProceed?`;
 
             if (!window.confirm(confirmationMessage)) {
                 return false;

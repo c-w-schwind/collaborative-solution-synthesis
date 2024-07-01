@@ -7,7 +7,7 @@ const SolutionElementCard = ({element, onToggleDiscussionSpace, isDiscussionSpac
     const {canNavigate} = useFormData();
 
     const handleClick = () => {
-        if (canNavigate({checkAll: true})) {
+        if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, saveElementFormData: true})) {
             const navigateToElement = () => navigate(`./element/${element.elementNumber}`, {state: {fromElementCard: true}});
             if (!isDiscussionSpaceOpen) {
                 navigateToElement();

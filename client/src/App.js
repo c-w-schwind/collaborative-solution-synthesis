@@ -1,15 +1,16 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import './App.css';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+
+import {AuthProvider} from './context/AuthContext';
 import {ToastProvider} from "./context/ToastContext";
 import {FormDataProvider} from "./context/FormDataContext";
 
-import LoginPage from './pages/LoginPage';
-import DiscussionSpacePage from "./pages/DiscussionSpacePage";
-
-import './App.css';
 import Layout from "./components/Layout";
 import PublicRoute from "./routes/PublicRoute";
+import LoginPage from './pages/LoginPage';
 import SolutionListPage from "./pages/SolutionListPage";
+import DiscussionSpacePage from "./pages/DiscussionSpacePage";
+
 import {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal} from "./components/HOC/withDiscussionSpace";
 
 
