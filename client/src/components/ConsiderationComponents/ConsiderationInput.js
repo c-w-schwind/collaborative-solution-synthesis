@@ -70,7 +70,7 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, exist
             >
                 Add Consideration
             </button>
-            <div className="comment-section-animated" ref={considerationFormContainerRef}>
+            <div className="animated-toggle-section" ref={considerationFormContainerRef}>
                 {renderConsiderationForm && <div className={`consideration-container ${inputStance.toLowerCase()}`} style={{padding: "15px 25px"}}>
                     <button className="solution-element-action-button--close" onClick={() => toggleConsiderationForm("generalConsiderationForm")}>X</button>
                     <GenericForm

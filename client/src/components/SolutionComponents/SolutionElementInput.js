@@ -69,7 +69,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
             >
                 Propose New Element
             </button>
-            <div className="comment-section-animated" ref={elementFormContainerRef}>    {/* TODO change class*/}
+            <div className="animated-toggle-section" ref={elementFormContainerRef}>
                 {renderElementForm && <div className="form-container">
                     <button className="solution-element-action-button--close" onClick={toggleElementForm}>X</button>
                     <GenericForm

@@ -90,7 +90,7 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
                     {userId === consideration.proposedBy && <button onClick={() => toggleConsiderationForm(consideration._id)}>edit</button>}
                 </div>
             </div>
-            <div className="comment-section-animated" ref={commentsContainerRef}>
+            <div className="animated-toggle-section" ref={commentsContainerRef}>
                 {renderComments && <CommentSection
                     comments={consideration.comments}
                     considerationId={consideration._id}

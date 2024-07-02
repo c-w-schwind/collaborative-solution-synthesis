@@ -61,9 +61,3 @@
     background-color: #475fd9;
     box-shadow: 0 0 6px 1px rgba(175, 175, 175, 0.3);
 }
-
-.comment-section-animated {
-    height: 0;
-    overflow: hidden;
-    transition: all 0.3s ease-in-out;
-}
