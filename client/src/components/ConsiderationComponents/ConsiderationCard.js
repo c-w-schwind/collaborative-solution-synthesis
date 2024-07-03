@@ -18,6 +18,7 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
     const {toggleCommentSection, openedCommentSectionId, toggleConsiderationForm, openedConsiderationFormId} = useFormData();
 
     const commentsContainerRef = useRef(null);
+    const considerationRef = useRef(null);
 
     useEffect(() => {
         if (user) setUserId(user._id);
@@ -56,39 +57,42 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
     }, []);
 
     return (
-        <div className={`consideration ${showComments ? "comments-expanded" : ""}`}>
+        <div className={`consideration ${showComments ? "comments-expanded" : ""}`} ref={considerationRef}>
             <div className="consideration-content">
-                <div className="consideration-text">
-                    {showConsiderationEditing ? (
+                {showConsiderationEditing ? (
+                    <div className="consideration-input-area">
                         <ConsiderationInput
                             onSuccessfulSubmit={handleInteractionSuccess}
                             parentType={parentType}
                             parentNumber={parentNumber}
+                            considerationFormId={consideration._id}
                             existingData={{
                                 stance: consideration.stance,
                                 title: consideration.title,
                                 description: consideration.description
                             }}
                         />
-                    ) : (
-                        <>
+                    </div>
+                ) : (
+                    <>
+                        <div className="consideration-text">
                             <h4 className="consideration-title">{consideration.title}</h4>
                             <p>{consideration.description}</p>
-                        </>
-                    )}
-                </div>
-                <div className="consideration-action-area">
-                    <VotingModule
-                        votableItem={consideration}
-                        onVoteSuccess={handleInteractionSuccess}
-                        voteEndpoint={`considerations/${consideration._id}/vote`}
-                    />
-                    <button onClick={() => toggleCommentSection(consideration._id)}>
-                        <img src="http://localhost:3000/comments.png" alt="comments"/>
-                        {consideration.comments.length}
-                    </button>
-                    {userId === consideration.proposedBy && <button onClick={() => toggleConsiderationForm(consideration._id)}>edit</button>}
-                </div>
+                        </div>
+                        <div className="consideration-action-area">
+                            <VotingModule
+                                votableItem={consideration}
+                                onVoteSuccess={handleInteractionSuccess}
+                                voteEndpoint={`considerations/${consideration._id}/vote`}
+                            />
+                            <button onClick={() => toggleCommentSection(consideration._id, commentsContainerRef)}>
+                                <img src="http://localhost:3000/comments.png" alt="comments"/>
+                                {consideration.comments.length}
+                            </button>
+                            {userId === consideration.proposedBy && <button onClick={() => toggleConsiderationForm(consideration._id, considerationRef)}>edit</button>}
+                        </div>
+                    </>
+                )}
             </div>
             <div className="animated-toggle-section" ref={commentsContainerRef}>
                 {renderComments && <CommentSection

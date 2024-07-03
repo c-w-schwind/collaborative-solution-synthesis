@@ -168,54 +168,75 @@ export const FormDataProvider = ({children}) => {
         return true;
     }, [isSolutionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, wipeFormData]);
 
-    const toggleElementForm = useCallback((askUser = true) => {
+
+    const toggleElementForm = useCallback((askUser = true, ref) => {
         if (askUser && isElementFormOpen && isElementFormFilled) {
             if (!window.confirm(`You have unsaved text in this form. Closing it will delete your input. Proceed?`)) {
                 return;
             }
             wipeFormData({wipeElementForm: true});
         }
+
+        if (!isElementFormOpen && ref?.current) {
+            setTimeout(() => {
+                ref.current.scrollIntoView({behavior: "smooth", block: "center"});
+            }, 300); // Matching animation's completion time
+        }
+
         setIsElementFormOpen(prevState => !prevState);
     }, [isElementFormFilled, isElementFormOpen, wipeFormData]);
 
 
-    const toggleCommentSection = useCallback((considerationId) => {
+    // Use "generalConsiderationForm" for the general consideration form instead of editing a specific one.
+    const toggleConsiderationForm = useCallback((considerationId, ref, warnUser = true) => {    //TODO OOOOO
+        setOpenedConsiderationFormId((prevId) => {
+            const sameForm = prevId === considerationId;
+            const message = `You have unsaved text in ${sameForm ? "this" : openedConsiderationFormId === "generalConsiderationForm" ? "the \"Add Consideration\"" : "another opened consideration"} form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other input"}. Proceed?`;
+
+            if (isConsiderationFormFilled && warnUser && !window.confirm(message)) return prevId;
+            if (isConsiderationFormFilled) setConsiderationFormData(initFormData(formConfigurations.considerationForm));
+            if (sameForm) return null;
+
+            if (ref?.current) {
+                setTimeout(() => {
+                    ref.current.scrollIntoView({behavior: "smooth", block: "center"});
+                }, 300); // Matching animation's completion time
+            }
+
+            return considerationId;
+        });
+    }, [isConsiderationFormFilled, openedConsiderationFormId]);
+
+
+    const toggleCommentSection = useCallback((considerationId, ref) => {
         setOpenedCommentSectionId(prevId => {
             const sameForm = prevId === considerationId;
             const message = `You have unsaved text in ${sameForm ? "this" : "a different"} comment form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other comment"}. Proceed?`;
 
-            if (isCommentFormFilled && !window.confirm(message)) {
-                return prevId;
-            }
-
+            if (isCommentFormFilled && !window.confirm(message)) return prevId;
             if (isCommentFormFilled) {
                 setTimeout(() => {
                     setCommentFormData(initFormData(formConfigurations.commentForm));
                 }, 150);    // 1/2 of 300ms closing animation - input field shouldn't be visible anymore (or yet, if opening new comment section)
             }
+            if (sameForm) return null;
 
-            return sameForm ? null : considerationId;
+            setTimeout(() =>{
+                if (ref?.current) {
+                    const refPosition = ref.current.getBoundingClientRect().top + window.scrollY;
+                    const offsetPosition = refPosition - 250;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            }, 300); // Matching animation's completion time
+
+            return considerationId;
         });
     }, [isCommentFormFilled]);
 
-
-    // Use "generalConsiderationForm" for the general consideration form instead of editing a specific one.
-    const toggleConsiderationForm = useCallback((considerationId, warnUser = true) => {
-        setOpenedConsiderationFormId((prevId) => {
-            const sameForm = prevId === considerationId;
-            const message = `You have unsaved text in ${sameForm ? "this" : openedConsiderationFormId === "generalConsiderationForm" ? "the \"Add Consideration\"" : "another opened consideration"} form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other input"}. Proceed?`;
-
-            if (isConsiderationFormFilled && warnUser && !window.confirm(message)) {
-                return prevId;
-            }
-
-            if (isConsiderationFormFilled) {
-                setConsiderationFormData(initFormData(formConfigurations.considerationForm));
-            }
-
-            return sameForm ? null : considerationId;
-        });
-    }, [isConsiderationFormFilled, openedConsiderationFormId]);
 
     const value = useMemo(() => ({
         solutionFormData,

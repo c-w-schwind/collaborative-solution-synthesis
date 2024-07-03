@@ -54,13 +54,14 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
     const submitElementProposal = async (formData) => {
         const proposalData = {...formData, parentNumber};
         await formSubmissionService("solutionElements", proposalData, "solution element", onSuccessfulSubmit);
+        toggleElementForm(false);
     };
 
     return (
         <div className="solution-details-add-card-button-container"> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
             <button
                 className="solution-details-add-card-button"
-                onClick={toggleElementForm}
+                onClick={() => toggleElementForm(true, elementFormContainerRef)}
                 style={isElementFormOpen
                     ? {opacity: "0", cursor: "default", transition: "all 0.1s linear", pointerEvents: "none"}
                     : {opacity: "1", transition: "all 0.3s ease-in", pointerEvents: "auto"}
@@ -71,7 +72,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
             </button>
             <div className="animated-toggle-section" ref={elementFormContainerRef}>
                 {renderElementForm && <div className="form-container">
-                    <button className="solution-element-action-button--close" onClick={toggleElementForm}>X</button>
+                    <button className="solution-element-action-button--close" onClick={() => toggleElementForm(true, elementFormContainerRef)}>X</button>
                     <GenericForm
                         onSubmit={submitElementProposal}
                         config={formConfigurations.elementForm}

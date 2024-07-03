@@ -77,6 +77,7 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
                 onSuccessfulSubmit={handleSuccessfulSubmit}
                 parentType={parentType}
                 parentNumber={parentNumber}
+                considerationFormId={"generalConsiderationForm"}
             />
         </div>
     );

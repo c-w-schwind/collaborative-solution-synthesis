@@ -4,7 +4,7 @@ import {useFormData} from "../../context/FormDataContext";
 import {formConfigurations} from "../Forms/formConfigurations";
 import formSubmissionService from "../Forms/formSubmissionService";
 
-function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, existingData}) {
+function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, considerationFormId, existingData}) {
     const [renderConsiderationForm, setRenderConsiderationForm] = useState(false);
     const [isConsiderationFormOpen, setIsConsiderationFormOpen] = useState(false);
 
@@ -19,9 +19,10 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, exist
         existingData && setConsiderationFormData(existingData);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    // Opens form in current ConsiderationInput instance if instance ID matches context ID
     useEffect(() => {
-        setIsConsiderationFormOpen(openedConsiderationFormId === "generalConsiderationForm");
-    }, [openedConsiderationFormId]);
+        setIsConsiderationFormOpen(openedConsiderationFormId === considerationFormId);
+    }, [openedConsiderationFormId, considerationFormId]);
 
     useEffect(() => {
         let timeoutId, animationId;
@@ -54,14 +55,14 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, exist
         const url = existingData ? `considerations/${openedConsiderationFormId}` : "considerations";
 
         await formSubmissionService(url, postData, "consideration", onSuccessfulSubmit, method);
-        toggleConsiderationForm(openedConsiderationFormId, false);
+        toggleConsiderationForm(openedConsiderationFormId, null, false);    //TODO: what?
     };
 
     return (
         <div className="solution-details-add-card-button-container"> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
             <button
                 className="solution-details-add-card-button"
-                onClick={() => toggleConsiderationForm("generalConsiderationForm")}
+                onClick={() => toggleConsiderationForm(considerationFormId, considerationFormContainerRef)}
                 style={isConsiderationFormOpen
                     ? {opacity: "0", cursor: "default", transition: "all 0.1s linear", pointerEvents: "none"}
                     : {opacity: "1", transition: "all 0.3s ease-in", pointerEvents: "auto"}
@@ -71,8 +72,8 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, exist
                 Add Consideration
             </button>
             <div className="animated-toggle-section" ref={considerationFormContainerRef}>
-                {renderConsiderationForm && <div className={`consideration-container ${inputStance.toLowerCase()}`} style={{padding: "15px 25px"}}>
-                    <button className="solution-element-action-button--close" onClick={() => toggleConsiderationForm("generalConsiderationForm")}>X</button>
+                {renderConsiderationForm && <div className={`consideration-container ${inputStance.toLowerCase()}`} style={considerationFormId === "generalConsiderationForm" ? {padding: "15px 25px"} : {padding: "15px 25px", margin: "10px 10px 20px 10px"}}>
+                    <button className="solution-element-action-button--close" onClick={() => toggleConsiderationForm(considerationFormId, considerationFormContainerRef)}>X</button>
                     <GenericForm
                         onSubmit={submitConsiderationPost}
                         config={considerationConfig}
