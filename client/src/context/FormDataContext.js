@@ -5,7 +5,7 @@ import {useLocation} from "react-router-dom";
 const FormDataContext = createContext();
 
 export const FormDataProvider = ({children}) => {
-    const initFormData = (config) => config.reduce((acc, field) => ({...acc, [field.name]: ''}), {});
+    const initFormData = useCallback((config) => config.reduce((acc, field) => ({...acc, [field.name]: ''}), {}), []);
 
     const [solutionFormData, setSolutionFormData] = useState(initFormData(formConfigurations.solutionForm));
     const [elementFormData, setElementFormData] = useState(initFormData(formConfigurations.elementForm));
@@ -14,19 +14,22 @@ export const FormDataProvider = ({children}) => {
     const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
     const [registrationFormData, setRegistrationFormData] = useState(initFormData(formConfigurations.registrationForm));
 
+    const [isSolutionFormOpen, setIsSolutionFormOpen] = useState(false);
+    const [isElementFormOpen, setIsElementFormOpen] = useState(false);
     const [openedConsiderationFormId, setOpenedConsiderationFormId] = useState(null);
     const [openedCommentSectionId, setOpenedCommentSectionId] = useState(null);
-    const [isElementFormOpen, setIsElementFormOpen] = useState(false);
     const [modalNavigationDetected, setModalNavigationDetected] = useState(false)
 
     const location = useLocation();
     let previousPathRef = useRef(location.pathname.split("/").includes("element") ? "element" : "solution");
+
 
     useEffect(() => {
         const currentPathSegment = location.pathname.split("/").includes("element") ? "element" : "solution";
         setModalNavigationDetected(previousPathRef.current !== currentPathSegment);
         previousPathRef.current = currentPathSegment;
     }, [location]);
+
 
     const isSolutionFormFilled = useMemo(() =>
         Object.values(solutionFormData).some(val => val.trim() !== ''),
@@ -70,7 +73,7 @@ export const FormDataProvider = ({children}) => {
     // DOM and user input. Warns users of potential data loss before making any changes, and provides instructions on how to save their data
     const handleBrowserNavigation = useCallback(() => {
         // Check if specific forms are still present in the DOM after navigation
-        const solutionFormExists = document.querySelector(".solution-form") !== null; //TODO: doesn't exist yet
+        const solutionFormExists = document.querySelector(".solution-input-container") !== null;
         const elementFormExists = document.querySelector(".solution-details-add-card-button-container") !== null;
         const considerationFormExists = document.querySelector(".solution-details-add-card-button-container") !== null;
         const commentFormExists = document.querySelector(".comments-container") !== null;
@@ -109,12 +112,13 @@ export const FormDataProvider = ({children}) => {
             });
 
             // Close disappeared forms based on their open state
+            if (!solutionFormExists && isSolutionFormOpen) setIsSolutionFormOpen(false);
             if (!elementFormExists && isElementFormOpen) setIsElementFormOpen(false);
             if ((!considerationFormExists || modalNavigationDetected) && openedConsiderationFormId) setOpenedConsiderationFormId(null);
             if ((!commentFormExists || modalNavigationDetected) && openedCommentSectionId) setOpenedCommentSectionId(null);
         });
 
-    }, [isSolutionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, isElementFormOpen, openedConsiderationFormId, openedCommentSectionId, wipeFormData, modalNavigationDetected]);
+    }, [isSolutionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, isSolutionFormOpen, isElementFormOpen, openedConsiderationFormId, openedCommentSectionId, wipeFormData, modalNavigationDetected]);
 
 
     // Allows selective navigation checks and form data wiping. Prompts users only if specified forms have unsaved data,
@@ -161,12 +165,31 @@ export const FormDataProvider = ({children}) => {
         }
 
         // Close relevant open forms & sections when navigating away
+        if (checkSolutionForm) setIsSolutionFormOpen(false);
+        if (checkElementForm) setIsElementFormOpen(false);
         if (checkCommentForm) setOpenedCommentSectionId(null);
         if (checkConsiderationForm) setOpenedConsiderationFormId(null);
-        if (checkElementForm) setIsElementFormOpen(false);
 
         return true;
     }, [isSolutionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, wipeFormData]);
+
+
+    const toggleSolutionForm = useCallback((askUser = true, ref) => {
+        if (askUser && isSolutionFormOpen && isSolutionFormFilled) {
+            if (!window.confirm(`You have unsaved text in this form. Closing it will delete your input. Proceed?`)) {
+                return;
+            }
+            wipeFormData({wipeSolutionForm: true});
+        }
+
+        if (!isSolutionFormOpen && ref?.current) {
+            setTimeout(() => {
+                ref.current.scrollIntoView({behavior: "smooth", block: "center"});
+            }, 300); // Matching animation's completion time
+        }
+
+        setIsSolutionFormOpen(prevState => !prevState);
+    }, [isSolutionFormFilled, isSolutionFormOpen, wipeFormData]);
 
 
     const toggleElementForm = useCallback((askUser = true, ref) => {
@@ -187,8 +210,8 @@ export const FormDataProvider = ({children}) => {
     }, [isElementFormFilled, isElementFormOpen, wipeFormData]);
 
 
-    // Use "generalConsiderationForm" for the general consideration form instead of editing a specific one.
-    const toggleConsiderationForm = useCallback((considerationId, ref, warnUser = true) => {    //TODO OOOOO
+    // Use "generalConsiderationForm" for the general consideration form at the end of the consideration list instead of editing a specific one
+    const toggleConsiderationForm = useCallback((considerationId, ref, warnUser = true) => {
         setOpenedConsiderationFormId((prevId) => {
             const sameForm = prevId === considerationId;
             const message = `You have unsaved text in ${sameForm ? "this" : openedConsiderationFormId === "generalConsiderationForm" ? "the \"Add Consideration\"" : "another opened consideration"} form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other input"}. Proceed?`;
@@ -224,7 +247,7 @@ export const FormDataProvider = ({children}) => {
             setTimeout(() =>{
                 if (ref?.current) {
                     const refPosition = ref.current.getBoundingClientRect().top + window.scrollY;
-                    const offsetPosition = refPosition - 250;
+                    const offsetPosition = refPosition - 180;
 
                     window.scrollTo({
                         top: offsetPosition,
@@ -257,10 +280,12 @@ export const FormDataProvider = ({children}) => {
         canNavigate,
         wipeFormData,
 
+        toggleSolutionForm,
         toggleElementForm,
         toggleConsiderationForm,
         toggleCommentSection,
 
+        isSolutionFormOpen,
         isElementFormOpen,
         openedConsiderationFormId,
         openedCommentSectionId
@@ -276,10 +301,12 @@ export const FormDataProvider = ({children}) => {
         canNavigate,
         wipeFormData,
 
+        toggleSolutionForm,
         toggleElementForm,
         toggleConsiderationForm,
         toggleCommentSection,
 
+        isSolutionFormOpen,
         isElementFormOpen,
         openedConsiderationFormId,
         openedCommentSectionId

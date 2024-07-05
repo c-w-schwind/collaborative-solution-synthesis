@@ -3,7 +3,6 @@
   /*background-color: #cccccc; /* #eef2ff */
 }
 
-/* GeneralStyles */
 body {
   background-color: #cccccc;
 }
@@ -35,4 +34,5 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   height: 0;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
+  width: 100%;
 }

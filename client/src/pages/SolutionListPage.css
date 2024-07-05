@@ -1,10 +1,10 @@
-.solution-list {
+.solution-list-page {
     padding-bottom: 200px;
+    margin: 0 20px;
 }
 
-.solutionsBlock {
+.solution-list {
     padding-top: 40px;
-    margin: 0 20px;
 }
 
 .no-solutions-message {
@@ -16,17 +16,31 @@
 
 .no-solutions-call-to-action {
     text-align: center;
-    margin: 40px 150px;
+    margin: 35px auto 40px;
     font-size: 1.4em;
     color: #333;
     font-weight: bold;
 }
 
-.action-button-container {
+.solution-input-container { /* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    text-align: right;
+    border: 1px solid #ccc;
+    padding: 25px;
+    margin: 50px auto;
+    border-radius: 8px;
+    min-width: 760px;
+    max-width: 47vw;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f3f3ff;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+}
+.solution-input-container:hover {
+    box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.25);
+    background-color: #f1f1ff;
 }
 
 .solution-action-button {
@@ -36,6 +50,12 @@
 }
 
 @media (max-width: 920px) {
+    .solution-input-container {
+        max-width: 760px;
+        min-width: 0;
+        margin: 30px 65px;
+    }
+
     .no-solutions-message {
         font-size: 1em;
         margin: 50px 40px 0;
@@ -44,10 +64,6 @@
     .no-solutions-call-to-action {
         margin: 40px 40px;
         font-size: 1.1em;
-    }
-
-    .action-button-container {
-        margin-top: 10px;
     }
 
     .solution-action-button {

@@ -1,12 +1,14 @@
 import './SolutionCard.css';
+import {useFormData} from "../../context/FormDataContext";
 import {useNavigate} from "react-router-dom";
 
 
 function SolutionCard({solutionNumber, title, overview, activeSolutionElementsCount, activeConsiderationsCount, updatedAt }) {
+    const {canNavigate} = useFormData();
     const navigate = useNavigate();
 
     const handleDetailsClick = () => {
-        navigate(`/solutions/${solutionNumber}`);
+        if (canNavigate({checkSolutionForm: true})) navigate(`/solutions/${solutionNumber}`);
     }
 
     return (

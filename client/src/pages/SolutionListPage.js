@@ -2,9 +2,17 @@ import './SolutionListPage.css';
 import {useEffect, useState} from "react";
 import SolutionCard from "../components/SolutionComponents/SolutionCard";
 import {formatToGermanTimezone} from "../utils/utils";
+import SolutionInput from "../components/SolutionComponents/SolutionInput";
 
 function SolutionListPage() {
     const [solutions, setSolutions] = useState([]);
+
+    useEffect(() => {
+        fetchSolutions();
+        const interval = setInterval(fetchSolutions, 120000); // Polling every 2 minutes
+
+        return () => clearInterval(interval);
+    }, []);
 
     const fetchSolutions = async () => {
         try {
@@ -19,22 +27,14 @@ function SolutionListPage() {
         }
     };
 
-    useEffect(() => {
-        fetchSolutions();
-        const interval = setInterval(fetchSolutions, 120000); // Polling every 2 minutes
-
-        return () => clearInterval(interval);
-    }, []);
-
-
     return (
-        <div className="solution-list">
+        <div className="solution-list-page">
             {solutions.length === 0 ? (
                 <div className="no-solutions-message">
                     Currently, there are no solutions available. This is your opportunity to lead the way!
                 </div>
             ) : (
-                <div className="solutionsBlock">
+                <div className="solution-list">
                     {solutions.map(solution => (
                         <SolutionCard
                             key={solution._id}
@@ -48,12 +48,7 @@ function SolutionListPage() {
                     ))}
                 </div>
             )}
-            <div className="action-button-container">
-                <div className="no-solutions-call-to-action">
-                    Share your own solution and collaborate with the community<br/> to refine and explore new possibilities.
-                </div>
-                <button className="solution-action-button">Add new Solution!</button>
-            </div>
+            <SolutionInput/>
         </div>
     )
 }
