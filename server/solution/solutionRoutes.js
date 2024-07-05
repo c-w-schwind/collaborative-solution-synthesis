@@ -33,11 +33,7 @@ solutionRoutes.post('/solutions', authenticateToken, verifyUserExistence, asyncH
         await solution.save({session});
         await session.commitTransaction();
 
-        return res.status(201).send({
-            solution,
-            solutionElements,
-            solutionConsiderations
-        });
+        return res.status(201).send(solution);
     } catch (err) {
         await session.abortTransaction();
         next(err);
