@@ -5,6 +5,7 @@ import {formConfigurations} from "../Forms/formConfigurations";
 import formSubmissionService from "../Forms/formSubmissionService";
 
 function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, considerationFormId, existingData}) {
+    // Enables a smooth closing transition by delaying the form's disappearance
     const [renderConsiderationForm, setRenderConsiderationForm] = useState(false);
     const [isConsiderationFormOpen, setIsConsiderationFormOpen] = useState(false);
 
@@ -19,11 +20,12 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, consi
         existingData && setConsiderationFormData(existingData);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // Opens form in current ConsiderationInput instance if instance ID matches context ID
+    // Opens form in current instance if instance ID matches context ID
     useEffect(() => {
         setIsConsiderationFormOpen(openedConsiderationFormId === considerationFormId);
     }, [openedConsiderationFormId, considerationFormId]);
 
+    // Toggling form animations
     useEffect(() => {
         let timeoutId, animationId;
         if (considerationFormContainerRef.current) {
@@ -40,7 +42,7 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, consi
                 considerationFormContainerRef.current.style.marginTop = "0px";
                 timeoutId = setTimeout(() => {
                     setRenderConsiderationForm(false);
-                }, 300);
+                }, 300); // Delaying disappearance until after animation finishes
             }
         }
         return () => {

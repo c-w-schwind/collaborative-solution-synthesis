@@ -6,13 +6,16 @@ import {useEffect, useRef, useState} from "react";
 import {useToasts} from "../../context/ToastContext";
 
 const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
+    // Enables a smooth closing transition by delaying the form's disappearance
     const [renderElementForm, setRenderElementForm] = useState(false);
+
     const {elementFormData, setElementFormData, toggleElementForm, isElementFormOpen} = useFormData();
     const {addToast} = useToasts();
 
     const elementFormContainerRef = useRef(null);
 
 
+    // Toggling form animations
     useEffect(() => {
         let timeoutId, animationId;
         if (elementFormContainerRef.current) {
@@ -23,13 +26,13 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
                         elementFormContainerRef.current.style.height = `${elementFormContainerRef.current.scrollHeight}px`;
                         elementFormContainerRef.current.style.marginTop = "-70px";
                     });
-                }, 10); // Necessary delay to ensure form appears in Safari. See fallback check.
+                }, 10); // Ensures form appears in Safari. See fallback check below.
             } else {
                 elementFormContainerRef.current.style.height = "0px";
                 elementFormContainerRef.current.style.marginTop = "0px";
                 timeoutId = setTimeout(() => {
                     setRenderElementForm(false);
-                }, 300);
+                }, 300); // Delaying disappearance until after animation finishes
             }
         }
         // Fallback check to ensure form visibility
@@ -41,7 +44,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
                     toggleElementForm(false);
                     setRenderElementForm(false);
                 }
-            }, 500); // Above animation duration so check happens after animation
+            }, 500); // Above animation duration so check is done after animation finishes
 
             return () => clearTimeout(fallbackTimeout);
         }
