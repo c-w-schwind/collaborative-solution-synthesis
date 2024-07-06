@@ -94,7 +94,10 @@ const SolutionInput = () => {
 
             <div className="animated-toggle-section" ref={solutionFormContainerRef}>
                 {renderSolutionForm && <div className="form-container">
-                    <button className="solution-element-action-button--close" onClick={() => toggleSolutionForm(true)}>X</button>
+                    <div className="form-header">
+                        <h3 className="form-title">{formConfigurations.solutionForm.title}</h3>
+                        <button className="solution-element-action-button--close" onClick={() => toggleSolutionForm(true)}>X</button>
+                    </div>
                     <GenericForm
                         onSubmit={submitSolution}
                         config={formConfigurations.solutionForm}

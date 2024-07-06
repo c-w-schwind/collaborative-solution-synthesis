@@ -24,7 +24,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
                 timeoutId = setTimeout(() => {
                     animationId = requestAnimationFrame(() => {
                         elementFormContainerRef.current.style.height = `${elementFormContainerRef.current.scrollHeight}px`;
-                        elementFormContainerRef.current.style.marginTop = "-70px";
+                        elementFormContainerRef.current.style.marginTop = "-50px";
                     });
                 }, 10); // Ensures form appears in Safari. See fallback check below.
             } else {
@@ -75,7 +75,11 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
             </button>
             <div className="animated-toggle-section" ref={elementFormContainerRef}>
                 {renderElementForm && <div className="form-container">
-                    <button className="solution-element-action-button--close" onClick={() => toggleElementForm(true, elementFormContainerRef)}>X</button>
+                    <div className="form-header">
+                        <h3 className="form-title">{formConfigurations.elementForm.title}</h3>
+                        <button className="solution-element-action-button--close" onClick={() => toggleElementForm(true)}>X</button>
+                    </div>
+
                     <GenericForm
                         onSubmit={submitElementProposal}
                         config={formConfigurations.elementForm}

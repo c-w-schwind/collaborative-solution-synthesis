@@ -5,7 +5,7 @@ import {useLocation} from "react-router-dom";
 const FormDataContext = createContext();
 
 export const FormDataProvider = ({children}) => {
-    const initFormData = useCallback((config) => config.reduce((acc, field) => ({...acc, [field.name]: ''}), {}), []);
+    const initFormData = useCallback((config) => config.fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}), []);
 
     const [solutionFormData, setSolutionFormData] = useState(initFormData(formConfigurations.solutionForm));
     const [elementFormData, setElementFormData] = useState(initFormData(formConfigurations.elementForm));

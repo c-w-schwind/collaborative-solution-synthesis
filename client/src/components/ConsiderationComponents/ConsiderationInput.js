@@ -74,19 +74,27 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, consi
                 Add Consideration
             </button>
             <div className="animated-toggle-section" ref={considerationFormContainerRef}>
-                {renderConsiderationForm && <div className={`consideration-container ${inputStance.toLowerCase()}`} style={considerationFormId === "generalConsiderationForm" ? {padding: "15px 25px"} : {padding: "15px 25px", margin: "10px 10px 20px 10px"}}>
-                    <button className="solution-element-action-button--close" onClick={() => toggleConsiderationForm(considerationFormId)}>X</button>
-                    <GenericForm
-                        onSubmit={submitConsiderationPost}
-                        config={considerationConfig}
-                        formData={considerationFormData}
-                        setFormData={setConsiderationFormData}
-                    />
-                </div>}
+                {renderConsiderationForm &&
+                    <div className={`consideration-container ${inputStance.toLowerCase()}`}
+                         style={considerationFormId === "generalConsiderationForm"
+                             ? {padding: "15px 25px"}
+                             : {padding: "15px 25px", margin: "10px 10px 20px 10px"}}
+                    >
+                        <div className="form-header">
+                            <h3 className="form-title">{(existingData ? "Edit " : "") + formConfigurations.considerationForm.title}</h3>
+                            <button className="solution-element-action-button--close" onClick={() => toggleConsiderationForm(considerationFormId)}>X</button>
+                        </div>
+                        <GenericForm
+                            onSubmit={submitConsiderationPost}
+                            config={considerationConfig}
+                            formData={considerationFormData}
+                            setFormData={setConsiderationFormData}
+                        />
+                    </div>
+                }
             </div>
         </div>
-)
-    ;
+    );
 }
 
 export default ConsiderationInput;

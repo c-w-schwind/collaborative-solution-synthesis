@@ -1,3 +1,24 @@
+.form-container { /* use from outside */
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px solid #d5d5d5;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
+    background-color: #f1f1ff;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 0 0 20px 0;
+}
+
+.form-title {
+    margin: 7px 1px;
+    color: #333;
+}
+
 .generic-form-area {
     width: 100%;
     margin: 10px auto;
@@ -6,13 +27,21 @@
     align-items: center;
 }
 
-.form-container { /* use from outside */
-    padding: 15px 25px;
-    border-radius: 8px;
-    margin: 20px 0;
-    border: 1px solid #d5d5d5;
-    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
-    background-color: #f1f1ff;
+.generic-form-description {
+    margin-bottom: 10px;
+    margin-top: 0;
+    padding: 13px 10px 13px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: left;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    border-left: 3px solid #007bff;
+    width: 100%;
+    box-sizing: border-box;
+    scale: 98%;
 }
 
 .generic-form-group {

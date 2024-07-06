@@ -39,7 +39,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
         e.preventDefault();
         setError('');
 
-        for (const {name, label} of config) {
+        for (const {name, label} of config.fields) {
             if (!formData[name].trim()) {
                 setError(`Field "${label}" cannot be empty.`);
                 return;
@@ -58,7 +58,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
 
         try {
             await onSubmit(formData);
-            setFormData(config.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
+            setFormData(config.fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
         } catch (err) {
             displayToastWarning();
             setError(err.message);
@@ -69,9 +69,14 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
 
     return (
         <form onSubmit={handleSubmit} className="generic-form-area">
-            {config.map(field => (
+            {config.description &&
+                <>
+                    <p className="generic-form-description">{config.description}</p>
+                    <hr style={{backgroundColor: "gray", border: "none", height: "0.7px", width: "80%", margin: "15px"}}/>
+                </>}
+            {config.fields.map(field => (
                 <div key={field.name} className="generic-form-group">
-                    {field.type === 'textarea' ? (
+                {field.type === 'textarea' ? (
                         <>
                             <textarea
                                 name={field.name}
@@ -106,6 +111,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
                                 value={formData[field.name] || ""}
                                 onChange={handleChange}
                                 placeholder=" "
+                                autoComplete="off"
                                 style={{height: field.height || 'auto'}}
                                 className="generic-form-input-field"
                             />
