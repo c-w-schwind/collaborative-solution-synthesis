@@ -15,11 +15,11 @@ import {groupAndSortConsiderationsByStance} from "../consideration/consideration
 const solutionElementRoutes = express.Router();
 
 // Create new Solution Element
-solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExistence, (req, res, next) => translateEntityNumberToId("Solution", req.body.parentNumber, "parentSolutionId")(req, res, next), asyncHandler(async (req, res, next) => {    //TODO translateEntityNumberToId
+solutionElementRoutes.post("/solutionElements", authenticateToken(), verifyUserExistence, (req, res, next) => translateEntityNumberToId("Solution", req.body.parentNumber, "parentSolutionId")(req, res, next), asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        if (!await Solution.findById(req.parentSolutionId)) throw new NotFoundError('Solution not found');
+        if (!await Solution.findById(req.parentSolutionId)) throw new NotFoundError("Solution not found");
 
         const solutionElement = await validateAndCreateSolutionElements(req.body, req.parentSolutionId, req.user._id, session);
         await updateParentSolutionElementsCount(req.parentSolutionId, 1, session)
@@ -35,14 +35,14 @@ solutionElementRoutes.post('/solutionElements', authenticateToken, verifyUserExi
 }));
 
 // Get single Solution Element w/ Considerations by elementNumber
-solutionElementRoutes.get('/solutionElements/:elementNumber', (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), asyncHandler(async (req, res) => {
-    const solutionElement = await SolutionElement.findById(req.entityId).populate('proposedBy', 'username').lean();
-    if (!solutionElement) throw new NotFoundError('Solution Element not found.');
+solutionElementRoutes.get("/solutionElements/:elementNumber", (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), asyncHandler(async (req, res) => {
+    const solutionElement = await SolutionElement.findById(req.entityId).populate("proposedBy", "username").lean();
+    if (!solutionElement) throw new NotFoundError("Solution Element not found.");
 
     const considerations = await Consideration.find({
-        parentType: 'SolutionElement',
+        parentType: "SolutionElement",
         parentId: solutionElement._id
-    }).select('_id title stance description comments votes proposedBy').lean();
+    }).select("_id title stance description comments votes proposedBy").lean();
 
     solutionElement.considerations = groupAndSortConsiderationsByStance(considerations);
 

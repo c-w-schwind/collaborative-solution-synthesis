@@ -6,6 +6,12 @@ const solutionSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    status: {
+        type: String,
+        enum: ["private", "public"],
+        default: "proposal",
+        required: true
+    },
     title: {
         type: String,
         required: true
@@ -19,7 +25,7 @@ const solutionSchema = new mongoose.Schema({
     },
     proposedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
         required: true
     },
     activeSolutionElementsCount: {
@@ -34,13 +40,13 @@ const solutionSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-export const Solution = mongoose.model('Solution', solutionSchema);
+export const Solution = mongoose.model("Solution", solutionSchema);
 
 /*
     // challengeAspects saved in solutionElements, could be drawn from there to be displayed on this level as overview. ChallengeID can derive addressed solutions as well.
     ? challengeID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Challenge',
+        ref: "Challenge",
         required: true
     }
 */

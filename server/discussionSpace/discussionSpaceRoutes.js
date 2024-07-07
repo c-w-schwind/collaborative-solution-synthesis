@@ -11,12 +11,12 @@ const discussionSpaceRoutes = express.Router();
 
 
 // Create new Discussion Space post
-discussionSpaceRoutes.post('/discussionSpace', authenticateToken, verifyUserExistence, asyncHandler(async (req, res) => {
-    validateRequiredFields(req.body, ['title', 'content', 'parentType', 'parentNumber'], 'Discussion Space Post');
+discussionSpaceRoutes.post("/discussionSpace", authenticateToken(), verifyUserExistence, asyncHandler(async (req, res) => {
+    validateRequiredFields(req.body, ["title", "content", "parentType", "parentNumber"], "Discussion Space Post");
 
     if (req.body.replyingTo) {
         const existingPost = await DiscussionSpacePost.findById(req.body.replyingTo);
-        if (!existingPost) throw new NotFoundError('Replying to a non-existent post.');
+        if (!existingPost) throw new NotFoundError("Replying to a non-existent post.");
     }
 
     const newPostData = {
@@ -30,7 +30,7 @@ discussionSpaceRoutes.post('/discussionSpace', authenticateToken, verifyUserExis
 
 
 // Get Discussion Space posts
-discussionSpaceRoutes.get('/discussionSpace', asyncHandler(async (req, res) => {
+discussionSpaceRoutes.get("/discussionSpace", asyncHandler(async (req, res) => {
     const {page = 1, limit = 30, parentType, parentNumber} = req.query;
     const skipIndex = (page - 1) * limit;
 
@@ -42,13 +42,13 @@ discussionSpaceRoutes.get('/discussionSpace', asyncHandler(async (req, res) => {
         .sort({createdAt: -1})
         .limit(limit)
         .skip(skipIndex)
-        .populate('author', 'username', 'User')
+        .populate("author", "username", "User")
         .populate({
-            path: 'replyingTo',
+            path: "replyingTo",
             populate: {
-                path: 'author',
-                model: 'User',
-                select: 'username'
+                path: "author",
+                model: "User",
+                select: "username"
             }
         });
 
