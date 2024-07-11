@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
-import {NotFoundError} from "../utils/customErrors.js";
+import {NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Solution} from "./solutionModel.js";
@@ -52,16 +52,21 @@ solutionRoutes.get("/solutions", authenticateToken({required: false}), asyncHand
         query = {status: "public"};
     }
 
-    const solutions = await Solution.find(query).populate("proposedBy", "username");
+    const solutions = await Solution.find(query)
+        .populate("proposedBy", "username")
+        .sort({status: 1}); // Sorting private status first to display drafts at the top of the solutions list page
     res.status(200).send({solutions});
 }));
 
 
-
 // Get single Solution w/ Solution Elements & Considerations by SolutionNumber
-solutionRoutes.get("/solutions/:solutionNumber", (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), asyncHandler(async (req, res) => {
+solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), asyncHandler(async (req, res) => {
     const solution = await Solution.findById(req.entityId).populate("proposedBy", "username").lean();
     if (!solution) throw new NotFoundError("Solution not found");
+
+    if (solution.status === "private" && (!req.user || req.user._id.toString() !== solution.proposedBy._id.toString())) {
+        throw new UnauthorizedError("Access Denied");
+    }
 
     solution.solutionElements = await SolutionElement.find({
         parentSolutionId: solution._id
