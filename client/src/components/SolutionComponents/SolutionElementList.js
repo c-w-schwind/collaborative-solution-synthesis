@@ -17,16 +17,20 @@ const SolutionElementList = ({elements: initialElements, onToggleDiscussionSpace
     return (
         <div className="solution-details-list-container">
             <h3 className="solution-details-list-container-title">Solution Elements</h3>
-            <div className="solution-details-list">
-                {elements.map(element => (
-                    <SolutionElementCard
-                        key={element._id}
-                        element={element}
-                        onToggleDiscussionSpace={onToggleDiscussionSpace}
-                        isDiscussionSpaceOpen={isDiscussionSpaceOpen}
-                    />
-                ))}
-            </div>
+            {elements.length > 0 ? (
+                <div className="solution-details-list">
+                    {elements.map(element => (
+                        <SolutionElementCard
+                            key={element._id}
+                            element={element}
+                            onToggleDiscussionSpace={onToggleDiscussionSpace}
+                            isDiscussionSpaceOpen={isDiscussionSpaceOpen}
+                        />
+                    ))}
+                </div>
+            ) : (
+                <div>No Solution Elements proposed yet.</div>
+            )}
             <SolutionElementInput
                 onSuccessfulSubmit={handleSubmit}
                 parentNumber={parentNumber}
