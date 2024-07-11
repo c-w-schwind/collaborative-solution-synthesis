@@ -1,32 +1,34 @@
-import './SolutionCard.css';
+import "./SolutionCard.css";
 import {useFormData} from "../../context/FormDataContext";
 import {useNavigate} from "react-router-dom";
+import {formatToGermanTimezone} from "../../utils/utils";
 
 
-function SolutionCard({solutionNumber, title, overview, activeSolutionElementsCount, activeConsiderationsCount, updatedAt }) {
+function SolutionCard({solution}) {
     const {canNavigate} = useFormData();
     const navigate = useNavigate();
+    const isPrivate = solution.status === "private";
 
     const handleDetailsClick = () => {
-        if (canNavigate({checkSolutionForm: true})) navigate(`/solutions/${solutionNumber}`);
+        if (canNavigate({checkSolutionForm: true})) navigate(`/solutions/${solution.solutionNumber}`);
     }
 
     return (
-        <article className="solution-card">
+        <article className={`solution-card ${isPrivate && "draft"}`}>
             <header className="solution-card-header">
-                <div className="solution-title">{title}</div>
+                <div className="solution-title">{(isPrivate ? "[UNPUBLISHED DRAFT]\n\n" : "") + solution.title}</div>
                 <div className="header-right">
-                    <div className="solution-timestamp">Last Updated: {updatedAt}</div>
+                    <div className="solution-timestamp">Last Updated: {formatToGermanTimezone(solution.updatedAt)}</div>
                     <div className="active-components">
-                        <div>Solution Elements: {activeSolutionElementsCount}</div>
-                        <div>Considerations: {activeConsiderationsCount}</div>
+                        <div>Solution Elements: {solution.activeSolutionElementsCount}</div>
+                        <div>Considerations: {solution.activeConsiderationsCount}</div>
                     </div>
                 </div>
             </header>
             <section className="solution-body">
-                <div className="solution-content">{overview}</div>
+                <div className="solution-content">{solution.overview}</div>
                 <div className="solution-interactions">
-                    <button className="details-button" onClick={handleDetailsClick}>Details</button>
+                    <button className="details-button" style={isPrivate ? {backgroundColor: "green"} : {}} onClick={handleDetailsClick}>{isPrivate ? "Continue" : "Details"}</button>
                 </div>
             </section>
         </article>

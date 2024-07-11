@@ -4,6 +4,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {AuthProvider} from './context/AuthContext';
 import {ToastProvider} from "./context/ToastContext";
 import {FormDataProvider} from "./context/FormDataContext";
+import {GlobalProvider} from "./context/GlobalContext";
 
 import Layout from "./components/Layout";
 import PublicRoute from "./routes/PublicRoute";
@@ -17,29 +18,31 @@ import {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal} from "./compo
 function App() {
     return (
         <div className="App">
-            <ToastProvider>
-                <BrowserRouter>
-                    <AuthProvider>
-                        <FormDataProvider>
-                            <Routes>
-                                <Route path="/" element={<Layout/>}>
-                                    <Route index element={<IndexPage/>}/>
-                                    <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
-                                    <Route path="solutions" element={<SolutionListPage/>}/>
-                                    <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
-                                        <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
-                                        <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
+            <GlobalProvider>
+                <ToastProvider>
+                    <BrowserRouter>
+                        <AuthProvider>
+                            <FormDataProvider>
+                                <Routes>
+                                    <Route path="/" element={<Layout/>}>
+                                        <Route index element={<IndexPage/>}/>
+                                        <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
+                                        <Route path="solutions" element={<SolutionListPage/>}/>
+                                        <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
                                             <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                            <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
+                                                <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                            </Route>
                                         </Route>
+                                        <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
+                                        <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
                                     </Route>
-                                    <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
-                                    <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
-                                </Route>
-                            </Routes>
-                        </FormDataProvider>
-                    </AuthProvider>
-                </BrowserRouter>
-            </ToastProvider>
+                                </Routes>
+                            </FormDataProvider>
+                        </AuthProvider>
+                    </BrowserRouter>
+                </ToastProvider>
+            </GlobalProvider>
         </div>
     );
 }

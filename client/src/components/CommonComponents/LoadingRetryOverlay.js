@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import './LoadingRetryOverlay.css';
 
-
-const LoadingRetryOverlay = ({componentName, retryCount, onHandleRetry}) => {
+const LoadingRetryOverlay = ({componentName, retryCount, onHandleRetry, errorMessage}) => {
     const [showLoadingIndicator, setShowLoadingIndicator] = useState(false);
-    const [fetchAnimationDots, setFetchAnimationDots] = useState("");
+    const [fetchAnimationDots, setFetchAnimationDots] = useState(".");
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setShowLoadingIndicator(true);
-        }, 300);
+        }, 500);
 
         return () => clearTimeout(timeoutId);
     }, []);
@@ -27,21 +26,26 @@ const LoadingRetryOverlay = ({componentName, retryCount, onHandleRetry}) => {
     };
 
     return (
-        <div className="loading-retry-area" style={{ visibility: showLoadingIndicator ? "visible" : "hidden" }}>
+        <div className="loading-retry-area" style={{visibility: showLoadingIndicator ? "visible" : "hidden"}}>
             <div className="loading-retry-container" onClick={handleClick}>
-                {retryCount === 0 ? (
-                    <p className="loading-retry-message">Loading {componentName} details... Please wait.<br/><br/><br/>{fetchAnimationDots}</p>
-                ) : retryCount < 4 ? (
+                {retryCount === 0 && !errorMessage.includes("Unauthorized") ? (
+                    <p className="loading-retry-message">Loading {componentName}... Please wait.<br/><br/><br/>{fetchAnimationDots}</p>
+                ) : retryCount < 4 && !errorMessage.includes("Unauthorized") ? (
                     <p className="loading-retry-message">Attempting to load {componentName} details again.
                         <br/>(Attempt {retryCount} / 3)
                         <br/><br/>{fetchAnimationDots}</p>
                 ) : (
-                    <p className="loading-retry-message">
-                        Couldn't load {componentName} details.<br/>Please check your network connection or try again later.<br/>
+                    <p className="loading-retry-message" style={errorMessage.includes("Unauthorized") ? {fontSize: "18px"} : {}}>
+                        {errorMessage.includes("Unauthorized") ? `${errorMessage}` : `Couldn't load ${componentName}.`}
+                        <br/>{errorMessage.includes("Unauthorized") ? '' : 'Please check your network connection or try again later.'}
+                        <br/>
                     </p>
                 )}
                 {retryCount >= 4 ? (
-                    <button className="retry-button" onClick={() => {onHandleRetry(); setFetchAnimationDots(".")}}>Retry</button>
+                    <button className="retry-button" onClick={() => {
+                        onHandleRetry();
+                        setFetchAnimationDots(".")
+                    }}>Retry</button>
                 ) : (
                     <span className="retry-placeholder"></span>
                 )}

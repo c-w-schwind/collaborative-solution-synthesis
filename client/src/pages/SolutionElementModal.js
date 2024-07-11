@@ -10,6 +10,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const [solutionElement, setSolutionElement] = useState(null);
     const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const titleRef = useRef(null);
     const {elementNumber} = useParams();
@@ -23,8 +24,10 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
             const data = await response.json();
             setSolutionElement(data.solutionElement);
             setRetryCount(0);
+            setErrorMessage("");
         } catch (err) {
             console.error('Failed to fetch element:', err);
+            setErrorMessage(err.message);
             setTimeout(() => {
                 if (retryCount < 4) {
                     setRetryCount(prev => prev + 1);
@@ -93,7 +96,12 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                 </div>
             </div>
         ) : (
-            <LoadingRetryOverlay componentName={"element"} retryCount={retryCount} onHandleRetry={handleRetry}/>
+            <LoadingRetryOverlay
+                componentName={"element"}
+                retryCount={retryCount}
+                onHandleRetry={handleRetry}
+                errorMessage={errorMessage}
+            />
         )
     );
 }
