@@ -29,7 +29,7 @@ const SolutionElementList = ({elements: initialElements, onToggleDiscussionSpace
                     ))}
                 </div>
             ) : (
-                <div>No Solution Elements proposed yet.</div>
+                <div>No solution elements proposed yet.</div>
             )}
             <SolutionElementInput
                 onSuccessfulSubmit={handleSubmit}

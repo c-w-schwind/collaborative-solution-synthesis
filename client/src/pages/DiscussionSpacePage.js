@@ -104,7 +104,7 @@ function DiscussionSpacePage() {
                             <div className="error">{error}</div>
                             <button onClick={fetchPosts}>Retry</button>
                         </div>}
-                        <section className="discussion-space-input-area"> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                        <section className="discussion-space-input-area">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
                             {hasPostsLoadedOnce && <div className="discussion-space-post-input">
                                 <PostInput onSuccessfulSubmit={fetchPosts}
                                            parentType={parentType}

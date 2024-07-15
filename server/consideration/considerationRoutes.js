@@ -61,7 +61,7 @@ considerationRoutes.put("/considerations/:id", (req, res, next) => translateEnti
     const consideration = await Consideration.findByIdAndUpdate(req.params.id, req.body, {new: true});
     if (!consideration) throw new NotFoundError("Consideration not found.");
 
-    res.status(200).send(consideration);
+    res.status(201).send(consideration);
 }));
 
 
