@@ -8,7 +8,15 @@ export const formConfigurations = {
             {name: 'description', label: 'Description', type: 'textarea', validation: {required: true}, height: "100px"},
         ]
     },
-
+    solutionDraftTitleForm: {
+        fields: [{name: 'title', label: 'Title', type: 'text', validation: {required: true}, height: "40px"}]
+    },
+    solutionDraftOverviewForm: {
+        fields: [{name: 'overview', label: 'Overview', type: 'textarea', validation: {required: true}, height: "200px"}]
+    },
+    solutionDraftDescriptionForm: {
+        fields: [{name: 'description', label: 'Description', type: 'textarea', validation: {required: true}, height: "250px"}]
+    },
     elementForm: {
         title: "Solution Element Proposal",
         fields: [

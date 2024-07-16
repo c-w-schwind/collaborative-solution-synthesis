@@ -95,6 +95,11 @@
 .discussion-space-button {background-color: #7935cc;}
 .discussion-space-button:hover {background-color: #5c1fa8;}
 .discussion-space-button:active {background-color: #4c1a8a;}
+.discussion-space-button:disabled {
+    background: rgba(197, 197, 197, 0.75);
+    cursor: not-allowed;
+}
+.discussion-space-button:disabled:active {transform: none;}
 
 .solution-element-action-button--close {background-color: #bd0000;}
 .solution-element-action-button--close:hover {background-color: #9a0000}

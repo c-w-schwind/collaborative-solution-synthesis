@@ -56,3 +56,5 @@
     line-height: 1.3;
     color: #555;
 }
+
+.solution-draft-form {} {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}

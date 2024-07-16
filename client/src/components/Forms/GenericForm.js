@@ -2,12 +2,16 @@ import {useCallback, useEffect, useState} from "react";
 import {useToasts} from "../../context/ToastContext";
 import './GenericForm.css';
 
-const GenericForm = ({onSubmit, config, formData, setFormData, authorizationCheck = true}) => {
+
+// previousData & onCancel are optional and only needed for solution draft mode
+const GenericForm = ({onSubmit, config, formData, setFormData, authorizationCheck = true, previousData = null, onCancel}) => {
     const [isFormFilled, setIsFormFilled] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const isDraftMode = previousData !== null;
 
     const {addToast} = useToasts();
+
 
     useEffect(() => {
         setIsFormFilled(Object.values(formData).some(val => val.trim() !== ''));
@@ -35,8 +39,16 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
         setError('');
     };
 
+    const hasFormDataChanged = useCallback(() => {
+        return Object.keys(formData).some(key => formData[key] !== previousData[key]);
+    }, [formData, previousData, isDraftMode]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (isDraftMode && !hasFormDataChanged()) {
+            addToast("No changes detected. Please modify the form to submit.");
+            return;
+        }
         setError('');
 
         for (const {name, label} of config.fields) {
@@ -67,16 +79,17 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
         }
     };
 
+
     return (
         <form onSubmit={handleSubmit} className="generic-form-area">
             {config.description &&
                 <>
                     <p className="generic-form-description">{config.description}</p>
-                    <hr style={{backgroundColor: "gray", border: "none", height: "0.7px", width: "80%", margin: "15px"}}/>
+                    <hr style={{backgroundColor: "gray", border: "none", height: "0.7px", width: "80%", margin: "25px"}}/>
                 </>}
             {config.fields.map(field => (
                 <div key={field.name} className="generic-form-group">
-                {field.type === 'textarea' ? (
+                    {field.type === 'textarea' ? (
                         <>
                             <textarea
                                 name={field.name}
@@ -121,7 +134,8 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
                 </div>
             ))}
             <div className="generic-form-action-area">
-                {error && <div className="generic-form-error">{error}</div>}
+                <div className="generic-form-error">{error}</div>
+                {isDraftMode && <button type="button" className="solution-element-action-button--close" onClick={() => onCancel(hasFormDataChanged())} style={{marginRight: "8px"}}>Cancel</button>}
                 <button type="submit" disabled={!isFormFilled || loading}>Submit</button>
             </div>
         </form>

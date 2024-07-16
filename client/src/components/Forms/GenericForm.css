@@ -135,9 +135,8 @@
 }
 
 .generic-form-area button {
-    align-self: flex-start;
+    align-self: flex-end;
     width: 100px;
-    margin-left: auto;
     transition: background-color 0.3s ease-in-out;
 }
 

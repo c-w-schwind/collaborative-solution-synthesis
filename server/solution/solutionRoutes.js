@@ -8,39 +8,10 @@ import {Solution} from "./solutionModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
 import {validateAndCreateSolution} from "./solutionService.js";
-import {validateAndCreateSolutionElements} from "../solutionElement/solutionElementService.js";
-import {groupAndSortConsiderationsByStance, validateAndCreateConsiderations} from "../consideration/considerationService.js";
+import {groupAndSortConsiderationsByStance} from "../consideration/considerationService.js";
 import translateEntityNumberToId from "../middleware/translateEntityNumberToId.js";
 
 const solutionRoutes = express.Router();
-
-
-// Create new Solution
-solutionRoutes.post("/solutions", authenticateToken(), verifyUserExistence, asyncHandler(async (req, res, next) => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    try {
-        const userId = req.user._id;
-
-        const solution = await validateAndCreateSolution(req.body, userId, session);
-
-        const solutionElements = await validateAndCreateSolutionElements(req.body.solutionElementsDataArray, solution._id, userId, session);
-        const solutionConsiderations = await validateAndCreateConsiderations(req.body.solutionConsiderationsDataArray, "Solution", solution._id, userId, session);
-
-        solution.activeSolutionElementsCount = solutionElements.length;
-        solution.activeConsiderationsCount = solutionConsiderations.length;
-
-        await solution.save({session});
-        await session.commitTransaction();
-
-        return res.status(201).send(solution);
-    } catch (err) {
-        await session.abortTransaction();
-        next(err);
-    } finally {
-        await session.endSession();
-    }
-}));
 
 
 // Get all Solutions
@@ -56,6 +27,13 @@ solutionRoutes.get("/solutions", authenticateToken({required: false}), asyncHand
         .populate("proposedBy", "username")
         .sort({status: 1}); // Sorting private status first to display drafts at the top of the solutions list page
     res.status(200).send({solutions});
+}));
+
+
+// Get all Solution drafts of a User
+solutionRoutes.get("/solutions/drafts", authenticateToken(), asyncHandler(async (req, res) => {
+    const solutionDrafts = await Solution.find({status: "private", proposedBy: req.user._id}).populate("proposedBy", "username");
+    res.status(200).send(solutionDrafts);
 }));
 
 
@@ -83,10 +61,38 @@ solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: fa
 }));
 
 
-// Get all Solution drafts of User
-solutionRoutes.get("/solutions/drafts", authenticateToken(), asyncHandler(async (req, res) => {
-    const solutionDrafts = await Solution.find({status: "private", proposedBy: req.user._id}).populate("proposedBy", "username");
-    res.status(200).send({solutionDrafts});
+// Create new Solution
+solutionRoutes.post("/solutions", authenticateToken(), verifyUserExistence, asyncHandler(async (req, res, next) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        const solution = await validateAndCreateSolution(req.body, req.user._id, session);
+        await solution.save({session});
+
+        await session.commitTransaction();
+
+        return res.status(201).send(solution);
+    } catch (err) {
+        await session.abortTransaction();
+        next(err);
+    } finally {
+        await session.endSession();
+    }
+}));
+
+
+// Update a single field or multiple fields of a Solution draft
+solutionRoutes.put("/solutions/:solutionNumber", authenticateToken(), verifyUserExistence, (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), asyncHandler(async (req, res, next) => {
+    const solution = await Solution.findById(req.entityId).lean();
+    if (!solution) throw new NotFoundError("Solution not found");
+
+    if (solution.status === "private" && (!req.user || req.user._id.toString() !== solution.proposedBy._id.toString())) {
+        throw new UnauthorizedError("Access Denied");
+    }
+
+    const updatedSolution = await Solution.findByIdAndUpdate(req.entityId, {$set: req.body}, {new: true}).lean();
+
+    res.status(201).send(updatedSolution);
 }));
 
 

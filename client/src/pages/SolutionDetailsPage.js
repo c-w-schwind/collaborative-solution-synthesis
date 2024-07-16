@@ -90,6 +90,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                     <div ref={solutionContainerRef} className="solution-details-container">
                         <SolutionOverviewSection
                             solution={solution}
+                            setSolution={setSolution}
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
                         />
                         <SolutionElementList
