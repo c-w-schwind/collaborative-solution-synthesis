@@ -9,11 +9,15 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, consi
     const [renderConsiderationForm, setRenderConsiderationForm] = useState(false);
     const [isConsiderationFormOpen, setIsConsiderationFormOpen] = useState(false);
 
-    const considerationConfig = formConfigurations.considerationForm;
     const {considerationFormData, setConsiderationFormData, openedConsiderationFormId, toggleConsiderationForm} = useFormData();
 
     const inputStance = considerationFormData.stance;
     const considerationFormContainerRef = useRef(null);
+
+    const considerationConfig = {
+        ...formConfigurations.considerationForm,
+        description: formConfigurations.considerationForm.descriptions[parentType],
+    };
 
 
     useEffect(() => {

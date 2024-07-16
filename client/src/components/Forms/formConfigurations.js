@@ -1,7 +1,7 @@
 export const formConfigurations = {
     solutionForm: {
         title: "Solution Proposal",
-        description: "Your solution proposal will be submitted privately first.\nThis allows you to take some time and add solution elements & potential considerations, as well as to edit & review it before publishing to the community.",
+        description: "Your solution proposal will be initially submitted privately as a draft.\nThis allows you time to add solution elements and potential considerations, as well as to edit and review your proposal before sharing it with the community.",
         fields: [
             {name: 'title', label: 'Title', type: 'text', validation: {required: true}, height: "40px"},
             {name: 'overview', label: 'Overview', type: 'textarea', validation: {required: true}, height: "100px"},
@@ -20,6 +20,10 @@ export const formConfigurations = {
     },
     considerationForm: {
         title: "Consideration",
+        descriptions: {
+            Solution: "Please note: These considerations are meant for the solution as a whole. If you have specific feedback or considerations for individual elements, please use the consideration section within each respective solution element.",
+            SolutionElement: "This consideration applies specifically to the current solution element. If your consideration impacts multiple elements or the overall solution, please add it to the consideration section of the main solution proposal.",
+        },
         fields: [
             {name: 'stance', label: 'Stance', type: 'select', options: ['Pro', 'Con', 'Neutral'], placeholder: "Select the stance of your consideration", validation: {required: true}},
             {name: 'title', label: 'Title', type: 'text', validation: {required: true}, height: "40px"},
