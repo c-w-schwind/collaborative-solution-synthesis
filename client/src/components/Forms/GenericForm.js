@@ -41,7 +41,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
 
     const hasFormDataChanged = useCallback(() => {
         return Object.keys(formData).some(key => formData[key] !== previousData[key]);
-    }, [formData, previousData, isDraftMode]);
+    }, [formData, previousData]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

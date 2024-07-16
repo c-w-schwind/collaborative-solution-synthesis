@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import LoginForm from '../components/AuthenticationComponents/LoginForm';
+import LoginForm from './LoginForm';
 import './LoginPage.css';
-import RegistrationInput from "../components/AuthenticationComponents/RegistrationInput";
-import {useAuth} from "../context/AuthContext";
+import RegistrationInput from "./RegistrationInput";
+import {useAuth} from "../../context/AuthContext";
 
 function LoginPage() {
     const [isRegistering, setIsRegistering] = useState(false);

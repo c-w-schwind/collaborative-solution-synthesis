@@ -8,9 +8,9 @@ import {GlobalProvider} from "./context/GlobalContext";
 
 import Layout from "./components/Layout";
 import PublicRoute from "./routes/PublicRoute";
-import LoginPage from './pages/LoginPage';
-import SolutionListPage from "./pages/SolutionListPage";
-import DiscussionSpacePage from "./pages/DiscussionSpacePage";
+import LoginPage from './components/AuthenticationComponents/LoginPage';
+import SolutionListPage from "./components/SolutionComponents/SolutionListPage";
+import DiscussionSpacePage from "./components/DiscussionSpaceComponents/DiscussionSpacePage";
 
 import {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal} from "./components/HOC/withDiscussionSpace";
 

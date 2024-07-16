@@ -1,7 +1,7 @@
 import './withDiscussionSpace.css';
 import {useEffect, useState} from 'react';
-import SolutionDetailsPage from "../../pages/SolutionDetailsPage";
-import SolutionElementModal from "../../pages/SolutionElementModal";
+import SolutionDetailsPage from "../SolutionComponents/SolutionDetailsPage";
+import SolutionElementModal from "../SolutionElementComponents/SolutionElementModal";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {debounce} from "../../utils/utils";
 import {useFormData} from "../../context/FormDataContext";

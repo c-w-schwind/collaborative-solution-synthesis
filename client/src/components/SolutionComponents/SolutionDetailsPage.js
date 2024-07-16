@@ -1,11 +1,11 @@
 import "./SolutionDetailsPage.css";
 import {Outlet, useLocation, useParams} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
-import SolutionOverviewSection from "../components/SolutionComponents/SolutionOverviewSection";
-import SolutionElementList from "../components/SolutionComponents/SolutionElementList";
-import ConsiderationList from "../components/ConsiderationComponents/ConsiderationList";
-import LoadingRetryOverlay from "../components/CommonComponents/LoadingRetryOverlay";
-import {useGlobal} from "../context/GlobalContext";
+import SolutionOverviewSection from "./SolutionOverviewSection";
+import SolutionElementList from "../SolutionElementComponents/SolutionElementList";
+import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
+import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
+import {useGlobal} from "../../context/GlobalContext";
 
 function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionContainerRef}) {
     const [solution, setSolution] = useState(null);

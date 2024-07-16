@@ -1,8 +1,8 @@
 import "./SolutionListPage.css";
 import {useCallback, useEffect, useState} from "react";
-import SolutionCard from "../components/SolutionComponents/SolutionCard";
-import SolutionInput from "../components/SolutionComponents/SolutionInput";
-import LoadingRetryOverlay from "../components/CommonComponents/LoadingRetryOverlay";
+import SolutionCard from "./SolutionCard";
+import SolutionInput from "./SolutionInput";
+import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 
 function SolutionListPage() {
     const [solutions, setSolutions] = useState(null);

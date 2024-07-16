@@ -1,8 +1,8 @@
 import "./DiscussionSpacePage.css";
 import {useCallback, useEffect, useState} from "react";
-import PostCard from "../components/DiscussionSpaceComponents/PostCard";
-import PostInput from "../components/DiscussionSpaceComponents/PostInput";
-import {formatToGermanTimezone} from "../utils/utils";
+import PostCard from "./PostCard";
+import PostInput from "./PostInput";
+import {formatToGermanTimezone} from "../../utils/utils";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 

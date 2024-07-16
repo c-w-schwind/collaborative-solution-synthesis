@@ -1,9 +1,9 @@
 import './SolutionElementModal.css'
 import {useCallback, useEffect, useRef, useState} from "react";
-import ConsiderationList from "../components/ConsiderationComponents/ConsiderationList";
-import {debounce} from "../utils/utils";
+import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
+import {debounce} from "../../utils/utils";
 import {useParams} from "react-router-dom";
-import LoadingRetryOverlay from "../components/CommonComponents/LoadingRetryOverlay";
+import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 
 
 function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscussionSpaceOpen, setEntityTitle}) {
