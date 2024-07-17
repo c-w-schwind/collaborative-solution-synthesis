@@ -37,9 +37,9 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            const data = await response.json();
-            setSolution(data.solution);
-            setIsSolutionDraft(data.solution.status === "private");
+            const solution = await response.json();
+            setSolution(solution);
+            setIsSolutionDraft(solution.status === "private");
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {

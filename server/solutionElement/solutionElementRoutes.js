@@ -46,7 +46,7 @@ solutionElementRoutes.get("/solutionElements/:elementNumber", (req, res, next) =
 
     solutionElement.considerations = groupAndSortConsiderationsByStance(considerations);
 
-    return res.status(200).send({solutionElement});
+    return res.status(200).send(solutionElement);
 }));
 
 export default solutionElementRoutes;

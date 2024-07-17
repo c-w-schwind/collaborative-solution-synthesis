@@ -24,8 +24,8 @@ function SolutionListPage() {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            const data = await response.json();
-            setSolutions(data.solutions);
+            const solutions = await response.json();
+            setSolutions(solutions);
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {

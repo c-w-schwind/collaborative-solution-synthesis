@@ -21,8 +21,8 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            const data = await response.json();
-            setSolutionElement(data.solutionElement);
+            const solutionElement = await response.json();
+            setSolutionElement(solutionElement);
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {

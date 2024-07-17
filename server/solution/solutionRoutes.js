@@ -26,7 +26,7 @@ solutionRoutes.get("/solutions", authenticateToken({required: false}), asyncHand
     const solutions = await Solution.find(query)
         .populate("proposedBy", "username")
         .sort({status: 1}); // Sorting private status first to display drafts at the top of the solutions list page
-    res.status(200).send({solutions});
+    res.status(200).send(solutions);
 }));
 
 
@@ -57,7 +57,7 @@ solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: fa
 
     solution.considerations = groupAndSortConsiderationsByStance(considerations);
 
-    return res.status(200).send({solution});
+    return res.status(200).send(solution);
 }));
 
 
