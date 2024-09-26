@@ -1,0 +1,1 @@
+export const EDIT_ICON_SRC = "/edit.png";

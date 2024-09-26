@@ -6,6 +6,7 @@ import formSubmissionService from "../Forms/formSubmissionService";
 import {formConfigurations} from "../Forms/formConfigurations";
 import GenericForm from "../Forms/GenericForm";
 import useOutsideClick from "../../hooks/useOutsideClickHook";
+import {EDIT_ICON_SRC} from "../../constants";
 
 const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace}) => {
     const [showMeta, setShowMeta] = useState(false);
@@ -63,7 +64,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
     const renderEditButton = (isOpen, onClick, label, style = {}) => (
         !isOpen && (
             <button className="solution-draft-edit-button" onClick={onClick} style={style}>
-                {label} <img src="http://localhost:3000/edit.png" alt="edit section"/>
+                {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
             </button>
         )
     );

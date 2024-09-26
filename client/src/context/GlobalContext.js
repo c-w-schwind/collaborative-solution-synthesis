@@ -3,7 +3,7 @@ import React, {createContext, useContext, useState} from 'react';
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({children}) => {
-    const [isSolutionDraft, setIsSolutionDraft] = useState("");
+    const [isSolutionDraft, setIsSolutionDraft] = useState(false);
 
     return (
         <GlobalContext.Provider value={{isSolutionDraft, setIsSolutionDraft}}>

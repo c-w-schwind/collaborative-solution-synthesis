@@ -8,6 +8,7 @@ import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
 import GenericForm from "../Forms/GenericForm";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {debounce} from "../../utils/utils";
+import {EDIT_ICON_SRC} from "../../constants";
 
 
 function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscussionSpaceOpen, setEntityTitle}) {
@@ -124,7 +125,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const renderEditButton = (isOpen, onClick, label, style = {}) => (
         !isOpen && (
             <button className="solution-draft-edit-button" onClick={onClick} style={style}>
-                {label} <img src="http://localhost:3000/edit.png" alt="edit section"/>
+                {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
             </button>
         )
     );
