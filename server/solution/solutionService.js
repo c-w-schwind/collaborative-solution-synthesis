@@ -10,7 +10,7 @@ export async function validateAndCreateSolution(solutionInput, userId, session) 
 
     return new Solution({
         solutionNumber: solutionCounterValue,
-        status: "private",
+        status: "draft",
         title: solutionInput.title,
         overview: solutionInput.overview,
         description: solutionInput.description,

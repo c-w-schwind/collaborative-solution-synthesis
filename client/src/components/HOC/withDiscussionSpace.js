@@ -1,5 +1,5 @@
-import './withDiscussionSpace.css';
-import {useEffect, useState} from 'react';
+import "./withDiscussionSpace.css";
+import {useEffect, useState} from "react";
 import SolutionDetailsPage from "../SolutionComponents/SolutionDetailsPage";
 import SolutionElementModal from "../SolutionElementComponents/SolutionElementModal";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
@@ -11,16 +11,16 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         const [isDiscussionSpaceOpen, setIsDiscussionSpaceOpen] = useState(false);
         const [isSolutionDSOutletOpen, setIsSolutionDSOutletOpen] = useState(true);
         const [isOverlayActive, setIsOverlayActive] = useState(false);
-        const [entityTitle, setEntityTitle] = useState('');
+        const [entityTitle, setEntityTitle] = useState("");
         const location = useLocation();
         const navigate = useNavigate();
         const {canNavigate} = useFormData();
 
         // Update discussion space and solution outlet states & disable scrollbar when modal is open
         useEffect(() => {
-            const pathSegments = location.pathname.split('/');
-            const isDiscussionPath = pathSegments.includes('discussionSpace');
-            const isElementPath = pathSegments.includes('element');
+            const pathSegments = location.pathname.split("/");
+            const isDiscussionPath = pathSegments.includes("discussionSpace");
+            const isElementPath = pathSegments.includes("element");
 
             if (!(entityType === "Solution" && isElementPath)) {
                 setIsDiscussionSpaceOpen(isDiscussionPath);
@@ -28,9 +28,9 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
             // Delay DOM updates to ensure execution after React's render cycle
             const timeoutId = setTimeout(() => {
-                if (isElementPath && entityType === 'Solution') {
+                if (isElementPath && entityType === "Solution") {
                     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-                    document.body.style.overflow = 'hidden';
+                    document.body.style.overflow = "hidden";
                     document.body.style.paddingRight = `${scrollbarWidth}px`;
                 }
             }, 100);
@@ -39,8 +39,8 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
             return () => {
                 clearTimeout(timeoutId);
-                document.body.style.overflow = '';
-                document.body.style.paddingRight = '';
+                document.body.style.overflow = "";
+                document.body.style.paddingRight = "";
             };
         }, [location.pathname]);
 
@@ -61,11 +61,11 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
         // Ensure the discussion space scrolls in sync with the solution details container, adjusting heights for a flush stop at the same level
         useEffect(() => {
-            if (entityType !== 'Solution' || !isDiscussionSpaceOpen) return;
+            if (entityType !== "Solution" || !isDiscussionSpaceOpen) return;
 
             const adjustContainerHeight = () => {
-                const entityContainer = document.querySelector('.entity-container-for-ds-addition');
-                const solutionContainer = document.querySelector('.solution-details-container');
+                const entityContainer = document.querySelector(".entity-container-for-ds-addition");
+                const solutionContainer = document.querySelector(".solution-details-container");
 
                 if (entityContainer && solutionContainer) {
                     entityContainer.style.height = `${solutionContainer.offsetHeight}px`;
@@ -81,33 +81,33 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                 }
             };
 
-            const solutionDetailsArea = document.querySelector('.solution-details-area');
+            const solutionDetailsArea = document.querySelector(".solution-details-area");
             if (solutionDetailsArea) {
                 const handleTransitionEnd = (event) => {
-                    if (event.propertyName === 'width' || event.propertyName === 'left') {
-                        solutionDetailsArea.removeEventListener('transitionend', handleTransitionEnd);
+                    if (event.propertyName === "width" || event.propertyName === "left") {
+                        solutionDetailsArea.removeEventListener("transitionend", handleTransitionEnd);
                         adjustContainerHeight();
                     }
                 };
-                solutionDetailsArea.addEventListener('transitionend', handleTransitionEnd);
+                solutionDetailsArea.addEventListener("transitionend", handleTransitionEnd);
 
             } else {
                 tryAdjustHeight();
             }
 
             const debouncedAdjustContainerHeight = debounce(adjustContainerHeight, 100);
-            window.addEventListener('resize', debouncedAdjustContainerHeight);
+            window.addEventListener("resize", debouncedAdjustContainerHeight);
 
             return () => {
-                window.removeEventListener('resize', debouncedAdjustContainerHeight);
+                window.removeEventListener("resize", debouncedAdjustContainerHeight);
             };
         }, [isDiscussionSpaceOpen]);
 
         // Preserve scroll position of solution details page after closing discussion space
         useEffect(() => {
             const originalScrollRestoration = window.history.scrollRestoration;
-            if ('scrollRestoration' in window.history) {
-                window.history.scrollRestoration = 'manual';
+            if ("scrollRestoration" in window.history) {
+                window.history.scrollRestoration = "manual";
             }
 
             return () => {
@@ -124,13 +124,13 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
             if (willDiscussionSpaceBeOpen) {
                 navigate("./discussionSpace", {state: {fromNavigation: true}});
             } else {
-                const isModal = entityType === 'SolutionElement';
-                const baseSelector = isModal ? '.discussion-space-modal' : '.discussion-space-container';
+                const isModal = entityType === "SolutionElement";
+                const baseSelector = isModal ? ".discussion-space-modal" : ".discussion-space-container";
                 const discussionSpaceContainer = document.querySelector(baseSelector);
                 if (discussionSpaceContainer) {
-                    discussionSpaceContainer.addEventListener('transitionend', function onTransitionEnd(event) {
-                        if (event.propertyName === 'opacity') {
-                            discussionSpaceContainer.removeEventListener('transitionend', onTransitionEnd);
+                    discussionSpaceContainer.addEventListener("transitionend", function onTransitionEnd(event) {
+                        if (event.propertyName === "opacity") {
+                            discussionSpaceContainer.removeEventListener("transitionend", onTransitionEnd);
                             navigate(location.state?.fromNavigation ? -1 : ".", {relative: "path"});
                         }
                     });
@@ -147,12 +147,12 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         const handleClosingModal = () => {
             if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
                 setIsOverlayActive(false);
-                const modalElement = document.querySelector('.overlay');
+                const modalElement = document.querySelector(".overlay");
                 if (modalElement) {
-                    modalElement.addEventListener('transitionend', function onTransitionEnd(event) {
-                        if (event.propertyName === 'opacity') {
+                    modalElement.addEventListener("transitionend", function onTransitionEnd(event) {
+                        if (event.propertyName === "opacity") {
                             navigate(location.state?.fromElementCard ? -1 : "../..", {relative: "path"});
-                            modalElement.removeEventListener('transitionend', onTransitionEnd);
+                            modalElement.removeEventListener("transitionend", onTransitionEnd);
                         }
                     });
                 }
@@ -161,10 +161,10 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
         const renderDiscussionSpace = () => {
             switch (entityType) {
-                case 'Solution':
+                case "Solution":
                     return (
                         <div className="discussion-space-sticky-frame">
-                            <div className={`discussion-space-container ${isDiscussionSpaceOpen ? 'discussion-space-container-ds-open' : ''}`}>
+                            <div className={`discussion-space-container ${isDiscussionSpaceOpen ? "discussion-space-container-ds-open" : ""}`}>
                                 <div className="modal-header">
                                     <h2>Discussion Space</h2>
                                     <div className="solution-element-button-section">
@@ -185,10 +185,10 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                             </div>
                         </div>
                     );
-                case 'SolutionElement':
+                case "SolutionElement":
                     return (
                         <div
-                            className={`modal-container discussion-space-modal ${isDiscussionSpaceOpen ? 'discussion-space-modal-ds-open' : ''}`}
+                            className={`modal-container discussion-space-modal ${isDiscussionSpaceOpen ? "discussion-space-modal-ds-open" : ""}`}
                             onClick={(e) => e.stopPropagation()}
                         >
                             <div className="modal-header">
@@ -217,7 +217,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
         return (
             <div
-                className={entityType === "SolutionElement" ? `overlay ${isOverlayActive ? 'overlay-active' : ''}` : ''}
+                className={entityType === "SolutionElement" ? `overlay ${isOverlayActive ? "overlay-active" : ""}` : ""}
                 onClick={entityType === "SolutionElement" ? handleClosingModal : undefined}
             >
                 <div className="entity-container-for-ds-addition">

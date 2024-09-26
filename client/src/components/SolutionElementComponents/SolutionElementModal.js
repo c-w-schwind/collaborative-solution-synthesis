@@ -2,6 +2,7 @@ import './SolutionElementModal.css'
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
 import {useFormData} from "../../context/FormDataContext";
+import {useGlobal} from "../../context/GlobalContext";
 import formSubmissionService from "../Forms/formSubmissionService";
 import {formConfigurations} from "../Forms/formConfigurations";
 import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
@@ -19,6 +20,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const [isElementDraft, setIsElementDraft] = useState(false);
 
     const titleRef = useRef(null);
+    const {setWasElementDraftEdited} = useGlobal();
     const {elementNumber} = useParams();
 
     const {
@@ -63,6 +65,10 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     }, [solutionElement, setEntityTitle]);
 
     useEffect(() => {
+        if (isElementDraft) document.querySelector(".overlay").style.backgroundColor = "rgba(50,0,0,0.5)";
+    }, [isElementDraft]);
+
+    useEffect(() => {
         const checkOverflow = () => {
             if (titleRef.current) {
                 const element = titleRef.current;
@@ -94,6 +100,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const handleEditSubmit = async (formData, label, toggleElementDraftForm) => {
         await formSubmissionService(`solutionElements/${solutionElement.elementNumber}`, formData, label, handleUpdateSolutionElement, "PUT");
         toggleElementDraftForm(false);
+        setWasElementDraftEdited(true);
     };
 
     const handleTitleEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Title", toggleElementDraftTitleForm);

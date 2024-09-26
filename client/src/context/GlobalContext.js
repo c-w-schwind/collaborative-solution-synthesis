@@ -4,9 +4,10 @@ const GlobalContext = createContext();
 
 export const GlobalProvider = ({children}) => {
     const [isSolutionDraft, setIsSolutionDraft] = useState(false);
+    const [wasElementDraftEdited, setWasElementDraftEdited] = useState(false);
 
     return (
-        <GlobalContext.Provider value={{isSolutionDraft, setIsSolutionDraft}}>
+        <GlobalContext.Provider value={{isSolutionDraft, setIsSolutionDraft, wasElementDraftEdited, setWasElementDraftEdited}}>
             {children}
         </GlobalContext.Provider>
     );

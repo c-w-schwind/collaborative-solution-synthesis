@@ -18,21 +18,21 @@ const solutionRoutes = express.Router();
 solutionRoutes.get("/solutions", authenticateToken({required: false}), asyncHandler(async (req, res) => {
     let query;
     if (req.user) {
-        query = {$or: [{status: "public"}, {status: "private", proposedBy: req.user._id}]};
+        query = {$or: [{status: "public"}, {status: "draft", proposedBy: req.user._id}]};
     } else {
         query = {status: "public"};
     }
 
     const solutions = await Solution.find(query)
         .populate("proposedBy", "username")
-        .sort({status: 1}); // Sorting private status first to display drafts at the top of the solutions list page
+        .sort({status: 1}); // Sorting draft status first to display drafts at the top of the solutions list page
     res.status(200).send(solutions);
 }));
 
 
 // Get all Solution drafts of a User
 solutionRoutes.get("/solutions/drafts", authenticateToken(), asyncHandler(async (req, res) => {
-    const solutionDrafts = await Solution.find({status: "private", proposedBy: req.user._id}).populate("proposedBy", "username");
+    const solutionDrafts = await Solution.find({status: "draft", proposedBy: req.user._id}).populate("proposedBy", "username");
     res.status(200).send(solutionDrafts);
 }));
 
@@ -42,7 +42,7 @@ solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: fa
     const solution = await Solution.findById(req.entityId).populate("proposedBy", "username").lean();
     if (!solution) throw new NotFoundError("Solution not found");
 
-    if (solution.status === "private" && (!req.user || req.user._id.toString() !== solution.proposedBy._id.toString())) {
+    if (solution.status === "draft" && (!req.user || req.user._id.toString() !== solution.proposedBy._id.toString())) {
         throw new UnauthorizedError("Access Denied");
     }
 
@@ -86,7 +86,7 @@ solutionRoutes.put("/solutions/:solutionNumber", authenticateToken(), verifyUser
     const solution = await Solution.findById(req.entityId).lean();
     if (!solution) throw new NotFoundError("Solution not found");
 
-    if (solution.status === "private" && (!req.user || req.user._id.toString() !== solution.proposedBy._id.toString())) {
+    if (solution.status === "draft" && (!req.user || req.user._id.toString() !== solution.proposedBy._id.toString())) {
         throw new UnauthorizedError("Access Denied");
     }
 

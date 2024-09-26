@@ -8,7 +8,7 @@ const solutionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["private", "public"],
+        enum: ["draft", "public"],
         default: "proposal",
         required: true
     },

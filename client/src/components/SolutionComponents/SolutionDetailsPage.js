@@ -13,7 +13,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const {isSolutionDraft, setIsSolutionDraft} = useGlobal();
+    const {isSolutionDraft, setIsSolutionDraft, wasElementDraftEdited, setWasElementDraftEdited} = useGlobal();
     const location = useLocation();
     const {solutionNumber} = useParams();
 
@@ -39,7 +39,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
 
             const solution = await response.json();
             setSolution(solution);
-            setIsSolutionDraft(solution.status === "private");
+            setIsSolutionDraft(solution.status === "draft");
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {
@@ -77,6 +77,13 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
 
         return () => document.body.style.backgroundColor = "";
     }, [isSolutionDraft]);
+
+    useEffect(() => {
+        if (wasElementDraftEdited) {
+            fetchSolution();
+            setWasElementDraftEdited(false);
+        }
+    }, [wasElementDraftEdited, fetchSolution]);
 
     const handleRetry = () => {
         setRetryCount(1);

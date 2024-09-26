@@ -56,7 +56,7 @@ solutionElementRoutes.put("/solutionElements/:elementNumber", authenticateToken(
     const solutionElement = await SolutionElement.findById(req.entityId).lean();
     if (!solutionElement) throw new NotFoundError("Solution Element not found");
 
-    if (solutionElement.status === "private" && (!req.user || req.user._id.toString() !== solutionElement.proposedBy._id.toString())) {
+    if (solutionElement.status === "draft" && (!req.user || req.user._id.toString() !== solutionElement.proposedBy._id.toString())) {
         throw new UnauthorizedError("Access Denied");
     }
 
