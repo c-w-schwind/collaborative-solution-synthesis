@@ -8,7 +8,7 @@ const solutionElementSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['proposal', 'active', 'deprecated', 'declined'],
+        enum: ['draft', 'proposal', 'active', 'deprecated', 'declined'],
         default: 'proposal',
         required: true
     },

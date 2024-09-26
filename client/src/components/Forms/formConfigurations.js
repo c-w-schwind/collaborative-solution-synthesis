@@ -8,15 +8,9 @@ export const formConfigurations = {
             {name: 'description', label: 'Description', type: 'textarea', validation: {required: true}, height: "100px"},
         ]
     },
-    solutionDraftTitleForm: {
-        fields: [{name: 'title', label: 'Title', type: 'text', validation: {required: true}, height: "40px"}]
-    },
-    solutionDraftOverviewForm: {
-        fields: [{name: 'overview', label: 'Overview', type: 'textarea', validation: {required: true}, height: "200px"}]
-    },
-    solutionDraftDescriptionForm: {
-        fields: [{name: 'description', label: 'Description', type: 'textarea', validation: {required: true}, height: "250px"}]
-    },
+    draftTitleForm: {fields: [{name: 'title', type: 'text', validation: {required: true}, height: "40px"}]},
+    draftOverviewForm: {fields: [{name: 'overview', type: 'textarea', validation: {required: true}, height: "200px"}]},
+    draftDescriptionForm: {fields: [{name: 'description', type: 'textarea', validation: {required: true}, height: "250px"}]},
     elementForm: {
         title: "Solution Element Proposal",
         fields: [
@@ -28,6 +22,7 @@ export const formConfigurations = {
     },
     considerationForm: {
         title: "Consideration",
+        // properties, effects & consequences, etc.
         descriptions: {
             Solution: "Please note: These considerations are meant for the solution as a whole. If you have specific feedback or considerations for individual elements, please use the consideration section within each respective solution element.",
             SolutionElement: "This consideration applies specifically to the current solution element. If your consideration impacts multiple elements or the overall solution, please add it to the consideration section of the main solution proposal.",

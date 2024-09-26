@@ -1,11 +1,11 @@
 import "./SolutionOverviewSection.css"
 import {useState} from "react";
-import useOutsideClick from "../../hooks/useOutsideClickHook";
 import {useGlobal} from "../../context/GlobalContext";
 import {useFormData} from "../../context/FormDataContext";
 import formSubmissionService from "../Forms/formSubmissionService";
-import GenericForm from "../Forms/GenericForm";
 import {formConfigurations} from "../Forms/formConfigurations";
+import GenericForm from "../Forms/GenericForm";
+import useOutsideClick from "../../hooks/useOutsideClickHook";
 
 const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace}) => {
     const [showMeta, setShowMeta] = useState(false);
@@ -22,32 +22,40 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
 
     const metaRef = useOutsideClick(() => setShowMeta(false));
 
-    const handleTitleEditButton = () => {
-        if (!isSolutionDraftTitleFormFilled) setSolutionDraftTitleFormData({title: solution.title});
-        toggleSolutionDraftTitleForm(false);
-    }
-    const handleOverviewEditButton = () => {
-        if (!isSolutionDraftOverviewFormFilled) setSolutionDraftOverviewFormData({overview: solution.overview});
-        toggleSolutionDraftOverviewForm(false);
-    }
-    const handleDescriptionEditButton = () => {
-        if (!isSolutionDraftDescriptionFormFilled) setSolutionDraftDescriptionFormData({description: solution.description});
-        toggleSolutionDraftDescriptionForm(false);
-    }
-
 
     const handleUpdateSolution = (updatedFields) => {
         setSolution(prevSolution => ({...prevSolution, ...updatedFields}));
     };
 
-    const handleEditSubmit = async (formData, label, toggleFunc) => {
+    const handleEditSubmit = async (formData, label, toggleSolutionDraftForm) => {
         await formSubmissionService(`solutions/${solution.solutionNumber}`, formData, label, handleUpdateSolution, "PUT");
-        toggleFunc(false);
+        toggleSolutionDraftForm(false);
     };
 
     const handleTitleEditSubmit = (formData) => handleEditSubmit(formData, "Solution Title", toggleSolutionDraftTitleForm);
     const handleOverviewEditSubmit = (formData) => handleEditSubmit(formData, "Solution Overview", toggleSolutionDraftOverviewForm);
     const handleDescriptionEditSubmit = (formData) => handleEditSubmit(formData, "Solution Description", toggleSolutionDraftDescriptionForm);
+
+    const handleTitleEditButton = () => {
+        if (!isSolutionDraftTitleFormFilled) {
+            setSolutionDraftTitleFormData({title: solution.title});
+        }
+        toggleSolutionDraftTitleForm(false);
+    }
+
+    const handleOverviewEditButton = () => {
+        if (!isSolutionDraftOverviewFormFilled) {
+            setSolutionDraftOverviewFormData({overview: solution.overview});
+        }
+        toggleSolutionDraftOverviewForm(false);
+    }
+
+    const handleDescriptionEditButton = () => {
+        if (!isSolutionDraftDescriptionFormFilled) {
+            setSolutionDraftDescriptionFormData({description: solution.description});
+        }
+        toggleSolutionDraftDescriptionForm(false);
+    }
 
     const handleMetaButtonClick = () => setShowMeta(prev => !prev);
 
@@ -60,6 +68,12 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
         )
     );
 
+    const renderTitle = () => {
+        if (!isSolutionDraft) return solution.title;
+        if (!isSolutionDraftTitleFormOpen) return `[DRAFT] ${solution.title}`
+        return null;
+    }
+
 
     if (!solution) return <p>Loading solution details...</p>;
 
@@ -67,14 +81,21 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
         <section className="solution-overview-section">
             <div className="solution-header">
                 <h2 className="solution-title">
-                    {!isSolutionDraft ? solution.title : !isSolutionDraftTitleFormOpen && ("[DRAFT] " + solution.title)}
-                    {isSolutionDraft && renderEditButton(isSolutionDraftTitleFormOpen, handleTitleEditButton, "", {alignSelf: "start", margin: "0 15px", paddingLeft: "9px", paddingRight: "12px", height: "30px"})}
+                    {renderTitle()}
+
+                    {isSolutionDraft && renderEditButton(isSolutionDraftTitleFormOpen, handleTitleEditButton, "", {
+                        alignSelf: "start",
+                        margin: "0 15px",
+                        paddingLeft: "9px",
+                        paddingRight: "12px",
+                        height: "30px"
+                    })}
 
                     {isSolutionDraftTitleFormOpen && (
-                        <div className="solution-draft-form" style={{width: "30vw", marginTop: "-20px"}}>{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                        <div className="draft-form" style={{width: "30vw", marginTop: "-20px"}}>{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
                             <GenericForm
                                 onSubmit={handleTitleEditSubmit}
-                                config={formConfigurations.solutionDraftTitleForm}
+                                config={formConfigurations.draftTitleForm}
                                 formData={solutionDraftTitleFormData}
                                 setFormData={setSolutionDraftTitleFormData}
                                 previousData={solution}
@@ -85,6 +106,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                 </h2>
 
                 <button className="discussion-space-button" onClick={onToggleDiscussionSpace} disabled={isSolutionDraft}>Discussion Space</button>
+
                 <div ref={metaRef} className="meta-button-container">
                     <button className={`solution-meta-button ${showMeta ? "active" : ""}`} onClick={handleMetaButtonClick}>i</button>
                     {showMeta && (
@@ -102,10 +124,10 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                 {!isSolutionDraft || !isSolutionDraftOverviewFormOpen ? (
                     <p className="solution-overview-section-text">{solution.overview}</p>
                 ) : (
-                    <div className="solution-draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                    <div className="draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
                         <GenericForm
                             onSubmit={handleOverviewEditSubmit}
-                            config={formConfigurations.solutionDraftOverviewForm}
+                            config={formConfigurations.draftOverviewForm}
                             formData={solutionDraftOverviewFormData}
                             setFormData={setSolutionDraftOverviewFormData}
                             previousData={solution}
@@ -113,15 +135,16 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                         />
                     </div>
                 )}
+
                 {isSolutionDraft && renderEditButton(isSolutionDraftOverviewFormOpen, handleOverviewEditButton, "Edit Overview")}
 
                 <h3 className="solution-details-list-container-title">Detailed Description</h3>
                 {!isSolutionDraft || !isSolutionDraftDescriptionFormOpen ? (
                     <p className="solution-overview-section-text">{solution.description}</p>
-                ) : (<div className="solution-draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                ) : (<div className="draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
                         <GenericForm
                             onSubmit={handleDescriptionEditSubmit}
-                            config={formConfigurations.solutionDraftDescriptionForm}
+                            config={formConfigurations.draftDescriptionForm}
                             formData={solutionDraftDescriptionFormData}
                             setFormData={setSolutionDraftDescriptionFormData}
                             previousData={solution}
@@ -129,6 +152,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                         />
                     </div>
                 )}
+
                 {isSolutionDraft && renderEditButton(isSolutionDraftDescriptionFormOpen, handleDescriptionEditButton, "Edit Description")}
             </div>
         </section>

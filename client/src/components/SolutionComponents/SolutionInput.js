@@ -69,7 +69,7 @@ const SolutionInput = () => {
 
 
     return (
-        <div className="solution-input-container" style={isSolutionFormOpen ? {backgroundColor: "#fff", maxWidth: "900px", padding: "40px 50px"} : {}}> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized.  */}
+        <div className="solution-input-container" style={isSolutionFormOpen ? {backgroundColor: "#fff", maxWidth: "900px", padding: "30px 50px"} : {}}> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized.  */}
             <div
                 className="no-solutions-call-to-action"
                 style={isSolutionFormOpen

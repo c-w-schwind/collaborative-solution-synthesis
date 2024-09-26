@@ -34,6 +34,7 @@ solutionElementRoutes.post("/solutionElements", authenticateToken(), verifyUserE
     }
 }));
 
+
 // Get single Solution Element w/ Considerations by elementNumber
 solutionElementRoutes.get("/solutionElements/:elementNumber", (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), asyncHandler(async (req, res) => {
     const solutionElement = await SolutionElement.findById(req.entityId).populate("proposedBy", "username").lean();
@@ -48,5 +49,21 @@ solutionElementRoutes.get("/solutionElements/:elementNumber", (req, res, next) =
 
     return res.status(200).send(solutionElement);
 }));
+
+
+// Update a single field or multiple fields of a Solution Element draft
+solutionElementRoutes.put("/solutionElements/:elementNumber", authenticateToken(), verifyUserExistence, (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), asyncHandler(async (req, res, next) => {
+    const solutionElement = await SolutionElement.findById(req.entityId).lean();
+    if (!solutionElement) throw new NotFoundError("Solution Element not found");
+
+    if (solutionElement.status === "private" && (!req.user || req.user._id.toString() !== solutionElement.proposedBy._id.toString())) {
+        throw new UnauthorizedError("Access Denied");
+    }
+
+    const updatedSolutionElement = await SolutionElement.findByIdAndUpdate(req.entityId, {$set: req.body}, {new: true}).lean();
+
+    res.status(201).send(updatedSolutionElement);
+}));
+
 
 export default solutionElementRoutes;

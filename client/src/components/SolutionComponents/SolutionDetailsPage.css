@@ -44,9 +44,12 @@
     border-radius: 8px;
     margin-top: 20px;
 }
+.solution-overview-and-details-container h3 {
+    margin-bottom: 10px;
+}
 
 .solution-overview-and-details-container h3.solution-details-list-container-title:first-of-type + p {
-    margin-bottom: 40px; /* Add space below the Overview paragraph */
+    margin-bottom: 40px; /* Add space below the Overview paragraph only */
 }
 
 .solution-draft-edit-button {

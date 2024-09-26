@@ -139,13 +139,13 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         };
 
         const handleFullScreenButton = () => {
-            if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkElementForm: true, saveDiscussionSpaceData: true})) {
+            if (canNavigate({checkSolutionDraftTitleForm: true, checkSolutionDraftOverviewForm: true, checkSolutionDraftDescriptionForm: true, checkElementForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true, checkConsiderationForm: true, checkCommentForm: true, saveDiscussionSpaceData: true})) {
                 navigate("./discussionSpace/fullscreen", {state: {entityTitle}});
             }
         };
 
         const handleClosingModal = () => {
-            if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true})) {
+            if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
                 setIsOverlayActive(false);
                 const modalElement = document.querySelector('.overlay');
                 if (modalElement) {

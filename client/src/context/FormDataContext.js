@@ -8,10 +8,13 @@ export const FormDataProvider = ({children}) => {
     const initFormData = useCallback((config) => config.fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}), []);
 
     const [solutionFormData, setSolutionFormData] = useState(initFormData(formConfigurations.solutionForm));
-    const [solutionDraftTitleFormData, setSolutionDraftTitleFormData] = useState(initFormData(formConfigurations.solutionDraftTitleForm));
-    const [solutionDraftOverviewFormData, setSolutionDraftOverviewFormData] = useState(initFormData(formConfigurations.solutionDraftOverviewForm));
-    const [solutionDraftDescriptionFormData, setSolutionDraftDescriptionFormData] = useState(initFormData(formConfigurations.solutionDraftDescriptionForm));
+    const [solutionDraftTitleFormData, setSolutionDraftTitleFormData] = useState(initFormData(formConfigurations.draftTitleForm));
+    const [solutionDraftOverviewFormData, setSolutionDraftOverviewFormData] = useState(initFormData(formConfigurations.draftOverviewForm));
+    const [solutionDraftDescriptionFormData, setSolutionDraftDescriptionFormData] = useState(initFormData(formConfigurations.draftDescriptionForm));
     const [elementFormData, setElementFormData] = useState(initFormData(formConfigurations.elementForm));
+    const [elementDraftTitleFormData, setElementDraftTitleFormData] = useState(initFormData(formConfigurations.draftTitleForm));
+    const [elementDraftOverviewFormData, setElementDraftOverviewFormData] = useState(initFormData(formConfigurations.draftOverviewForm));
+    const [elementDraftDescriptionFormData, setElementDraftDescriptionFormData] = useState(initFormData(formConfigurations.draftDescriptionForm));
     const [considerationFormData, setConsiderationFormData] = useState(initFormData(formConfigurations.considerationForm));
     const [commentFormData, setCommentFormData] = useState(initFormData(formConfigurations.commentForm));
     const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
@@ -22,6 +25,9 @@ export const FormDataProvider = ({children}) => {
     const [isSolutionDraftOverviewFormOpen, setIsSolutionDraftOverviewFormOpen] = useState(false);
     const [isSolutionDraftDescriptionFormOpen, setIsSolutionDraftDescriptionFormOpen] = useState(false);
     const [isElementFormOpen, setIsElementFormOpen] = useState(false);
+    const [isElementDraftTitleFormOpen, setIsElementDraftTitleFormOpen] = useState(false);
+    const [isElementDraftOverviewFormOpen, setIsElementDraftOverviewFormOpen] = useState(false);
+    const [isElementDraftDescriptionFormOpen, setIsElementDraftDescriptionFormOpen] = useState(false);
     const [openedConsiderationFormId, setOpenedConsiderationFormId] = useState(null);
     const [openedCommentSectionId, setOpenedCommentSectionId] = useState(null);
 
@@ -58,6 +64,18 @@ export const FormDataProvider = ({children}) => {
         Object.values(elementFormData).some(val => val.trim() !== ''), [elementFormData]
     );
 
+    const isElementDraftTitleFormFilled = useMemo(() =>
+        Object.values(elementDraftTitleFormData).some(val => val.trim() !== ''), [elementDraftTitleFormData]
+    );
+
+    const isElementDraftOverviewFormFilled = useMemo(() =>
+        Object.values(elementDraftOverviewFormData).some(val => val.trim() !== ''), [elementDraftOverviewFormData]
+    );
+
+    const isElementDraftDescriptionFormFilled = useMemo(() =>
+        Object.values(elementDraftDescriptionFormData).some(val => val.trim() !== ''), [elementDraftDescriptionFormData]
+    );
+
     const isConsiderationFormFilled = useMemo(() =>
         Object.values(considerationFormData).some(val => val.trim() !== ''), [considerationFormData]
     );
@@ -78,6 +96,9 @@ export const FormDataProvider = ({children}) => {
                                           wipeSolutionDraftOverviewForm,
                                           wipeSolutionDraftDescriptionForm,
                                           wipeElementForm,
+                                          wipeElementDraftTitleForm,
+                                          wipeElementDraftOverviewForm,
+                                          wipeElementDraftDescriptionForm,
                                           wipeConsiderationForm,
                                           wipeCommentForm,
                                           wipeDiscussionSpaceForm,
@@ -86,10 +107,13 @@ export const FormDataProvider = ({children}) => {
         const shouldWipe = flag => wipeAll || flag;
 
         shouldWipe(wipeSolutionForm) && setSolutionFormData(initFormData(formConfigurations.solutionForm));
-        shouldWipe(wipeSolutionDraftTitleForm) && setSolutionDraftTitleFormData(initFormData(formConfigurations.solutionDraftTitleForm));
-        shouldWipe(wipeSolutionDraftOverviewForm) && setSolutionDraftOverviewFormData(initFormData(formConfigurations.solutionDraftOverviewForm));
-        shouldWipe(wipeSolutionDraftDescriptionForm) && setSolutionDraftDescriptionFormData(initFormData(formConfigurations.solutionDraftDescriptionForm));
+        shouldWipe(wipeSolutionDraftTitleForm) && setSolutionDraftTitleFormData(initFormData(formConfigurations.draftTitleForm));
+        shouldWipe(wipeSolutionDraftOverviewForm) && setSolutionDraftOverviewFormData(initFormData(formConfigurations.draftOverviewForm));
+        shouldWipe(wipeSolutionDraftDescriptionForm) && setSolutionDraftDescriptionFormData(initFormData(formConfigurations.draftDescriptionForm));
         shouldWipe(wipeElementForm) && setElementFormData(initFormData(formConfigurations.elementForm));
+        shouldWipe(wipeElementDraftTitleForm) && setElementDraftTitleFormData(initFormData(formConfigurations.draftTitleForm));
+        shouldWipe(wipeElementDraftOverviewForm) && setElementDraftOverviewFormData(initFormData(formConfigurations.draftOverviewForm));
+        shouldWipe(wipeElementDraftDescriptionForm) && setElementDraftDescriptionFormData(initFormData(formConfigurations.draftDescriptionForm));
         shouldWipe(wipeConsiderationForm) && setConsiderationFormData(initFormData(formConfigurations.considerationForm));
         shouldWipe(wipeCommentForm) && setCommentFormData(initFormData(formConfigurations.commentForm));
         shouldWipe(wipeDiscussionSpaceForm) && setDiscussionSpaceFormData(initFormData(formConfigurations.discussionSpaceForm));
@@ -101,10 +125,13 @@ export const FormDataProvider = ({children}) => {
     const handleBrowserNavigation = useCallback(() => {
         // Check if specific forms are still present in the DOM after navigation
         const solutionFormExists = document.querySelector(".solution-input-container") !== null;
-        const solutionDraftTitleFormExists = document.querySelector(".solution-draft-form") !== null;
-        const solutionDraftOverviewFormExists = document.querySelector(".solution-draft-form") !== null;
-        const solutionDraftDescriptionFormExists = document.querySelector(".solution-draft-form") !== null;
+        const solutionDraftTitleFormExists = document.querySelector(".draft-form") !== null;
+        const solutionDraftOverviewFormExists = document.querySelector(".draft-form") !== null;
+        const solutionDraftDescriptionFormExists = document.querySelector(".draft-form") !== null;
         const elementFormExists = document.querySelector(".solution-details-add-card-button-container") !== null;
+        const elementDraftTitleFormExists = document.querySelector(".draft-form") !== null;
+        const elementDraftOverviewFormExists = document.querySelector(".draft-form") !== null;
+        const elementDraftDescriptionFormExists = document.querySelector(".draft-form") !== null;
         const considerationFormExists = document.querySelector(".solution-details-add-card-button-container") !== null;
         const commentFormExists = document.querySelector(".comments-container") !== null;
         const discussionSpaceFormExists = document.querySelector(".discussion-space-input-area") !== null;
@@ -115,6 +142,9 @@ export const FormDataProvider = ({children}) => {
         const solutionDraftOverviewFormNeedsWiping = isSolutionDraftOverviewFormFilled && !solutionDraftOverviewFormExists;
         const solutionDraftDescriptionFormNeedsWiping = isSolutionDraftDescriptionFormFilled && !solutionDraftDescriptionFormExists;
         const elementFormNeedsWiping = isElementFormFilled && !elementFormExists;
+        const elementDraftTitleFormNeedsWiping = isElementDraftTitleFormFilled && !elementDraftTitleFormExists;
+        const elementDraftOverviewFormNeedsWiping = isElementDraftOverviewFormFilled && !elementDraftOverviewFormExists;
+        const elementDraftDescriptionFormNeedsWiping = isElementDraftDescriptionFormFilled && !elementDraftDescriptionFormExists;
         const considerationFormNeedsWiping = isConsiderationFormFilled && (!considerationFormExists || modalNavigationDetected);
         const commentFormNeedsWiping = isCommentFormFilled && (!commentFormExists || modalNavigationDetected);
         const discussionSpaceFormNeedsWiping = isDiscussionSpaceFormFilled && !discussionSpaceFormExists;
@@ -126,6 +156,9 @@ export const FormDataProvider = ({children}) => {
         if (solutionDraftOverviewFormNeedsWiping) formsWithUnsavedData.push("Solution Draft Overview Form");
         if (solutionDraftDescriptionFormNeedsWiping) formsWithUnsavedData.push("Solution Draft Description Form");
         if (elementFormNeedsWiping) formsWithUnsavedData.push("Element Proposal Form");
+        if (elementDraftTitleFormNeedsWiping) formsWithUnsavedData.push("Element Draft Title Form");
+        if (elementDraftOverviewFormNeedsWiping) formsWithUnsavedData.push("Element Draft Overview Form");
+        if (elementDraftDescriptionFormNeedsWiping) formsWithUnsavedData.push("Element Draft Description Form");
         if (considerationFormNeedsWiping) formsWithUnsavedData.push("Consideration Form");
         if (commentFormNeedsWiping) formsWithUnsavedData.push("Comment Form");
         if (discussionSpaceFormNeedsWiping) formsWithUnsavedData.push("Discussion Space Form");
@@ -145,6 +178,9 @@ export const FormDataProvider = ({children}) => {
                 wipeSolutionDraftOverviewForm: solutionDraftOverviewFormNeedsWiping,
                 wipeSolutionDraftDescriptionForm: solutionDraftDescriptionFormNeedsWiping,
                 wipeElementForm: elementFormNeedsWiping,
+                wipeElementDraftTitleForm: elementDraftTitleFormNeedsWiping,
+                wipeElementDraftOverviewForm: elementDraftOverviewFormNeedsWiping,
+                wipeElementDraftDescriptionForm: elementDraftDescriptionFormNeedsWiping,
                 wipeConsiderationForm: considerationFormNeedsWiping,
                 wipeCommentForm: commentFormNeedsWiping,
                 wipeDiscussionSpaceForm: discussionSpaceFormNeedsWiping
@@ -156,11 +192,14 @@ export const FormDataProvider = ({children}) => {
             if (!solutionDraftOverviewFormExists && isSolutionDraftOverviewFormOpen) setIsSolutionDraftOverviewFormOpen(false);
             if (!solutionDraftDescriptionFormExists && isSolutionDraftDescriptionFormOpen) setIsSolutionDraftDescriptionFormOpen(false);
             if (!elementFormExists && isElementFormOpen) setIsElementFormOpen(false);
+            if (!elementDraftTitleFormExists && isElementDraftTitleFormOpen) setIsElementDraftTitleFormOpen(false);
+            if (!elementDraftOverviewFormExists && isElementDraftOverviewFormOpen) setIsElementDraftOverviewFormOpen(false);
+            if (!elementDraftDescriptionFormExists && isElementDraftDescriptionFormOpen) setIsElementDraftDescriptionFormOpen(false);
             if ((!considerationFormExists || modalNavigationDetected) && openedConsiderationFormId) setOpenedConsiderationFormId(null);
             if ((!commentFormExists || modalNavigationDetected) && openedCommentSectionId) setOpenedCommentSectionId(null);
         });
 
-    }, [isSolutionFormFilled, isSolutionDraftTitleFormFilled, isSolutionDraftOverviewFormFilled, isSolutionDraftDescriptionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, isSolutionFormOpen, isSolutionDraftTitleFormOpen, isSolutionDraftOverviewFormOpen, isSolutionDraftDescriptionFormOpen, isElementFormOpen, openedConsiderationFormId, openedCommentSectionId, wipeFormData, modalNavigationDetected]);
+    }, [isSolutionFormFilled, isSolutionDraftTitleFormFilled, isSolutionDraftOverviewFormFilled, isSolutionDraftDescriptionFormFilled, isElementFormFilled, isElementDraftTitleFormFilled, isElementDraftOverviewFormFilled, isElementDraftDescriptionFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, isSolutionFormOpen, isSolutionDraftTitleFormOpen, isSolutionDraftOverviewFormOpen, isSolutionDraftDescriptionFormOpen, isElementFormOpen, isElementDraftTitleFormOpen, isElementDraftOverviewFormOpen, isElementDraftDescriptionFormOpen, openedConsiderationFormId, openedCommentSectionId, wipeFormData, modalNavigationDetected]);
 
     // Allows selective navigation checks and form data wiping. Prompts users only if specified forms have unsaved data,
     // enabling navigation while preserving or ignoring certain fields as needed. Closes open forms on navigation.
@@ -170,6 +209,9 @@ export const FormDataProvider = ({children}) => {
                                          checkSolutionDraftOverviewForm,
                                          checkSolutionDraftDescriptionForm,
                                          checkElementForm,
+                                         checkElementDraftTitleForm,
+                                         checkElementDraftOverviewForm,
+                                         checkElementDraftDescriptionForm,
                                          checkConsiderationForm,
                                          checkCommentForm,
                                          checkDiscussionSpaceForm,
@@ -185,6 +227,9 @@ export const FormDataProvider = ({children}) => {
             checkSolutionDraftOverviewForm = true;
             checkSolutionDraftDescriptionForm = true;
             checkElementForm = true;
+            checkElementDraftTitleForm = true;
+            checkElementDraftOverviewForm = true;
+            checkElementDraftDescriptionForm = true;
             checkConsiderationForm = true;
             checkCommentForm = true;
             checkDiscussionSpaceForm = true;
@@ -195,6 +240,9 @@ export const FormDataProvider = ({children}) => {
         if (checkSolutionDraftOverviewForm && isSolutionDraftOverviewFormFilled) filledForms.push("Solution Draft Overview Form");
         if (checkSolutionDraftDescriptionForm && isSolutionDraftDescriptionFormFilled) filledForms.push("Solution Draft Description Form");
         if (checkElementForm && isElementFormFilled) filledForms.push("Solution Element Proposal Form");
+        if (checkElementDraftTitleForm && isElementDraftTitleFormFilled) filledForms.push("Element Draft Title Form");
+        if (checkElementDraftOverviewForm && isElementDraftOverviewFormFilled) filledForms.push("Element Draft Overview Form");
+        if (checkElementDraftDescriptionForm && isElementDraftDescriptionFormFilled) filledForms.push("Element Draft Description Form");
         if (checkConsiderationForm && isConsiderationFormFilled) filledForms.push("Consideration Form");
         if (checkCommentForm && isCommentFormFilled) filledForms.push("Comment Form");
         if (checkDiscussionSpaceForm && isDiscussionSpaceFormFilled) filledForms.push("Discussion Space Form");
@@ -206,7 +254,7 @@ export const FormDataProvider = ({children}) => {
                 ? "\nYour Discussion Space input will be transmitted into the fullscreen view.\n"
                 : "";
             const elementFormMessage = saveElementFormData && isElementFormFilled
-                ? "\\nYour Solution Element Proposal input will be preserved and still available.\n"
+                ? "\nHowever, your *Solution Element Proposal* will temporarily be saved and remain available.\n"
                 : "";
             const confirmationMessage = `Warning!\n\nYou have unsaved text in the following form${pluralSuffix}:\n${filledFormsMessage}\nContinuing will delete your input${pluralSuffix}.\n${discussionSpaceMessage}${elementFormMessage}\nProceed?`;
 
@@ -220,6 +268,9 @@ export const FormDataProvider = ({children}) => {
                 wipeSolutionDraftOverviewForm: checkSolutionDraftOverviewForm,
                 wipeSolutionDraftDescriptionForm: checkSolutionDraftDescriptionForm,
                 wipeElementForm: checkElementForm,
+                wipeElementDraftTitleForm: checkElementDraftTitleForm,
+                wipeElementDraftOverviewForm: checkElementDraftOverviewForm,
+                wipeElementDraftDescriptionForm: checkElementDraftDescriptionForm,
                 wipeConsiderationForm: checkConsiderationForm,
                 wipeCommentForm: checkCommentForm,
                 wipeDiscussionSpaceForm: saveDiscussionSpaceData ? false : checkDiscussionSpaceForm
@@ -232,11 +283,14 @@ export const FormDataProvider = ({children}) => {
         if (checkSolutionDraftOverviewForm) setIsSolutionDraftOverviewFormOpen(false);
         if (checkSolutionDraftDescriptionForm) setIsSolutionDraftDescriptionFormOpen(false);
         if (checkElementForm) setIsElementFormOpen(false);
+        if (checkElementDraftTitleForm) setIsElementDraftTitleFormOpen(false);
+        if (checkElementDraftOverviewForm) setIsElementDraftOverviewFormOpen(false);
+        if (checkElementDraftDescriptionForm) setIsElementDraftDescriptionFormOpen(false);
         if (checkCommentForm) setOpenedCommentSectionId(null);
         if (checkConsiderationForm) setOpenedConsiderationFormId(null);
 
         return true;
-    }, [isSolutionFormFilled, isSolutionDraftTitleFormFilled, isSolutionDraftOverviewFormFilled, isSolutionDraftDescriptionFormFilled, isElementFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, wipeFormData]);
+    }, [isSolutionFormFilled, isSolutionDraftTitleFormFilled, isSolutionDraftOverviewFormFilled, isSolutionDraftDescriptionFormFilled, isElementFormFilled, isElementDraftTitleFormFilled, isElementDraftOverviewFormFilled, isElementDraftDescriptionFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, wipeFormData]);
 
 
     const toggleSolutionForm = useCallback((askUser = true, ref) => {
@@ -311,6 +365,42 @@ export const FormDataProvider = ({children}) => {
     }, [isElementFormFilled, isElementFormOpen, wipeFormData]);
 
 
+    const toggleElementDraftTitleForm = useCallback((askUser = true) => {
+        if (askUser && isElementDraftTitleFormFilled) {
+            if (!window.confirm(`You have unsaved text in this form. Closing it will delete your input. Proceed?`)) {
+                return;
+            }
+        }
+        if (isElementDraftTitleFormOpen) wipeFormData({wipeElementDraftTitleForm: true});
+
+        setIsElementDraftTitleFormOpen(prevState => !prevState);
+    }, [isElementDraftTitleFormFilled, isElementDraftTitleFormOpen, wipeFormData]);
+
+
+    const toggleElementDraftOverviewForm = useCallback((askUser = true) => {
+        if (askUser && isElementDraftOverviewFormFilled) {
+            if (!window.confirm(`You have unsaved text in this form. Closing it will delete your input. Proceed?`)) {
+                return;
+            }
+        }
+        if (isElementDraftOverviewFormOpen) wipeFormData({wipeElementDraftOverviewForm: true});
+
+        setIsElementDraftOverviewFormOpen(prevState => !prevState);
+    }, [isElementDraftOverviewFormFilled, isElementDraftOverviewFormOpen, wipeFormData]);
+
+
+    const toggleElementDraftDescriptionForm = useCallback((askUser = true) => {
+        if (askUser && isElementDraftDescriptionFormFilled) {
+            if (!window.confirm(`You have unsaved text in this form. Closing it will delete your input. Proceed?`)) {
+                return;
+            }
+        }
+        if (isElementDraftDescriptionFormOpen) wipeFormData({wipeElementDraftDescriptionForm: true});
+
+        setIsElementDraftDescriptionFormOpen(prevState => !prevState);
+    }, [isElementDraftDescriptionFormFilled, isElementDraftDescriptionFormOpen, wipeFormData]);
+
+
     // Use "generalConsiderationForm" for the general consideration form at the end of the consideration list instead of editing a specific one
     const toggleConsiderationForm = useCallback((considerationId, ref, warnUser = true) => {
         setOpenedConsiderationFormId((prevId) => {
@@ -368,6 +458,9 @@ export const FormDataProvider = ({children}) => {
         solutionDraftOverviewFormData,
         solutionDraftDescriptionFormData,
         elementFormData,
+        elementDraftTitleFormData,
+        elementDraftOverviewFormData,
+        elementDraftDescriptionFormData,
         considerationFormData,
         commentFormData,
         discussionSpaceFormData,
@@ -378,6 +471,9 @@ export const FormDataProvider = ({children}) => {
         setSolutionDraftOverviewFormData,
         setSolutionDraftDescriptionFormData,
         setElementFormData,
+        setElementDraftTitleFormData,
+        setElementDraftOverviewFormData,
+        setElementDraftDescriptionFormData,
         setConsiderationFormData,
         setCommentFormData,
         setDiscussionSpaceFormData,
@@ -392,6 +488,9 @@ export const FormDataProvider = ({children}) => {
         toggleSolutionDraftOverviewForm,
         toggleSolutionDraftDescriptionForm,
         toggleElementForm,
+        toggleElementDraftTitleForm,
+        toggleElementDraftOverviewForm,
+        toggleElementDraftDescriptionForm,
         toggleConsiderationForm,
         toggleCommentSection,
 
@@ -403,6 +502,12 @@ export const FormDataProvider = ({children}) => {
         isSolutionDraftOverviewFormOpen,
         isSolutionDraftDescriptionFormOpen,
         isElementFormOpen,
+        isElementDraftTitleFormFilled,
+        isElementDraftOverviewFormFilled,
+        isElementDraftDescriptionFormFilled,
+        isElementDraftTitleFormOpen,
+        isElementDraftOverviewFormOpen,
+        isElementDraftDescriptionFormOpen,
         openedConsiderationFormId,
         openedCommentSectionId
     }), [
@@ -411,6 +516,9 @@ export const FormDataProvider = ({children}) => {
         solutionDraftOverviewFormData,
         solutionDraftDescriptionFormData,
         elementFormData,
+        elementDraftTitleFormData,
+        elementDraftOverviewFormData,
+        elementDraftDescriptionFormData,
         considerationFormData,
         commentFormData,
         discussionSpaceFormData,
@@ -425,6 +533,9 @@ export const FormDataProvider = ({children}) => {
         toggleSolutionDraftOverviewForm,
         toggleSolutionDraftDescriptionForm,
         toggleElementForm,
+        toggleElementDraftTitleForm,
+        toggleElementDraftOverviewForm,
+        toggleElementDraftDescriptionForm,
         toggleConsiderationForm,
         toggleCommentSection,
 
@@ -436,6 +547,12 @@ export const FormDataProvider = ({children}) => {
         isSolutionDraftOverviewFormOpen,
         isSolutionDraftDescriptionFormOpen,
         isElementFormOpen,
+        isElementDraftTitleFormFilled,
+        isElementDraftOverviewFormFilled,
+        isElementDraftDescriptionFormFilled,
+        isElementDraftTitleFormOpen,
+        isElementDraftOverviewFormOpen,
+        isElementDraftDescriptionFormOpen,
         openedConsiderationFormId,
         openedCommentSectionId
     ]);
