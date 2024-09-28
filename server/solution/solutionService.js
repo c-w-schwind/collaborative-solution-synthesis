@@ -14,6 +14,7 @@ export async function validateAndCreateSolution(solutionInput, userId, session) 
         title: solutionInput.title,
         overview: solutionInput.overview,
         description: solutionInput.description,
-        proposedBy: userId
+        proposedBy: userId,
+        authorizedUsers: [userId]
     });
 }

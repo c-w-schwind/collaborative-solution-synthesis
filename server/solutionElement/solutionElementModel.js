@@ -8,8 +8,8 @@ const solutionElementSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['draft', 'proposal', 'active', 'deprecated', 'declined'],
-        default: 'proposal',
+        enum: ['draft', 'under_review', 'proposal', 'accepted', 'declined', 'deprecated'],
+        default: 'draft',
         required: true
     },
     parentSolutionId: {
@@ -38,6 +38,11 @@ const solutionElementSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    authorizedUsers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }],
     activeConsiderationsCount: {
         type: Number,
         required: true,
@@ -53,5 +58,10 @@ const solutionElementSchema = new mongoose.Schema({
         ref: ''
     }]*/
 }, { timestamps: true });
+
+solutionElementSchema.index({ status: 1 });
+solutionElementSchema.index({ proposedBy: 1 });
+solutionElementSchema.index({ authorizedUsers: 1 });
+solutionElementSchema.index({ parentSolutionId: 1 });
 
 export const SolutionElement = mongoose.model('SolutionElement', solutionElementSchema);

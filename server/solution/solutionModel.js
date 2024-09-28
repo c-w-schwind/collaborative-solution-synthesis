@@ -8,8 +8,8 @@ const solutionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["draft", "public"],
-        default: "proposal",
+        enum: ["draft", "under_review", "public"],
+        default: "draft",
         required: true
     },
     title: {
@@ -28,6 +28,11 @@ const solutionSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
+    authorizedUsers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    }],
     activeSolutionElementsCount: {
         type: Number,
         required: true,
@@ -39,6 +44,10 @@ const solutionSchema = new mongoose.Schema({
         default: 0
     }
 }, { timestamps: true });
+
+solutionSchema.index({ status: 1 });
+solutionSchema.index({ proposedBy: 1 });
+solutionSchema.index({ authorizedUsers: 1 });
 
 export const Solution = mongoose.model("Solution", solutionSchema);
 

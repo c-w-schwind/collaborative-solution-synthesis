@@ -18,8 +18,9 @@ async function createSolutionElement(solutionElementData, userId, session = null
     const solutionElement = new SolutionElement({
         ...solutionElementData,
         elementNumber: elementCounterValue,
-        status: 'proposal',
-        proposedBy: userId
+        status: 'draft',
+        proposedBy: userId,
+        authorizedUsers: [userId]
     });
     await solutionElement.save({session});
     return solutionElement;

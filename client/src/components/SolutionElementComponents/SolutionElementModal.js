@@ -35,10 +35,24 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
 
     const fetchSolutionElement = useCallback(async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/solutionElements/${elementNumber}`);
+            const token = localStorage.getItem("token");
+
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/solutionElements/${elementNumber}`, {
+                headers: token
+                    ? {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}
+                    : {}
+            });
+
             if (!response.ok) {
+                if (response.status === 401) {
+                    const errorMessage = token
+                        ? "This solution element is private.\n\n\nYou don't have access to view it."
+                        : "Unauthorized access.\n\n\nPlease log in to view this solution element.";
+                    throw new Error(errorMessage);
+                }
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
+
             const data = await response.json();
             setSolutionElement(data);
             setIsElementDraft(data.status === "draft");
@@ -65,7 +79,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     }, [solutionElement, setEntityTitle]);
 
     useEffect(() => {
-        if (isElementDraft) document.querySelector(".overlay").style.backgroundColor = "rgba(50,0,0,0.5)";
+        if (isElementDraft) document.querySelector(".overlay").style.backgroundColor = "rgba(30,0,0,0.5)";
     }, [isElementDraft]);
 
     useEffect(() => {
