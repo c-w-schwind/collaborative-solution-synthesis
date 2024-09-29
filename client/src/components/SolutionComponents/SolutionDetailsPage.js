@@ -83,7 +83,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
             fetchSolution();
             setWasElementDraftEdited(false);
         }
-    }, [wasElementDraftEdited, fetchSolution]);
+    }, [wasElementDraftEdited, setWasElementDraftEdited, fetchSolution]);
 
     const handleRetry = () => {
         setRetryCount(1);

@@ -95,7 +95,7 @@ solutionRoutes.put("/solutions/:solutionNumber", authenticateToken(), verifyUser
         throw new UnauthorizedError("Cannot modify a public Solution outside of proposals");
     }
 
-    if (!req.user._id.equals(solution.proposedBy._id)) {
+    if (req.user._id !== solution.proposedBy._id.toString()) {
         throw new UnauthorizedError("Access Denied");
     }
 

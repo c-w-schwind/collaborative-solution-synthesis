@@ -61,7 +61,7 @@ solutionElementRoutes.put("/solutionElements/:elementNumber", authenticateToken(
         throw new UnauthorizedError("Cannot modify a public Solution Element");
     }
 
-    if (!req.user._id.equals(solutionElement.proposedBy._id)) {
+    if (req.user._id !== solutionElement.proposedBy._id.toString()) {
         throw new UnauthorizedError("Access Denied");
     }
 
