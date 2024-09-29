@@ -1,6 +1,6 @@
 import './Header.css';
 import {useState} from 'react';
-import {NavLink, Link, useNavigate} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import {useAuth} from "../context/AuthContext";
 import {useToasts} from "../context/ToastContext";
 import useOutsideClick from "../hooks/useOutsideClickHook";
@@ -68,7 +68,7 @@ function Header() {
                         </nav>
                     </div>
                 ) : (
-                    <Link to="/login" className="login-button">Login</Link>
+                    <NavLink to="/login" onClick={(e) => handleNavigation(e, {checkAll: true}, '/login')} className={({isActive}) => 'login-button'}>Login</NavLink>
                 )}
             </div>
         </header>

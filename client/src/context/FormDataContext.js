@@ -1,6 +1,8 @@
 import {createContext, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {formConfigurations} from "../components/Forms/formConfigurations";
 import {useLocation} from "react-router-dom";
+import {useAuth} from "./AuthContext";
+import {useToasts} from "./ToastContext";
 
 const FormDataContext = createContext();
 
@@ -35,6 +37,9 @@ export const FormDataProvider = ({children}) => {
 
     const location = useLocation();
     let previousPathRef = useRef(location.pathname.split("/").includes("element") ? "element" : "solution");
+
+    const {isLoggedIn} = useAuth();
+    const {addToast} = useToasts();
 
 
     useEffect(() => {
@@ -293,7 +298,18 @@ export const FormDataProvider = ({children}) => {
     }, [isSolutionFormFilled, isSolutionDraftTitleFormFilled, isSolutionDraftOverviewFormFilled, isSolutionDraftDescriptionFormFilled, isElementFormFilled, isElementDraftTitleFormFilled, isElementDraftOverviewFormFilled, isElementDraftDescriptionFormFilled, isConsiderationFormFilled, isCommentFormFilled, isDiscussionSpaceFormFilled, wipeFormData]);
 
 
+    const checkLoggedIn = useCallback(() => {
+        if (!isLoggedIn) {
+            addToast("You must be logged in to use this feature.", 5000);
+            return false;
+        }
+        return true;
+    }, [isLoggedIn, addToast]);
+
+
     const toggleSolutionForm = useCallback((askUser = true, ref) => {
+        if (!checkLoggedIn()) return;
+
         if (askUser && isSolutionFormOpen && isSolutionFormFilled) {
             if (!window.confirm(`You have unsaved text in this form. Closing it will delete your input. Proceed?`)) {
                 return;
@@ -308,7 +324,7 @@ export const FormDataProvider = ({children}) => {
         }
 
         setIsSolutionFormOpen(prevState => !prevState);
-    }, [isSolutionFormFilled, isSolutionFormOpen, wipeFormData]);
+    }, [checkLoggedIn, isSolutionFormFilled, isSolutionFormOpen, wipeFormData]);
 
 
     const toggleSolutionDraftTitleForm = useCallback((askUser = true) => {
@@ -348,6 +364,8 @@ export const FormDataProvider = ({children}) => {
 
 
     const toggleElementForm = useCallback((askUser = true, ref) => {
+        if (!checkLoggedIn()) return;
+
         if (askUser && isElementFormOpen && isElementFormFilled) {
             if (!window.confirm(`You have unsaved text in this form. Closing it will delete your input. Proceed?`)) {
                 return;
@@ -362,7 +380,7 @@ export const FormDataProvider = ({children}) => {
         }
 
         setIsElementFormOpen(prevState => !prevState);
-    }, [isElementFormFilled, isElementFormOpen, wipeFormData]);
+    }, [checkLoggedIn, isElementFormFilled, isElementFormOpen, wipeFormData]);
 
 
     const toggleElementDraftTitleForm = useCallback((askUser = true) => {
@@ -403,6 +421,8 @@ export const FormDataProvider = ({children}) => {
 
     // Use "generalConsiderationForm" for the general consideration form at the end of the consideration list instead of editing a specific one
     const toggleConsiderationForm = useCallback((considerationId, ref, warnUser = true) => {
+        if (!checkLoggedIn()) return;
+
         setOpenedConsiderationFormId((prevId) => {
             const sameForm = prevId === considerationId;
             const message = `You have unsaved text in ${sameForm ? "this" : openedConsiderationFormId === "generalConsiderationForm" ? "the \"Add Consideration\"" : "another opened consideration"} form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other input"}. Proceed?`;
@@ -419,7 +439,7 @@ export const FormDataProvider = ({children}) => {
 
             return considerationId;
         });
-    }, [isConsiderationFormFilled, openedConsiderationFormId, initFormData]);
+    }, [checkLoggedIn, isConsiderationFormFilled, openedConsiderationFormId, initFormData]);
 
 
     const toggleCommentSection = useCallback((considerationId, ref) => {
