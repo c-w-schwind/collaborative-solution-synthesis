@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
-import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Solution} from "../solution/solutionModel.js";
 import {SolutionElement} from "./solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
@@ -16,7 +15,7 @@ import authorizeAccess from "../middleware/authorizeAccess.js";
 const solutionElementRoutes = express.Router();
 
 // Create new Solution Element
-solutionElementRoutes.post("/solutionElements", authenticateToken(), verifyUserExistence, (req, res, next) => translateEntityNumberToId("Solution", req.body.parentNumber, "parentSolutionId")(req, res, next), authorizeAccess("Solution", "parentSolutionId"), asyncHandler(async (req, res, next) => {
+solutionElementRoutes.post("/solutionElements", authenticateToken(), (req, res, next) => translateEntityNumberToId("Solution", req.body.parentNumber, "parentSolutionId")(req, res, next), authorizeAccess("Solution", "parentSolutionId"), asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -37,7 +36,7 @@ solutionElementRoutes.post("/solutionElements", authenticateToken(), verifyUserE
 
 
 // Get single Solution Element w/ Considerations by elementNumber
-solutionElementRoutes.get("/solutionElements/:elementNumber", authenticateToken(), verifyUserExistence, (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res) => {
+solutionElementRoutes.get("/solutionElements/:elementNumber", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res) => {
     const solutionElement = await SolutionElement.findById(req.entityId).populate("proposedBy", "username").lean();
     if (!solutionElement) throw new NotFoundError("Solution Element not found");
 
@@ -53,7 +52,7 @@ solutionElementRoutes.get("/solutionElements/:elementNumber", authenticateToken(
 
 
 // Update a single field or multiple fields of a Solution Element draft
-solutionElementRoutes.put("/solutionElements/:elementNumber", authenticateToken(), verifyUserExistence, (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res, next) => {
+solutionElementRoutes.put("/solutionElements/:elementNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res, next) => {
     const solutionElement = await SolutionElement.findById(req.entityId).lean();
     if (!solutionElement) throw new NotFoundError("Solution Element not found");
 
@@ -61,7 +60,7 @@ solutionElementRoutes.put("/solutionElements/:elementNumber", authenticateToken(
         throw new UnauthorizedError("Cannot modify a public Solution Element");
     }
 
-    if (req.user._id !== solutionElement.proposedBy._id.toString()) {
+    if (req.user._id.toString() !== solutionElement.proposedBy._id.toString()) {
         throw new UnauthorizedError("Access Denied");
     }
 

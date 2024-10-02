@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
-import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Solution} from "./solutionModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
@@ -67,7 +66,7 @@ solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: fa
 
 
 // Create new Solution
-solutionRoutes.post("/solutions", authenticateToken(), verifyUserExistence, asyncHandler(async (req, res, next) => {
+solutionRoutes.post("/solutions", authenticateToken(), asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -87,7 +86,7 @@ solutionRoutes.post("/solutions", authenticateToken(), verifyUserExistence, asyn
 
 
 // Update a single field or multiple fields of a Solution draft
-solutionRoutes.put("/solutions/:solutionNumber", authenticateToken(), verifyUserExistence, (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res, next) => {
+solutionRoutes.put("/solutions/:solutionNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res, next) => {
     const solution = await Solution.findById(req.entityId).lean();
     if (!solution) throw new NotFoundError("Solution not found");
 
@@ -95,7 +94,7 @@ solutionRoutes.put("/solutions/:solutionNumber", authenticateToken(), verifyUser
         throw new UnauthorizedError("Cannot modify a public Solution outside of proposals");
     }
 
-    if (req.user._id !== solution.proposedBy._id.toString()) {
+    if (req.user._id.toString() !== solution.proposedBy._id.toString()) {
         throw new UnauthorizedError("Access Denied");
     }
 

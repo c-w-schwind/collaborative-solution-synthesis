@@ -6,7 +6,6 @@ import {asyncHandler} from "../utils/asyncHandler.js";
 import {validateEmail, validateRequiredFields} from "../utils/utils.js";
 import {BadRequestError, ConflictError, NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
-import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {User} from "./userModel.js";
 
 const userRoutes = express.Router();
@@ -61,7 +60,7 @@ userRoutes.post("/users/login", loginRateLimiter, asyncHandler(async (req, res) 
 
 
 // Retrieve User
-userRoutes.get("/users/:id", authenticateToken(), verifyUserExistence, asyncHandler(async (req, res) => {
+userRoutes.get("/users/:id", authenticateToken(), asyncHandler(async (req, res) => {
     const userID = req.params.id;
 
     const user = await User.findById(userID).select("-passwordHash");

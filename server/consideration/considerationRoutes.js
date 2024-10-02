@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
-import verifyUserExistence from "../middleware/verifyUserExistence.js";
 import {Consideration} from "./considerationModel.js";
 import {
     groupAndSortConsiderationsByStance,
@@ -33,7 +32,7 @@ considerationRoutes.get("/considerations/:parentType/:parentNumber", (req, res, 
 
 
 // Create new Consideration
-considerationRoutes.post("/considerations", (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber)(req, res, next), authenticateToken(), verifyUserExistence, asyncHandler(async (req, res, next) => {
+considerationRoutes.post("/considerations", (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber)(req, res, next), authenticateToken(), asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -54,7 +53,7 @@ considerationRoutes.post("/considerations", (req, res, next) => translateEntityN
 
 
 // Update an existing Consideration
-considerationRoutes.put("/considerations/:id", (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber, "parentId")(req, res, next), authenticateToken(), verifyUserExistence, asyncHandler(async (req, res, next) => {
+considerationRoutes.put("/considerations/:id", (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber, "parentId")(req, res, next), authenticateToken(), asyncHandler(async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) throw new BadRequestError("Invalid Consideration ID.");
     await validateConsiderationData({...req.body, parentId: req.parentId});
 
@@ -66,7 +65,7 @@ considerationRoutes.put("/considerations/:id", (req, res, next) => translateEnti
 
 
 // Create a new comment for a Consideration
-considerationRoutes.post("/considerations/:id/comment", authenticateToken(), verifyUserExistence, asyncHandler(async (req, res) => {
+considerationRoutes.post("/considerations/:id/comment", authenticateToken(), asyncHandler(async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) throw new BadRequestError("Invalid Consideration ID.");
     if (!req.body.text) throw new BadRequestError("Consideration Comment: Missing required field: text.");
 
@@ -87,7 +86,7 @@ considerationRoutes.post("/considerations/:id/comment", authenticateToken(), ver
 
 
 // Vote on Consideration
-considerationRoutes.post("/considerations/:considerationId/vote", authenticateToken(), verifyUserExistence, asyncHandler(async (req, res) => {
+considerationRoutes.post("/considerations/:considerationId/vote", authenticateToken(), asyncHandler(async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) throw new BadRequestError("Invalid Consideration ID.");
 
     const vote = req.body.vote;
@@ -102,7 +101,7 @@ considerationRoutes.post("/considerations/:considerationId/vote", authenticateTo
 
 
 // Vote on Consideration comment
-considerationRoutes.post("/considerations/:considerationId/comment/:commentId/vote", authenticateToken(), verifyUserExistence, asyncHandler(async (req, res) => {
+considerationRoutes.post("/considerations/:considerationId/comment/:commentId/vote", authenticateToken(), asyncHandler(async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) throw new BadRequestError("Invalid Consideration ID.");
     if (!mongoose.Types.ObjectId.isValid(req.params.commentId)) throw new BadRequestError("Invalid Consideration comment ID.");
 
