@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useFormData} from "../../context/FormDataContext";
 import {useCallback} from "react";
+import {useGlobal} from "../../context/GlobalContext";
 
 
 const SolutionElementCard = ({element, onToggleDiscussionSpace, isDiscussionSpaceOpen, isChangeProposal = false}) => {
@@ -9,6 +10,7 @@ const SolutionElementCard = ({element, onToggleDiscussionSpace, isDiscussionSpac
 
     const navigate = useNavigate();
     const {canNavigate} = useFormData();
+    const {isSolutionDraft} = useGlobal();
 
     const navigateToElement = useCallback(() => {
         navigate(`./element/${element.elementNumber}`, {state: {fromElementCard: true}});
@@ -39,7 +41,7 @@ const SolutionElementCard = ({element, onToggleDiscussionSpace, isDiscussionSpac
     }, [canNavigate, isDiscussionSpaceOpen, navigateToElement, onToggleDiscussionSpace, handleTransitionEnd]);
 
     return (
-        <div className={`solution-element-card ${isDraft ? "draft" : isElementProposal ? "element-proposal" : isChangeProposal ? "change-proposal" : ""}`} onClick={handleClick} style={{cursor: "pointer"}}>
+        <div className={`solution-element-card ${isDraft ? (isSolutionDraft ? "element-proposal" : "draft") : isElementProposal ? "element-proposal" : isChangeProposal ? "change-proposal" : ""}`} onClick={handleClick} style={{cursor: "pointer"}}>
             {isChangeProposal && <h4 style={{fontStyle: "italic", fontWeight: "unset", margin: "0 0 10px 0"}}>--- CHANGE PROPOSAL ---</h4>}
             {isElementProposal && <h4 style={{fontStyle: "italic", fontWeight: "unset", margin: "0 0 10px 0"}}>--- NEW ELEMENT PROPOSAL ---</h4>}
             <h4>{element.title} ({element.elementType})</h4>

@@ -2,10 +2,12 @@ import SolutionElementCard from "./SolutionElementCard.js";
 import SolutionElementInput from "./SolutionElementInput";
 import {useNavigate} from "react-router-dom";
 import {useCallback} from "react";
+import {useGlobal} from "../../context/GlobalContext";
 
 
 const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, isDiscussionSpaceOpen, parentNumber}) => {
     const navigate = useNavigate();
+    const {isSolutionDraft} = useGlobal();
 
     const handleSubmit = useCallback((elementProposal) => {
         navigate(`element/${elementProposal.elementNumber}`);
@@ -41,8 +43,8 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
                         ))}
                     </div>
 
-                    {elementDrafts.length > 0 && <div className="solution-details-list" style={{padding: "15px"}}>
-                        <h3 className="solution-details-list-container-title"><br/>Your Private Draft{elementDrafts.length > 1 ? "s" : ""}</h3>
+                    {elementDrafts.length > 0 && <div className="solution-details-list" style={!isSolutionDraft ? {padding: "20px"} : {}}>
+                        {!isSolutionDraft && <h3 className="solution-details-list-container-title"><br/>Your Private Draft{elementDrafts.length > 1 ? "s" : ""}</h3>}
                         {elementDrafts.map(draft => (
                             <SolutionElementCard
                                 key={draft._id}
