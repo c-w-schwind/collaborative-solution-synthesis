@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './LoginForm.css';
 import {useAuth} from "../../context/AuthContext";
-import { useNavigate } from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 
 
 function LoginForm() {
@@ -11,6 +11,7 @@ function LoginForm() {
     const [loading, setLoading] = useState(false);
     const {login} = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     function handleEmail (event){
         setEmail(event.target.value);
@@ -38,7 +39,8 @@ function LoginForm() {
 
             if (response.ok) {
                 login(data.user, data.token);
-                navigate('/');
+                const {from} = location.state || {from: {pathname: "/"}};
+                navigate(from.pathname);
             } else {
                 setError(data.message || 'An error occurred during login.');
                 console.info('Login attempt failed:', data.message);

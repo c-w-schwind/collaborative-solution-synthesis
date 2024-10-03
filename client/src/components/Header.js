@@ -1,6 +1,6 @@
 import './Header.css';
 import {useState} from 'react';
-import {NavLink, useNavigate} from 'react-router-dom';
+import {NavLink, useLocation, useNavigate} from 'react-router-dom';
 import {useAuth} from "../context/AuthContext";
 import {useToasts} from "../context/ToastContext";
 import useOutsideClick from "../hooks/useOutsideClickHook";
@@ -10,10 +10,13 @@ import {useFormData} from "../context/FormDataContext";
 function Header() {
     const [isNavMenuVisible, setIsNavMenuVisible] = useState(false);
     const [isUserMenuVisible, setIsUserMenuVisible] = useState(false);
+
     const {addToast} = useToasts();
     const {isLoggedIn, user, logout} = useAuth();
     const {canNavigate} = useFormData();
     const navigate = useNavigate();
+    const location = useLocation();
+
     const showWIPMessage = () => addToast("Unfortunately, this section has not been built yet.", 5000);
 
     const closeNavMenu = () => setIsNavMenuVisible(false);
@@ -22,12 +25,12 @@ function Header() {
     const closeUserMenu = () => setIsUserMenuVisible(false);
     const userMenuRef = useOutsideClick(closeUserMenu);
 
-    const handleNavigation = (e, checkForms, path) => {
+    const handleNavigation = (e, checkForms, path, state = {}) => {
         e.preventDefault();
         if (canNavigate(checkForms)) {
             closeUserMenu();
             closeNavMenu();
-            navigate(path);
+            navigate(path, {state});
         }
     };
 
@@ -68,7 +71,7 @@ function Header() {
                         </nav>
                     </div>
                 ) : (
-                    <NavLink to="/login" onClick={(e) => handleNavigation(e, {checkAll: true}, '/login')} className={({isActive}) => 'login-button'}>Login</NavLink>
+                    <NavLink to="/login" onClick={(e) => handleNavigation(e, {checkAll: true}, '/login', {from: location})} className={({isActive}) => 'login-button'}>Login</NavLink>
                 )}
             </div>
         </header>
