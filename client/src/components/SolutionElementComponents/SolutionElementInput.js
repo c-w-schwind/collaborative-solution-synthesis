@@ -4,6 +4,7 @@ import {formConfigurations} from "../Forms/formConfigurations";
 import formSubmissionService from "../Forms/formSubmissionService";
 import {useEffect, useRef, useState} from "react";
 import {useToasts} from "../../context/ToastContext";
+import {useGlobal} from "../../context/GlobalContext";
 
 const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
     // Enables a smooth closing transition by delaying the form's disappearance
@@ -11,6 +12,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
 
     const {elementFormData, setElementFormData, toggleElementForm, isElementFormOpen} = useFormData();
     const {addToast} = useToasts();
+    const {setWasElementListEdited} = useGlobal();
 
     const elementFormContainerRef = useRef(null);
 
@@ -58,6 +60,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
         const proposalData = {...formData, parentNumber};
         await formSubmissionService("solutionElements", proposalData, "solution element", onSuccessfulSubmit);
         toggleElementForm(false);
+        setWasElementListEdited(true);
     };
 
     return (

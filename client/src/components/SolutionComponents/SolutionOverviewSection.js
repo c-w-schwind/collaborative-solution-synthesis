@@ -93,7 +93,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                     })}
 
                     {isSolutionDraftTitleFormOpen && (
-                        <div className="draft-form" style={{width: "30vw", marginTop: "-20px"}}>{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                        <div className="draft-form" style={{width: "30vw", marginTop: "-20px", fontSize: "16px", fontWeight: "lighter"}}>{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
                             <GenericForm
                                 onSubmit={handleTitleEditSubmit}
                                 config={formConfigurations.draftTitleForm}

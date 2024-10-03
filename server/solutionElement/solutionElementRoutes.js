@@ -19,7 +19,7 @@ solutionElementRoutes.post("/solutionElements", authenticateToken(), (req, res, 
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        if (!await Solution.findById(req.parentSolutionId)) throw new NotFoundError("Solution not found");
+        if (!await Solution.exists({_id: req.parentSolutionId})) throw new NotFoundError("Solution not found");
 
         const solutionElement = await validateAndCreateSolutionElements(req.body, req.parentSolutionId, req.user._id, session);
         await updateParentSolutionElementsCount(req.parentSolutionId, 1, session)

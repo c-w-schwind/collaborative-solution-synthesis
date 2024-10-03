@@ -20,7 +20,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const [isElementDraft, setIsElementDraft] = useState(false);
 
     const titleRef = useRef(null);
-    const {setWasElementDraftEdited} = useGlobal();
+    const {setWasElementListEdited} = useGlobal();
     const {elementNumber} = useParams();
 
     const {
@@ -79,7 +79,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     }, [solutionElement, setEntityTitle]);
 
     useEffect(() => {
-        if (isElementDraft) document.querySelector(".overlay").style.backgroundColor = "rgba(30,0,0,0.5)";
+        if (isElementDraft) document.querySelector(".overlay").style.backgroundColor = "rgba(183,183,231,0.3)";
     }, [isElementDraft]);
 
     useEffect(() => {
@@ -114,7 +114,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const handleEditSubmit = async (formData, label, toggleElementDraftForm) => {
         await formSubmissionService(`solutionElements/${solutionElement.elementNumber}`, formData, label, handleUpdateSolutionElement, "PUT");
         toggleElementDraftForm(false);
-        setWasElementDraftEdited(true);
+        setWasElementListEdited(true);
     };
 
     const handleTitleEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Title", toggleElementDraftTitleForm);
@@ -193,7 +193,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                     })}
 
                     {isElementDraftTitleFormOpen && (
-                        <div className="draft-form" style={{width: "30vw", marginTop: "-20px"}}>{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                        <div className="draft-form" style={{width: "30vw", marginTop: "-20px", fontSize: "16px", fontWeight: "lighter", textWrap: "wrap"}}>{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
                             <GenericForm
                                 onSubmit={handleTitleEditSubmit}
                                 config={formConfigurations.draftTitleForm}

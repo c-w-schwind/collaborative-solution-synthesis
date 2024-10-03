@@ -41,7 +41,7 @@ solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: fa
     if (!solution) throw new NotFoundError("Solution not found");
 
     const elementQuery = {parentSolutionId: solution._id};
-    const publicStatuses = ["proposal", "accepted", "declined"];
+    const publicStatuses = ["proposal", "accepted"];
 
     if (req.user) {
         elementQuery.$or = [

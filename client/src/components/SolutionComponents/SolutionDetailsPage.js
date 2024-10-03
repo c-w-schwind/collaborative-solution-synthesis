@@ -13,7 +13,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const {isSolutionDraft, setIsSolutionDraft, wasElementDraftEdited, setWasElementDraftEdited} = useGlobal();
+    const {isSolutionDraft, setIsSolutionDraft, wasElementListEdited, setWasElementListEdited} = useGlobal();
     const location = useLocation();
     const {solutionNumber} = useParams();
 
@@ -79,11 +79,11 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     }, [isSolutionDraft]);
 
     useEffect(() => {
-        if (wasElementDraftEdited) {
+        if (wasElementListEdited) {
             fetchSolution();
-            setWasElementDraftEdited(false);
+            setWasElementListEdited(false);
         }
-    }, [wasElementDraftEdited, setWasElementDraftEdited, fetchSolution]);
+    }, [wasElementListEdited, setWasElementListEdited, fetchSolution]);
 
     const handleRetry = () => {
         setRetryCount(1);
