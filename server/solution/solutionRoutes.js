@@ -52,7 +52,17 @@ solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: fa
         elementQuery.status = {$in: publicStatuses};
     }
 
-    solution.solutionElements = await SolutionElement.find(elementQuery).select("_id elementNumber title elementType overview status").lean();
+    const retrievedElements = await SolutionElement.find(elementQuery).select("_id elementNumber title elementType overview status changeProposalFor").lean();
+
+    // Separating main elements and change proposals
+    const mainElements = retrievedElements.filter(el => el.status !== 'draft' && !(["under_review", "proposal"].includes(el.status) && el.changeProposalFor));
+    const changeProposals = retrievedElements.filter(el => ["under_review", "proposal"].includes(el.status) && el.changeProposalFor);
+
+    solution.solutionElements = mainElements.map(element => ({
+        ...element,
+        changeProposals: changeProposals.filter(cp => cp.changeProposalFor.toString() === element._id.toString())
+    }));
+    solution.elementDrafts = retrievedElements.filter(el => el.status === 'draft');
 
     const considerations = await Consideration.find({
         parentType: "Solution",

@@ -82,7 +82,7 @@
     gap: 8px;
 }
 
-.solution-details-card {
+.solution-element-card {
     background-color: #fdfdfd;
     border: 1px solid #dee2e6;
     border-radius: 8px;
@@ -92,19 +92,35 @@
     color: #282828;
 }
 
-.solution-details-card:hover {
-    box-shadow: 0 0 5px 3px rgba(100, 100, 100, 0.15);
-    background-color: white;
-    color: #000000;
-    scale: 1.005;
+.solution-element-card.change-proposal {
+    background-color: lavender;
+    margin: 5px 0 0 30px ;
+    border: 4px solid white;
 }
 
-.solution-details-card h4 {
+.solution-element-card.element-proposal {
+    background-color: rgba(207, 227, 243, 0.5);
+    border: 4px solid white;
+}
+
+.solution-element-card.draft {
+    background-color: rgba(246, 197, 189, 0.9);
+    border: 4px solid white;
+}
+
+.solution-element-card:hover {
+    box-shadow: 0 0 5px 3px rgba(100, 100, 100, 0.15);
+    color: #000000;
+    scale: 1.005;
+    filter: brightness(102%);
+}
+
+.solution-element-card h4 {
     margin: 5px 0;
     color: #2c2c2c;
 }
 
-.solution-details-card:hover h4 {
+.solution-element-card:hover h4 {
     color: #000000;
 }
 

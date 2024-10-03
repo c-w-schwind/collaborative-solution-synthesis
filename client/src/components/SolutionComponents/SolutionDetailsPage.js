@@ -102,6 +102,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                         />
                         <SolutionElementList
                             elements={solution.solutionElements}
+                            elementDrafts={solution.elementDrafts}
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
                             isDiscussionSpaceOpen={isDiscussionSpaceOpen}
                             parentNumber={solutionNumber}
