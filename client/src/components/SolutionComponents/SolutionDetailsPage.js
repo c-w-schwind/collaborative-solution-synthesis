@@ -73,7 +73,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     }, [location.pathname]);
 
     useEffect(() => {
-        if (isSolutionDraft) document.body.style.backgroundColor = "rgba(236,204,204,0.71)";
+        if (isSolutionDraft) document.body.style.backgroundColor = "rgba(183,198,215,0.71)";    //rgba(162,117,117,0.47)
 
         return () => document.body.style.backgroundColor = "";
     }, [isSolutionDraft]);

@@ -36,6 +36,14 @@
     margin-top: 30px;
 }
 
+.draft-list-container {
+    margin-top: 40px;
+    padding: 15px 15px 25px 15px;
+    background: #fafafa;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
 .solution-overview-and-details-container {
     display: flex;
     flex-direction: column;

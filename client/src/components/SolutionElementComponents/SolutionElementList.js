@@ -43,8 +43,8 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
                         ))}
                     </div>
 
-                    {elementDrafts.length > 0 && <div className="solution-details-list" style={!isSolutionDraft ? {padding: "20px"} : {}}>
-                        {!isSolutionDraft && <h3 className="solution-details-list-container-title"><br/>Your Private Draft{elementDrafts.length > 1 ? "s" : ""}</h3>}
+                    {elementDrafts.length > 0 && <div className={`solution-details-list ${!isSolutionDraft ? "draft-list-container" : ""}`}>
+                        {!isSolutionDraft && <h3 className="solution-details-list-container-title" style={{paddingTop: "8px"}}>Your Private Draft{elementDrafts.length > 1 ? "s" : ""}</h3>}
                         {elementDrafts.map(draft => (
                             <SolutionElementCard
                                 key={draft._id}
