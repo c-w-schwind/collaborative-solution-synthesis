@@ -34,13 +34,17 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                 setIsDiscussionSpaceOpen(isDiscussionPath);
             }
 
-            if (isElementPath && entityType === "Solution") {
-                setIsElementModalOpen(true);
-            }
+            // Delay DOM updates to ensure execution after React's render cycle
+            const rafId = requestAnimationFrame(() => {
+                if (isElementPath && entityType === "Solution") {
+                    setIsElementModalOpen(true);
+                }
+            });
 
             setIsSolutionDSOutletOpen(!isElementPath);
 
             return () => {
+                cancelAnimationFrame(rafId);
                 setIsElementModalOpen(false);
             };
         }, [location.pathname, setIsElementModalOpen]);
