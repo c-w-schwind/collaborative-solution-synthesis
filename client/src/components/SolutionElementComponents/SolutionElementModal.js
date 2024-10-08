@@ -207,9 +207,9 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                 </h2>
 
                 <div className="solution-element-button-section">
-                    <button className="solution-element-action-button solution-element-action-button--propose">Propose Changes</button>
-                    <button className="solution-element-action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
-                    <button className="solution-element-action-button solution-element-action-button--close" aria-label="Close" onClick={onClosingModal}>X</button>
+                    {!isElementDraft && <button className="action-button action-button--propose-changes">Propose Changes</button>}
+                    <button className="action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
+                    <button className="action-button action-button--close" aria-label="Close" onClick={onClosingModal}>X</button>
                 </div>
             </div>
 

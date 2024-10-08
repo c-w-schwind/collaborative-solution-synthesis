@@ -36,3 +36,58 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   transition: all 0.3s ease-in-out;
   width: 100%;
 }
+
+.action-button {
+  padding: 8px 13px;
+  font-size: 14px;
+  margin: 0 4px;
+  white-space: nowrap;
+}
+
+.discussion-space-button {background-color: #7935cc;}
+.discussion-space-button:hover {background-color: #5c1fa8;}
+.discussion-space-button:active {background-color: #4c1a8a;}
+
+.action-button--propose-changes {background-color: #4370e5;}
+.action-button--propose-changes:hover {background-color: #3b63cb;}
+.action-button--propose-changes:active {background-color: #2c53b9;}
+
+.action-button--close {background-color: #bd0000;}
+.action-button--close:hover {background-color: #9a0000;}
+.action-button--close:active {background-color: #7e0000;}
+
+/* --- Draft bottom navigation --- */
+.action-button--submit-draft {background: linear-gradient(125deg, #7f62ef, #6346d7);}
+.action-button--submit-draft:hover {background: linear-gradient(125deg, #6e54d2, #5237b8);}
+.action-button--submit-draft:active {background: linear-gradient(125deg, #5e48b4, #422e98);}
+
+.action-button--discard-draft {background: linear-gradient(125deg, #d74141, #ab3c3c);}
+.action-button--discard-draft:hover {background: linear-gradient(125deg, #b93939, #8d3030);}
+.action-button--discard-draft:active {background: linear-gradient(125deg, #9b2f2f, #752828);}
+
+.action-button--submit-draft, .action-button--discard-draft {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.discussion-space-button:disabled, .action-button:disabled {
+  background: rgba(197, 197, 197, 0.75);
+  cursor: not-allowed;
+  border-color: rgba(197, 197, 197, 0.75);
+}
+.discussion-space-button:disabled:active, .action-button:disabled:active {transform: none;}
+
+.solution-meta-button {
+  margin-left: 5px;
+  background: linear-gradient(125deg, #49b2ff, #1182ff);
+  border-radius: 4px;
+  position: relative;
+  z-index: 1;
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.solution-meta-button:hover, .solution-meta-button.active {
+  background: linear-gradient(125deg, #49a5ff, #1175ff);
+  border-radius: 7px;
+  color: white;
+}

@@ -80,7 +80,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
                 {renderElementForm && <div className="form-container">
                     <div className="form-header">
                         <h3 className="form-title">{formConfigurations.elementForm.title}</h3>
-                        <button className="solution-element-action-button--close" onClick={() => toggleElementForm(true)}>X</button>
+                        <button className="action-button--close" onClick={() => toggleElementForm(true)}>X</button>
                     </div>
 
                     <GenericForm

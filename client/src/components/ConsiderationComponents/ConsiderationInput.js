@@ -86,7 +86,7 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, consi
                     >
                         <div className="form-header">
                             <h3 className="form-title">{(existingData ? "Edit " : "") + formConfigurations.considerationForm.title}</h3>
-                            <button className="solution-element-action-button--close" onClick={() => toggleConsiderationForm(considerationFormId)}>X</button>
+                            <button className="action-button--close" onClick={() => toggleConsiderationForm(considerationFormId)}>X</button>
                         </div>
                         <GenericForm
                             onSubmit={submitConsiderationPost}

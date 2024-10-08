@@ -13,23 +13,6 @@
     position: relative;
 }
 
-.solution-meta-button {
-    margin-left: 5px;
-    background-color: #49a2ff;
-    border-radius: 4px;
-    position: relative;
-    z-index: 1;
-    color: white;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-}
-
-.solution-meta-button:hover, .solution-meta-button.active {
-    background-color: #2584e5;
-    border-radius: 7px;
-    color: white;
-}
-
 .solution-overview-meta {
     position: absolute;
     top: 40px;

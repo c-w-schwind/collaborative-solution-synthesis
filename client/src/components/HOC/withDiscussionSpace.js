@@ -169,11 +169,11 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                                     <h2>Discussion Space</h2>
                                     <div className="solution-element-button-section">
                                         <button
-                                            className="solution-element-action-button solution-element-action-button--propose"
+                                            className="action-button action-button--propose-changes"
                                             onClick={handleFullScreenButton}
                                         >Fullscreen Mode</button>
                                         <button
-                                            className="solution-element-action-button solution-element-action-button--close"
+                                            className="action-button action-button--close"
                                             aria-label="Close"
                                             onClick={toggleDiscussionSpace}
                                         >X</button>
@@ -195,11 +195,11 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                                 <h2>Discussion Space</h2>
                                 <div className="solution-element-button-section">
                                     <button
-                                        className="solution-element-action-button solution-element-action-button--propose"
+                                        className="action-button action-button--propose-changes"
                                         onClick={handleFullScreenButton}
                                     >Fullscreen Mode</button>
                                     <button
-                                        className="solution-element-action-button solution-element-action-button--close"
+                                        className="action-button action-button--close"
                                         aria-label="Close"
                                         onClick={toggleDiscussionSpace}
                                     >X</button>
@@ -214,6 +214,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                     return null;
             }
         };
+
 
         return (
             <div

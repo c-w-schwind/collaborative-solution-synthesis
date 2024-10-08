@@ -135,7 +135,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
             ))}
             <div className="generic-form-action-area">
                 <div className="generic-form-error">{error}</div>
-                {isDraftMode && <button type="button" className="solution-element-action-button--close" onClick={() => onCancel(hasFormDataChanged())} style={{marginRight: "8px"}}>Cancel</button>}
+                {isDraftMode && <button type="button" className="action-button--close" onClick={() => onCancel(hasFormDataChanged())} style={{marginRight: "8px"}}>Cancel</button>}
                 <button type="submit" disabled={!isFormFilled || loading}>Submit</button>
             </div>
         </form>
