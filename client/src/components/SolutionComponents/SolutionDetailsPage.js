@@ -7,7 +7,7 @@ import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {useGlobal} from "../../context/GlobalContext";
 
-function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionContainerRef}) {
+function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionDetailsContainerRef}) {
     const [solution, setSolution] = useState(null);
     const [renderElementOutlet, setRenderElementOutlet] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
@@ -94,7 +94,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         solution ? (
             <>
                 <div className={`solution-details-area ${isDiscussionSpaceOpen ? "solution-details-area-ds-open" : ""}`}>
-                    <div ref={solutionContainerRef} className="solution-details-container">
+                    <div ref={solutionDetailsContainerRef} className="solution-details-container">
                         <SolutionOverviewSection
                             solution={solution}
                             setSolution={setSolution}

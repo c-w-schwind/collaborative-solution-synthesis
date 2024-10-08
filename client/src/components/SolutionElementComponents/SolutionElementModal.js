@@ -10,6 +10,7 @@ import GenericForm from "../Forms/GenericForm";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {debounce} from "../../utils/utils";
 import {EDIT_ICON_SRC} from "../../constants";
+import {useLayout} from "../../context/LayoutContext";
 
 
 function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscussionSpaceOpen, setEntityTitle}) {
@@ -22,6 +23,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const titleRef = useRef(null);
     const {setWasElementListEdited} = useGlobal();
     const {elementNumber} = useParams();
+    const {setOverlayColor} = useLayout();
 
     const {
         elementDraftTitleFormData, setElementDraftTitleFormData,
@@ -79,8 +81,12 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     }, [solutionElement, setEntityTitle]);
 
     useEffect(() => {
-        if (isElementDraft) document.querySelector(".overlay").style.backgroundColor = "rgba(183,183,231,0.3)";
-    }, [isElementDraft]);
+        if (isElementDraft) {
+            setOverlayColor("rgba(183,183,231,0.3)");
+        } else {
+            setOverlayColor("rgba(0, 0, 0, 0.5)");
+        }
+    }, [isElementDraft, setOverlayColor]);
 
     useEffect(() => {
         const checkOverflow = () => {

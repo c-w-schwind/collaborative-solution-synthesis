@@ -1,10 +1,12 @@
 import "./withDiscussionSpace.css";
-import {useEffect, useState} from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import SolutionDetailsPage from "../SolutionComponents/SolutionDetailsPage";
 import SolutionElementModal from "../SolutionElementComponents/SolutionElementModal";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {debounce} from "../../utils/utils";
 import {useFormData} from "../../context/FormDataContext";
+import {useLayout} from "../../context/LayoutContext";
+
 
 const withDiscussionSpace = (WrappedComponent, entityType) => {
     return function EnhancedComponent({...props}) {
@@ -12,12 +14,18 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         const [isSolutionDSOutletOpen, setIsSolutionDSOutletOpen] = useState(true);
         const [isOverlayActive, setIsOverlayActive] = useState(false);
         const [entityTitle, setEntityTitle] = useState("");
+
         const location = useLocation();
         const navigate = useNavigate();
         const {canNavigate} = useFormData();
+        const {setIsElementModalOpen, overlayColor} = useLayout();
+
+        const entityContainerRef = useRef();
+        const solutionDetailsContainerRef = useRef();
+
 
         // Update discussion space and solution outlet states & disable scrollbar when modal is open
-        useEffect(() => {
+        useLayoutEffect(() => {
             const pathSegments = location.pathname.split("/");
             const isDiscussionPath = pathSegments.includes("discussionSpace");
             const isElementPath = pathSegments.includes("element");
@@ -26,31 +34,25 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                 setIsDiscussionSpaceOpen(isDiscussionPath);
             }
 
-            // Delay DOM updates to ensure execution after React's render cycle
-            const timeoutId = setTimeout(() => {
-                if (isElementPath && entityType === "Solution") {
-                    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-                    document.body.style.overflow = "hidden";
-                    document.body.style.paddingRight = `${scrollbarWidth}px`;
-                }
-            }, 100);
+            if (isElementPath && entityType === "Solution") {
+                setIsElementModalOpen(true);
+            }
 
             setIsSolutionDSOutletOpen(!isElementPath);
 
             return () => {
-                clearTimeout(timeoutId);
-                document.body.style.overflow = "";
-                document.body.style.paddingRight = "";
+                setIsElementModalOpen(false);
             };
-        }, [location.pathname]);
+        }, [location.pathname, setIsElementModalOpen]);
+
 
         // Activate overlay for solution elements
         useEffect(() => {
             if (entityType !== "SolutionElement") return;
 
-            // Ensure overlay activation happens after UI updates, preventing rendering glitches (esp. when transitioning from open discussion space)
+            // Use RAF and setTimeout to activate overlay smoothly after UI updates, preventing rendering glitches (esp. when transitioning from open discussion space)
             const rafId = requestAnimationFrame(() => {
-                setIsOverlayActive(true);
+                setTimeout(() => setIsOverlayActive(true), 100);
             });
 
             return () => {
@@ -59,16 +61,14 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
             };
         }, []);
 
+
         // Ensure the discussion space scrolls in sync with the solution details container, adjusting heights for a flush stop at the same level
         useEffect(() => {
             if (entityType !== "Solution" || !isDiscussionSpaceOpen) return;
 
             const adjustContainerHeight = () => {
-                const entityContainer = document.querySelector(".entity-container-for-ds-addition");
-                const solutionContainer = document.querySelector(".solution-details-container");
-
-                if (entityContainer && solutionContainer) {
-                    entityContainer.style.height = `${solutionContainer.offsetHeight}px`;
+                if (entityContainerRef.current && solutionDetailsContainerRef.current) {
+                    entityContainerRef.current.style.height = `${solutionDetailsContainerRef.current.offsetHeight}px`;
                     return true;
                 }
                 return false;
@@ -103,6 +103,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
             };
         }, [isDiscussionSpaceOpen]);
 
+
         // Preserve scroll position of solution details page after closing discussion space
         useEffect(() => {
             const originalScrollRestoration = window.history.scrollRestoration;
@@ -114,6 +115,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                 window.history.scrollRestoration = originalScrollRestoration;
             };
         }, []);
+
 
         const toggleDiscussionSpace = (checkBeforeNavigation = true) => {
             if (checkBeforeNavigation && !canNavigate({checkDiscussionSpaceForm: true})) return;
@@ -138,11 +140,13 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
             }
         };
 
+
         const handleFullScreenButton = () => {
             if (canNavigate({checkSolutionDraftTitleForm: true, checkSolutionDraftOverviewForm: true, checkSolutionDraftDescriptionForm: true, checkElementForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true, checkConsiderationForm: true, checkCommentForm: true, saveDiscussionSpaceData: true})) {
                 navigate("./discussionSpace/fullscreen", {state: {entityTitle}});
             }
         };
+
 
         const handleClosingModal = () => {
             if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
@@ -158,6 +162,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                 }
             }
         };
+
 
         const renderDiscussionSpace = () => {
             switch (entityType) {
@@ -220,14 +225,16 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
             <div
                 className={entityType === "SolutionElement" ? `overlay ${isOverlayActive ? "overlay-active" : ""}` : ""}
                 onClick={entityType === "SolutionElement" ? handleClosingModal : undefined}
+                style={entityType === "SolutionElement" ? {backgroundColor: overlayColor} : {}}
             >
-                <div className="entity-container-for-ds-addition">
+                <div ref={entityContainerRef} className="entity-container-for-ds-addition">
                     <WrappedComponent
                         {...props}
                         onToggleDiscussionSpace={toggleDiscussionSpace}
                         onClosingModal={handleClosingModal}
                         isDiscussionSpaceOpen={isDiscussionSpaceOpen}
                         setEntityTitle={setEntityTitle}
+                        solutionDetailsContainerRef={solutionDetailsContainerRef}
                     />
                     {renderDiscussionSpace()}
                 </div>
