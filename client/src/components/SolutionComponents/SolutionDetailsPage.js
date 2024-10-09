@@ -6,6 +6,7 @@ import SolutionElementList from "../SolutionElementComponents/SolutionElementLis
 import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {useGlobal} from "../../context/GlobalContext";
+import SolutionDraftFooter from "./SolutionDraftFooter";
 
 function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionDetailsContainerRef}) {
     const [solution, setSolution] = useState(null);
@@ -90,6 +91,16 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         setErrorMessage("");
     };
 
+    const handleDiscardDraft = () => {
+        // Implement the discard draft functionality
+        console.log("Discard Draft");
+    };
+
+    const handleSubmitDraft = () => {
+        // Implement the submit draft functionality
+        console.log("Submit Draft");
+    };
+
     return (
         solution ? (
             <>
@@ -115,7 +126,13 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                         />
                     </div>
                 </div>
+
                 {renderElementOutlet && <Outlet/>}
+
+                {isSolutionDraft && <SolutionDraftFooter
+                    onDiscardDraft={handleDiscardDraft}
+                    onSubmitDraft={handleSubmitDraft}
+                />}
             </>
         ) : (
             <LoadingRetryOverlay

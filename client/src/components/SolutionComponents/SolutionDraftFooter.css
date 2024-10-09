@@ -1,0 +1,35 @@
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 7vh;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease-in;
+}
+
+.page-footer-content {
+    width: 60vw;
+    max-width: 1200px;
+    background: linear-gradient(125deg, #f4f4f6, #e2e2ef);
+    box-shadow: 5px -2px 20px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ffffff;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.footer-heading {
+    font-style: italic;
+    margin-top: 14px;
+}
+
+.footer-button-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 12px;
+}
