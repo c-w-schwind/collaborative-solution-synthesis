@@ -28,7 +28,13 @@ function SolutionCard({solution}) {
             <section className="solution-body">
                 <div className="solution-content">{solution.overview}</div>
                 <div className="solution-interactions">
-                    <button className="details-button" style={isDraft ? {backgroundColor: "green"} : {}} onClick={handleDetailsClick}>{isDraft ? "Continue" : "Details"}</button>
+                    <button
+                        className={!isDraft ? "details-button" : "draft-edit-button"}
+                        style={!isDraft ? {} : {width: "100px"}}
+                        onClick={handleDetailsClick}
+                    >
+                        {!isDraft ? "Details" : "Continue"}
+                    </button>
                 </div>
             </section>
         </article>

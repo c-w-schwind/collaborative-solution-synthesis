@@ -60,24 +60,6 @@
     margin-bottom: 40px; /* Add space below the Overview paragraph only */
 }
 
-.solution-draft-edit-button {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    align-self: end;
-    height: 32px;
-    background-color: #00ab51;
-}
-
-.solution-draft-edit-button:hover {background-color: #008a46;}
-.solution-draft-edit-button:active {background-color: #007237;}
-
-.solution-draft-edit-button img {
-    height: 20px;
-    margin-right: -5px;
-    margin-top: -2px;
-}
-
 .solution-details-list-container-title {
     margin-top: 0;
     margin-bottom: 15px;

@@ -63,7 +63,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
 
     const renderEditButton = (isOpen, onClick, label, style = {}) => (
         !isOpen && (
-            <button className="solution-draft-edit-button" onClick={onClick} style={style}>
+            <button className="draft-edit-button" onClick={onClick} style={style}>
                 {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
             </button>
         )

@@ -79,7 +79,7 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, consi
             </button>
             <div className="animated-toggle-section" ref={considerationFormContainerRef}>
                 {renderConsiderationForm &&
-                    <div className={`consideration-container ${inputStance.toLowerCase()}`}
+                    <div className={`consideration-container ${inputStance.toLowerCase() + "-form"}`}
                          style={considerationFormId === "generalConsiderationForm"
                              ? {padding: "15px 25px"}
                              : {padding: "15px 25px", margin: "10px 10px 20px 10px"}}

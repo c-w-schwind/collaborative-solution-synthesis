@@ -98,3 +98,29 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   border-radius: 7px;
   color: white;
 }
+
+.draft-edit-button {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  align-self: end;
+  height: 32px;
+  background-image: linear-gradient(125deg, #00bb58, #00964d);
+}
+
+.draft-edit-button:hover {background-image: linear-gradient(125deg, #00b45f, #00773d);}
+.draft-edit-button:active {background-image: linear-gradient(125deg, #008340, #006b35);}
+
+.draft-edit-button img {
+  height: 20px;
+  margin-right: -5px;
+  margin-top: -2px;
+}
+
+.action-button--submit-draft img, .action-button--discard-draft img {
+  height: 16px;
+  margin-right: 5px;
+  margin-left: -4px;
+  margin-top: 1px;
+}
