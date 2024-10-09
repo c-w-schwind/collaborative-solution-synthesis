@@ -106,10 +106,10 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                     )}
                 </h2>
 
-                <button className="discussion-space-button" onClick={onToggleDiscussionSpace} disabled={isSolutionDraft}>Discussion Space</button>
+                <button className="discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
 
                 <div ref={metaRef} className="meta-button-container">
-                    <button className={`solution-meta-button ${showMeta ? "active" : ""}`} onClick={handleMetaButtonClick}>i</button>
+                    <button className={`info-button ${showMeta ? "active" : ""}`} onClick={handleMetaButtonClick}>i</button>
                     {showMeta && (
                         <div className="solution-overview-meta">
                             <span className="proposed-by">Proposed by: {solution.proposedBy.username}</span>

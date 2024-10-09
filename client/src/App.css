@@ -38,6 +38,7 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 }
 
 .action-button {
+  display: flex;
   padding: 8px 13px;
   font-size: 14px;
   margin: 0 4px;
@@ -75,7 +76,7 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 }
 .discussion-space-button:disabled:active, .action-button:disabled:active {transform: none;}
 
-.solution-meta-button {
+.info-button {
   margin-left: 5px;
   background: linear-gradient(125deg, #49b2ff, #1182ff);
   border-radius: 4px;
@@ -86,7 +87,13 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   transition: all 0.3s ease-in-out;
 }
 
-.solution-meta-button:hover, .solution-meta-button.active {
+.info-button--footer {
+  height: 35px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-right: 5px;
+}
+
+.info-button:hover, .info-button.active {
   background: linear-gradient(125deg, #49a5ff, #1175ff);
   border-radius: 7px;
   color: white;

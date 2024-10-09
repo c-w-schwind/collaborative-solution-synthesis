@@ -9,7 +9,7 @@ import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
 import GenericForm from "../Forms/GenericForm";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {debounce} from "../../utils/utils";
-import {EDIT_ICON_SRC} from "../../constants";
+import {EDIT_ICON_SRC, DELETE_ICON_SRC, SUBMIT_ICON_SRC} from "../../constants";
 import {useLayout} from "../../context/LayoutContext";
 
 
@@ -21,7 +21,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const [isElementDraft, setIsElementDraft] = useState(false);
 
     const titleRef = useRef(null);
-    const {setWasElementListEdited} = useGlobal();
+    const {setWasElementListEdited, isSolutionDraft} = useGlobal();
     const {elementNumber} = useParams();
     const {setOverlayColor} = useLayout();
 
@@ -151,7 +151,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
 
     const renderEditButton = (isOpen, onClick, label, style = {}) => (
         !isOpen && (
-            <button className="solution-draft-edit-button" onClick={onClick} style={style}>
+            <button className="draft-edit-button" onClick={onClick} style={style}>
                 {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
             </button>
         )
@@ -161,11 +161,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         if (isElementDraftTitleFormOpen) {
             return null;
         }
-
-        let title = `${solutionElement.title} (${solutionElement.elementType})`;
-        if (isElementDraft) title = `[DRAFT] ${title}`;
-
-        return title;
+        return `${solutionElement.title} (${solutionElement.elementType})`;
     };
 
 
@@ -264,6 +260,15 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                     parentNumber={elementNumber}
                 />
             </div>
+
+            {isElementDraft && <div className="modal-footer">
+                <h2>Solution Element Draft</h2>
+                <div className="solution-element-button-section">
+                    <button className="action-button action-button--discard-draft" onClick={() => console.log("deleted")}><img src={DELETE_ICON_SRC} alt="delete draft"/> Discard Draft</button>
+                    {!isSolutionDraft && <button className="action-button action-button--submit-draft" onClick={() => console.log("submit")}><img src={SUBMIT_ICON_SRC} alt="submit draft"/> Submit Proposal</button>}
+                    {!isSolutionDraft && <button className={"info-button info-button--footer"} onClick={() => console.log("info")}>i</button>}
+                </div>
+            </div>}
         </div>
     );
 }
