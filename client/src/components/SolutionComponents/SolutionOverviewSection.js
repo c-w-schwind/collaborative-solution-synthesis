@@ -71,7 +71,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
 
     const renderTitle = () => {
         if (!isSolutionDraft) return solution.title;
-        if (!isSolutionDraftTitleFormOpen) return `[DRAFT] ${solution.title}`
+        if (!isSolutionDraftTitleFormOpen) return `${solution.title}`
         return null;
     }
 

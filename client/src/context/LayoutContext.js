@@ -1,4 +1,5 @@
 import {createContext, useState, useEffect, useContext} from "react";
+import {getScrollbarWidth} from "../utils/utils";
 
 export const LayoutContext = createContext();
 
@@ -10,9 +11,9 @@ export const LayoutProvider = ({children}) => {
     useEffect(() => {
         if (isElementModalOpen) {
             const scrollbarWidthCalculated = window.innerWidth - document.documentElement.clientWidth;
-            setScrollbarWidth(scrollbarWidthCalculated);
+            setScrollbarWidth(getScrollbarWidth());
             document.body.style.overflow = "hidden";
-            document.body.style.paddingRight = `${scrollbarWidthCalculated}px`;
+            document.body.style.paddingRight = `${getScrollbarWidth()}px`;
         } else {
             document.body.style.overflow = "";
             document.body.style.paddingRight = "";

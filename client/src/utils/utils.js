@@ -40,3 +40,7 @@ export const debounce = (func, wait) => {
         timeout = setTimeout(later, wait);
     };
 };
+
+export const getScrollbarWidth = () => {
+    return window.innerWidth - document.documentElement.clientWidth;
+};

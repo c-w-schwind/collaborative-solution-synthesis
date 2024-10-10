@@ -7,6 +7,8 @@ import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {useGlobal} from "../../context/GlobalContext";
 import SolutionDraftFooter from "./SolutionDraftFooter";
+import {getScrollbarWidth} from "../../utils/utils";
+
 
 function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionDetailsContainerRef}) {
     const [solution, setSolution] = useState(null);
@@ -17,6 +19,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const {isSolutionDraft, setIsSolutionDraft, wasElementListEdited, setWasElementListEdited} = useGlobal();
     const location = useLocation();
     const {solutionNumber} = useParams();
+
 
     const fetchSolution = useCallback(async () => {
         try {
@@ -57,6 +60,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         }
     }, [solutionNumber, retryCount, setIsSolutionDraft]);
 
+
     useEffect(() => {
         fetchSolution();
     }, [fetchSolution]);
@@ -86,6 +90,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         }
     }, [wasElementListEdited, setWasElementListEdited, fetchSolution]);
 
+
     const handleRetry = () => {
         setRetryCount(1);
         setErrorMessage("");
@@ -101,11 +106,12 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         console.log("Submit Draft");
     };
 
+
     return (
         solution ? (
             <>
                 <div className={`solution-details-area ${isDiscussionSpaceOpen ? "solution-details-area-ds-open" : ""}`}>
-                    <div ref={solutionDetailsContainerRef} className="solution-details-container">
+                    <div ref={solutionDetailsContainerRef} className="solution-details-container" style={{width: `calc(50vw - ${getScrollbarWidth()}px)`}}>
                         <SolutionOverviewSection
                             solution={solution}
                             setSolution={setSolution}
