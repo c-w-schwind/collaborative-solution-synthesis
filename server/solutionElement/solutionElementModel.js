@@ -57,11 +57,11 @@ const solutionElementSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: ''
     }]*/
-}, { timestamps: true });
+}, {timestamps: true});
 
-solutionElementSchema.index({ status: 1 });
-solutionElementSchema.index({ proposedBy: 1 });
-solutionElementSchema.index({ authorizedUsers: 1 });
-solutionElementSchema.index({ parentSolutionId: 1 });
+solutionElementSchema.index({status: 1});
+solutionElementSchema.index({proposedBy: 1});
+solutionElementSchema.index({authorizedUsers: 1});
+solutionElementSchema.index({parentSolutionId: 1});
 
 export const SolutionElement = mongoose.model('SolutionElement', solutionElementSchema);

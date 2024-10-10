@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './LoginForm.css';
 import {useAuth} from "../../context/AuthContext";
 import {useLocation, useNavigate} from 'react-router-dom'
@@ -13,17 +13,17 @@ function LoginForm() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    function handleEmail (event){
+    function handleEmail(event) {
         setEmail(event.target.value);
         setError('');
     }
 
-    function handlePassword (event){
+    function handlePassword(event) {
         setPassword(event.target.value);
         setError('');
     }
 
-    async function handleSubmit (event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         setLoading(true);
 
@@ -33,7 +33,7 @@ function LoginForm() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({email, password}),
             });
             const data = await response.json();
 

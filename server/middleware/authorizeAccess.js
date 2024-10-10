@@ -1,5 +1,5 @@
-import { Solution } from "../solution/solutionModel.js";
-import { SolutionElement } from "../solutionElement/solutionElementModel.js";
+import {Solution} from "../solution/solutionModel.js";
+import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {BadRequestError, NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
 
 const authorizeAccess = (entityType, entityIdField = "entityId") => { //entityType = "Solution" or "SolutionElement"; entityIdField for checking solution access when creating element

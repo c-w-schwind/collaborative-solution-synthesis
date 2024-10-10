@@ -8,7 +8,7 @@ function PostInput({onSuccessfulSubmit, parentType, parentNumber}) {
     const discussionSpaceConfig = formConfigurations.discussionSpaceForm;
 
     const submitPost = async (formData) => {
-        const postData = { ...formData, parentType, parentNumber };
+        const postData = {...formData, parentType, parentNumber};
         await formSubmissionService("discussionSpace", postData, "discussion space post", onSuccessfulSubmit);
     };
 

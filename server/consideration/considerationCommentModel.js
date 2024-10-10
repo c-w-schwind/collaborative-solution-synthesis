@@ -11,8 +11,8 @@ export const considerationCommentSchema = new mongoose.Schema({
         required: true
     },
     votes: {
-        upvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-        downvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+        upvotes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+        downvotes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
     },
     createdAt: {
         type: Date,

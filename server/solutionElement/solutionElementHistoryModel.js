@@ -34,6 +34,6 @@ const solutionElementHistorySchema = new mongoose.Schema({
     }],
     proposals: [{}],
     challengeAspects: {}
-}, { timestamps: true });
+}, {timestamps: true});
 
 export const SolutionElementHistory = mongoose.model('SolutionElementHistory', solutionElementHistorySchema);

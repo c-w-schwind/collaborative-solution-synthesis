@@ -43,11 +43,11 @@ const solutionSchema = new mongoose.Schema({
         required: true,
         default: 0
     }
-}, { timestamps: true });
+}, {timestamps: true});
 
-solutionSchema.index({ status: 1 });
-solutionSchema.index({ proposedBy: 1 });
-solutionSchema.index({ authorizedUsers: 1 });
+solutionSchema.index({status: 1});
+solutionSchema.index({proposedBy: 1});
+solutionSchema.index({authorizedUsers: 1});
 
 export const Solution = mongoose.model("Solution", solutionSchema);
 

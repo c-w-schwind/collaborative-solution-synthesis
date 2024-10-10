@@ -64,7 +64,7 @@ function Header() {
 
                         </div>
                         <nav className={`user-menu${isUserMenuVisible ? ' displayed' : ''}`}>
-                            <NavLink to="#" onClick={showWIPMessage} style={{ fontWeight: 'normal' }}>User Profile</NavLink>
+                            <NavLink to="#" onClick={showWIPMessage} style={{fontWeight: 'normal'}}>User Profile</NavLink>
                             <NavLink to="#" onClick={showWIPMessage} style={{fontWeight: 'normal'}}>Settings</NavLink>
                             <NavLink to="#" onClick={showWIPMessage} style={{fontWeight: 'normal'}}>Other Stuff</NavLink>
                             <button onClick={() => {closeUserMenu(); logout();}} className="logout-button">Logout</button>

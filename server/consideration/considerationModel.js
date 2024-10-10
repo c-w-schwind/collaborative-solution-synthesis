@@ -36,10 +36,10 @@ const considerationSchema = new mongoose.Schema({
         required: true
     },
     votes: {
-        upvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-        downvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+        upvotes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+        downvotes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
     },
     comments: [considerationCommentSchema]
-}, { timestamps: true });
+}, {timestamps: true});
 
 export const Consideration = mongoose.model('Consideration', considerationSchema);

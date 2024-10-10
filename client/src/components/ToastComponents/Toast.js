@@ -1,6 +1,6 @@
 import "./Toast.css";
 
-function Toast({ message, onClose, timeout }) {
+function Toast({message, onClose, timeout}) {
     const fadeOutStart = timeout - 800;
 
     return (

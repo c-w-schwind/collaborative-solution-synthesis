@@ -18,7 +18,7 @@ function DiscussionSpacePage() {
     const location = useLocation();
     const navigate = useNavigate();
     const limit = 20;
-    const { solutionNumber, elementNumber } = useParams();
+    const {solutionNumber, elementNumber} = useParams();
     const parentType = elementNumber ? "SolutionElement" : "Solution";
     const parentNumber = elementNumber || solutionNumber;
 

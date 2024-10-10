@@ -28,8 +28,8 @@ const discussionSpacePostSchema = new mongoose.Schema({
         type: Number,
         required: true,
     }
-}, { timestamps: true });
+}, {timestamps: true});
 
-discussionSpacePostSchema.index({ parentType: 1, parentNumber: 1 });
+discussionSpacePostSchema.index({parentType: 1, parentNumber: 1});
 
 export const DiscussionSpacePost = mongoose.model('DiscussionSpacePost', discussionSpacePostSchema);

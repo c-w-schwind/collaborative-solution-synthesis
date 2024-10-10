@@ -26,13 +26,13 @@ async function createSolutionElement(solutionElementData, userId, session = null
     return solutionElement;
 }
 
-export async function validateAndCreateSolutionElements (solutionElementsData, parentSolutionId, userId, session = null) {
+export async function validateAndCreateSolutionElements(solutionElementsData, parentSolutionId, userId, session = null) {
     if (!solutionElementsData) return [];
 
     solutionElementsData = Array.isArray(solutionElementsData) ? solutionElementsData : [solutionElementsData];
 
     const returnedPromises = solutionElementsData.map(solutionElementData => {
-        solutionElementData = ({ ...solutionElementData, parentSolutionId });
+        solutionElementData = ({...solutionElementData, parentSolutionId});
         validateSolutionElementData(solutionElementData);
         return createSolutionElement(solutionElementData, userId, session);
     })
@@ -44,5 +44,5 @@ export async function updateParentSolutionElementsCount(parentSolution, delta, s
     const solutionExists = await Solution.findById(parentSolution).session(session);
     if (!solutionExists) throw new NotFoundError(`Solution with ID ${parentSolution} not found`);
 
-    await Solution.findByIdAndUpdate(parentSolution, { $inc: { activeSolutionElementsCount: delta } }).session(session);
+    await Solution.findByIdAndUpdate(parentSolution, {$inc: {activeSolutionElementsCount: delta}}).session(session);
 }

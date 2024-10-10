@@ -1,10 +1,10 @@
 import express from "express";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { NotFoundError } from "../utils/customErrors.js";
-import { validateRequiredFields } from "../utils/utils.js";
+import {asyncHandler} from "../utils/asyncHandler.js";
+import {NotFoundError} from "../utils/customErrors.js";
+import {validateRequiredFields} from "../utils/utils.js";
 import authenticateToken from "../middleware/authenticateToken.js";
-import { DiscussionSpacePost } from "./discussionSpacePostModel.js";
-import { User } from "../user/userModel.js";
+import {DiscussionSpacePost} from "./discussionSpacePostModel.js";
+import {User} from "../user/userModel.js";
 
 const discussionSpaceRoutes = express.Router();
 

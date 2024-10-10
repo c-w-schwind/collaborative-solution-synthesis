@@ -1,6 +1,6 @@
 import './PostCard.css';
 
-function PostCard({ title, content, author, createdAt, authorPictureUrl }) {
+function PostCard({title, content, author, createdAt, authorPictureUrl}) {
     const handleImageError = (e) => {
         e.target.src = './default_profile_picture.jpg';
     };
@@ -8,7 +8,12 @@ function PostCard({ title, content, author, createdAt, authorPictureUrl }) {
     return (
         <article className="post-card">
             <section className="user-info">
-                <img src='https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg' /*{authorPictureUrl}*/ alt={`${author}'s profile pic`} className="author-picture" onError={handleImageError} />
+                <img
+                    src='https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg' /*{authorPictureUrl}*/
+                    alt={`${author}'s profile pic`}
+                    className="author-picture"
+                    onError={handleImageError}
+                />
                 <div className="author-name">{author}</div>
             </section>
             <section className="post-info">
