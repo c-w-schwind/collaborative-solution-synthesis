@@ -12,13 +12,13 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
     return function EnhancedComponent({...props}) {
         const [isDiscussionSpaceOpen, setIsDiscussionSpaceOpen] = useState(false);
         const [isSolutionDSOutletOpen, setIsSolutionDSOutletOpen] = useState(true);
-        const [isOverlayActive, setIsOverlayActive] = useState(false);
+        const [isModalOpen, setIsModalOpen] = useState(false);
         const [entityTitle, setEntityTitle] = useState("");
 
         const location = useLocation();
         const navigate = useNavigate();
         const {canNavigate} = useFormData();
-        const {setIsElementModalOpen, overlayColor} = useLayout();
+        const {setIsOverlayActive, elementOverlayColor} = useLayout();
 
         const entityContainerRef = useRef();
         const solutionDetailsContainerRef = useRef();
@@ -37,7 +37,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
             // Delay DOM updates to ensure execution after React's render cycle
             const rafId = requestAnimationFrame(() => {
                 if (isElementPath && entityType === "Solution") {
-                    setIsElementModalOpen(true);
+                    setIsOverlayActive(true);
                 }
             });
 
@@ -45,9 +45,9 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
             return () => {
                 cancelAnimationFrame(rafId);
-                setIsElementModalOpen(false);
+                setIsOverlayActive(false);
             };
-        }, [location.pathname, setIsElementModalOpen]);
+        }, [location.pathname, setIsOverlayActive]);
 
 
         // Activate overlay for solution elements
@@ -56,12 +56,12 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
             // Use RAF and setTimeout to activate overlay smoothly after UI updates, preventing rendering glitches (esp. when transitioning from open discussion space)
             const rafId = requestAnimationFrame(() => {
-                setTimeout(() => setIsOverlayActive(true), 100);
+                setTimeout(() => setIsModalOpen(true), 100);
             });
 
             return () => {
                 cancelAnimationFrame(rafId);
-                setIsOverlayActive(false);
+                setIsModalOpen(false);
             };
         }, []);
 
@@ -154,7 +154,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
         const handleClosingModal = () => {
             if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
-                setIsOverlayActive(false);
+                setIsModalOpen(false);
                 const modalElement = document.querySelector(".overlay");
                 if (modalElement) {
                     modalElement.addEventListener("transitionend", function onTransitionEnd(event) {
@@ -227,9 +227,9 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
         return (
             <div
-                className={entityType === "SolutionElement" ? `overlay ${isOverlayActive ? "overlay-active" : ""}` : ""}
+                className={entityType === "SolutionElement" ? `overlay ${isModalOpen ? "overlay-active" : ""}` : ""}
                 onClick={entityType === "SolutionElement" ? handleClosingModal : undefined}
-                style={entityType === "SolutionElement" ? {backgroundColor: overlayColor} : {}}
+                style={entityType === "SolutionElement" ? {backgroundColor: elementOverlayColor} : {}}
             >
                 <div ref={entityContainerRef} className="entity-container-for-ds-addition">
                     <WrappedComponent

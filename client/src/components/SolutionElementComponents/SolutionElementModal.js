@@ -23,7 +23,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const titleRef = useRef(null);
     const {setWasElementListEdited, isSolutionDraft} = useGlobal();
     const {elementNumber} = useParams();
-    const {setOverlayColor} = useLayout();
+    const {setElementOverlayColor} = useLayout();
 
     const {
         elementDraftTitleFormData, setElementDraftTitleFormData,
@@ -82,11 +82,11 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
 
     useEffect(() => {
         if (isElementDraft) {
-            setOverlayColor("rgba(183,183,231,0.3)");
+            setElementOverlayColor("rgba(183,183,231,0.3)");
         } else {
-            setOverlayColor("rgba(0, 0, 0, 0.5)");
+            setElementOverlayColor("rgba(0, 0, 0, 0.5)");
         }
-    }, [isElementDraft, setOverlayColor]);
+    }, [isElementDraft, setElementOverlayColor]);
 
     useEffect(() => {
         const checkOverflow = () => {

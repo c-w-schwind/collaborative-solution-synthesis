@@ -4,13 +4,12 @@ import {getScrollbarWidth} from "../utils/utils";
 export const LayoutContext = createContext();
 
 export const LayoutProvider = ({children}) => {
-    const [isElementModalOpen, setIsElementModalOpen] = useState(false);
+    const [isOverlayActive, setIsOverlayActive] = useState(false);
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
-    const [overlayColor, setOverlayColor] = useState("rgba(0, 0, 0, 0.5)");
+    const [elementOverlayColor, setElementOverlayColor] = useState("rgba(0, 0, 0, 0.5)");
 
     useEffect(() => {
-        if (isElementModalOpen) {
-            const scrollbarWidthCalculated = window.innerWidth - document.documentElement.clientWidth;
+        if (isOverlayActive) {
             setScrollbarWidth(getScrollbarWidth());
             document.body.style.overflow = "hidden";
             document.body.style.paddingRight = `${getScrollbarWidth()}px`;
@@ -19,10 +18,10 @@ export const LayoutProvider = ({children}) => {
             document.body.style.paddingRight = "";
             setScrollbarWidth(0);
         }
-    }, [isElementModalOpen]);
+    }, [isOverlayActive]);
 
     return (
-        <LayoutContext.Provider value={{setIsElementModalOpen, scrollbarWidth, overlayColor, setOverlayColor}}>
+        <LayoutContext.Provider value={{setIsOverlayActive, scrollbarWidth, elementOverlayColor, setElementOverlayColor}}>
             {children}
         </LayoutContext.Provider>
     );
