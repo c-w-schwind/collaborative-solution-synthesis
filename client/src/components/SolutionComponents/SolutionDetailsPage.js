@@ -43,7 +43,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
 
             const solution = await response.json();
             setSolution(solution);
-            setIsSolutionDraft(solution.status === "draft");
+            setIsSolutionDraft(solution.status === "draft" || solution.status === "under_review");
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {
@@ -78,7 +78,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     }, [location.pathname]);
 
     useEffect(() => {
-        if (isSolutionDraft) document.body.style.backgroundColor = "rgba(183,198,215,0.71)";    //rgba(162,117,117,0.47)
+        if (isSolutionDraft) document.body.style.backgroundColor = "rgba(183,198,215,0.71)";
 
         return () => document.body.style.backgroundColor = "";
     }, [isSolutionDraft]);
@@ -96,15 +96,32 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         setErrorMessage("");
     };
 
+    const finalWarning = "WARNING\n\nThis cannot be undone.\nAre you sure you still want to continue?";
+    const confirmAction = (message) => window.confirm(message) && window.confirm(finalWarning);
+
     const handleDiscardDraft = () => {
-        // Implement the discard draft functionality
+        const discardDraftMessage = `WARNING!\n\n\nYou are about to permanently delete the solution draft titled "${solution.title}", along with all associated elements.${solution.status === "under_review" ? "\n\nThis draft is currently under review. If you haven't already, you may want to discuss this step with the assigned reviewers before proceeding." : ""}\n\nStill continue?`;
+        if (!isSolutionDraft || !confirmAction(discardDraftMessage)) {
+            return;
+        }
         console.log("Discard Draft");
     };
 
     const handleSubmitDraft = () => {
-        // Implement the submit draft functionality
+        const submitDraftMessage = `WARNING!\n\n\nYou are about to submit your solution draft titled "${solution.title}" for review. A group of randomly selected users will provide feedback. Ensure you're available for questions, discussions and potential revisions during this review phase.\n\nBefore submitting, ensure that to the best of your knowledge and perspective:\n\n    - You have thoroughly considered the solution and its elements.\n    - You’ve evaluated the potential consequences and overall impact.\n\nSubmitting incomplete or underdeveloped solutions may waste community resources.\n\nDo you want to continue?`;
+        if (!isSolutionDraft || !confirmAction(submitDraftMessage)) {
+            return;
+        }
         console.log("Submit Draft");
     };
+
+    const handlePublishSolution = () => {
+        const publishSolutionMessage = `WARNING!\n\n\nYou are about to publish the solution titled "${solution.title}" to the entire community.\n\nPlease ensure that:\n\n    - All feedback from reviewers has been addressed.\n    - Any significant concerns have been considered and, if necessary, incorporated.\n    - You are confident that the solution is fully developed and ready for community evaluation.\n\nPublishing solutions with unresolved issues or incomplete feedback can lead to rejection and waste community resources. Make sure you’ve thought this through carefully.\n\nDo you want to proceed?`;
+        if (!isSolutionDraft || !confirmAction(publishSolutionMessage)) {
+            return;
+        }
+        console.log("Publish Solution");
+    }
 
 
     return (
@@ -138,6 +155,8 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                 {isSolutionDraft && <SolutionDraftFooter
                     onDiscardDraft={handleDiscardDraft}
                     onSubmitDraft={handleSubmitDraft}
+                    onPublishSolution={handlePublishSolution}
+                    solutionStatus={solution.status}
                 />}
             </>
         ) : (
