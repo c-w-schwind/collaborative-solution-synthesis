@@ -5,7 +5,7 @@ import './GenericForm.css';
 
 // previousData & onCancel are optional and only needed for solution draft mode
 const GenericForm = ({onSubmit, config, formData, setFormData, authorizationCheck = true, previousData = null, onCancel}) => {
-    const [isFormFilled, setIsFormFilled] = useState(false);
+    const [isFormFilled, setIsFormFilled] = useState(previousData !== null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const isDraftMode = previousData !== null;
@@ -136,7 +136,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
             <div className="generic-form-action-area">
                 <div className="generic-form-error">{error}</div>
                 {isDraftMode && <button type="button" className="action-button--close" onClick={() => onCancel(hasFormDataChanged())} style={{marginRight: "8px"}}>Cancel</button>}
-                <button type="submit" disabled={!isFormFilled || loading}>Submit</button>
+                <button type="submit" style={isDraftMode ? {width: "auto"} : {}} disabled={!isFormFilled || loading}>{`${isDraftMode ? "Save Changes" : "Submit"}`}</button>
             </div>
         </form>
     );
