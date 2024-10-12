@@ -1,5 +1,5 @@
 import "./SolutionDetailsPage.css";
-import {Outlet, useLocation, useParams} from "react-router-dom";
+import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
 import SolutionOverviewSection from "./SolutionOverviewSection";
 import SolutionElementList from "../SolutionElementComponents/SolutionElementList";
@@ -8,6 +8,7 @@ import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {useGlobal} from "../../context/GlobalContext";
 import SolutionDraftFooter from "./SolutionDraftFooter";
 import {getScrollbarWidth} from "../../utils/utils";
+import {useToasts} from "../../context/ToastContext";
 
 
 function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionDetailsContainerRef}) {
@@ -15,9 +16,14 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const [renderElementOutlet, setRenderElementOutlet] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
+    const [deletionError, setDeletionError] = useState("");
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isFooterDisabled, setIsFooterDisabled] = useState(false);
 
     const {isSolutionDraft, setIsSolutionDraft, wasElementListEdited, setWasElementListEdited} = useGlobal();
+    const {addToast} = useToasts();
     const location = useLocation();
+    const navigate = useNavigate();
     const {solutionNumber} = useParams();
 
 
@@ -78,9 +84,27 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     }, [location.pathname]);
 
     useEffect(() => {
+        const isElementPath = location.pathname.split("/").includes("element");
+        let timeoutId;
+
+        if (isElementPath) {
+            // Matching page-footer.hidden transition time
+            timeoutId = setTimeout(() => setIsFooterDisabled(true), 300);
+        } else {
+            setIsFooterDisabled(isDeleting);
+        }
+
+        return () => {
+            if (timeoutId) clearTimeout(timeoutId);
+        };
+    }, [location.pathname, isDeleting]);
+
+    useEffect(() => {
         if (isSolutionDraft) document.body.style.backgroundColor = "rgba(183,198,215,0.71)";
 
-        return () => document.body.style.backgroundColor = "";
+        return () => {
+            document.body.style.backgroundColor = "";
+        }
     }, [isSolutionDraft]);
 
     useEffect(() => {
@@ -89,6 +113,12 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
             setWasElementListEdited(false);
         }
     }, [wasElementListEdited, setWasElementListEdited, fetchSolution]);
+
+    useEffect(() => {
+        if (deletionError) {
+            addToast("Error: " + deletionError, 6000);
+        }
+    }, [addToast, deletionError]);
 
 
     const handleRetry = () => {
@@ -99,12 +129,46 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const finalWarning = "WARNING\n\nThis cannot be undone.\nAre you sure you still want to continue?";
     const confirmAction = (message) => window.confirm(message) && window.confirm(finalWarning);
 
-    const handleDiscardDraft = () => {
-        const discardDraftMessage = `WARNING!\n\n\nYou are about to permanently delete the solution draft titled "${solution.title}", along with all associated elements.${solution.status === "under_review" ? "\n\nThis draft is currently under review. If you haven't already, you may want to discuss this step with the assigned reviewers before proceeding." : ""}\n\nStill continue?`;
+    const handleDiscardDraft = async () => {
+        const discardDraftMessage = `WARNING!\n\nYou are about to permanently delete the solution draft titled "${solution.title}", along with all associated elements.${solution.status === "under_review" ? "\n\nThis draft is currently under review. If you haven't already, you may want to discuss this step with the assigned reviewers before proceeding." : ""}\n\nStill continue?`;
         if (!isSolutionDraft || !confirmAction(discardDraftMessage)) {
             return;
         }
-        console.log("Discard Draft");
+
+        setIsDeleting(true);
+        setDeletionError("");
+
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) throw new Error("Unauthorized: No token found. Please log in.");
+
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/solutions/${solutionNumber}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error("Solution not found. It may have already been deleted.");
+                } else if (response.status === 401 || response.status === 403) {
+                    throw new Error("You are not authorized to delete this solution.");
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `Failed to delete solution. Status: ${response.status}`);
+                }
+            }
+
+            addToast(`Successfully deleted the solution draft "${solution.title}".`, 4000);
+            navigate("/solutions");
+        } catch (err) {
+            console.error("Error deleting solution:", err);
+            setDeletionError(err.message || "An unexpected error occurred while deleting the solution.");
+        } finally {
+            setIsDeleting(false);
+        }
     };
 
     const handleSubmitDraft = () => {
@@ -157,6 +221,8 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                     onSubmitDraft={handleSubmitDraft}
                     onPublishSolution={handlePublishSolution}
                     solutionStatus={solution.status}
+                    isFooterDisabled={isFooterDisabled}
+                    isDeleting={isDeleting}
                 />}
             </>
         ) : (
