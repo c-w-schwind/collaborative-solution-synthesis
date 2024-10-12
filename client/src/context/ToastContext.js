@@ -10,7 +10,9 @@ export const ToastProvider = ({children}) => {
         const id = Date.now();
         setToasts(currentToasts => [...currentToasts, {message, id, timeout}]);
 
-        setTimeout(() => removeToast(id), timeout);
+        const timeoutId = setTimeout(() => removeToast(id), timeout);
+
+        return () => clearTimeout(timeoutId);
     }, []);
 
     function removeToast (id) {
