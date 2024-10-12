@@ -66,4 +66,33 @@ solutionElementRoutes.put("/solutionElements/:elementNumber", authenticateToken(
 }));
 
 
+// Delete a single Solution Element
+solutionElementRoutes.delete("/solutionElements/:elementNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        // Re-fetch Solution Element within transaction session
+        const solutionElement = await SolutionElement.findById(req.entityId).session(session).lean();
+        if (!solutionElement) throw new NotFoundError("Solution Element not found");
+
+        if (!["draft", "under_review"].includes(solutionElement.status)) {
+            throw new UnauthorizedError("Cannot delete a public Solution Element");
+        }
+
+        await Consideration.deleteMany({parentType: "SolutionElement", parentId: solutionElement._id}).session(session);
+        await SolutionElement.deleteOne({_id: solutionElement._id}).session(session);
+
+        await updateParentSolutionElementsCount(solutionElement.parentSolutionId, -1, session);
+
+        await session.commitTransaction();
+        res.status(204).send();
+    } catch (err) {
+        await session.abortTransaction();
+        next(err);
+    } finally {
+        await session.endSession();
+    }
+}));
+
+
 export default solutionElementRoutes;

@@ -114,4 +114,38 @@ solutionRoutes.put("/solutions/:solutionNumber", authenticateToken(), (req, res,
 }));
 
 
+// Delete a single Solution draft
+solutionRoutes.delete("/solutions/:solutionNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), authorizeAccess("Solution", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        // Re-fetch Solution within transaction session
+        const solution = await Solution.findById(req.entityId).session(session).lean();
+        if (!solution) throw new NotFoundError("Solution not found");
+
+        if (!["draft", "under_review"].includes(solution.status)) {
+            throw new UnauthorizedError("Cannot delete a public Solution");
+        }
+
+        const solutionElementIds = await SolutionElement.distinct("_id", {parentSolutionId: solution._id}).session(session);
+
+        await Consideration.deleteMany({parentType: "Solution", parentId: solution._id}).session(session);
+        if (solutionElementIds.length > 0) {
+            await Consideration.deleteMany({parentType: "SolutionElement", parentId: {$in: solutionElementIds}}).session(session);
+            await SolutionElement.deleteMany({_id: {$in: solutionElementIds}}).session(session);
+        }
+        await Solution.deleteOne({_id: solution._id}).session(session);
+
+        await session.commitTransaction();
+        res.status(204).send();
+    } catch (err) {
+        await session.abortTransaction();
+        next(err);
+    } finally {
+        await session.endSession();
+    }
+}));
+
+
 export default solutionRoutes;
