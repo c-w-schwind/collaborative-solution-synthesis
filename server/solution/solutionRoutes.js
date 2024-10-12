@@ -37,9 +37,9 @@ solutionRoutes.get("/solutions/drafts", authenticateToken(), asyncHandler(async 
 
 // Get single Solution w/ Solution Elements & Considerations by SolutionNumber
 solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res) => {
-    const solution = await Solution.findById(req.entityId).populate("proposedBy", "username").lean();
-    if (!solution) throw new NotFoundError("Solution not found");
+    const solution = req.entity;
 
+    // Fetch Solution Elements based on user access
     const elementQuery = {parentSolutionId: solution._id};
     const publicStatuses = ["proposal", "accepted"];
 
@@ -64,6 +64,7 @@ solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: fa
     }));
     solution.elementDrafts = retrievedElements.filter(el => el.status === 'draft');
 
+    // Fetch Considerations
     const considerations = await Consideration.find({
         parentType: "Solution",
         parentId: solution._id
@@ -97,8 +98,7 @@ solutionRoutes.post("/solutions", authenticateToken(), asyncHandler(async (req, 
 
 // Update a single field or multiple fields of a Solution draft
 solutionRoutes.put("/solutions/:solutionNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res, next) => {
-    const solution = await Solution.findById(req.entityId).lean();
-    if (!solution) throw new NotFoundError("Solution not found");
+    const solution = req.entity;
 
     if (!["draft", "under_review"].includes(solution.status)) {
         throw new UnauthorizedError("Cannot modify a public Solution outside of proposals");
@@ -108,7 +108,7 @@ solutionRoutes.put("/solutions/:solutionNumber", authenticateToken(), (req, res,
         throw new UnauthorizedError("Access Denied");
     }
 
-    const updatedSolution = await Solution.findByIdAndUpdate(req.entityId, {$set: req.body}, {new: true}).lean();
+    const updatedSolution = await Solution.findByIdAndUpdate(req.entityId, {$set: req.body}, {new: true}).populate("proposedBy", "username").lean();
 
     res.status(200).send(updatedSolution);
 }));
