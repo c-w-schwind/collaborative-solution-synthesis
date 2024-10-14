@@ -4,6 +4,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {GlobalProvider} from "./context/GlobalContext";
 import {LayoutProvider} from "./context/LayoutContext";
 import {ToastProvider} from "./context/ToastContext";
+import {LoadingProvider} from "./context/LoadingContext";
+import {ConfirmationModalProvider} from "./context/ConfirmationModalContext";
 import {AuthProvider} from './context/AuthContext';
 import {FormDataProvider} from "./context/FormDataContext";
 
@@ -22,27 +24,31 @@ function App() {
             <GlobalProvider>
                 <LayoutProvider>
                     <ToastProvider>
-                        <BrowserRouter>
-                            <AuthProvider>
-                                <FormDataProvider>
-                                    <Routes>
-                                        <Route path="/" element={<Layout/>}>
-                                            <Route index element={<IndexPage/>}/>
-                                            <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
-                                            <Route path="solutions" element={<SolutionListPage/>}/>
-                                            <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
-                                                <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
-                                                <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
-                                                    <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                        <LoadingProvider>
+                            <ConfirmationModalProvider>
+                                <BrowserRouter>
+                                    <AuthProvider>
+                                        <FormDataProvider>
+                                            <Routes>
+                                                <Route path="/" element={<Layout/>}>
+                                                    <Route index element={<IndexPage/>}/>
+                                                    <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
+                                                    <Route path="solutions" element={<SolutionListPage/>}/>
+                                                    <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
+                                                        <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                                        <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
+                                                            <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                                        </Route>
+                                                    </Route>
+                                                    <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
+                                                    <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
                                                 </Route>
-                                            </Route>
-                                            <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
-                                            <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
-                                        </Route>
-                                    </Routes>
-                                </FormDataProvider>
-                            </AuthProvider>
-                        </BrowserRouter>
+                                            </Routes>
+                                        </FormDataProvider>
+                                    </AuthProvider>
+                                </BrowserRouter>
+                            </ConfirmationModalProvider>
+                        </LoadingProvider>
                     </ToastProvider>
                 </LayoutProvider>
             </GlobalProvider>
