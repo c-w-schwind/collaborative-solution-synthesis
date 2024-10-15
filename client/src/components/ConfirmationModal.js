@@ -1,5 +1,4 @@
 import './ConfirmationModal.css';
-import {useLayout} from "../context/LayoutContext";
 import {useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
 
@@ -7,11 +6,6 @@ const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, mode
     const {setIsOverlayActive} = useLayout();
     const cancelButtonRef = useRef(null);
     const confirmButtonRef = useRef(null);
-
-
-    useEffect(() => {
-        setIsOverlayActive(isVisible);
-    }, [isVisible, setIsOverlayActive]);
 
     // Handle focus trapping within modal, keydown events (Tab f. navigation & Escape to cancel), restore focus after modal close
     useEffect(() => {

@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    width: calc(100vw - 17px); /* Subtracting the maximum of various browser's scrollbar widths */
 }
 
 .layout-content {

@@ -1,8 +1,8 @@
-import Header from "./Header";
-import {Outlet} from "react-router-dom";
 import "./Layout.css";
-import {useFormData} from "../context/FormDataContext";
 import {useEffect} from "react";
+import {Outlet} from "react-router-dom";
+import {useFormData} from "../context/FormDataContext";
+import Header from "./Header";
 
 function Layout () {
     const {handleBrowserNavigation} = useFormData();

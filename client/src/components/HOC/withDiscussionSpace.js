@@ -18,13 +18,13 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         const location = useLocation();
         const navigate = useNavigate();
         const {canNavigate} = useFormData();
-        const {setIsOverlayActive, elementOverlayColor} = useLayout();
+        const {elementOverlayColor} = useLayout();
 
         const entityContainerRef = useRef();
         const solutionDetailsContainerRef = useRef();
 
 
-        // Update discussion space and solution outlet states & disable scrollbar when modal is open
+        // Update discussion space and solution outlet states
         useLayoutEffect(() => {
             const pathSegments = location.pathname.split("/");
             const isDiscussionPath = pathSegments.includes("discussionSpace");
@@ -34,20 +34,8 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                 setIsDiscussionSpaceOpen(isDiscussionPath);
             }
 
-            // Delay DOM updates to ensure execution after React's render cycle
-            const rafId = requestAnimationFrame(() => {
-                if (isElementPath && entityType === "Solution") {
-                    setIsOverlayActive(true);
-                }
-            });
-
             setIsSolutionDSOutletOpen(!isElementPath);
-
-            return () => {
-                cancelAnimationFrame(rafId);
-                setIsOverlayActive(false);
-            };
-        }, [location.pathname, setIsOverlayActive]);
+        }, [location.pathname]);
 
 
         // Activate overlay for solution elements
