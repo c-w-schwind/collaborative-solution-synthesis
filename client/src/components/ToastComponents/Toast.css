@@ -21,6 +21,17 @@
     justify-content: space-between;
     align-items: center;
     position: relative;
+    opacity: 1;
+    transition: opacity 0.8s ease-in-out, scale 0.25s ease;
+}
+
+.toast:hover {
+    box-shadow: 0 2px 12px 1px rgba(42, 42, 42, 0.2);
+    scale: 1.02;
+}
+
+.toast.fade-out {
+    opacity: 0;
 }
 
 .toast-content {
@@ -35,13 +46,17 @@
 }
 
 .toast-close-button {
-    background: none;
-    border: none;
+    background: #595959;
     color: white;
-    cursor: pointer;
-    font-size: 16px;
     margin-left: 10px;
     align-self: flex-start;
+}
+
+.toast-close-button:hover {
+    background: #595959;
+    border: 2px solid #b4abab;
+    padding: 6px 13px;
+    color: white;
 }
 
 @keyframes slideIn {
@@ -53,9 +68,4 @@
         transform: translateY(0);
         opacity: 1;
     }
-}
-
-@keyframes fadeOut {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
 }
