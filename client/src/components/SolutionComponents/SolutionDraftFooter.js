@@ -1,15 +1,17 @@
 import "./SolutionDraftFooter.css";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import {useLayout} from "../../context/LayoutContext";
+import {getScrollbarWidth} from "../../utils/utils";
 import useOutsideClick from "../../hooks/useOutsideClickHook";
 import {DELETE_ICON_SRC, SUBMIT_ICON_SRC} from "../../constants";
 
 
-const SolutionDraftFooter = ({onDiscardDraft, onSubmitDraft, onPublishSolution, solutionStatus, isFooterDisabled, isDeleting}) => {
+const SolutionDraftFooter = ({onDiscardDraft, onSubmitDraft, onPublishSolution, solutionStatus, isFooterDisabled}) => {
     const [isShowingInfo, setIsShowingInfo] = useState(false);
+    const [scrollbarWidth] = useState(getScrollbarWidth() || 16); // Initialize in state to prevent transition on mount
 
-    const {scrollbarWidth, setIsOverlayActive} = useLayout();
+    const {isOverlayActive, setIsOverlayActive} = useLayout();
     const location = useLocation();
     const isHidden = location.pathname.split("/").includes("element");
 
@@ -17,14 +19,17 @@ const SolutionDraftFooter = ({onDiscardDraft, onSubmitDraft, onPublishSolution, 
 
     useEffect(() => {
         setIsOverlayActive(isShowingInfo);
-    }, [isShowingInfo, setIsOverlayActive]);
+    }, [isOverlayActive, isShowingInfo, setIsOverlayActive]);
 
-    const handleInfoButtonClick = () => setIsShowingInfo(prev => !prev);
+    const handleInfoButtonClick = useCallback(() => {
+        setIsShowingInfo(prev => !prev)
+    }, []);
+
 
     return (
         <>
-            <div className={`page-footer ${isHidden ? "hidden" : isShowingInfo ? "expanded" : ""}`}>
-                <div ref={infoRef} className="page-footer-content" style={{marginRight: `${scrollbarWidth || 0}px`}}>
+            <div className={`page-footer ${isHidden ? "hidden" : isShowingInfo ? "expanded" : ""}`}  style={{width: `calc(100vw - ${scrollbarWidth}px)`}}>
+                <div ref={infoRef} className="page-footer-content">
 
                     <div className="footer-top">
                         <h2 className="footer-heading">Private Solution Draft</h2>
@@ -38,14 +43,15 @@ const SolutionDraftFooter = ({onDiscardDraft, onSubmitDraft, onPublishSolution, 
 
                     <div className="footer-info">
                         <p><strong>Discard Draft:</strong> This is a description</p>
-                        {solutionStatus === "draft"
-                            ? <p><strong>Submit for Review:</strong> Description</p>
-                            : <p><strong>Publish Solution:</strong> Description</p>}
+                        {solutionStatus === "draft" ? (
+                            <p><strong>Submit for Review:</strong> Description</p>
+                        ) : (
+                            <p><strong>Publish Solution:</strong> Description</p>
+                        )}
                     </div>
                 </div>
             </div>
             <div className={`footer-overlay ${isShowingInfo ? "footer-overlay-active" : ""}`}></div>
-            {isDeleting && <div className="footer-overlay footer-overlay-active" style={{zIndex: 1000}}></div>}
         </>
     );
 };

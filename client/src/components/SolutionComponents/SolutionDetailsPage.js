@@ -9,6 +9,8 @@ import {useGlobal} from "../../context/GlobalContext";
 import SolutionDraftFooter from "./SolutionDraftFooter";
 import {getScrollbarWidth} from "../../utils/utils";
 import {useToasts} from "../../context/ToastContext";
+import {useConfirmationModal} from "../../context/ConfirmationModalContext";
+import {useLoading} from "../../context/LoadingContext";
 
 
 function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionDetailsContainerRef}) {
@@ -16,11 +18,11 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const [renderElementOutlet, setRenderElementOutlet] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
-    const [deletionError, setDeletionError] = useState("");
-    const [isDeleting, setIsDeleting] = useState(false);
     const [isFooterDisabled, setIsFooterDisabled] = useState(false);
 
     const {isSolutionDraft, setIsSolutionDraft, wasElementListEdited, setWasElementListEdited} = useGlobal();
+    const {showLoading, hideLoading} = useLoading();
+    const {showConfirmationModal} = useConfirmationModal();
     const {addToast} = useToasts();
     const location = useLocation();
     const navigate = useNavigate();
@@ -91,13 +93,13 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
             // Matching page-footer.hidden transition time
             timeoutId = setTimeout(() => setIsFooterDisabled(true), 300);
         } else {
-            setIsFooterDisabled(isDeleting);
+            setIsFooterDisabled(false);
         }
 
         return () => {
             if (timeoutId) clearTimeout(timeoutId);
         };
-    }, [location.pathname, isDeleting]);
+    }, [location.pathname]);
 
     useEffect(() => {
         if (isSolutionDraft) document.body.style.backgroundColor = "rgba(183,198,215,0.71)";
@@ -114,31 +116,10 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         }
     }, [wasElementListEdited, setWasElementListEdited, fetchSolution]);
 
-    useEffect(() => {
-        if (deletionError) {
-            addToast("Error: " + deletionError, 6000);
-        }
-    }, [addToast, deletionError]);
 
-
-    const handleRetry = () => {
-        setRetryCount(1);
-        setErrorMessage("");
-    };
-
-    const finalWarning = "WARNING\n\nThis cannot be undone.\nAre you sure you still want to continue?";
-    const confirmAction = (message) => window.confirm(message) && window.confirm(finalWarning);
-
-    const handleDiscardDraft = async () => {
-        const discardDraftMessage = `WARNING!\n\nYou are about to permanently delete the solution draft titled "${solution.title}", along with all associated elements.${solution.status === "under_review" ? "\n\nThis draft is currently under review. If you haven't already, you may want to discuss this step with the assigned reviewers before proceeding." : ""}\n\nStill continue?`;
-        if (!isSolutionDraft || !confirmAction(discardDraftMessage)) {
-            return;
-        }
-
-        setIsDeleting(true);
-        setDeletionError("");
-
+    const deleteSolutionDraft = useCallback(async () => {
         try {
+            showLoading();
             const token = localStorage.getItem("token");
             if (!token) throw new Error("Unauthorized: No token found. Please log in.");
 
@@ -165,27 +146,70 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
             navigate("/solutions");
         } catch (err) {
             console.error("Error deleting solution:", err);
-            setDeletionError(err.message || "An unexpected error occurred while deleting the solution.");
+            addToast(`Error: ${err.message || "An unexpected error occurred while deleting the solution."}`, 6000);
         } finally {
-            setIsDeleting(false);
+            hideLoading();
         }
-    };
+    }, [showLoading, hideLoading, solutionNumber, addToast, navigate, solution]);
 
-    const handleSubmitDraft = () => {
-        const submitDraftMessage = `WARNING!\n\n\nYou are about to submit your solution draft titled "${solution.title}" for review. A group of randomly selected users will provide feedback. Ensure you're available for questions, discussions and potential revisions during this review phase.\n\nBefore submitting, ensure that to the best of your knowledge and perspective:\n\n    - You have thoroughly considered the solution and its elements.\n    - You’ve evaluated the potential consequences and overall impact.\n\nSubmitting incomplete or underdeveloped solutions may waste community resources.\n\nDo you want to continue?`;
-        if (!isSolutionDraft || !confirmAction(submitDraftMessage)) {
-            return;
-        }
-        console.log("Submit Draft");
-    };
 
-    const handlePublishSolution = () => {
+    const handleDiscardDraft = useCallback(() => {
+        if (!isSolutionDraft) return;
+        const discardDraftMessage = `You are about to permanently delete the solution draft titled "${solution.title}", along with all associated elements.${solution.status === "under_review" ? "\n\nThis draft is currently under review. If you haven't already, you may want to discuss this step with the assigned reviewers before proceeding." : ""}`;
+
+        showConfirmationModal({
+            title: "Delete Solution Draft?",
+            message: discardDraftMessage,
+            onConfirm: () => showConfirmationModal({
+                title: "WARNING",
+                message: "This action cannot be undone.\n\nStill continue?",
+                onConfirm: deleteSolutionDraft,
+                mode: "delete"
+            }),
+            mode: "delete",
+            followUp: true
+        });
+    }, [isSolutionDraft, showConfirmationModal, solution, deleteSolutionDraft]);
+
+    const handleSubmitDraft = useCallback(() => {
+        if (!isSolutionDraft) return;
+        const submitDraftMessage = `You are about to submit your solution draft titled "${solution.title}" for review. A group of randomly selected users will provide feedback. Ensure you're available for questions, discussions and potential revisions during this review phase.\n\nBefore submitting, ensure that to the best of your knowledge and perspective:\n\n    - You have thoroughly considered the solution and its elements.\n    - You’ve evaluated the potential consequences and overall impact.\n\nSubmitting incomplete or underdeveloped solutions may waste community resources.\n\nDo you want to continue?`;
+        showConfirmationModal({
+            title: "Submit Solution Draft for Review?",
+            message: submitDraftMessage,
+            onConfirm: () => showConfirmationModal({
+                title: "WARNING",
+                message: "This action cannot be undone.\n\nStill continue?",
+                onConfirm: () => console.log("Submit Draft"),    // TODO: write route, function and implement
+                mode: "initiate review"
+            }),
+            mode: "submit for review",
+            followUp: true,
+            size: "600"
+        });
+    },[isSolutionDraft, showConfirmationModal, solution]);
+
+    const handlePublishSolution = useCallback(() => {
+        if (!isSolutionDraft) return;
         const publishSolutionMessage = `WARNING!\n\n\nYou are about to publish the solution titled "${solution.title}" to the entire community.\n\nPlease ensure that:\n\n    - All feedback from reviewers has been addressed.\n    - Any significant concerns have been considered and, if necessary, incorporated.\n    - You are confident that the solution is fully developed and ready for community evaluation.\n\nPublishing solutions with unresolved issues or incomplete feedback can lead to rejection and waste community resources. Make sure you’ve thought this through carefully.\n\nDo you want to proceed?`;
-        if (!isSolutionDraft || !confirmAction(publishSolutionMessage)) {
-            return;
-        }
-        console.log("Publish Solution");
-    }
+        showConfirmationModal({
+            title: "Publish Solution Draft?",
+            message: publishSolutionMessage,
+            onConfirm: () => showConfirmationModal({
+                title: "WARNING",
+                message: "This action cannot be undone.\n\nStill continue?",
+                onConfirm: () => console.log("Publish Solution"),    // TODO: write route, function and implement
+                mode: "publish"
+            }),
+            mode: "publish",
+            followUp: true
+        });
+    },[isSolutionDraft, showConfirmationModal, solution]);
+
+    const handleRetry = useCallback(() => {
+        setRetryCount(1);
+        setErrorMessage("");
+    },[]);
 
 
     return (
@@ -222,7 +246,6 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                     onPublishSolution={handlePublishSolution}
                     solutionStatus={solution.status}
                     isFooterDisabled={isFooterDisabled}
-                    isDeleting={isDeleting}
                 />}
             </>
         ) : (

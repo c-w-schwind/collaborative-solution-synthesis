@@ -45,13 +45,22 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   white-space: nowrap;
 }
 
+.cancel-button {
+  background: linear-gradient(125deg, #dee4e8, #b7bdc0);
+  color: #000000;
+  border: 1px solid #9fa4a8;
+}
+.cancel-button:hover {background: linear-gradient(125deg, #d2d8dc, #b0b6b9);}
+.cancel-button:active {background: linear-gradient(125deg, #c1c8cc, #979c9f);}
+
+
 .discussion-space-button {background-color: #7935cc;}
 .discussion-space-button:hover {background-color: #5c1fa8;}
 .discussion-space-button:active {background-color: #4c1a8a;}
 
-.action-button--propose-changes {background-color: #4370e5;}
-.action-button--propose-changes:hover {background-color: #3b63cb;}
-.action-button--propose-changes:active {background-color: #2c53b9;}
+.action-button--propose-changes {background: linear-gradient(125deg, #6b8be1, #3866de);}
+.action-button--propose-changes:hover {background: linear-gradient(125deg, #5772bb, #2f56bb);}
+.action-button--propose-changes:active {background: linear-gradient(125deg, #2c53b9, #223f97);}
 
 .action-button--close {background-color: #bd0000;}
 .action-button--close:hover {background-color: #9a0000;}
@@ -69,6 +78,7 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 .action-button--submit-draft, .action-button--discard-draft {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
+
 .discussion-space-button:disabled, .action-button:disabled {
   background: rgba(197, 197, 197, 0.75);
   cursor: not-allowed;

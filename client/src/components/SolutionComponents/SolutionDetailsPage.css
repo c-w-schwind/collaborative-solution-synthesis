@@ -21,7 +21,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     box-sizing: border-box;
-    width: calc(50vw - 16px); /* Subtracting the average of various browser's scrollbar widths */
 }
 
 .solution-details-container h2 {
