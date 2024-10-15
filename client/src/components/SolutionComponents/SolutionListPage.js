@@ -53,33 +53,35 @@ function SolutionListPage() {
         setErrorMessage("");
     };
 
-    return (
-        solutions !== null && !errorMessage ? (
-            <div className="solution-list-page">
-                {solutions.length === 0 ? (
-                    <div className="no-solutions-message">
-                        Currently, there are no solutions available. This is your opportunity to lead the way!
-                    </div>
-                ) : (
-                    <div className="solution-list">
-                        {solutions.map(solution => (
-                            <SolutionCard
-                                key={solution._id}
-                                solution={solution}
-                            />
-                        ))}
-                    </div>
-                )}
-                <SolutionInput/>
-            </div>
-        ) : (
+    if (solutions == null || errorMessage) {
+        return (
             <LoadingRetryOverlay
                 componentName={"Solution List"}
                 retryCount={retryCount}
                 onHandleRetry={handleRetry}
                 errorMessage={errorMessage}
             />
-        )
+        );
+    }
+
+    return (
+        <div className="solution-list-page">
+            {solutions.length === 0 ? (
+                <div className="no-solutions-message">
+                    Currently, there are no solutions available. This is your opportunity to lead the way!
+                </div>
+            ) : (
+                <div className="solution-list">
+                    {solutions.map(solution => (
+                        <SolutionCard
+                            key={solution._id}
+                            solution={solution}
+                        />
+                    ))}
+                </div>
+            )}
+            <SolutionInput/>
+        </div>
     );
 }
 

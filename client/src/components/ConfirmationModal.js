@@ -3,27 +3,30 @@ import {useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
 
 const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, mode = "standard", size}) => {
-    const {setIsOverlayActive} = useLayout();
+    const previouslyFocusedElement = useRef(null);
     const cancelButtonRef = useRef(null);
     const confirmButtonRef = useRef(null);
 
     // Handle focus trapping within modal, keydown events (Tab f. navigation & Escape to cancel), restore focus after modal close
     useEffect(() => {
         if (isVisible) {
-            const previouslyFocusedElement = document.activeElement;
+            previouslyFocusedElement.current = document.activeElement;
             confirmButtonRef.current.focus();
 
             const handleKeyDown = (e) => {
                 if (e.key === 'Tab') {
+                    const focusableElements = [cancelButtonRef.current, confirmButtonRef.current];
+                    const focusedIndex = focusableElements.indexOf(document.activeElement);
+
                     if (e.shiftKey) { // Shift + Tab
-                        if (document.activeElement === cancelButtonRef.current) {
+                        if (focusedIndex === 0) {
                             e.preventDefault();
-                            confirmButtonRef.current.focus();
+                            focusableElements[1].focus();
                         }
                     } else { // Tab
-                        if (document.activeElement === confirmButtonRef.current) {
+                        if (focusedIndex === 1) {
                             e.preventDefault();
-                            cancelButtonRef.current.focus();
+                            focusableElements[0].focus();
                         }
                     }
                 } else if (e.key === 'Escape') {
@@ -57,9 +60,13 @@ const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, mode
 
     if (!isVisible) return null;
 
+    // Sentinel elements wrapping modal-content necessary for focus trapping in Safari
     return createPortal(
         <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-            <div className="modal-content" style={{maxWidth: `${size}px`}}>
+            <div className="modal-content" style={{ maxWidth: `${size}px` }}>
+
+                <div tabIndex="0" aria-hidden="true" onFocus={() => cancelButtonRef.current.focus()}></div>
+
                 <h2 id="modal-title">{title}</h2>
                 <p>{message}</p>
                 <div className="modal-actions">
@@ -70,11 +77,13 @@ const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, mode
                         className={`modal-button ${mode === "standard" ? "action-button--propose-changes" : "action-button--discard-draft"}`}
                     >{buttonLabels[mode] || "Confirm"}</button>
                 </div>
+
+                <div tabIndex="0" aria-hidden="true" onFocus={() => confirmButtonRef.current.focus()}></div>
+
             </div>
         </div>,
         document.body
     );
-
 };
 
 export default ConfirmationModal;
