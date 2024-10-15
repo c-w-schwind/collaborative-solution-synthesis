@@ -2,7 +2,7 @@
     position: fixed;
     top: 3vw;
     left: 22vw;
-    width: 56vw;
+    width: calc(56vw - 16px); /* Subtracting the average of various browser's scrollbar widths */
     padding: 1px;
     border-radius: 5px;
     overflow: hidden;

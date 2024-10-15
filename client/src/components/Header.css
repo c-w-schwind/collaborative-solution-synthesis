@@ -7,6 +7,7 @@
     position: relative;
     min-height: 69px;
     z-index: 100;
+    box-sizing: border-box;
 }
 
 .active {
@@ -28,7 +29,6 @@
     max-width: 66px;
     height: auto;
     border-radius: 50%;
-    /*border: 1px solid rgba(67, 67, 147, 0.75);*/
     box-shadow: 0 0 6px 4px rgba(82, 52, 192, 0.08);
     margin-right: 10px;
 }
