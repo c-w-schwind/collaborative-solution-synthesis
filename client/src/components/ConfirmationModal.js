@@ -2,7 +2,7 @@ import './ConfirmationModal.css';
 import {useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
 
-const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, mode = "standard", size}) => {
+const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, buttonMode = "standard", size = 400}) => {
     const previouslyFocusedElement = useRef(null);
     const cancelButtonRef = useRef(null);
     const confirmButtonRef = useRef(null);
@@ -41,8 +41,8 @@ const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, mode
             return () => {
                 document.removeEventListener('keydown', handleKeyDown);
                 document.body.removeAttribute('aria-hidden');
-                if (previouslyFocusedElement) {
-                    previouslyFocusedElement.focus();
+                if (previouslyFocusedElement.current) {
+                    previouslyFocusedElement.current.focus();
                 }
             };
         }
@@ -52,8 +52,8 @@ const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, mode
     const buttonLabels = {
         standard: "Confirm",
         delete: "Delete",
-        "submit for review": "Submit for Review",
-        "initiate review": "Initiate Reviewing",
+        submit_for_review: "Submit for Review",
+        initiate_review: "Initiate Reviewing Phase",
         publish: "Publish Solution",
     };
 
@@ -74,8 +74,8 @@ const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, mode
                     <button
                         ref={confirmButtonRef}
                         onClick={onConfirm}
-                        className={`modal-button ${mode === "standard" ? "action-button--propose-changes" : "action-button--discard-draft"}`}
-                    >{buttonLabels[mode] || "Confirm"}</button>
+                        className={`modal-button ${buttonMode === "standard" ? "action-button--propose-changes" : "action-button--discard-draft"}`}
+                    >{buttonLabels[buttonMode] || "Confirm"}</button>
                 </div>
 
                 <div tabIndex="0" aria-hidden="true" onFocus={() => confirmButtonRef.current.focus()}></div>

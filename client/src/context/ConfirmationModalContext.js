@@ -10,13 +10,34 @@ export const ConfirmationModalProvider = ({children}) => {
         message: "",
         onConfirm: () => {},
         onCancel: () => {},
-        mode: "standard",
+        buttonMode: "standard",
         followUp: false,
         size: "400"
     });
 
-    const showConfirmationModal = useCallback(({title, message, onConfirm, onCancel, mode = "standard", followUp = false, size = "400"}) => {
-        setConfirmationModalContent({isVisible: true, title, message, onConfirm, onCancel, mode, followUp, size});
+    const showConfirmationModal = useCallback(({title, message, onConfirm, onCancel, buttonMode = "standard", size = "400", followUp = false, followUpMessage}) => {
+        if (!followUp) {
+            setConfirmationModalContent({isVisible: true, title, message, onConfirm, onCancel, buttonMode, followUp, size});
+        } else {
+            setConfirmationModalContent({
+                isVisible: true,
+                title,
+                message,
+                onConfirm: () => showConfirmationModal({
+                    isVisible: true,
+                    title: "WARNING",
+                    message: followUpMessage ? followUpMessage : "This action cannot be undone.\n\nDo you want to proceed?",
+                    onConfirm: onConfirm,
+                    buttonMode: buttonMode === "submit_for_review" ? "initiate_review" : buttonMode,
+                    followUp: false
+                }),
+                onCancel,
+                buttonMode,
+                followUp,
+                size
+            });
+        }
+
     },[]);
 
     const hideConfirmationModal = useCallback(() => {
@@ -42,7 +63,7 @@ export const ConfirmationModalProvider = ({children}) => {
                     if (confirmationModalContent.onCancel) confirmationModalContent.onCancel();
                     hideConfirmationModal();
                 }}
-                mode={confirmationModalContent.mode}
+                buttonMode={confirmationModalContent.buttonMode}
                 size={confirmationModalContent.size}
             />
         </ConfirmationModalContext.Provider>
