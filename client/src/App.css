@@ -82,7 +82,7 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.discussion-space-button:disabled, .action-button:disabled {
+.discussion-space-button:disabled, .action-button:disabled, .info-button:disabled {
   background: rgba(197, 197, 197, 0.75);
   cursor: not-allowed;
   border-color: rgba(197, 197, 197, 0.75);

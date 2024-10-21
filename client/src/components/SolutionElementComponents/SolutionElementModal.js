@@ -12,6 +12,9 @@ import {debounce} from "../../utils/utils";
 import {EDIT_ICON_SRC, DELETE_ICON_SRC, SUBMIT_ICON_SRC} from "../../constants";
 import {useLayout} from "../../context/LayoutContext";
 import {handleRequest} from "../../services/solutionApiService";
+import useElementDraftOperations from "../../hooks/useElementDraftOperations";
+import useOutsideClick from "../../hooks/useOutsideClickHook";
+import {useLoading} from "../../context/LoadingContext";
 
 
 function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscussionSpaceOpen, setEntityTitle}) {
@@ -20,12 +23,16 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
     const [isElementDraft, setIsElementDraft] = useState(false);
+    const [isShowingInfo, setIsShowingInfo] = useState(false);
 
-    const titleRef = useRef(null);
     const {setWasElementListEdited, isSolutionDraft} = useGlobal();
+    const {showLoading, hideLoading} = useLoading();
     const {elementNumber} = useParams();
     const {setElementOverlayColor} = useLayout();
-
+    const {handleDiscardElementDraft, handleSubmitElementDraft, handlePublishElement} = useElementDraftOperations(
+        {elementNumber, title: solutionElement?.title, status: solutionElement?.status},
+        isElementDraft
+    );
     const {
         elementDraftTitleFormData, setElementDraftTitleFormData,
         elementDraftOverviewFormData, setElementDraftOverviewFormData,
@@ -34,6 +41,9 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         isElementDraftTitleFormOpen, isElementDraftOverviewFormOpen, isElementDraftDescriptionFormOpen,
         isElementDraftTitleFormFilled, isElementDraftOverviewFormFilled, isElementDraftDescriptionFormFilled
     } = useFormData();
+
+    const titleRef = useRef(null);
+    const footerRef = useOutsideClick(() => setIsShowingInfo(false));
 
 
     const fetchSolutionElement = useCallback(async () => {
@@ -131,6 +141,10 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         toggleElementDraftDescriptionForm(false);
     }
 
+    const handleInfoButtonClick = useCallback(() => {
+        setIsShowingInfo(prev => !prev);
+    },[]);
+
 
     const renderEditButton = (isOpen, onClick, label, style = {}) => (
         !isOpen && (
@@ -198,7 +212,9 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                 </div>
             </div>
 
-            <div className="modal-container-scrollable">
+            <div className={`element-modal-footer-overlay ${isShowingInfo ? "element-modal-footer-overlay-active" : ""}`} onClick={() => setIsShowingInfo(false)}></div>
+
+            <div className="modal-container-scrollable" style={isShowingInfo ? {maxHeight: "30vh"} : {}}>
                 <div className="element-details-container" style={{marginTop: 0}}>
                     <h3 className={"solution-details-list-container-title"}>Overview</h3>
                     {!isElementDraft || !isElementDraftOverviewFormOpen ? (
@@ -244,12 +260,38 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                 />
             </div>
 
-            {isElementDraft && <div className="modal-footer">
-                <h2>Solution Element Draft</h2>
-                <div className="solution-element-button-section">
-                    <button className="action-button action-button--discard-draft" onClick={() => console.log("deleted")}><img src={DELETE_ICON_SRC} alt="delete draft"/> Discard Draft</button>
-                    {!isSolutionDraft && <button className="action-button action-button--submit-draft" onClick={() => console.log("submit")}><img src={SUBMIT_ICON_SRC} alt="submit draft"/> Submit Proposal</button>}
-                    {!isSolutionDraft && <button className={"info-button info-button--footer"} onClick={() => console.log("info")}>i</button>}
+            {isElementDraft && <div ref={footerRef} className={`modal-footer ${isShowingInfo ? "expanded" : ""}`}>
+                <div className="footer-top">
+                    <h2>Solution Element Draft</h2>
+                    <div className="solution-element-button-section">
+                        <button className="action-button action-button--discard-draft" onClick={handleDiscardElementDraft}><img src={DELETE_ICON_SRC} alt="delete draft"/> Discard Draft</button>
+                        {!isSolutionDraft && solutionElement.status === "draft" && <button className="action-button action-button--submit-draft" onClick={handleSubmitElementDraft}><img src={SUBMIT_ICON_SRC} alt="submit draft"/> Submit Proposal</button>}
+                        {!isSolutionDraft && solutionElement.status === "under_review" && <button className="action-button action-button--submit-draft" onClick={handlePublishElement}><img src={SUBMIT_ICON_SRC} alt="submit draft"/> Submit Proposal</button>}
+                        <button className="info-button info-button--footer" onClick={handleInfoButtonClick} aria-expanded={isShowingInfo} aria-controls="modal-footer-info">i</button>
+                    </div>
+                </div>
+                <div className="modal-footer-info">
+                    {isSolutionDraft ?
+                        (
+                            (<>
+                                <p><strong>Discard Draft:</strong> This will permanently delete the current element draft. Use caution, as this action cannot be undone.</p>
+                                {solutionElement.status === "draft" ? (
+                                    <p><strong>Submitting Elements for Review:</strong> Since the solution is currently in draft mode, submitting an element for review is only possible in the context of submitting the complete solution. Can't submit a single element without submitting the whole solution. To submit the solution you have do that from the footer within the draft page of your solution.</p>
+                                ) : (
+                                    <p><strong>Publish Element:</strong> [Same as submitting, please write it also for publishing]</p>
+                                )}
+                            </>)
+                        ) : (
+                            <>
+                                <p><strong>Discard Draft:</strong> This action will remove your current draft.</p>
+                                {solutionElement.status === "draft" ? (
+                                    <p><strong>Submit Proposal:</strong> Submitting will send your draft for review.</p>
+                                ) : (
+                                    <p><strong>Publish Solution:</strong> Publishing will make your solution live.</p>
+                                )}
+                            </>
+                        )
+                    }
                 </div>
             </div>}
         </div>
