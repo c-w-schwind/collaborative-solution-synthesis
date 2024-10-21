@@ -7,11 +7,13 @@ import {formConfigurations} from "../Forms/formConfigurations";
 import GenericForm from "../Forms/GenericForm";
 import useOutsideClick from "../../hooks/useOutsideClickHook";
 import {EDIT_ICON_SRC} from "../../constants";
+import {useLoading} from "../../context/LoadingContext";
 
 const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace}) => {
     const [showMeta, setShowMeta] = useState(false);
 
     const {isSolutionDraft} = useGlobal();
+    const {showLoading, hideLoading} = useLoading();
     const {
         solutionDraftTitleFormData, setSolutionDraftTitleFormData,
         solutionDraftOverviewFormData, setSolutionDraftOverviewFormData,
@@ -29,8 +31,17 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
     };
 
     const handleEditSubmit = async (formData, label, toggleSolutionDraftForm) => {
-        await formSubmissionService(`solutions/${solution.solutionNumber}`, formData, label, handleUpdateSolution, "PUT");
-        toggleSolutionDraftForm(false);
+        const capitalizedKey = Object.keys(formData)[0].charAt(0).toUpperCase() + Object.keys(formData)[0].slice(1);
+        showLoading(`Updating ${capitalizedKey}`);
+
+        try {
+            await formSubmissionService(`solutions/${solution.solutionNumber}`, formData, label, handleUpdateSolution, "PUT");
+            toggleSolutionDraftForm(false);
+        } catch (error) {
+            throw error;
+        } finally {
+            hideLoading();
+        }
     };
 
     const handleTitleEditSubmit = (formData) => handleEditSubmit(formData, "Solution Title", toggleSolutionDraftTitleForm);

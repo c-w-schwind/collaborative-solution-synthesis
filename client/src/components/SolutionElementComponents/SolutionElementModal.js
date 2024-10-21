@@ -25,7 +25,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const [isElementDraft, setIsElementDraft] = useState(false);
     const [isShowingInfo, setIsShowingInfo] = useState(false);
 
-    const {setWasElementListEdited, isSolutionDraft} = useGlobal();
+    const {setElementListChange, isSolutionDraft} = useGlobal();
     const {showLoading, hideLoading} = useLoading();
     const {elementNumber} = useParams();
     const {setElementOverlayColor} = useLayout();
@@ -110,15 +110,27 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         setSolutionElement(prevElement => ({...prevElement, ...updatedFields}));
     };
 
-    const handleEditSubmit = async (formData, label, toggleElementDraftForm) => {
-        await formSubmissionService(`solutionElements/${solutionElement.elementNumber}`, formData, label, handleUpdateSolutionElement, "PUT");
-        toggleElementDraftForm(false);
-        setWasElementListEdited(true);
+    const handleEditSubmit = async (formData, label, toggleElementDraftForm, changedField = {}) => {
+        const capitalizedKey = Object.keys(changedField)[0].charAt(0).toUpperCase() + Object.keys(changedField)[0].slice(1);
+        showLoading(`Updating ${capitalizedKey}`);
+
+        try {
+            await formSubmissionService(`solutionElements/${elementNumber}`, formData, label, handleUpdateSolutionElement, "PUT");
+            toggleElementDraftForm(false);
+
+            if (label !== "Solution Element Description") {
+                setElementListChange({changeType: "update", elementNumber: Number(elementNumber), ...changedField});
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            hideLoading();
+        }
     };
 
-    const handleTitleEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Title", toggleElementDraftTitleForm);
-    const handleOverviewEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Overview", toggleElementDraftOverviewForm);
-    const handleDescriptionEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Description", toggleElementDraftDescriptionForm);
+    const handleTitleEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Title", toggleElementDraftTitleForm, {title: formData.title});
+    const handleOverviewEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Overview", toggleElementDraftOverviewForm, {overview: formData.overview});
+    const handleDescriptionEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Description", toggleElementDraftDescriptionForm, {description: formData.description});
 
     const handleTitleEditButton = () => {
         if (!isElementDraftTitleFormFilled) {

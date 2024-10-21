@@ -4,7 +4,7 @@ import {formConfigurations} from "../Forms/formConfigurations";
 import formSubmissionService from "../Forms/formSubmissionService";
 import {useEffect, useRef, useState} from "react";
 import {useToasts} from "../../context/ToastContext";
-import {useGlobal} from "../../context/GlobalContext";
+import {useLoading} from "../../context/LoadingContext";
 
 const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
     // Enables a smooth closing transition by delaying the form's disappearance
@@ -12,7 +12,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
 
     const {elementFormData, setElementFormData, toggleElementForm, isElementFormOpen} = useFormData();
     const {addToast} = useToasts();
-    const {setWasElementListEdited} = useGlobal();
+    const {showLoading, hideLoading} = useLoading();
 
     const elementFormContainerRef = useRef(null);
 
@@ -57,11 +57,18 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
     }, [isElementFormOpen, renderElementForm, toggleElementForm, addToast]);
 
     const submitElementProposal = async (formData) => {
+        showLoading(`Creating New Element Draft\n"${formData.title}"`);
         const proposalData = {...formData, parentNumber};
-        await formSubmissionService("solutionElements", proposalData, "solution element", onSuccessfulSubmit);
-        toggleElementForm(false);
-        setWasElementListEdited(true);
+        try {
+            await formSubmissionService("solutionElements", proposalData, "solution element", onSuccessfulSubmit);
+            toggleElementForm(false);
+        } catch (error) {
+            throw error;
+        } finally {
+            hideLoading();
+        }
     };
+
 
     return (
         <div className="solution-details-add-card-button-container"> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}

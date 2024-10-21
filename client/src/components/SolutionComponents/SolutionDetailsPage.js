@@ -88,12 +88,35 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         };
     }, [isSolutionDraft]);
 
+    // Handling optimistic element list updates based on element draft changes
     useEffect(() => {
-        if (wasElementListEdited) {
+        if (elementListChange) {
+            const {changeType, elementNumber, title, overview, change_summary} = elementListChange;
+
+            if (changeType === "delete") {
+                setSolution(prevSolution => ({
+                    ...prevSolution,
+                    solutionElements: prevSolution.solutionElements.filter(el => el.elementNumber !== elementNumber),
+                    elementDrafts: prevSolution.elementDrafts.filter(draft => draft.elementNumber !== elementNumber)
+                }));
+            } else if (changeType === "update") {
+                setSolution(prevSolution => ({
+                    ...prevSolution,
+                    elementDrafts: prevSolution.elementDrafts.map(el =>
+                        el.elementNumber === elementNumber
+                            ? {
+                                ...el,
+                                ...(title ? {title} : {}),
+                                ...(overview ? {overview} : {}),
+                                ...(change_summary ? {change_summary} : {})
+                            } : el
+                    )
+                }));
+            }
             fetchSolutionData();
-            setWasElementListEdited(false);
+            setElementListChange(null);
         }
-    }, [wasElementListEdited, setWasElementListEdited, fetchSolutionData]);
+    }, [elementListChange, setElementListChange, fetchSolutionData]);
 
 
     const handleRetry = useCallback(() => {
