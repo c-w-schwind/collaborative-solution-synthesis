@@ -1,49 +1,41 @@
 const API_URL = process.env.REACT_APP_API_URL;
 
-
-export const fetchSolution = async (solutionNumber) => {
+// entityType: "solution" or "element"
+export const handleRequest = async (method, entityType, entityNumber) => {
+    const routePrefix = entityType === "solution" ? "solutions" : "solutionElements";
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`${API_URL}/solutions/${solutionNumber}`, {
+    if (method !== "GET" && !token) {
+        throw new Error("Unauthorized: No token found. Please log in.");
+    }
+
+    const response = await fetch(`${API_URL}/${routePrefix}/${entityNumber}`, {
+        method: method,
         headers: token
             ? {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}
-            : {"Content-Type": "application/json"},
+            : {"Content-Type": "application/json"}
     });
 
     if (!response.ok) {
-        const error = new Error(`HTTP error! Status: ${response.status}`);
+        let error;
+        if (method === "DELETE") {
+            const errorData = await response.json();
+            error = new Error(errorData.message || `Failed to delete ${entityType}. Status: ${response.status}`);
+        } else {
+            error = new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         if (response.status === 401) {
             error.message = token
-                ? "This solution is private.\n\n\nYou don't have access to view it."
-                : "Unauthorized access.\n\n\nPlease log in to view this solution.";
+                ? `This ${entityType} is private.\n\n\nYou don't have access to it.`
+                : `Unauthorized access.\n\n\nPlease log in to access this ${entityType}.`;
+        } else if (response.status === 403) {
+            error.message = `You are not authorized to access this ${entityType}.`;
+        } else if (response.status === 404) {
+            error.message = `${entityType.charAt(0).toUpperCase() + entityType.slice(1)} not found. It may have already been deleted.`;
         }
         throw error;
     }
 
-    return response.json();
-};
-
-
-export const deleteSolutionDraft = async (solutionNumber) => {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Unauthorized: No token found. Please log in.");
-
-    const response = await fetch(`${API_URL}/solutions/${solutionNumber}`, {
-        method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        const error = new Error(errorData.message || `Failed to delete solution. Status: ${response.status}`);
-        if (response.status === 404) {
-            error.message = "Solution not found. It may have already been deleted.";
-        } else if (response.status === 401 || response.status === 403) {
-            error.message = "You are not authorized to delete this solution.";
-        }
-        throw error;
-    }
+    return response.status === 204 ? null : response.json();
 };

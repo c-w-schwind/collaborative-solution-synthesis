@@ -11,6 +11,7 @@ import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {debounce} from "../../utils/utils";
 import {EDIT_ICON_SRC, DELETE_ICON_SRC, SUBMIT_ICON_SRC} from "../../constants";
 import {useLayout} from "../../context/LayoutContext";
+import {handleRequest} from "../../services/solutionApiService";
 
 
 function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscussionSpaceOpen, setEntityTitle}) {
@@ -37,27 +38,9 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
 
     const fetchSolutionElement = useCallback(async () => {
         try {
-            const token = localStorage.getItem("token");
-
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/solutionElements/${elementNumber}`, {
-                headers: token
-                    ? {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}
-                    : {}
-            });
-
-            if (!response.ok) {
-                if (response.status === 401) {
-                    const errorMessage = token
-                        ? "This solution element is private.\n\n\nYou don't have access to view it."
-                        : "Unauthorized access.\n\n\nPlease log in to view this solution element.";
-                    throw new Error(errorMessage);
-                }
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            setSolutionElement(data);
-            setIsElementDraft(data.status === "draft");
+            const elementData = await handleRequest("GET", "element", elementNumber);
+            setSolutionElement(elementData);
+            setIsElementDraft(elementData.status === "draft" || elementData.status === "under_review");
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {

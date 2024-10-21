@@ -8,7 +8,7 @@ import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {useGlobal} from "../../context/GlobalContext";
 import SolutionDraftFooter from "./SolutionDraftFooter";
 import {getScrollbarWidth} from "../../utils/utils";
-import {fetchSolution} from "../../services/solutionApiService";
+import {handleRequest} from "../../services/solutionApiService";
 import useDraftOperations from "../../hooks/useDraftOperations";
 
 
@@ -19,7 +19,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const [errorMessage, setErrorMessage] = useState("");
     const [isFooterDisabled, setIsFooterDisabled] = useState(false);
 
-    const {isSolutionDraft, setIsSolutionDraft, wasElementListEdited, setWasElementListEdited} = useGlobal();
+    const {isSolutionDraft, setIsSolutionDraft, elementListChange, setElementListChange} = useGlobal();
     const location = useLocation();
     const {solutionNumber} = useParams();
     const {handleDiscardDraft, handleSubmitDraft, handlePublishSolution} = useDraftOperations(
@@ -27,12 +27,11 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         isSolutionDraft
     );
 
-
     const fetchSolutionData = useCallback(async () => {
         try {
-            const solution = await fetchSolution(solutionNumber);
-            setSolution(solution);
-            setIsSolutionDraft(solution.status === "draft" || solution.status === "under_review");
+            const solutionData = await handleRequest("GET", "solution", solutionNumber);
+            setSolution(solutionData);
+            setIsSolutionDraft(solutionData.status === "draft" || solutionData.status === "under_review");
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {
@@ -86,7 +85,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
 
         return () => {
             document.body.style.backgroundColor = "";
-        }
+        };
     }, [isSolutionDraft]);
 
     useEffect(() => {
@@ -100,7 +99,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const handleRetry = useCallback(() => {
         setRetryCount(1);
         setErrorMessage("");
-    },[]);
+    }, []);
 
 
     return (
