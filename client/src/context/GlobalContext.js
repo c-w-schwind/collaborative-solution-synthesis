@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState} from 'react';
+import React, {createContext, useCallback, useContext, useMemo, useRef, useState} from 'react';
 
 const GlobalContext = createContext();
 
@@ -11,9 +11,42 @@ const GlobalContext = createContext();
 export const GlobalProvider = ({children}) => {
     const [isSolutionDraft, setIsSolutionDraft] = useState(false);
     const [elementListChange, setElementListChange] = useState(null);
+    const [shouldRefetchSolution, setShouldRefetchSolution] = useState(false);
+    const lastRefetchTimeRef = useRef(0);
+    const REFETCH_DELAY = 120000; // 2 minutes
+
+    const requestSolutionRefetch = useCallback(() => {
+        const currentTime = Date.now();
+        if (currentTime - lastRefetchTimeRef.current > REFETCH_DELAY) {
+            setShouldRefetchSolution(true);
+            lastRefetchTimeRef.current = currentTime;
+        }
+    }, []);
+
+    const clearSolutionRefetchFlag = useCallback(() => {
+        setShouldRefetchSolution(false);
+    }, []);
+
+    const value = useMemo(() => ({
+        isSolutionDraft,
+        setIsSolutionDraft,
+        elementListChange,
+        setElementListChange,
+        shouldRefetchSolution,
+        requestSolutionRefetch,
+        clearSolutionRefetchFlag
+    }), [
+        isSolutionDraft,
+        setIsSolutionDraft,
+        elementListChange,
+        setElementListChange,
+        shouldRefetchSolution,
+        requestSolutionRefetch,
+        clearSolutionRefetchFlag
+    ]);
 
     return (
-        <GlobalContext.Provider value={{isSolutionDraft, setIsSolutionDraft, elementListChange, setElementListChange}}>
+        <GlobalContext.Provider value={value}>
             {children}
         </GlobalContext.Provider>
     );
@@ -25,4 +58,4 @@ export const useGlobal = () => {
         throw new Error('useGlobal must be used within a GlobalProvider');
     }
     return context;
-}
+};

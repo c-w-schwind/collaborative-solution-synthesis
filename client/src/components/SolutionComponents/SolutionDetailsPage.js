@@ -19,7 +19,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     const [errorMessage, setErrorMessage] = useState("");
     const [isFooterDisabled, setIsFooterDisabled] = useState(false);
 
-    const {isSolutionDraft, setIsSolutionDraft, elementListChange, setElementListChange} = useGlobal();
+    const {isSolutionDraft, setIsSolutionDraft, shouldRefetchSolution, clearSolutionRefetchFlag} = useGlobal();
     const location = useLocation();
     const {solutionNumber} = useParams();
     const {handleDiscardDraft, handleSubmitDraft, handlePublishSolution} = useDraftOperations(
@@ -51,6 +51,13 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     useEffect(() => {
         fetchSolutionData();
     }, [fetchSolutionData]);
+
+    useEffect(() => {
+        if (shouldRefetchSolution) {
+            fetchSolutionData();
+            clearSolutionRefetchFlag();
+        }
+    }, [shouldRefetchSolution, fetchSolutionData, clearSolutionRefetchFlag]);
 
     useEffect(() => {
         if (solution) setEntityTitle(solution.title);
@@ -88,36 +95,6 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         };
     }, [isSolutionDraft]);
 
-    // Handling optimistic element list updates based on element draft changes
-    useEffect(() => {
-        if (elementListChange) {
-            const {changeType, elementNumber, title, overview, change_summary} = elementListChange;
-
-            if (changeType === "delete") {
-                setSolution(prevSolution => ({
-                    ...prevSolution,
-                    solutionElements: prevSolution.solutionElements.filter(el => el.elementNumber !== elementNumber),
-                    elementDrafts: prevSolution.elementDrafts.filter(draft => draft.elementNumber !== elementNumber)
-                }));
-            } else if (changeType === "update") {
-                setSolution(prevSolution => ({
-                    ...prevSolution,
-                    elementDrafts: prevSolution.elementDrafts.map(el =>
-                        el.elementNumber === elementNumber
-                            ? {
-                                ...el,
-                                ...(title ? {title} : {}),
-                                ...(overview ? {overview} : {}),
-                                ...(change_summary ? {change_summary} : {})
-                            } : el
-                    )
-                }));
-            }
-            fetchSolutionData();
-            setElementListChange(null);
-        }
-    }, [elementListChange, setElementListChange, fetchSolutionData]);
-
 
     const handleRetry = useCallback(() => {
         setRetryCount(1);
@@ -144,7 +121,6 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                         />
                         <ConsiderationList
                             considerations={solution.considerations}
-                            onSuccessfulSubmit={fetchSolutionData}
                             parentType={"Solution"}
                             parentNumber={solutionNumber}
                         />

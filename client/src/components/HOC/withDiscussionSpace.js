@@ -6,6 +6,7 @@ import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {debounce} from "../../utils/utils";
 import {useFormData} from "../../context/FormDataContext";
 import {useLayout} from "../../context/LayoutContext";
+import {useGlobal} from "../../context/GlobalContext";
 
 
 const withDiscussionSpace = (WrappedComponent, entityType) => {
@@ -19,6 +20,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         const navigate = useNavigate();
         const {canNavigate} = useFormData();
         const {elementOverlayColor} = useLayout();
+        const {requestSolutionRefetch} = useGlobal();
 
         const entityContainerRef = useRef();
         const solutionDetailsContainerRef = useRef();
@@ -143,6 +145,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         const handleClosingModal = useCallback(() => {
             if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
                 setIsModalOpen(false);
+                requestSolutionRefetch();
                 const modalElement = document.querySelector(".overlay");
                 if (modalElement) {
                     modalElement.addEventListener("transitionend", function onTransitionEnd(event) {
@@ -153,7 +156,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                     });
                 }
             }
-        }, [canNavigate, navigate, location.state]);
+        }, [canNavigate, requestSolutionRefetch, navigate, location.state]);
 
         const stopPropagation = useCallback((e) => e.stopPropagation(), []);
         const renderDiscussionSpace = useCallback(() => {

@@ -2,6 +2,7 @@ import "./ConsiderationList.css";
 import ConsiderationCard from "./ConsiderationCard";
 import {useEffect, useState} from "react";
 import ConsiderationInput from "./ConsiderationInput";
+import {useGlobal} from "../../context/GlobalContext";
 
 const ConsiderationList = ({considerations: initialConsiderations, parentType, parentNumber}) => {
     const [considerations, setConsiderations] = useState(initialConsiderations);
@@ -9,6 +10,7 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
 
     const stances = Object.entries(considerations);
 
+    const {requestSolutionRefetch} = useGlobal();
 
     useEffect(() => {
         setConsiderations(initialConsiderations);
@@ -36,6 +38,7 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
             ...prev,
             [newConsideration.stance]: [...prev[newConsideration.stance], newConsideration]
         }));
+        requestSolutionRefetch();
     }
 
     return (

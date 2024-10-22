@@ -139,7 +139,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         toggleElementDraftTitleForm(false);
     }, [isElementDraftTitleFormFilled, setElementDraftTitleFormData, solutionElement, toggleElementDraftTitleForm]);
 
-    const handleOverviewEditButton = useCallback(() => {    //todo: useCallback? above and below...
+    const handleOverviewEditButton = useCallback(() => {
         if (!isElementDraftOverviewFormFilled) {
             setElementDraftOverviewFormData({overview: solutionElement.overview});
         }
