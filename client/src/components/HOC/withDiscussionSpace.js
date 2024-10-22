@@ -1,5 +1,5 @@
 import "./withDiscussionSpace.css";
-import {useEffect, useLayoutEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from "react";
 import SolutionDetailsPage from "../SolutionComponents/SolutionDetailsPage";
 import SolutionElementModal from "../SolutionElementComponents/SolutionElementModal";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
@@ -109,7 +109,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
         }, []);
 
 
-        const toggleDiscussionSpace = (checkBeforeNavigation = true) => {
+        const toggleDiscussionSpace = useCallback((checkBeforeNavigation = true) => {
             if (checkBeforeNavigation && !canNavigate({checkDiscussionSpaceForm: true})) return;
 
             const willDiscussionSpaceBeOpen = !isDiscussionSpaceOpen;
@@ -130,17 +130,17 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                     });
                 }
             }
-        };
+        }, [canNavigate, isDiscussionSpaceOpen, navigate, location.state]);
 
 
-        const handleFullScreenButton = () => {
+        const handleFullScreenButton = useCallback(() => {
             if (canNavigate({checkSolutionDraftTitleForm: true, checkSolutionDraftOverviewForm: true, checkSolutionDraftDescriptionForm: true, checkElementForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true, checkConsiderationForm: true, checkCommentForm: true, saveDiscussionSpaceData: true})) {
                 navigate("./discussionSpace/fullscreen", {state: {entityTitle}});
             }
-        };
+        }, [canNavigate, navigate, entityTitle]);
 
 
-        const handleClosingModal = () => {
+        const handleClosingModal = useCallback(() => {
             if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
                 setIsModalOpen(false);
                 const modalElement = document.querySelector(".overlay");
@@ -153,10 +153,10 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                     });
                 }
             }
-        };
+        }, [canNavigate, navigate, location.state]);
 
-
-        const renderDiscussionSpace = () => {
+        const stopPropagation = useCallback((e) => e.stopPropagation(), []);
+        const renderDiscussionSpace = useCallback(() => {
             switch (entityType) {
                 case "Solution":
                     return (
@@ -186,7 +186,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                     return (
                         <div
                             className={`modal-container discussion-space-modal ${isDiscussionSpaceOpen ? "discussion-space-modal-ds-open" : ""}`}
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={stopPropagation}
                         >
                             <div className="modal-header">
                                 <h2>Discussion Space</h2>
@@ -210,7 +210,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
                 default:
                     return null;
             }
-        };
+        }, [isDiscussionSpaceOpen, handleFullScreenButton, isSolutionDSOutletOpen, stopPropagation, toggleDiscussionSpace]);
 
 
         return (
@@ -235,7 +235,7 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
     };
 };
 
-const EnhancedSolutionDetailsPage = withDiscussionSpace(SolutionDetailsPage, "Solution");
-const EnhancedSolutionElementModal = withDiscussionSpace(SolutionElementModal, "SolutionElement");
+const EnhancedSolutionDetailsPage = React.memo(withDiscussionSpace(SolutionDetailsPage, "Solution"));
+const EnhancedSolutionElementModal = React.memo(withDiscussionSpace(SolutionElementModal, "SolutionElement"));
 
 export {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal};

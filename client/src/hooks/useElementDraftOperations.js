@@ -33,7 +33,7 @@ const useElementDraftOperations = (elementProps, isElementDraft) => {
         } finally {
             hideLoading();
         }
-    }, [showLoading, hideLoading, addToast, setElementListChange, navigate, elementProps, location.state?.fromElementCard, location.state?.fromCreation]);
+    }, [showLoading, hideLoading, addToast, setElementListChange, navigate, elementNumber, title, location.state?.fromElementCard, location.state?.fromCreation]);
 
 
     const handleDiscardElementDraft = useCallback(() => {
@@ -47,7 +47,7 @@ const useElementDraftOperations = (elementProps, isElementDraft) => {
             buttonMode: "delete",
             followUp: true
         });
-    }, [showConfirmationModal, elementProps, deleteElementDraft, isElementDraft]);
+    }, [showConfirmationModal, title, status, deleteElementDraft, isElementDraft]);
 
     const submitElementDraft = useCallback(async () => {
         try {
@@ -61,7 +61,7 @@ const useElementDraftOperations = (elementProps, isElementDraft) => {
         } finally {
             hideLoading();
         }
-    }, [showLoading, hideLoading, elementProps, addToast, navigate]);
+    }, [showLoading, hideLoading, title, addToast, navigate]);
 
     const handleSubmitElementDraft = useCallback(() => {
         if (!isElementDraft) return;
@@ -75,7 +75,7 @@ const useElementDraftOperations = (elementProps, isElementDraft) => {
             size: 700,
             followUp: true
         });
-    },[isElementDraft, elementProps, showConfirmationModal, submitElementDraft]);
+    },[isElementDraft, title, showConfirmationModal, submitElementDraft]);
 
     const publishElement = useCallback(async () => {
         try {
@@ -89,7 +89,7 @@ const useElementDraftOperations = (elementProps, isElementDraft) => {
         } finally {
             hideLoading();
         }
-    }, [showLoading, hideLoading, elementProps, addToast, navigate]);
+    }, [showLoading, hideLoading, title, addToast, navigate]);
 
     const handlePublishElement = useCallback(() => {
         if (!isElementDraft) return;
@@ -103,7 +103,7 @@ const useElementDraftOperations = (elementProps, isElementDraft) => {
             followUp: true,
             followUpMessage: "Just another test of the follow up message!"
         });
-    },[isElementDraft, elementProps, showConfirmationModal, publishElement]);
+    },[isElementDraft, title, showConfirmationModal, publishElement]);
 
 
     return {handleDiscardElementDraft, handleSubmitElementDraft, handlePublishElement};

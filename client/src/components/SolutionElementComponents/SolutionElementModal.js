@@ -102,15 +102,15 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     }, [solutionElement, isDiscussionSpaceOpen]);
 
 
-    const handleRetry = () => {
+    const handleRetry = useCallback(() => {
         setRetryCount(1);
-    };
+    }, []);
 
-    const handleUpdateSolutionElement = (updatedFields) => {
+    const handleUpdateSolutionElement = useCallback((updatedFields) => {
         setSolutionElement(prevElement => ({...prevElement, ...updatedFields}));
-    };
+    }, []);
 
-    const handleEditSubmit = async (formData, label, toggleElementDraftForm, changedField = {}) => {
+    const handleEditSubmit = useCallback(async (formData, label, toggleElementDraftForm, changedField = {}) => {
         const capitalizedKey = Object.keys(changedField)[0].charAt(0).toUpperCase() + Object.keys(changedField)[0].slice(1);
         showLoading(`Updating ${capitalizedKey}`);
 
@@ -126,52 +126,52 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         } finally {
             hideLoading();
         }
-    };
+    }, [elementNumber, showLoading, hideLoading, handleUpdateSolutionElement, setElementListChange]);
 
-    const handleTitleEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Title", toggleElementDraftTitleForm, {title: formData.title});
-    const handleOverviewEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Overview", toggleElementDraftOverviewForm, {overview: formData.overview});
-    const handleDescriptionEditSubmit = (formData) => handleEditSubmit(formData, "Solution Element Description", toggleElementDraftDescriptionForm, {description: formData.description});
+    const handleTitleEditSubmit = useCallback((formData) => handleEditSubmit(formData, "Solution Element Title", toggleElementDraftTitleForm, {title: formData.title}), [handleEditSubmit, toggleElementDraftTitleForm]);
+    const handleOverviewEditSubmit = useCallback((formData) => handleEditSubmit(formData, "Solution Element Overview", toggleElementDraftOverviewForm, {overview: formData.overview}), [handleEditSubmit, toggleElementDraftOverviewForm]);
+    const handleDescriptionEditSubmit = useCallback((formData) => handleEditSubmit(formData, "Solution Element Description", toggleElementDraftDescriptionForm, {description: formData.description}), [handleEditSubmit, toggleElementDraftDescriptionForm]);
 
-    const handleTitleEditButton = () => {
+    const handleTitleEditButton = useCallback(() => {
         if (!isElementDraftTitleFormFilled) {
             setElementDraftTitleFormData({title: solutionElement.title});
         }
         toggleElementDraftTitleForm(false);
-    }
+    }, [isElementDraftTitleFormFilled, setElementDraftTitleFormData, solutionElement, toggleElementDraftTitleForm]);
 
-    const handleOverviewEditButton = () => {
+    const handleOverviewEditButton = useCallback(() => {    //todo: useCallback? above and below...
         if (!isElementDraftOverviewFormFilled) {
             setElementDraftOverviewFormData({overview: solutionElement.overview});
         }
         toggleElementDraftOverviewForm(false);
-    }
+    }, [isElementDraftOverviewFormFilled, setElementDraftOverviewFormData, solutionElement, toggleElementDraftOverviewForm]);
 
-    const handleDescriptionEditButton = () => {
+    const handleDescriptionEditButton = useCallback(() => {
         if (!isElementDraftDescriptionFormFilled) {
             setElementDraftDescriptionFormData({description: solutionElement.description});
         }
         toggleElementDraftDescriptionForm(false);
-    }
+    }, [isElementDraftDescriptionFormFilled, setElementDraftDescriptionFormData, solutionElement, toggleElementDraftDescriptionForm]);
 
     const handleInfoButtonClick = useCallback(() => {
         setIsShowingInfo(prev => !prev);
     },[]);
 
 
-    const renderEditButton = (isOpen, onClick, label, style = {}) => (
+    const renderEditButton = useCallback((isOpen, onClick, label, style = {}) => (
         !isOpen && (
             <button className="draft-edit-button" onClick={onClick} style={style}>
                 {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
             </button>
         )
-    );
+    ), []);
 
-    const getDisplayTitle = () => {
+    const getDisplayTitle = useCallback(() => {
         if (isElementDraftTitleFormOpen) {
             return null;
         }
         return `${solutionElement.title} (${solutionElement.elementType})`;
-    };
+    }, [isElementDraftTitleFormOpen, solutionElement]);
 
 
     if (solutionElement === null) {

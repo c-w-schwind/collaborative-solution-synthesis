@@ -10,7 +10,6 @@ const SolutionDraftFooter = ({onDiscardDraft, onSubmitDraft, onPublishSolution, 
     const [isShowingInfo, setIsShowingInfo] = useState(false);
     const [scrollbarWidth] = useState(getScrollbarWidth() || 16); // Initialize in state to prevent transition on mount
 
-
     const location = useLocation();
     const isHidden = location.pathname.split("/").includes("element");
 

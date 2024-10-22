@@ -25,7 +25,7 @@ const useDraftOperations = (solutionProps, isSolutionDraft) => {
         } finally {
             hideLoading();
         }
-    }, [showLoading, hideLoading, addToast, navigate, solutionProps]);
+    }, [showLoading, hideLoading, addToast, navigate, solutionNumber, title]);
 
 
     const handleDiscardDraft = useCallback(() => {
@@ -39,7 +39,7 @@ const useDraftOperations = (solutionProps, isSolutionDraft) => {
             buttonMode: "delete",
             followUp: true
         });
-    }, [showConfirmationModal, solutionProps, deleteDraft, isSolutionDraft]);
+    }, [showConfirmationModal, status, title, deleteDraft, isSolutionDraft]);
 
 
     const submitDraft = useCallback(async () => {
@@ -54,7 +54,7 @@ const useDraftOperations = (solutionProps, isSolutionDraft) => {
         } finally {
             hideLoading();
         }
-    }, [showLoading, hideLoading, solutionProps, addToast, navigate]);
+    }, [showLoading, hideLoading, title, addToast, navigate]);
 
     const handleSubmitDraft = useCallback(() => {
         if (!isSolutionDraft) return;
@@ -68,7 +68,7 @@ const useDraftOperations = (solutionProps, isSolutionDraft) => {
             size: 700,
             followUp: true
         });
-    },[isSolutionDraft, solutionProps, showConfirmationModal, submitDraft]);
+    },[isSolutionDraft, title, showConfirmationModal, submitDraft]);
 
     const publishSolution = useCallback(async () => {
         try {
@@ -82,7 +82,7 @@ const useDraftOperations = (solutionProps, isSolutionDraft) => {
         } finally {
             hideLoading();
         }
-    }, [showLoading, hideLoading, solutionProps, addToast, navigate]);
+    }, [showLoading, hideLoading, title, addToast, navigate]);
 
     const handlePublishSolution = useCallback(() => {
         if (!isSolutionDraft) return;
@@ -96,7 +96,7 @@ const useDraftOperations = (solutionProps, isSolutionDraft) => {
             followUp: true,
             followUpMessage: "Just another test of the follow up message!"
         });
-    },[isSolutionDraft, solutionProps, showConfirmationModal, publishSolution]);
+    },[isSolutionDraft, title, showConfirmationModal, publishSolution]);
 
 
     return {handleDiscardDraft, handleSubmitDraft, handlePublishSolution};
