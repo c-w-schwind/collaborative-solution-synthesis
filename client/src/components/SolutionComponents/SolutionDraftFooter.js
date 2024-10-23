@@ -28,7 +28,7 @@ const SolutionDraftFooter = ({onDiscardDraft, onSubmitDraft, onPublishSolution, 
                     <div className="footer-top">
                         <h2 className="footer-heading">Private Solution Draft</h2>
                         <div className="footer-button-section">
-                            <button className="action-button action-button--discard-draft" onClick={onDiscardDraft} disabled={isFooterDisabled}><img src={DELETE_ICON_SRC} alt="delete draft"/>Discard Draft</button>
+                            <button className="action-button action-button--discard-draft" onClick={onDiscardDraft} disabled={isFooterDisabled}><img src={DELETE_ICON_SRC} alt="delete draft"/>Discard Solution</button>
                             {solutionStatus === "draft" && (<button className="action-button action-button--submit-draft" onClick={onSubmitDraft} disabled={isFooterDisabled}><img src={SUBMIT_ICON_SRC} alt="submit draft"/>Submit for Review</button>)}
                             {solutionStatus === "under_review" && (<button className="action-button action-button--submit-draft" onClick={onPublishSolution} disabled={isFooterDisabled}><img src={SUBMIT_ICON_SRC} alt="submit draft"/>Publish Solution</button>)}
                             <button className="info-button info-button--footer" onClick={handleInfoButtonClick} disabled={isFooterDisabled} aria-expanded={isShowingInfo} aria-controls="footer-info">i</button>

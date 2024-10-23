@@ -306,7 +306,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                 <div className="footer-top">
                     <h2>Solution Element Draft</h2>
                     <div className="solution-element-button-section">
-                        <button className="action-button action-button--discard-draft" onClick={handleDiscardElementDraft}><img src={DELETE_ICON_SRC} alt="delete draft"/> Discard Draft</button>
+                        <button className="action-button action-button--discard-draft" onClick={handleDiscardElementDraft}><img src={DELETE_ICON_SRC} alt="delete draft"/> Discard Element</button>
                         {!isSolutionDraft && solutionElement.status === "draft" && <button className="action-button action-button--submit-draft" onClick={handleSubmitElementDraft}><img src={SUBMIT_ICON_SRC} alt="submit draft"/> Submit Proposal</button>}
                         {!isSolutionDraft && solutionElement.status === "under_review" && <button className="action-button action-button--submit-draft" onClick={handlePublishElement}><img src={SUBMIT_ICON_SRC} alt="submit draft"/> Submit Proposal</button>}
                         <button className="info-button info-button--footer" onClick={handleInfoButtonClick} aria-expanded={isShowingInfo} aria-controls="modal-footer-info">i</button>
