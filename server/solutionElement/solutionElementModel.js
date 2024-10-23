@@ -53,6 +53,10 @@ const solutionElementSchema = new mongoose.Schema({
         ref: 'SolutionElement',
         required: false
     },
+    changeSummary: {
+        type: String,
+        required: false
+    }
     /*addressing: [{    //TODO: if primary: challengeAspectsIds; if secondary: primaryElementsIds
         type: mongoose.Schema.Types.ObjectId,
         ref: ''

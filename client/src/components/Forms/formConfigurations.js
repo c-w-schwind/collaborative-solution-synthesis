@@ -11,6 +11,7 @@ export const formConfigurations = {
     draftTitleForm: {fields: [{name: 'title', type: 'text', validation: {required: true}, height: "40px"}]},
     draftOverviewForm: {fields: [{name: 'overview', type: 'textarea', validation: {required: true}, height: "200px"}]},
     draftDescriptionForm: {fields: [{name: 'description', type: 'textarea', validation: {required: true}, height: "250px"}]},
+    draftChangeSummaryForm: {fields: [{name: 'changeSummary', type: 'textarea', validation: {required: true}, height: "250px"}]},
     elementForm: {
         title: "Solution Element Proposal",
         fields: [

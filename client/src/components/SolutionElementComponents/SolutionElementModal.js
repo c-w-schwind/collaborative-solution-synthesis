@@ -23,6 +23,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
     const [isElementDraft, setIsElementDraft] = useState(false);
+    const [isChangeProposal, setIsChangeProposal] = useState(false);
     const [isShowingInfo, setIsShowingInfo] = useState(false);
 
     const {setElementListChange, isSolutionDraft} = useGlobal();
@@ -37,9 +38,10 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         elementDraftTitleFormData, setElementDraftTitleFormData,
         elementDraftOverviewFormData, setElementDraftOverviewFormData,
         elementDraftDescriptionFormData, setElementDraftDescriptionFormData,
-        toggleElementDraftTitleForm, toggleElementDraftOverviewForm, toggleElementDraftDescriptionForm,
-        isElementDraftTitleFormOpen, isElementDraftOverviewFormOpen, isElementDraftDescriptionFormOpen,
-        isElementDraftTitleFormFilled, isElementDraftOverviewFormFilled, isElementDraftDescriptionFormFilled
+        elementDraftChangeSummaryFormData, setElementDraftChangeSummaryFormData,
+        toggleElementDraftTitleForm, toggleElementDraftOverviewForm, toggleElementDraftDescriptionForm, toggleElementDraftChangeSummaryForm,
+        isElementDraftTitleFormOpen, isElementDraftOverviewFormOpen, isElementDraftDescriptionFormOpen, isElementDraftChangeSummaryFormOpen,
+        isElementDraftTitleFormFilled, isElementDraftOverviewFormFilled, isElementDraftDescriptionFormFilled, isElementDraftChangeSummaryFormFilled
     } = useFormData();
 
     const titleRef = useRef(null);
@@ -51,6 +53,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
             const elementData = await handleRequest("GET", "element", elementNumber);
             setSolutionElement(elementData);
             setIsElementDraft(elementData.status === "draft" || elementData.status === "under_review");
+            setIsChangeProposal(Boolean(elementData.changeProposalFor) && ["draft", "under_review", "proposal"].includes(elementData.status));
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {
@@ -131,6 +134,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     const handleTitleEditSubmit = useCallback((formData) => handleEditSubmit(formData, "Solution Element Title", toggleElementDraftTitleForm, {title: formData.title}), [handleEditSubmit, toggleElementDraftTitleForm]);
     const handleOverviewEditSubmit = useCallback((formData) => handleEditSubmit(formData, "Solution Element Overview", toggleElementDraftOverviewForm, {overview: formData.overview}), [handleEditSubmit, toggleElementDraftOverviewForm]);
     const handleDescriptionEditSubmit = useCallback((formData) => handleEditSubmit(formData, "Solution Element Description", toggleElementDraftDescriptionForm, {description: formData.description}), [handleEditSubmit, toggleElementDraftDescriptionForm]);
+    const handleChangeSummaryEditSubmit = useCallback((formData) => handleEditSubmit(formData, "Solution Element Change Summary", toggleElementDraftChangeSummaryForm, {changeSummary: formData.changeSummary}), [handleEditSubmit, toggleElementDraftChangeSummaryForm]);
 
     const handleTitleEditButton = useCallback(() => {
         if (!isElementDraftTitleFormFilled) {
@@ -152,6 +156,13 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         }
         toggleElementDraftDescriptionForm(false);
     }, [isElementDraftDescriptionFormFilled, setElementDraftDescriptionFormData, solutionElement, toggleElementDraftDescriptionForm]);
+
+    const handleChangeSummaryEditButton = useCallback(() => {
+        if (!isElementDraftChangeSummaryFormFilled) {
+            setElementDraftChangeSummaryFormData({changeSummary: solutionElement.changeSummary});
+        }
+        toggleElementDraftChangeSummaryForm(false);
+    }, [isElementDraftChangeSummaryFormFilled, setElementDraftChangeSummaryFormData, solutionElement, toggleElementDraftChangeSummaryForm]);
 
     const handleInfoButtonClick = useCallback(() => {
         setIsShowingInfo(prev => !prev);
@@ -227,7 +238,26 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
             <div className={`element-modal-footer-overlay ${isShowingInfo ? "element-modal-footer-overlay-active" : ""}`} onClick={() => setIsShowingInfo(false)}></div>
 
             <div className="modal-container-scrollable" style={isShowingInfo ? {maxHeight: "30vh"} : {}}>
-                <div className="element-details-container" style={{marginTop: 0}}>
+
+                {isChangeProposal && <div className="element-details-container summary">
+                    <h3 className="solution-details-list-container-title">Summary of Proposed Changes</h3>
+                    {!isElementDraft || !isElementDraftChangeSummaryFormOpen ? (
+                        <p>{solutionElement.changeSummary}</p>
+                    ) : (<div className="draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                            <GenericForm
+                                onSubmit={handleChangeSummaryEditSubmit}
+                                config={formConfigurations.draftChangeSummaryForm}
+                                formData={elementDraftChangeSummaryFormData}
+                                setFormData={setElementDraftChangeSummaryFormData}
+                                previousData={solutionElement}
+                                onCancel={toggleElementDraftChangeSummaryForm}
+                            />
+                        </div>
+                    )}
+                    {isElementDraft && renderEditButton(isElementDraftChangeSummaryFormOpen, handleChangeSummaryEditButton, "Edit Summary")}
+                </div>}
+
+                <div className="element-details-container">
                     <h3 className={"solution-details-list-container-title"}>Overview</h3>
                     {!isElementDraft || !isElementDraftOverviewFormOpen ? (
                         <p>{solutionElement.overview}</p>

@@ -23,7 +23,7 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
     // Handle element list updates based on outside element draft changes (from modal)
     useEffect(() => {
         if (elementListChange) {
-            const {changeType, elementNumber, title, overview, change_summary} = elementListChange;
+            const {changeType, elementNumber, title, overview, changeSummary} = elementListChange;
 
             if (changeType === "delete") {
                 setLocalElements(prevElements => prevElements.filter(el => el.elementNumber !== elementNumber));
@@ -35,7 +35,7 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
                             ...el,
                             ...(title ? {title} : {}),
                             ...(overview ? {overview} : {}),
-                            ...(change_summary ? {change_summary} : {})
+                            ...(changeSummary ? {changeSummary} : {})
                         } : el
                     )
                 ));

@@ -156,7 +156,12 @@
     background-color: #e9ecef;
     padding: 15px 20px;
     border-radius: 8px;
-    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.element-details-container.summary {
+    background-color: rgba(230, 230, 250, 0.2);
+    box-shadow: inset 0 0 150px 34px rgba(182, 182, 255, 0.25);
 }
 
 .element-details-container h3 {

@@ -6,7 +6,7 @@ const GlobalContext = createContext();
  * - elementListChange: Object to handle optimistic solution element list updates
  *    - changeType ('delete' or 'update')
  *    - elementNumber
- *    - changeType 'update': add additional field that is relevant to element card display (title, overview, change_summary)
+ *    - changeType 'update': add additional field that is relevant to element card display (title, overview, changeSummary)
  */
 export const GlobalProvider = ({children}) => {
     const [isSolutionDraft, setIsSolutionDraft] = useState(false);
