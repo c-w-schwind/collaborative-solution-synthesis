@@ -63,10 +63,22 @@ function SolutionListPage() {
             ) : (
                 <div className="solution-list">
                     {solutions.map(solution => (
-                        <SolutionCard
-                            key={solution._id}
-                            solution={solution}
-                        />
+                        <div key={solution._id}>
+                            <SolutionCard
+                                solution={solution}
+                            />
+                            {solution.changeProposals && solution.changeProposals.length > 0 && (
+                                <div>
+                                    {solution.changeProposals.map(cp => (
+                                        <SolutionCard
+                                            key={cp._id}
+                                            solution={cp}
+                                            isChangeProposal={true}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     ))}
                 </div>
             )}

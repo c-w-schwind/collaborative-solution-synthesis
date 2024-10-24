@@ -16,15 +16,38 @@ const solutionRoutes = express.Router();
 
 // Get all Solutions
 solutionRoutes.get("/solutions", authenticateToken({required: false}), asyncHandler(async (req, res) => {
-    let query = {status: "public"};
+    // Fetch solutions based on user access
+    const publicStatuses = ["public", "proposal"];
+    let query;
+
     if (req.user) {
-        query = {$or: [{status: "public"}, {authorizedUsers: req.user._id}]};
+        query = {
+            $or: [
+                {status: {$in: publicStatuses}},
+                {authorizedUsers: req.user._id}
+            ]
+        };
+    } else {
+        query = {status: {$in: publicStatuses}};
     }
 
     const solutions = await Solution.find(query)
         .populate("proposedBy", "username")
-        .sort({status: 1}); // Sorting draft status first to display drafts at the top of the solutions list page
-    res.status(200).send(solutions);
+        .sort({status: 1, solutionNumber: 1}) // Sort by status and solutionNumber
+        .lean();
+
+    // Separating main solutions, change proposals, and drafts
+    const drafts = solutions.filter(sol => sol.status === "draft");
+    const mainSolutions = solutions.filter(sol => sol.status !== "draft" && !(sol.changeProposalFor && ["under_review", "proposal"].includes(sol.status)));
+    const changeProposals = solutions.filter(sol => sol.changeProposalFor && ["under_review", "proposal"].includes(sol.status));
+
+    // Adding change proposals to associated solutions
+    mainSolutions.forEach(sol => {
+        sol.changeProposals = changeProposals.filter(cp => cp.changeProposalFor.toString() === sol._id.toString())
+    });
+
+    const sortedSolutionList = [...drafts, ...mainSolutions];
+    res.status(200).send(sortedSolutionList);
 }));
 
 
@@ -40,24 +63,31 @@ solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: fa
     const solution = req.entity;
 
     // Fetch Solution Elements based on user access
-    const elementQuery = {parentSolutionId: solution._id};
     const publicStatuses = ["proposal", "accepted"];
+    let elementQuery;
 
     if (req.user) {
-        elementQuery.$or = [
-            {status: {$in: publicStatuses}},
-            {status: {$in: ["draft", "under_review"]}, authorizedUsers: req.user._id}
-        ];
+        elementQuery = {
+            parentSolutionId: solution._id,
+            $or: [
+                {status: {$in: publicStatuses}},
+                {status: {$in: ["draft", "under_review"]}, authorizedUsers: req.user._id}
+            ]
+        };
     } else {
-        elementQuery.status = {$in: publicStatuses};
+        elementQuery = {
+            parentSolutionId: solution._id,
+            status: {$in: publicStatuses}
+        };
     }
 
     const retrievedElements = await SolutionElement.find(elementQuery).select("_id elementNumber title elementType overview status changeProposalFor changeSummary").lean();
 
-    // Separating main elements and change proposals
+    // Separating main elements, change proposals, and drafts
     const mainElements = retrievedElements.filter(el => el.status !== "draft" && !(el.changeProposalFor && ["under_review", "proposal"].includes(el.status)));
-    const changeProposals = retrievedElements.filter(el => ["under_review", "proposal"].includes(el.status) && el.changeProposalFor);
+    const changeProposals = retrievedElements.filter(el => el.changeProposalFor && ["under_review", "proposal"].includes(el.status));
 
+    // Adding change proposals to associated elements
     solution.solutionElements = mainElements.map(element => ({
         ...element,
         changeProposals: changeProposals.filter(cp => cp.changeProposalFor.toString() === element._id.toString())

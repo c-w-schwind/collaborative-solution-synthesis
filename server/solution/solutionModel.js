@@ -8,7 +8,7 @@ const solutionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["draft", "under_review", "public"],
+        enum: ["draft", "under_review", "proposal", "public", "deprecated"],
         default: "draft",
         required: true
     },
@@ -42,6 +42,15 @@ const solutionSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+    changeProposalFor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Solution",
+        required: false
+    },
+    changeSummary: {
+        type: String,
+        required: false
     }
 }, {timestamps: true});
 

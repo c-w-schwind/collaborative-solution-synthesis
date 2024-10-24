@@ -1,11 +1,11 @@
 .solution-card {
     border: 1px solid #ccc;
     padding: 15px;
-    margin: 10px auto;
+    margin: 15px auto;
     border-radius: 8px;
     max-width: 50vw;
     min-width: 800px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     background-color: #fff;
     display: flex;
     flex-direction: column;
@@ -13,8 +13,29 @@
 }
 
 .solution-card.draft {
+    background-color: rgb(246, 197, 189);
+    margin: 0 auto 30px;
+    border: 4px solid white;
+}
+
+.solution-card.change-proposal {
     background-color: lavender;
-    margin: 0 auto 40px;
+    border: 4px solid white;
+    transform: translateX(20px);
+    max-width: calc(50vw - 60px);
+    min-width: 720px;
+    margin: -12px auto 0;
+    border-radius: 0 0 8px 8px;
+}
+
+.solution-card.new-element-proposal {
+    background-color: rgba(207, 227, 243, 0.5);
+    border: 4px solid white;
+}
+
+.solution-card.review {
+    background-color: rgb(246, 197, 189);
+    border: 4px dashed white;
 }
 
 .solution-card-header {
@@ -22,6 +43,13 @@
     display: flex;
     justify-content: space-between;
     padding-left: 10px;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: start;
 }
 
 .solution-title {
@@ -36,6 +64,13 @@
     margin-bottom: 15px;
  }
 
+.solution-card-type-info {
+    font-style: italic;
+    font-weight: lighter;
+    color: black;
+    height: 25px;
+}
+
 .header-right {
     position: relative;
     right: 0;
@@ -48,6 +83,7 @@
 .active-components {
     position: absolute;
     top: 23px;
+    min-width: 150px;
 }
 
 .solution-timestamp, .active-components {
