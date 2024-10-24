@@ -18,40 +18,48 @@ const SolutionElementCard = ({element, onToggleDiscussionSpace, isDiscussionSpac
     }, [navigate, element.elementNumber]);
 
     const handleTransitionEnd = useCallback((event) => {
-        if (event.propertyName === 'opacity') {
-            const discussionSpaceContainer = document.querySelector('.discussion-space-container');
+        if (event.propertyName === "opacity") {
+            const discussionSpaceContainer = document.querySelector(".discussion-space-container");
             if (discussionSpaceContainer) {
-                discussionSpaceContainer.removeEventListener('transitionend', handleTransitionEnd);
+                discussionSpaceContainer.removeEventListener("transitionend", handleTransitionEnd);
             }
             setTimeout(navigateToElement, 5);
         }
     }, [navigateToElement]);
 
     const handleClick = useCallback(() => {
-        if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkSolutionDraftTitleForm: true, checkSolutionDraftOverviewForm: true, checkSolutionDraftDescriptionForm: true, saveElementFormData: true})) {
+        if (canNavigate({
+            checkConsiderationForm: true,
+            checkCommentForm: true,
+            checkDiscussionSpaceForm: true,
+            checkSolutionDraftTitleForm: true,
+            checkSolutionDraftOverviewForm: true,
+            checkSolutionDraftDescriptionForm: true,
+            saveElementFormData: true
+        })) {
             if (!isDiscussionSpaceOpen) {
                 navigateToElement();
             } else {
                 onToggleDiscussionSpace(false);
-                const discussionSpaceContainer = document.querySelector('.discussion-space-container');
+                const discussionSpaceContainer = document.querySelector(".discussion-space-container");
                 if (discussionSpaceContainer) {
-                    discussionSpaceContainer.addEventListener('transitionend', handleTransitionEnd);
+                    discussionSpaceContainer.addEventListener("transitionend", handleTransitionEnd);
                 }
             }
         }
     }, [canNavigate, isDiscussionSpaceOpen, navigateToElement, onToggleDiscussionSpace, handleTransitionEnd]);
 
     const getCardClasses = () => {
-        let classes = 'solution-element-card ';
+        let classes = "solution-element-card ";
 
         if (isDraft) {
-            classes += isSolutionDraft ? 'new-element-proposal' : 'draft';
+            classes += isSolutionDraft ? "new-element-proposal" : "draft";
         } else if (isUnderReview) {
-            classes += isChangeProposal ? 'change-proposal review' : 'review';
+            classes += isChangeProposal ? "change-proposal review" : "review";
         } else if (isActiveProposal) {
-            classes += 'new-element-proposal';
+            classes += "new-element-proposal";
         } else if (isChangeProposal) {
-            classes += 'change-proposal';
+            classes += "change-proposal";
         }
 
         return classes;

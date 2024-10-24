@@ -3,6 +3,7 @@ import {useCallback, useEffect, useState} from "react";
 import SolutionCard from "./SolutionCard";
 import SolutionInput from "./SolutionInput";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
+import {handleRequest} from "../../services/solutionApiService";
 
 function SolutionListPage() {
     const [solutions, setSolutions] = useState(null);
@@ -12,19 +13,7 @@ function SolutionListPage() {
 
     const fetchSolutions = useCallback(async () => {
         try {
-            const token = localStorage.getItem("token");
-
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/solutions`, {
-                headers: token
-                    ? {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}
-                    : {}
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const solutions = await response.json();
+            const solutions = await handleRequest("GET", "solution");
             setSolutions(solutions);
             setRetryCount(0);
             setErrorMessage("");
@@ -52,6 +41,7 @@ function SolutionListPage() {
         setRetryCount(1);
         setErrorMessage("");
     };
+
 
     if (solutions == null || errorMessage) {
         return (

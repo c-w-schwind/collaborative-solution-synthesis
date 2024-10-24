@@ -57,9 +57,9 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 .cancel-button:active {background: linear-gradient(125deg, #c1c8cc, #979c9f);}
 
 
-.discussion-space-button {background-color: #7935cc;}
-.discussion-space-button:hover {background-color: #5c1fa8;}
-.discussion-space-button:active {background-color: #4c1a8a;}
+.discussion-space-button {background: linear-gradient(125deg, #a75dec, #6726ce);}
+.discussion-space-button:hover {background: linear-gradient(125deg, #9553d3, #521DA6FF);}
+.discussion-space-button:active {background: linear-gradient(125deg, #8046b6, #451A8AFF);}
 
 .action-button--propose-changes {background: linear-gradient(125deg, #6b8be1, #3866de);}
 .action-button--propose-changes:hover {background: linear-gradient(125deg, #5772bb, #2f56bb);}
@@ -114,6 +114,7 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 
 .draft-edit-button {
   display: flex;
+  padding: 17px 15px 16px;
   align-content: center;
   justify-content: center;
   align-items: center;

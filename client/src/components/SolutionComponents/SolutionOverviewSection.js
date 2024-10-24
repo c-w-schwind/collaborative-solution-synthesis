@@ -117,17 +117,19 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                     )}
                 </h2>
 
-                <button className="discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
-
-                <div ref={metaRef} className="meta-button-container">
-                    <button className={`info-button ${showMeta ? "active" : ""}`} onClick={handleMetaButtonClick}>i</button>
-                    {showMeta && (
-                        <div className="solution-overview-meta">
-                            <span className="proposed-by">Proposed by: {solution.proposedBy.username}</span>
-                            <span className="created-at">Created at: {isSolutionDraft ? "[unpublished]" : new Date(solution.createdAt).toLocaleDateString()}</span>
-                            <span className="updated-at">Last Updated: {isSolutionDraft ? "[unpublished]" : new Date(solution.updatedAt).toLocaleDateString()}</span>
-                        </div>
-                    )}
+                <div className="solution-element-button-section">
+                    {!isSolutionDraft && <button className="action-button action-button--propose-changes">Propose Changes</button>}
+                    <button className="action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
+                    <div ref={metaRef} className="meta-button-container">
+                        <button className={`action-button info-button ${showMeta ? "active" : ""}`} style={{padding: "8px 15px"}} onClick={handleMetaButtonClick}>i</button>
+                        {showMeta && (
+                            <div className="solution-overview-meta">
+                                <span className="proposed-by">Proposed by: {solution.proposedBy.username}</span>
+                                <span className="created-at">Created at: {isSolutionDraft ? "[unpublished]" : new Date(solution.createdAt).toLocaleDateString()}</span>
+                                <span className="updated-at">Last Updated: {isSolutionDraft ? "[unpublished]" : new Date(solution.updatedAt).toLocaleDateString()}</span>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
