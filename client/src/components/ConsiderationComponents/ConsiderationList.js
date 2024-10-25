@@ -71,7 +71,7 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
                                 ))}
                             </div>
                         ) : (
-                            <p>No "{stance}" considerations yet.</p>
+                            <p className="solution-overview-section-text">No "{stance}" considerations yet.</p>
                         ))}
                     </div>
                 )

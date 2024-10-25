@@ -70,7 +70,6 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
                                                 element={proposal}
                                                 onToggleDiscussionSpace={onToggleDiscussionSpace}
                                                 isDiscussionSpaceOpen={isDiscussionSpaceOpen}
-                                                isChangeProposal={true}
                                             />
                                         ))}
                                     </div>
@@ -92,7 +91,7 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
                     </div>}
                 </div>
             ) : (
-                <div>No solution elements proposed yet.</div>
+                <div className="solution-overview-section-text">No solution elements proposed yet.</div>
             )}
             <SolutionElementInput
                 onSuccessfulSubmit={handleSubmit}
