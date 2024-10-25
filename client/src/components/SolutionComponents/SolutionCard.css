@@ -26,6 +26,7 @@
     min-width: 720px;
     margin: -12px auto 0;
     border-radius: 0 0 8px 8px;
+    border-top: none;
 }
 
 .solution-card.new-element-proposal {
@@ -36,6 +37,10 @@
 .solution-card.review {
     background-color: rgb(246, 197, 189);
     border: 4px dashed white;
+}
+
+.solution-card.review-change-proposal {
+    border-top: none;
 }
 
 .solution-card-header {
@@ -61,7 +66,7 @@
     flex: 3;
     padding-bottom: 20px;
     padding-top: 4px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
  }
 
 .solution-card-type-info {

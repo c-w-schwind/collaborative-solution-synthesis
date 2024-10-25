@@ -11,6 +11,7 @@ import {useLoading} from "../../context/LoadingContext";
 
 const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace}) => {
     const [showMeta, setShowMeta] = useState(false);
+    const isChangeProposal = Boolean(solution.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution.status);
 
     const {isSolutionDraft} = useGlobal();
     const {showLoading, hideLoading} = useLoading();
@@ -18,9 +19,10 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
         solutionDraftTitleFormData, setSolutionDraftTitleFormData,
         solutionDraftOverviewFormData, setSolutionDraftOverviewFormData,
         solutionDraftDescriptionFormData, setSolutionDraftDescriptionFormData,
-        toggleSolutionDraftTitleForm, toggleSolutionDraftOverviewForm, toggleSolutionDraftDescriptionForm,
-        isSolutionDraftTitleFormOpen, isSolutionDraftOverviewFormOpen, isSolutionDraftDescriptionFormOpen,
-        isSolutionDraftTitleFormFilled, isSolutionDraftOverviewFormFilled, isSolutionDraftDescriptionFormFilled
+        solutionDraftChangeSummaryFormData, setSolutionDraftChangeSummaryFormData,
+        toggleSolutionDraftTitleForm, toggleSolutionDraftOverviewForm, toggleSolutionDraftDescriptionForm, toggleSolutionDraftChangeSummaryForm,
+        isSolutionDraftTitleFormOpen, isSolutionDraftOverviewFormOpen, isSolutionDraftDescriptionFormOpen, isSolutionDraftChangeSummaryFormOpen,
+        isSolutionDraftTitleFormFilled, isSolutionDraftOverviewFormFilled, isSolutionDraftDescriptionFormFilled, isSolutionDraftChangeSummaryFormFilled
     } = useFormData();
 
     const metaRef = useOutsideClick(() => setShowMeta(false));
@@ -47,6 +49,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
     const handleTitleEditSubmit = (formData) => handleEditSubmit(formData, "Solution Title", toggleSolutionDraftTitleForm);
     const handleOverviewEditSubmit = (formData) => handleEditSubmit(formData, "Solution Overview", toggleSolutionDraftOverviewForm);
     const handleDescriptionEditSubmit = (formData) => handleEditSubmit(formData, "Solution Description", toggleSolutionDraftDescriptionForm);
+    const handleChangeSummaryEditSubmit = (formData) => handleEditSubmit(formData, "Solution Change Summary", toggleSolutionDraftChangeSummaryForm);
 
     const handleTitleEditButton = () => {
         if (!isSolutionDraftTitleFormFilled) {
@@ -67,6 +70,13 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
             setSolutionDraftDescriptionFormData({description: solution.description});
         }
         toggleSolutionDraftDescriptionForm(false);
+    }
+
+    const handleChangeSummaryEditButton = () => {
+        if (!isSolutionDraftChangeSummaryFormFilled) {
+            setSolutionDraftChangeSummaryFormData({changeSummary: solution.changeSummary});
+        }
+        toggleSolutionDraftChangeSummaryForm(false);
     }
 
     const handleMetaButtonClick = () => setShowMeta(prev => !prev);
@@ -132,6 +142,27 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                     </div>
                 </div>
             </div>
+
+            {isChangeProposal && <div className="solution-overview-and-details-container summary">
+                <h3 className="solution-details-list-container-title">Summary of Proposed Changes</h3>
+                {!isSolutionDraft || !isSolutionDraftChangeSummaryFormOpen ? (
+                    <p className="solution-overview-section-text">{solution.changeSummary}</p>
+                ) : (
+                    <div className="draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                        <GenericForm
+                            onSubmit={handleChangeSummaryEditSubmit}
+                            config={formConfigurations.draftChangeSummaryForm}
+                            formData={solutionDraftChangeSummaryFormData}
+                            setFormData={setSolutionDraftChangeSummaryFormData}
+                            previousData={solution}
+                            onCancel={toggleSolutionDraftOverviewForm}
+                        />
+                    </div>
+                )}
+
+                {isSolutionDraft && renderEditButton(isSolutionDraftChangeSummaryFormOpen, handleChangeSummaryEditButton, "Edit Summary")}
+            </div>}
+
 
             <div className="solution-overview-and-details-container">
                 <h3 className="solution-details-list-container-title">Overview</h3>

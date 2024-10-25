@@ -73,7 +73,6 @@ function SolutionListPage() {
                                         <SolutionCard
                                             key={cp._id}
                                             solution={cp}
-                                            isChangeProposal={true}
                                         />
                                     ))}
                                 </div>

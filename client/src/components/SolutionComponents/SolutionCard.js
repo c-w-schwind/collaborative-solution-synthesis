@@ -4,11 +4,12 @@ import {useNavigate} from "react-router-dom";
 import {formatToGermanTimezone} from "../../utils/utils";
 
 
-function SolutionCard({solution, isChangeProposal = false}) {
+function SolutionCard({solution}) {
     const {canNavigate} = useFormData();
     const navigate = useNavigate();
     const isDraft = solution.status === "draft";
     const isUnderReview = solution.status === "under_review";
+    const isChangeProposal = Boolean(solution.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution.status) ;
 
     const handleDetailsClick = () => {
         if (canNavigate({checkSolutionForm: true})) navigate(`/solutions/${solution.solutionNumber}`);
@@ -19,24 +20,36 @@ function SolutionCard({solution, isChangeProposal = false}) {
 
         if (isDraft) {
             classes += "draft";
-        } else if (isChangeProposal) {
-            classes += !isUnderReview ? "change-proposal" : "change-proposal review";
         } else if (isUnderReview) {
-            classes += "review";
+            classes += isChangeProposal ? "change-proposal review review-change-proposal" : "review";
+        } else if (isChangeProposal) {
+            classes += "change-proposal";
         }
 
         return classes;
     };
 
+    const getTypeInfo = () => {
+        if (!(isChangeProposal || isUnderReview || isDraft)) {
+            return null;
+        }
+
+        const cardType = isChangeProposal ? "Change Proposal" : "New Solution";
+        let statusInfo = isUnderReview ? " - Under Review" : isDraft ? " - Private Draft" : "";
+
+        return <div className="solution-card-type-info">{cardType + statusInfo}</div>
+    }
+
+
     return (
         <article className={getCardClasses()}>
             <header className="solution-card-header">
                 <div className="header-left">
-                    {(isChangeProposal || isUnderReview || isDraft) && <div className="solution-card-type-info">{(isUnderReview ? "- Under Review -" : isChangeProposal ? "- Change Proposal -\n" : isDraft ? "- Private Draft -\n\n" : "")}</div>}
-                    <div className="solution-title" style={(isChangeProposal || isUnderReview || isDraft) ? {marginBottom: 5} : {}}>{solution.title}</div>
+                    {getTypeInfo()}
+                    <div className="solution-title">{solution.title}</div>
                 </div>
                 <div className="header-right">
-                    <div className="solution-timestamp">{isChangeProposal ?  "Proposed at: " : "Last Updated: "}{formatToGermanTimezone(solution.updatedAt)}</div>
+                    <div className="solution-timestamp">{isChangeProposal && solution.status === "proposal" ?  "Proposed at: " : "Last Updated: "}{formatToGermanTimezone(solution.updatedAt)}</div>
                     <div className="active-components">
                         <div>Solution Elements: {solution.activeSolutionElementsCount}</div>
                         <div>Considerations: {solution.activeConsiderationsCount}</div>
@@ -44,7 +57,7 @@ function SolutionCard({solution, isChangeProposal = false}) {
                 </div>
             </header>
             <section className="solution-body">
-                <div className="solution-content">{!isChangeProposal ? solution.overview : solution.changeSummary}</div>
+                <div className="solution-content">{isChangeProposal ? solution.changeSummary : solution.overview}</div>
                 <div className="solution-interactions">
                     <button
                         className={!isDraft ? "details-button" : "draft-edit-button"}
