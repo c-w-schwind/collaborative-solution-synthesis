@@ -136,14 +136,14 @@ const withDiscussionSpace = (WrappedComponent, entityType) => {
 
 
         const handleFullScreenButton = useCallback(() => {
-            if (canNavigate({checkSolutionDraftTitleForm: true, checkSolutionDraftOverviewForm: true, checkSolutionDraftDescriptionForm: true, checkElementForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true, checkConsiderationForm: true, checkCommentForm: true, saveDiscussionSpaceData: true})) {
+            if (canNavigate({checkSolutionDraftTitleForm: true, checkSolutionDraftChangeSummaryForm: true, checkSolutionDraftOverviewForm: true, checkSolutionDraftDescriptionForm: true, checkElementForm: true, checkElementDraftTitleForm: true, checkElementDraftChangeSummaryForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true, checkConsiderationForm: true, checkCommentForm: true, saveDiscussionSpaceData: true})) {
                 navigate("./discussionSpace/fullscreen", {state: {entityTitle}});
             }
         }, [canNavigate, navigate, entityTitle]);
 
 
         const handleClosingModal = useCallback(() => {
-            if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
+            if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftChangeSummaryForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
                 setIsModalOpen(false);
                 requestSolutionRefetch();
                 const modalElement = document.querySelector(".overlay");

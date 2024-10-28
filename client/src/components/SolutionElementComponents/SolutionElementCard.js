@@ -42,6 +42,7 @@ const SolutionElementCard = ({element, onToggleDiscussionSpace, isDiscussionSpac
             checkCommentForm: true,
             checkDiscussionSpaceForm: true,
             checkSolutionDraftTitleForm: true,
+            checkSolutionDraftChangeSummaryForm: true,
             checkSolutionDraftOverviewForm: true,
             checkSolutionDraftDescriptionForm: true,
             saveElementFormData: true
