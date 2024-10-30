@@ -2,15 +2,13 @@ import "./ConsiderationList.css";
 import ConsiderationCard from "./ConsiderationCard";
 import {useEffect, useState} from "react";
 import ConsiderationInput from "./ConsiderationInput";
-import {useGlobal} from "../../context/GlobalContext";
 
-const ConsiderationList = ({considerations: initialConsiderations, parentType, parentNumber}) => {
+const ConsiderationList = ({considerations: initialConsiderations, parentType, parentNumber, onSuccessfulSubmit}) => {
     const [considerations, setConsiderations] = useState(initialConsiderations);
     const [visibility, setVisibility] = useState({Pro: true, Con: true, Neutral: true});
 
     const stances = Object.entries(considerations);
 
-    const {requestSolutionRefetch} = useGlobal();
 
     useEffect(() => {
         setConsiderations(initialConsiderations);
@@ -38,15 +36,14 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
             ...prev,
             [newConsideration.stance]: [...prev[newConsideration.stance], newConsideration]
         }));
-        requestSolutionRefetch();
+        onSuccessfulSubmit();
     }
 
     return (
         <div className="solution-details-list-container">
             <h3 className="solution-details-list-container-title">Considerations</h3>
 
-            {stances.length > 0 && stances.map(([stance, stanceSet]) => {
-                return (
+            {stances.length > 0 && stances.map(([stance, stanceSet]) => (
                     <div key={stance} className={`consideration-container ${stance.toLowerCase()}`}>
                         <div className="consideration-header">
                             <h3 className="consideration-header-title">
@@ -75,7 +72,7 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
                         ))}
                     </div>
                 )
-            })}
+            )}
             <ConsiderationInput
                 onSuccessfulSubmit={handleSuccessfulSubmit}
                 parentType={parentType}
