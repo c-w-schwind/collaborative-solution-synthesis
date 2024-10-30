@@ -5,12 +5,13 @@ import {useNavigate} from "react-router-dom";
 import {useGlobal} from "../../context/GlobalContext";
 
 
-const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, isDiscussionSpaceOpen, parentNumber}) => {
+const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, isDiscussionSpaceOpen, parentNumber, isUserAuthor}) => {
     const [localElements, setLocalElements] = useState(elements);
     const [localElementDrafts, setLocalElementDrafts] = useState(elementDrafts);
 
     const {isSolutionDraft, elementListChange, setElementListChange} = useGlobal();
     const navigate = useNavigate();
+
 
     useEffect(() => {
         setLocalElements(elements);
@@ -44,10 +45,12 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
         }
     }, [elementListChange, setElementListChange]);
 
+
     const handleSubmit = useCallback((newElement) => {
         setLocalElementDrafts(prevElements => [...prevElements, newElement]);
         navigate(`element/${newElement.elementNumber}`, {state: {fromCreation: true}});
     }, [navigate]);
+
 
     return (
         <div className="solution-details-list-container">
@@ -93,10 +96,10 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
             ) : (
                 <div className="solution-overview-section-text">No solution elements proposed yet.</div>
             )}
-            <SolutionElementInput
+            {((isSolutionDraft && isUserAuthor) || !isSolutionDraft) && <SolutionElementInput
                 onSuccessfulSubmit={handleSubmit}
                 parentNumber={parentNumber}
-            />
+            />}
         </div>
     );
 };

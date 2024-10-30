@@ -5,8 +5,9 @@ import SolutionOverviewSection from "./SolutionOverviewSection";
 import SolutionElementList from "../SolutionElementComponents/SolutionElementList";
 import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
-import {useGlobal} from "../../context/GlobalContext";
 import SolutionDraftFooter from "./SolutionDraftFooter";
+import {useGlobal} from "../../context/GlobalContext";
+import {useAuth} from "../../context/AuthContext";
 import {getScrollbarWidth} from "../../utils/utils";
 import {handleRequest} from "../../services/solutionApiService";
 import useDraftOperations from "../../hooks/useDraftOperations";
@@ -26,6 +27,10 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
         {solutionNumber: solution?.solutionNumber, title: solution?.title, status: solution?.status},
         isSolutionDraft
     );
+    const {user} = useAuth();
+    const isUserAuthor = user?._id === solution?.proposedBy?._id;
+    const isChangeProposal = Boolean(solution?.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution?.status);
+
 
     const fetchSolutionData = useCallback(async () => {
         try {
@@ -111,6 +116,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                             solution={solution}
                             setSolution={setSolution}
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
+                            isUserAuthor={isUserAuthor}
                         />
                         <SolutionElementList
                             elements={solution.solutionElements}
@@ -118,11 +124,13 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
                             isDiscussionSpaceOpen={isDiscussionSpaceOpen}
                             parentNumber={solutionNumber}
+                            isUserAuthor={isUserAuthor}
                         />
                         <ConsiderationList
                             considerations={solution.considerations}
                             parentType={"Solution"}
                             parentNumber={solutionNumber}
+                            onSuccessfulSubmit={fetchSolutionData}
                         />
                     </div>
                 </div>
@@ -135,6 +143,8 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                     onPublishSolution={handlePublishSolution}
                     solutionStatus={solution.status}
                     isFooterDisabled={isFooterDisabled}
+                    isUserAuthor={isUserAuthor}
+                    isChangeProposal={isChangeProposal}
                 />}
             </>
         ) : (

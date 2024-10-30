@@ -65,7 +65,7 @@ const SolutionElementCard = ({element, onToggleDiscussionSpace, isDiscussionSpac
         if (isDraft) {
             classes += isSolutionDraft ? "new-element-proposal" : "draft";
         } else if (isUnderReview) {
-            classes += isChangeProposal ? "change-proposal review change-proposal-review" : "review";
+            classes += isSolutionDraft ? "new-element-proposal" : isChangeProposal ? "change-proposal review change-proposal-review" : "review";
         } else if (isChangeProposal) {
             classes += "change-proposal";
         } else if (element.status === "proposal") {

@@ -17,7 +17,7 @@
 
 .page-footer.hidden {
     bottom: -63px;
-    transition: bottom 0.3s ease-in;
+    transition: bottom 0.3s ease-in; /* Warning: Transition time matched by effect in SolutionDetailsPage */
 }
 
 .page-footer-content {

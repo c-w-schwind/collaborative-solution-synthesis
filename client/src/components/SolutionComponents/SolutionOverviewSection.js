@@ -1,15 +1,16 @@
 import "./SolutionOverviewSection.css"
+import {EDIT_ICON_SRC} from "../../constants";
 import {useState} from "react";
 import {useGlobal} from "../../context/GlobalContext";
+import {useLoading} from "../../context/LoadingContext";
 import {useFormData} from "../../context/FormDataContext";
 import formSubmissionService from "../Forms/formSubmissionService";
 import {formConfigurations} from "../Forms/formConfigurations";
 import GenericForm from "../Forms/GenericForm";
 import useOutsideClick from "../../hooks/useOutsideClickHook";
-import {EDIT_ICON_SRC} from "../../constants";
-import {useLoading} from "../../context/LoadingContext";
 
-const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace}) => {
+
+const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace, isUserAuthor}) => {
     const [showMeta, setShowMeta] = useState(false);
     const isChangeProposal = Boolean(solution.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution.status);
 
@@ -82,18 +83,15 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
     const handleMetaButtonClick = () => setShowMeta(prev => !prev);
 
 
-    const renderEditButton = (isOpen, onClick, label, style = {}) => (
-        !isOpen && (
-            <button className="draft-edit-button" onClick={onClick} style={style}>
-                {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
-            </button>
-        )
-    );
-
-    const renderTitle = () => {
-        if (!isSolutionDraft) return solution.title;
-        if (!isSolutionDraftTitleFormOpen) return `${solution.title}`
-        return null;
+    const renderEditButton = (isOpen, onClick, label, style = {}) => {
+        if (!isUserAuthor) return null;
+        return (
+            !isOpen && (
+                <button className="draft-edit-button" onClick={onClick} style={style}>
+                    {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
+                </button>
+            )
+        );
     }
 
 
@@ -103,7 +101,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
         <section className="solution-overview-section">
             <div className="solution-header">
                 <h2 className="solution-title">
-                    {renderTitle()}
+                    {(!isSolutionDraftTitleFormOpen || !isSolutionDraft) && solution.title}
 
                     {isSolutionDraft && renderEditButton(isSolutionDraftTitleFormOpen, handleTitleEditButton, "", {
                         alignSelf: "start",
@@ -155,7 +153,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                             formData={solutionDraftChangeSummaryFormData}
                             setFormData={setSolutionDraftChangeSummaryFormData}
                             previousData={solution}
-                            onCancel={toggleSolutionDraftOverviewForm}
+                            onCancel={toggleSolutionDraftChangeSummaryForm}
                         />
                     </div>
                 )}
