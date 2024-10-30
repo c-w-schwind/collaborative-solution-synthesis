@@ -1,4 +1,4 @@
-import {createContext, useState, useEffect, useContext, useCallback} from 'react';
+import {createContext, useState, useEffect, useContext, useCallback, useMemo} from 'react';
 import {jwtDecode} from "jwt-decode";
 import {useToasts} from "./ToastContext";
 import {useNavigate} from "react-router-dom";
@@ -22,7 +22,7 @@ export const AuthProvider = ({children}) => {
     const navigate = useNavigate();
     const {addToast} = useToasts();
 
-    const login = (userData, token) => {
+    const login = useCallback((userData, token) => {
         localStorage.setItem('token', token);
         setIsLoggedIn(true);
         setUser(userData);
@@ -32,7 +32,7 @@ export const AuthProvider = ({children}) => {
             addToast(`Welcome on board, ${userData.username}. Happy to have you!`, 5000);
             setIsFirstTime(false);
         }
-    };
+    }, [addToast, isFirstTime]);
 
     const logout = useCallback(({redirect = true, message = "You have successfully been logged out.", timeout = 5000} = {}) => {
         localStorage.removeItem('token');
@@ -43,6 +43,9 @@ export const AuthProvider = ({children}) => {
         }
         addToast(message, timeout);
     }, [addToast, navigate]);
+
+    const handleFirstTime = useCallback(() => setIsFirstTime(true), []);
+
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -88,10 +91,17 @@ export const AuthProvider = ({children}) => {
         validateTokenAndFetchUser();
     }, [logout, addToast]);
 
-    const handleFirstTime = () => setIsFirstTime(true);
+
+    const value = useMemo(() => ({
+        isLoggedIn,
+        user,
+        login,
+        logout,
+        handleFirstTime
+    }), [isLoggedIn, user, login, logout, handleFirstTime]);
 
     return (
-        <AuthContext.Provider value={{isLoggedIn, user, login, logout, handleFirstTime}}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );

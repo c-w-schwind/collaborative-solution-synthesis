@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState, useCallback} from "react";
+import React, {createContext, useContext, useState, useCallback, useMemo} from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
 
 const LoadingContext = createContext();
@@ -17,8 +17,15 @@ export const LoadingProvider = ({children}) => {
         setMessage("");
     }, []);
 
+    const value = useMemo(() => ({
+        isLoading,
+        showLoading,
+        hideLoading
+    }), [isLoading, showLoading, hideLoading]);
+
+
     return (
-        <LoadingContext.Provider value={{isLoading, showLoading, hideLoading}}>
+        <LoadingContext.Provider value={value}>
             {children}
             <LoadingOverlay isVisible={isLoading} message={message}/>
         </LoadingContext.Provider>
