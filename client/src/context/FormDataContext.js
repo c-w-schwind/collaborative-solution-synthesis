@@ -482,7 +482,7 @@ export const FormDataProvider = ({children}) => {
 
 
     // Use "generalConsiderationForm" for the general consideration form at the end of the consideration list instead of editing a specific one
-    const toggleConsiderationForm = useCallback((considerationId, ref, warnUser = true) => {
+    const toggleConsiderationForm = useCallback(({considerationId, ref, warnUser = true, parentType} = {}) => {
         if (!checkLoggedIn()) return;
 
         setOpenedConsiderationFormId((prevId) => {
@@ -494,8 +494,10 @@ export const FormDataProvider = ({children}) => {
             if (sameForm) return null;
 
             if (ref?.current) {
+                // Adjust vertical alignment with scrollPosition for "SolutionElements" to "end" to prevent auto-scroll from squishing the modal layout
+                const scrollPosition = parentType === "Solution" ? "center" : "end";
                 setTimeout(() => {
-                    ref.current.scrollIntoView({behavior: "smooth", block: "center"});
+                    ref.current.scrollIntoView({behavior: "smooth", block: scrollPosition});
                 }, 300); // Matching animation's completion time
             }
 

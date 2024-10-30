@@ -89,7 +89,7 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
                                 <img src="http://localhost:3000/comments.png" alt="comments"/>
                                 {consideration.comments.length}
                             </button>
-                            {userId === consideration.proposedBy && <button onClick={() => toggleConsiderationForm(consideration._id, considerationRef)}>edit</button>}
+                            {userId === consideration.proposedBy && <button onClick={() => toggleConsiderationForm({considerationId: consideration._id, ref: considerationRef})}>edit</button>}
                         </div>
                     </>
                 )}

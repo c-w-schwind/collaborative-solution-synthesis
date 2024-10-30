@@ -61,14 +61,14 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, consi
         const url = existingData ? `considerations/${openedConsiderationFormId}` : "considerations";
 
         await formSubmissionService(url, postData, "consideration", onSuccessfulSubmit, method);
-        toggleConsiderationForm(considerationFormId, null, false);
+        toggleConsiderationForm({considerationId: considerationFormId, warnUser: false});
     };
 
     return (
         <div className="solution-details-add-card-button-container"> {/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
             <button
                 className="solution-details-add-card-button"
-                onClick={() => toggleConsiderationForm(considerationFormId, considerationFormContainerRef)}
+                onClick={() => toggleConsiderationForm({considerationId: considerationFormId, ref: considerationFormContainerRef, parentType})}
                 style={isConsiderationFormOpen
                     ? {opacity: "0", cursor: "default", transition: "all 0.1s linear", pointerEvents: "none"}
                     : {opacity: "1", transition: "all 0.3s ease-in", pointerEvents: "auto"}
@@ -86,7 +86,7 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, consi
                     >
                         <div className="form-header">
                             <h3 className="form-title">{(existingData ? "Edit " : "") + formConfigurations.considerationForm.title}</h3>
-                            <button className="action-button--close" onClick={() => toggleConsiderationForm(considerationFormId)}>X</button>
+                            <button className="action-button--close" onClick={() => toggleConsiderationForm({considerationId: considerationFormId})}>X</button>
                         </div>
                         <GenericForm
                             onSubmit={submitConsiderationPost}
