@@ -3,6 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useFormData} from "../../context/FormDataContext";
 import {useCallback, useEffect} from "react";
 import {useGlobal} from "../../context/GlobalContext";
+import {useConfirmationModal} from "../../context/ConfirmationModalContext";
 
 
 const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onToggleComparison, currentSidePanelType}) => {
@@ -14,14 +15,19 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
     const {canNavigate} = useFormData();
     const {isSolutionDraft} = useGlobal();
     const {comparisonEntityNumber} = useParams();
+    const {showConfirmationModal} = useConfirmationModal();
 
     const navigateToElement = useCallback(() => {
         if ((entityType === "ComparisonSolution")) {
-            window.location.href = `/solutions/${comparisonEntityNumber}/element/${element.elementNumber}`;
+            showConfirmationModal({
+                title: "Navigate to Original Solution?",
+                message: `\nYou are about to leave the current Change Proposal view and navigate to the original Solution to view the Element${isChangeProposal ? " Change Proposal" : ""} "${element.title}".\n\nDo you wish to proceed?`,
+                onConfirm: () => window.location.href = `/solutions/${comparisonEntityNumber}/element/${element.elementNumber}`
+            });
         } else {
             navigate(`./element/${element.elementNumber}`, {state: {fromElementCard: true}});
         }
-    }, [entityType, comparisonEntityNumber, navigate, element.elementNumber]);
+    }, [entityType,showConfirmationModal, isChangeProposal, element.title, comparisonEntityNumber, navigate, element.elementNumber]);
 
     const handleTransitionEnd = useCallback((event) => {
         if (event.propertyName === "opacity") {
