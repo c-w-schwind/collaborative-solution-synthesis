@@ -61,9 +61,18 @@ solutionRoutes.get("/solutions/drafts", authenticateToken(), asyncHandler(async 
 // Get single Solution w/ Solution Elements & Considerations by SolutionNumber
 solutionRoutes.get("/solutions/:solutionNumber", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res) => {
     const solution = req.entity;
+    const publicStatuses = ["proposal", "accepted"];
+
+    // For change proposals, also fetch original solutionNumber
+    if (solution.changeProposalFor && ["draft", "under_review", "proposal"].includes(solution.status)) {
+        const originalSolution = await Solution.findById(solution.changeProposalFor).select("solutionNumber").lean();
+
+        if (originalSolution) {
+            solution.originalSolutionNumber = originalSolution.solutionNumber;
+        }
+    }
 
     // Fetch Solution Elements based on user access
-    const publicStatuses = ["proposal", "accepted"];
     let elementQuery;
 
     if (req.user) {

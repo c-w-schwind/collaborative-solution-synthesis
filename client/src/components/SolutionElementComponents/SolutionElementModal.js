@@ -1,9 +1,8 @@
-import './SolutionElementModal.css'
+import "./SolutionElementModal.css";
 import {EDIT_ICON_SRC, DELETE_ICON_SRC, SUBMIT_ICON_SRC} from "../../constants";
 import {memo, useCallback, useEffect, useRef, useState} from "react";
 import {useAuth} from "../../context/AuthContext";
-import {useParams} from "react-router-dom";
-import {useLayout} from "../../context/LayoutContext";
+import {useLocation, useOutletContext, useParams} from "react-router-dom";
 import {useGlobal} from "../../context/GlobalContext";
 import {useLoading} from "../../context/LoadingContext";
 import {useFormData} from "../../context/FormDataContext";
@@ -18,24 +17,24 @@ import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {debounce} from "../../utils/utils";
 
 
-function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscussionSpaceOpen, setEntityTitle}) {
+function SolutionElementModal(props) {
+    const {onToggleDiscussionSpace, onToggleComparison, onClosingModal, currentSidePanelType, displayedSidePanelType, setEntityTitle, isElementDraft, setIsElementDraft, entityType} = useOutletContext() || props;
     const [solutionElement, setSolutionElement] = useState(null);
     const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
-    const [isElementDraft, setIsElementDraft] = useState(false);
     const [isChangeProposal, setIsChangeProposal] = useState(false);
     const [isShowingInfo, setIsShowingInfo] = useState(false);
 
     const {setElementListChange, isSolutionDraft} = useGlobal();
     const {showLoading, hideLoading} = useLoading();
-    const {elementNumber} = useParams();
-    const {setElementOverlayColor} = useLayout();
+    const {elementNumber, comparisonEntityNumber} = useParams();
     const {handleDiscardElementDraft, handleSubmitElementDraft, handlePublishElement} = useElementDraftOperations(
         {elementNumber, title: solutionElement?.title, status: solutionElement?.status},
         isElementDraft
     );
 
+    const location = useLocation();
     const {user} = useAuth();
     const isUserAuthor = user?._id === solutionElement?.proposedBy?._id;
 
@@ -55,21 +54,23 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
 
     const fetchSolutionElement = useCallback(async () => {
         try {
-            const elementData = await handleRequest("GET", "element", elementNumber);
+            const elementData = await handleRequest("GET", "element", entityType === "ComparisonElement" ? comparisonEntityNumber : elementNumber);
             setSolutionElement(elementData);
-            setIsElementDraft(elementData.status === "draft" || elementData.status === "under_review");
+            if (entityType === "SolutionElement") {
+                setIsElementDraft(elementData.status === "draft" || elementData.status === "under_review");
+            }
             setIsChangeProposal(Boolean(elementData.changeProposalFor) && ["draft", "under_review", "proposal"].includes(elementData.status));
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {
-            console.error('Failed to fetch element:', err);
+            console.error("Failed to fetch element:", err);
             setErrorMessage(err.message);
             if (retryCount < 4) {
                 const retryTimeout = setTimeout(() => setRetryCount(prev => prev + 1), 5000);
                 return () => clearTimeout(retryTimeout);
             }
         }
-    }, [elementNumber, retryCount]);
+    }, [elementNumber, entityType, comparisonEntityNumber, setIsElementDraft, retryCount]);
 
 
     useEffect(() => {
@@ -79,10 +80,6 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     useEffect(() => {
         if (solutionElement) setEntityTitle(solutionElement.title);
     }, [solutionElement, setEntityTitle]);
-
-    useEffect(() => {
-        setElementOverlayColor(isElementDraft ? "rgba(183,183,231,0.3)" : "rgba(0, 0, 0, 0.5)");
-    }, [isElementDraft, setElementOverlayColor]);
 
     useEffect(() => {
         const checkOverflow = () => {
@@ -96,13 +93,13 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
         const timeoutId = setTimeout(checkOverflow, 500);
         const debouncedCheckOverflow = debounce(checkOverflow, 100);
 
-        window.addEventListener('resize', debouncedCheckOverflow);
+        window.addEventListener("resize", debouncedCheckOverflow);
 
         return () => {
             clearTimeout(timeoutId);
-            window.removeEventListener('resize', debouncedCheckOverflow);
+            window.removeEventListener("resize", debouncedCheckOverflow);
         };
-    }, [solutionElement, isDiscussionSpaceOpen]);
+    }, [solutionElement, currentSidePanelType]);
 
 
     const handleRetry = useCallback(() => {
@@ -169,13 +166,25 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     },[]);
 
 
-    const renderEditButton = useCallback((isOpen, onClick, label, style = {}) => (
-        isUserAuthor && !isOpen && (
+    const renderEditButton = useCallback((isOpen, onClick, label, style = {}) => {
+        if (entityType === "ComparisonElement") return;
+        return isUserAuthor && !isOpen && (
             <button className="draft-edit-button" onClick={onClick} style={style}>
                 {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
             </button>
         )
-    ), [isUserAuthor]);
+    }, [entityType, isUserAuthor]);
+
+    const renderComparisonButton = useCallback(() => {
+        const pathSegments = location.pathname.split("/");
+        const isComparisonPath = pathSegments.includes("comparison");
+
+        return (
+            <button className="comparison-button" onClick={() => onToggleComparison(solutionElement.originalElementNumber)}>
+                {isComparisonPath ? "Close Comparison" : "Compare with Original"}
+            </button>
+        );
+    }, [location, onToggleComparison, solutionElement?.originalElementNumber]);
 
     const getDisplayTitle = useCallback(() => {
         if (isElementDraftTitleFormOpen) {
@@ -192,6 +201,18 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     }, [solutionElement, isChangeProposal])
 
 
+    const outerClassName = () => {
+        let className = "modal-container";
+
+        if (entityType === "SolutionElement") {
+            className += currentSidePanelType ? " solution-element-modal-side-panel-open" : "";
+        } else {
+            className += displayedSidePanelType ? " comparison" : "";
+        }
+
+        return className;
+    }
+
     if (solutionElement === null) {
         return (
             <LoadingRetryOverlay
@@ -204,13 +225,17 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
     }
 
     return (
-        <div className={`modal-container ${isDiscussionSpaceOpen ? 'solution-element-modal-ds-open' : ''}`} onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-                <h2 className="element-title">
-                    <span ref={titleRef} className="element-title-text">
-                        {getDisplayTitle()}
-                        {isTitleOverflowing && <div className="full-title-overlay">{getDisplayTitle()}</div>}
-                    </span>
+        <div className={outerClassName()} onClick={(e) => e.stopPropagation()}>
+            <div className={entityType === "SolutionElement" ? "modal-header" : ""}>
+                <h2 className="element-title" style={entityType === "ComparisonElement" ? {padding: "0 30px", marginBottom: 0} : {}}>
+                    {entityType === "SolutionElement" ? (
+                        <span ref={titleRef} className="element-title-text">
+                            {getDisplayTitle()}
+                            {isTitleOverflowing && <div className="full-title-overlay">{getDisplayTitle()}</div>}
+                        </span>
+                    ) : (
+                        getDisplayTitle()
+                    )}
 
                     {isElementDraft && renderEditButton(isElementDraftTitleFormOpen, handleTitleEditButton, "", {
                         alignSelf: "start",
@@ -236,20 +261,23 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                 </h2>
 
                 <div className="solution-element-button-section">
-                    {!isElementDraft && <button className="action-button action-button--propose-changes">Propose Changes</button>}
-                    <button className="action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
-                    <button className="action-button action-button--close" aria-label="Close" onClick={onClosingModal}>X</button>
+                    {!isElementDraft && entityType === "SolutionElement" && !isChangeProposal && <button className="action-button action-button--propose-changes">Propose Changes</button>}
+                    {entityType === "SolutionElement" && <button className="action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>}
+                    {entityType === "SolutionElement" && <button className="action-button action-button--close" aria-label="Close" onClick={onClosingModal}>X</button>}
                 </div>
             </div>
 
             <div className={`element-modal-footer-overlay ${isShowingInfo ? "element-modal-footer-overlay-active" : ""}`} onClick={() => setIsShowingInfo(false)}></div>
 
-            <div className="modal-container-scrollable" style={isShowingInfo ? {maxHeight: "30vh"} : {}}>
+            <div className={entityType === "SolutionElement" ? "modal-container-scrollable" : "modal-container-non-scrollable"} style={isShowingInfo ? {maxHeight: "30vh"} : {}}>
 
-                {isChangeProposal && <div className="element-details-container summary">
-                    <h3 className="solution-details-list-container-title">Summary of Proposed Changes</h3>
+                {isChangeProposal && <div className="element-details-container change-summary">
+                    <div className="solution-header">
+                        <h3 className="solution-details-list-container-title">Summary of Proposed Changes</h3>
+                        {isChangeProposal && renderComparisonButton()}
+                    </div>
                     {!isElementDraft || !isElementDraftChangeSummaryFormOpen ? (
-                        <p>{solutionElement.changeSummary}</p>
+                        <p className="solution-overview-section-text">{solutionElement.changeSummary}</p>
                     ) : (<div className="draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
                             <GenericForm
                                 onSubmit={handleChangeSummaryEditSubmit}
@@ -309,7 +337,7 @@ function SolutionElementModal({onToggleDiscussionSpace, onClosingModal, isDiscus
                 />
             </div>
 
-            {isElementDraft && <div ref={footerRef} className={`modal-footer ${isShowingInfo ? "expanded" : ""}`}>
+            {isElementDraft && entityType === "SolutionElement" && <div ref={footerRef} className={`modal-footer ${isShowingInfo ? "expanded" : ""}`}>
                 <div className="footer-top">
                     {getFooterTitle()}
                     <div className="solution-element-button-section">

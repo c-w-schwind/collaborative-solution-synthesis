@@ -1,4 +1,4 @@
-.entity-container-for-ds-addition {
+.entity-container-for-side-panel-addition {
     position: relative;
     margin-top: 40px;
 }
@@ -18,18 +18,22 @@
     z-index: 200;
 }
 
+.overlay.draft {
+    background-color: rgba(183,183,231,0.3);
+}
+
 .overlay-active {
     opacity: 1;
 }
 
-.discussion-space-sticky-frame {
+.side-panel-sticky-frame {
     display: flex;
     position: sticky;
     margin-top: 40px;
     top: 40px;
 }
 
-.discussion-space-container {
+.side-panel-container {
     position: relative;
     padding: 1px;
     width: 50vw;
@@ -42,7 +46,7 @@
     transition: width 0.4s ease-in-out, opacity 0.4s ease-in-out, left 0.4s ease-in-out;
 }
 
-.discussion-space-container-ds-open {
+.side-panel-container-side-panel-open {
     width: 45vw;
     opacity: 1;
     left: 50vw;

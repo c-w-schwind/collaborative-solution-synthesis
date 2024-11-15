@@ -37,6 +37,15 @@ solutionElementRoutes.post("/solutionElements", authenticateToken(), (req, res, 
 solutionElementRoutes.get("/solutionElements/:elementNumber", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res) => {
     const solutionElement = req.entity;
 
+    // For change proposals, also fetch original elementNumber
+    if (solutionElement.changeProposalFor && ["draft", "under_review", "proposal"].includes(solutionElement.status)) {
+        const originalSolutionElement = await SolutionElement.findById(solutionElement.changeProposalFor).select("elementNumber").lean();
+
+        if (originalSolutionElement) {
+            solutionElement.originalElementNumber = originalSolutionElement.elementNumber;
+        }
+    }
+
     const considerations = await Consideration.find({
         parentType: "SolutionElement",
         parentId: solutionElement._id

@@ -1,5 +1,5 @@
 import "./SolutionDetailsPage.css";
-import {Outlet, useLocation, useParams} from "react-router-dom";
+import {Outlet, useLocation, useOutletContext, useParams} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
 import SolutionOverviewSection from "./SolutionOverviewSection";
 import SolutionElementList from "../SolutionElementComponents/SolutionElementList";
@@ -13,7 +13,10 @@ import {handleRequest} from "../../services/solutionApiService";
 import useDraftOperations from "../../hooks/useDraftOperations";
 
 
-function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, setEntityTitle, solutionDetailsContainerRef}) {
+function SolutionDetailsPage(props) {
+    // In case of change proposal comparison view props will be imported via useOutletContext instead of HOC passing them down
+    const {onToggleDiscussionSpace, onToggleComparison, currentSidePanelType, setEntityTitle, solutionDetailsContainerRef, solutionDetailsAreaRef, entityType} = useOutletContext() || props;
+
     const [solution, setSolution] = useState(null);
     const [renderElementOutlet, setRenderElementOutlet] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
@@ -22,7 +25,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
 
     const {isSolutionDraft, setIsSolutionDraft, shouldRefetchSolution, clearSolutionRefetchFlag} = useGlobal();
     const location = useLocation();
-    const {solutionNumber} = useParams();
+    const {solutionNumber, comparisonEntityNumber} = useParams();
     const {handleDiscardDraft, handleSubmitDraft, handlePublishSolution} = useDraftOperations(
         {solutionNumber: solution?.solutionNumber, title: solution?.title, status: solution?.status},
         isSolutionDraft
@@ -34,9 +37,11 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
 
     const fetchSolutionData = useCallback(async () => {
         try {
-            const solutionData = await handleRequest("GET", "solution", solutionNumber);
+            const solutionData = await handleRequest("GET", "solution", entityType === "ComparisonSolution" ? comparisonEntityNumber : solutionNumber);
             setSolution(solutionData);
-            setIsSolutionDraft(solutionData.status === "draft" || solutionData.status === "under_review");
+            if (entityType === "Solution") {
+                setIsSolutionDraft(solutionData.status === "draft" || solutionData.status === "under_review");
+            }
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {
@@ -50,7 +55,7 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
                 }, 5000);
             }
         }
-    }, [solutionNumber, retryCount, setIsSolutionDraft]);
+    }, [entityType, comparisonEntityNumber, solutionNumber, retryCount, setIsSolutionDraft]);
 
 
     useEffect(() => {
@@ -71,9 +76,10 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     useEffect(() => {
         const pathSegments = location.pathname.split("/");
         const isDiscussionPath = pathSegments.includes("discussionSpace");
+        const isComparisonPath = pathSegments.includes("comparison");
         const isElementPath = pathSegments.includes("element");
 
-        setRenderElementOutlet(!(isDiscussionPath && !isElementPath));
+        setRenderElementOutlet(!((isDiscussionPath || isComparisonPath) && !isElementPath));
     }, [location.pathname]);
 
     useEffect(() => {
@@ -93,12 +99,15 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     }, [location.pathname]);
 
     useEffect(() => {
-        if (isSolutionDraft) document.body.style.backgroundColor = "rgba(183,198,215,0.71)";
+        // Skip draft background change for instances of type "ComparisonSolution"
+        if (isSolutionDraft && entityType === "Solution") {
+            document.body.style.backgroundColor = "rgba(183,198,215,0.71)";
 
-        return () => {
-            document.body.style.backgroundColor = "";
-        };
-    }, [isSolutionDraft]);
+            return () => {
+                document.body.style.backgroundColor = "";
+            };
+        }
+    }, [entityType, isSolutionDraft]);
 
 
     const handleRetry = useCallback(() => {
@@ -107,22 +116,37 @@ function SolutionDetailsPage({onToggleDiscussionSpace, isDiscussionSpaceOpen, se
     }, []);
 
 
+    const detailsAreaClassName = () => {
+        const baseClass = entityType === "Solution"
+            ? "solution-details-area"
+            : "solution-details-area-comparison";
+
+        return currentSidePanelType && entityType === "Solution"
+            ? `${baseClass} solution-details-area-side-panel-open`
+            : baseClass;
+    };
+
+
     return (
         solution ? (
             <>
-                <div className={`solution-details-area ${isDiscussionSpaceOpen ? "solution-details-area-ds-open" : ""}`}>
-                    <div ref={solutionDetailsContainerRef} className="solution-details-container" style={{width: `calc(50vw - ${getScrollbarWidth()}px)`}}>
+                <div ref={solutionDetailsAreaRef} className={detailsAreaClassName()}>
+                    <div ref={solutionDetailsContainerRef ? solutionDetailsContainerRef : null} className="solution-details-container" style={{width: `calc(50vw - ${getScrollbarWidth()}px)`}}>
                         <SolutionOverviewSection
                             solution={solution}
                             setSolution={setSolution}
+                            entityType={entityType}
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
+                            onToggleComparison={onToggleComparison}
                             isUserAuthor={isUserAuthor}
                         />
                         <SolutionElementList
                             elements={solution.solutionElements}
                             elementDrafts={solution.elementDrafts}
+                            entityType={entityType}
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
-                            isDiscussionSpaceOpen={isDiscussionSpaceOpen}
+                            onToggleComparison={onToggleComparison}
+                            currentSidePanelType={currentSidePanelType}
                             parentNumber={solutionNumber}
                             isUserAuthor={isUserAuthor}
                         />

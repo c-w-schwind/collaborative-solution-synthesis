@@ -46,6 +46,7 @@
 .footer-heading {
     font-style: italic;
     margin: 14px 0;
+    white-space: nowrap;
 }
 
 .footer-button-section {

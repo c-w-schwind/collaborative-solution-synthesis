@@ -48,11 +48,11 @@ const SolutionDraftFooter = ({onDiscardDraft, onSubmitDraft, onPublishSolution, 
                         {isUserAuthor ? (
                             <>
                                 <p><strong>Discard Draft:</strong> This is a description</p>
-                                solutionStatus === "draft" ? (
+                                {solutionStatus === "draft" ? (
                                     <p><strong>Submit for Review:</strong> Description</p>
                                 ) : (
                                     <p><strong>Publish Solution:</strong> Description</p>
-                                )
+                                )}
                             </>
                         ) : (
                             <>

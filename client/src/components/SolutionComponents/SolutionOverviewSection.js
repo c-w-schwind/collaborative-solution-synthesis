@@ -1,20 +1,21 @@
-import "./SolutionOverviewSection.css"
+import "./SolutionOverviewSection.css";
 import {EDIT_ICON_SRC} from "../../constants";
-import {useState} from "react";
-import {useGlobal} from "../../context/GlobalContext";
+import {useCallback, useState} from "react";
 import {useLoading} from "../../context/LoadingContext";
 import {useFormData} from "../../context/FormDataContext";
 import formSubmissionService from "../Forms/formSubmissionService";
 import {formConfigurations} from "../Forms/formConfigurations";
 import GenericForm from "../Forms/GenericForm";
 import useOutsideClick from "../../hooks/useOutsideClickHook";
+import {useLocation} from "react-router-dom";
 
 
-const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace, isUserAuthor}) => {
+const SolutionOverviewSection = ({solution, setSolution, onToggleComparison, onToggleDiscussionSpace, isUserAuthor, entityType}) => {
     const [showMeta, setShowMeta] = useState(false);
     const isChangeProposal = Boolean(solution.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution.status);
+    const isLocalSolutionDraft = solution.status === "draft" || solution.status === "under_review"; // Not using global isSolutionDraft to handle side-panel comparison solutions independently
 
-    const {isSolutionDraft} = useGlobal();
+    const location = useLocation();
     const {showLoading, hideLoading} = useLoading();
     const {
         solutionDraftTitleFormData, setSolutionDraftTitleFormData,
@@ -94,6 +95,17 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
         );
     }
 
+    const renderComparisonButton = useCallback(() => {
+        const pathSegments = location.pathname.split("/");
+        const isComparisonPath = pathSegments.includes("comparison");
+
+        return (
+            <button className="comparison-button" onClick={() => onToggleComparison(solution.originalSolutionNumber)}>
+                {isComparisonPath ? "Close Comparison" : "Compare with Original"}
+            </button>
+        );
+    }, [location, onToggleComparison, solution.originalSolutionNumber]);
+
 
     if (!solution) return <p>Loading solution details...</p>;
 
@@ -101,9 +113,9 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
         <section className="solution-overview-section">
             <div className="solution-header">
                 <h2 className="solution-title">
-                    {(!isSolutionDraftTitleFormOpen || !isSolutionDraft) && solution.title}
+                    {(!isSolutionDraftTitleFormOpen || !isLocalSolutionDraft) && solution.title}
 
-                    {isSolutionDraft && renderEditButton(isSolutionDraftTitleFormOpen, handleTitleEditButton, "", {
+                    {isLocalSolutionDraft && renderEditButton(isSolutionDraftTitleFormOpen, handleTitleEditButton, "", {
                         alignSelf: "start",
                         margin: "0 15px",
                         paddingLeft: "9px",
@@ -126,24 +138,27 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                 </h2>
 
                 <div className="solution-element-button-section">
-                    {!isSolutionDraft && <button className="action-button action-button--propose-changes">Propose Changes</button>}
-                    <button className="action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>
+                    {!isLocalSolutionDraft && entityType === "Solution" && <button className="action-button action-button--propose-changes">Propose Changes</button>}
+                    {entityType === "Solution" && <button className="action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>}
                     <div ref={metaRef} className="meta-button-container">
                         <button className={`action-button info-button ${showMeta ? "active" : ""}`} style={{padding: "8px 15px"}} onClick={handleMetaButtonClick}>i</button>
                         {showMeta && (
                             <div className="solution-overview-meta">
                                 <span className="proposed-by">Proposed by: {solution.proposedBy.username}</span>
-                                <span className="created-at">Created at: {isSolutionDraft ? "[unpublished]" : new Date(solution.createdAt).toLocaleDateString()}</span>
-                                <span className="updated-at">Last Updated: {isSolutionDraft ? "[unpublished]" : new Date(solution.updatedAt).toLocaleDateString()}</span>
+                                <span className="created-at">Created at: {isLocalSolutionDraft ? "[unpublished]" : new Date(solution.createdAt).toLocaleDateString()}</span>
+                                <span className="updated-at">Last Updated: {isLocalSolutionDraft ? "[unpublished]" : new Date(solution.updatedAt).toLocaleDateString()}</span>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
 
-            {isChangeProposal && <div className="solution-overview-and-details-container summary">
-                <h3 className="solution-details-list-container-title">Summary of Proposed Changes</h3>
-                {!isSolutionDraft || !isSolutionDraftChangeSummaryFormOpen ? (
+            {isChangeProposal && <div className="solution-overview-and-details-container change-summary">
+                <div className="solution-header">
+                    <h3 className="solution-details-list-container-title">Summary of Proposed Changes</h3>
+                    {isChangeProposal && renderComparisonButton()}
+                </div>
+                {!isLocalSolutionDraft || !isSolutionDraftChangeSummaryFormOpen ? (
                     <p className="solution-overview-section-text">{solution.changeSummary}</p>
                 ) : (
                     <div className="draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
@@ -158,13 +173,13 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                     </div>
                 )}
 
-                {isSolutionDraft && renderEditButton(isSolutionDraftChangeSummaryFormOpen, handleChangeSummaryEditButton, "Edit Summary")}
+                {isLocalSolutionDraft && renderEditButton(isSolutionDraftChangeSummaryFormOpen, handleChangeSummaryEditButton, "Edit Summary")}
             </div>}
 
 
             <div className="solution-overview-and-details-container">
                 <h3 className="solution-details-list-container-title">Overview</h3>
-                {!isSolutionDraft || !isSolutionDraftOverviewFormOpen ? (
+                {!isLocalSolutionDraft || !isSolutionDraftOverviewFormOpen ? (
                     <p className="solution-overview-section-text">{solution.overview}</p>
                 ) : (
                     <div className="draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
@@ -179,10 +194,10 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                     </div>
                 )}
 
-                {isSolutionDraft && renderEditButton(isSolutionDraftOverviewFormOpen, handleOverviewEditButton, "Edit Overview")}
+                {isLocalSolutionDraft && renderEditButton(isSolutionDraftOverviewFormOpen, handleOverviewEditButton, "Edit Overview")}
 
                 <h3 className="solution-details-list-container-title">Detailed Description</h3>
-                {!isSolutionDraft || !isSolutionDraftDescriptionFormOpen ? (
+                {!isLocalSolutionDraft || !isSolutionDraftDescriptionFormOpen ? (
                     <p className="solution-overview-section-text">{solution.description}</p>
                 ) : (<div className="draft-form">{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
                         <GenericForm
@@ -196,7 +211,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleDiscussionSpace
                     </div>
                 )}
 
-                {isSolutionDraft && renderEditButton(isSolutionDraftDescriptionFormOpen, handleDescriptionEditButton, "Edit Description")}
+                {isLocalSolutionDraft && renderEditButton(isSolutionDraftDescriptionFormOpen, handleDescriptionEditButton, "Edit Description")}
             </div>
         </section>
     );

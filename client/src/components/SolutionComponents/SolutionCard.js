@@ -9,7 +9,7 @@ function SolutionCard({solution}) {
     const navigate = useNavigate();
     const isDraft = solution.status === "draft";
     const isUnderReview = solution.status === "under_review";
-    const isChangeProposal = Boolean(solution.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution.status) ;
+    const isChangeProposal = Boolean(solution.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution.status);
 
     const handleDetailsClick = () => {
         if (canNavigate({checkSolutionForm: true})) navigate(`/solutions/${solution.solutionNumber}`);

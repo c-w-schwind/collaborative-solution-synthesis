@@ -13,19 +13,29 @@
     transition: all 0.4s ease-in-out;
 }
 
-.solution-element-modal-ds-open {
+.modal-container.comparison {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: calc(44.6vw); /* Subtracting the average of various browser's scrollbar widths */
+    padding: 1px;
+    box-shadow: unset;
+    max-height: unset;
+}
+
+.solution-element-modal-side-panel-open {
     left: 3.8vw;
     width: 46vw;
     box-shadow: -15px 0 30px 2px rgba(0, 0, 0, 0.2);
 }
 
-.discussion-space-modal {
+.side-panel-modal {
     opacity: 0;
     width: 35vw;
     z-index: 1;
 }
 
-.discussion-space-modal-ds-open {
+.side-panel-modal-side-panel-open {
     width: 46vw;
     opacity: 1;
     left: 50.2vw;
@@ -34,9 +44,18 @@
 
 .modal-container-scrollable { /* functioning as fix for scrollbar covering border-radius */
     padding: 30px;
-    max-height: calc(81vh - 120px);
+    max-height: calc(88vh - 120px);
     overflow-y: auto;
     transition: max-height 0.5s ease-in-out;
+    box-sizing: border-box;
+}
+
+.modal-container-scrollable.comparison {
+    padding: 0;
+}
+
+.modal-container-non-scrollable {
+    padding: 30px;
 }
 
 .modal-header {
@@ -159,7 +178,7 @@
     margin-bottom: 30px;
 }
 
-.element-details-container.summary {
+.element-details-container.change-summary {
     background-color: rgba(230, 230, 250, 0.2);
     box-shadow: inset 0 0 150px 34px rgba(182, 182, 255, 0.25);
 }

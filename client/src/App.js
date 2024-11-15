@@ -2,7 +2,6 @@ import './App.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 import {GlobalProvider} from "./context/GlobalContext";
-import {LayoutProvider} from "./context/LayoutContext";
 import {ToastProvider} from "./context/ToastContext";
 import {LoadingProvider} from "./context/LoadingContext";
 import {ConfirmationModalProvider} from "./context/ConfirmationModalContext";
@@ -15,42 +14,44 @@ import LoginPage from './components/AuthenticationComponents/LoginPage';
 import SolutionListPage from "./components/SolutionComponents/SolutionListPage";
 import DiscussionSpacePage from "./components/DiscussionSpaceComponents/DiscussionSpacePage";
 
-import {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal} from "./components/HOC/withDiscussionSpace";
+import {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal} from "./components/HOC/withSidePanel";
+import SolutionDetailsPage from "./components/SolutionComponents/SolutionDetailsPage";
+import SolutionElementModal from "./components/SolutionElementComponents/SolutionElementModal";
 
 
 function App() {
     return (
         <div className="App">
             <GlobalProvider>
-                <LayoutProvider>
-                    <ToastProvider>
-                        <LoadingProvider>
-                            <ConfirmationModalProvider>
-                                <BrowserRouter>
-                                    <AuthProvider>
-                                        <FormDataProvider>
-                                            <Routes>
-                                                <Route path="/" element={<Layout/>}>
-                                                    <Route index element={<IndexPage/>}/>
-                                                    <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
-                                                    <Route path="solutions" element={<SolutionListPage/>}/>
-                                                    <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
+                <ToastProvider>
+                    <LoadingProvider>
+                        <ConfirmationModalProvider>
+                            <BrowserRouter>
+                                <AuthProvider>
+                                    <FormDataProvider>
+                                        <Routes>
+                                            <Route path="/" element={<Layout/>}>
+                                                <Route index element={<IndexPage/>}/>
+                                                <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
+                                                <Route path="solutions" element={<SolutionListPage/>}/>
+                                                <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
+                                                    <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
+                                                    <Route path="comparison/:comparisonEntityNumber" element={<SolutionDetailsPage/>}/>
+                                                    <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
                                                         <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
-                                                        <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
-                                                            <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
-                                                        </Route>
+                                                        <Route path="comparison/:comparisonEntityNumber" element={<SolutionElementModal/>}/>
                                                     </Route>
-                                                    <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
-                                                    <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
                                                 </Route>
-                                            </Routes>
-                                        </FormDataProvider>
-                                    </AuthProvider>
-                                </BrowserRouter>
-                            </ConfirmationModalProvider>
-                        </LoadingProvider>
-                    </ToastProvider>
-                </LayoutProvider>
+                                                <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
+                                                <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
+                                            </Route>
+                                        </Routes>
+                                    </FormDataProvider>
+                                </AuthProvider>
+                            </BrowserRouter>
+                        </ConfirmationModalProvider>
+                    </LoadingProvider>
+                </ToastProvider>
             </GlobalProvider>
         </div>
     );

@@ -5,12 +5,14 @@ import {useNavigate} from "react-router-dom";
 import {useGlobal} from "../../context/GlobalContext";
 
 
-const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, isDiscussionSpaceOpen, parentNumber, isUserAuthor}) => {
+const SolutionElementList = ({elements, elementDrafts, entityType, onToggleDiscussionSpace, onToggleComparison, currentSidePanelType, parentNumber, isUserAuthor}) => {
     const [localElements, setLocalElements] = useState(elements);
     const [localElementDrafts, setLocalElementDrafts] = useState(elementDrafts);
 
     const {isSolutionDraft, elementListChange, setElementListChange} = useGlobal();
     const navigate = useNavigate();
+
+    const isComparisonSolution = entityType === "ComparisonSolution";
 
 
     useEffect(() => {
@@ -26,20 +28,39 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
         if (elementListChange) {
             const {changeType, elementNumber, title, overview, changeSummary} = elementListChange;
 
+            const applyUpdates = (element) => ({
+                ...element, ...(title && {title}), ...(overview && {overview}), ...(changeSummary && {changeSummary})
+            });
+
             if (changeType === "delete") {
-                setLocalElements(prevElements => prevElements.filter(el => el.elementNumber !== elementNumber));
+                setLocalElements(prevElements => prevElements
+                    .filter(el => el.elementNumber !== elementNumber)
+                    .map(el => ({
+                        ...el,
+                        changeProposals: el.changeProposals
+                            ? el.changeProposals.filter(proposal => proposal.elementNumber !== elementNumber)
+                            : []
+                    }))
+                );
                 setLocalElementDrafts(prevElementDrafts => prevElementDrafts.filter(draft => draft.elementNumber !== elementNumber));
             } else if (changeType === "update") {
-                setLocalElementDrafts(prevElementDrafts => (
-                    prevElementDrafts.map(el => el.elementNumber === elementNumber
-                        ? {
-                            ...el,
-                            ...(title ? {title} : {}),
-                            ...(overview ? {overview} : {}),
-                            ...(changeSummary ? {changeSummary} : {})
-                        } : el
-                    )
+                setLocalElementDrafts(prevElementDrafts => prevElementDrafts.map(draft =>
+                    draft.elementNumber === elementNumber ? applyUpdates(draft) : draft
                 ));
+                setLocalElements(prevElements => prevElements.map(el => {
+                    if (el.elementNumber === elementNumber) {
+                        return applyUpdates(el);
+                    }
+                    if (el.changeProposals) {
+                        return {
+                            ...el,
+                            changeProposals: el.changeProposals.map(proposal =>
+                                proposal.elementNumber === elementNumber ? applyUpdates(proposal) : proposal
+                            )
+                        };
+                    }
+                    return el;
+                }));
             }
             setElementListChange(null);
         }
@@ -62,8 +83,10 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
                             <div key={element._id}>
                                 <SolutionElementCard
                                     element={element}
+                                    entityType={entityType}
                                     onToggleDiscussionSpace={onToggleDiscussionSpace}
-                                    isDiscussionSpaceOpen={isDiscussionSpaceOpen}
+                                    onToggleComparison={onToggleComparison}
+                                    currentSidePanelType={currentSidePanelType}
                                 />
                                 {element.changeProposals && element.changeProposals.length > 0 && (
                                     <div>
@@ -71,8 +94,10 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
                                             <SolutionElementCard
                                                 key={proposal._id}
                                                 element={proposal}
+                                                entityType={entityType}
                                                 onToggleDiscussionSpace={onToggleDiscussionSpace}
-                                                isDiscussionSpaceOpen={isDiscussionSpaceOpen}
+                                                onToggleComparison={onToggleComparison}
+                                                currentSidePanelType={currentSidePanelType}
                                             />
                                         ))}
                                     </div>
@@ -81,14 +106,16 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
                         ))}
                     </div>
 
-                    {localElementDrafts.length > 0 && <div className={`solution-details-list ${!isSolutionDraft ? "draft-list-container" : ""}`}>
-                        {!isSolutionDraft && <h3 className="solution-details-list-container-title" style={{paddingTop: "8px"}}>Your Private Draft{localElementDrafts.length > 1 ? "s" : ""}</h3>}
+                    {localElementDrafts.length > 0 && <div className={`solution-details-list ${!isSolutionDraft || isComparisonSolution ? "draft-list-container" : ""}`}>
+                        {(!isSolutionDraft || isComparisonSolution) && <h3 className="solution-details-list-container-title" style={{paddingTop: "8px"}}>Your Private Draft{localElementDrafts.length > 1 ? "s" : ""}</h3>}
                         {localElementDrafts.map(draft => (
                             <SolutionElementCard
                                 key={draft._id}
                                 element={draft}
+                                entityType={entityType}
                                 onToggleDiscussionSpace={onToggleDiscussionSpace}
-                                isDiscussionSpaceOpen={isDiscussionSpaceOpen}
+                                onToggleComparison={onToggleComparison}
+                                currentSidePanelType={currentSidePanelType}
                             />
                         ))}
                     </div>}
@@ -96,10 +123,11 @@ const SolutionElementList = ({elements, elementDrafts, onToggleDiscussionSpace, 
             ) : (
                 <div className="solution-overview-section-text">No solution elements proposed yet.</div>
             )}
-            {((isSolutionDraft && isUserAuthor) || !isSolutionDraft) && <SolutionElementInput
+            {!isComparisonSolution && ((isSolutionDraft && isUserAuthor) || !isSolutionDraft) && <SolutionElementInput
                 onSuccessfulSubmit={handleSubmit}
                 parentNumber={parentNumber}
             />}
+            {isComparisonSolution && <div className="solution-overview-section"></div>}
         </div>
     );
 };

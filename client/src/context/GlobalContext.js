@@ -9,7 +9,7 @@ const GlobalContext = createContext();
  *    - changeType 'update': add additional field that is relevant to element card display (title, overview, changeSummary)
  */
 export const GlobalProvider = ({children}) => {
-    const [isSolutionDraft, setIsSolutionDraft] = useState(false);
+    const [isSolutionDraft, setIsSolutionDraft] = useState(false); // Use only for currently displayed "main" solution. Do not use for side-by-side comparison solutions displayed in side panel (in case of change proposals).
     const [elementListChange, setElementListChange] = useState(null);
     const [shouldRefetchSolution, setShouldRefetchSolution] = useState(false);
     const lastRefetchTimeRef = useRef(0);
