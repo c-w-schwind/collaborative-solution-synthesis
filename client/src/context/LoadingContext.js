@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState, useCallback, useMemo} from "react";
-import LoadingOverlay from "../components/LoadingOverlay";
+import LoadingOverlay from "../components/CommonComponents/LoadingOverlay";
 
 const LoadingContext = createContext();
 
