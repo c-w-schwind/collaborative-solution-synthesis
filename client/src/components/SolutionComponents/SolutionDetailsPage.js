@@ -155,6 +155,7 @@ function SolutionDetailsPage(props) {
                             parentType={"Solution"}
                             parentNumber={solutionNumber}
                             onSuccessfulSubmit={fetchSolutionData}
+                            entityType={entityType}
                         />
                     </div>
                 </div>

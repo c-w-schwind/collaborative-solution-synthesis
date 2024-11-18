@@ -94,7 +94,7 @@ considerationRoutes.post("/considerations/:considerationId/vote", authenticateTo
         throw new BadRequestError('Invalid vote type. Expected "upvote" for upvote or "downvote" for downvote.');
     }
 
-    const consideration = await toggleConsiderationVote(req.params.considerationId, req.user._id, vote);
+    const consideration = await toggleConsiderationVote(req.params.considerationId, req.user._id.toString(), vote);
 
     res.status(200).send(consideration);
 }));
@@ -110,7 +110,7 @@ considerationRoutes.post("/considerations/:considerationId/comment/:commentId/vo
         throw new BadRequestError('Invalid vote type. Expected "upvote" for upvote or "downvote" for downvote.');
     }
 
-    const comment = await toggleCommentVote(req.params.considerationId, req.params.commentId, req.user._id, vote);
+    const comment = await toggleCommentVote(req.params.considerationId, req.params.commentId, req.user._id.toString(), vote);
 
     res.status(200).send(comment);
 }));

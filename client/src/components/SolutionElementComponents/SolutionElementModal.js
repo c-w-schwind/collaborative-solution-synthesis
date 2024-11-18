@@ -335,6 +335,7 @@ function SolutionElementModal(props) {
                     parentType={"SolutionElement"}
                     parentNumber={elementNumber}
                     onSuccessfulSubmit={fetchSolutionElement}
+                    entityType={entityType}
                 />
             </div>
 

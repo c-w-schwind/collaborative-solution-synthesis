@@ -3,11 +3,14 @@ import ConsiderationCard from "./ConsiderationCard";
 import {useEffect, useState} from "react";
 import ConsiderationInput from "./ConsiderationInput";
 
-const ConsiderationList = ({considerations: initialConsiderations, parentType, parentNumber, onSuccessfulSubmit}) => {
+
+const ConsiderationList = ({considerations: initialConsiderations, parentType, parentNumber, onSuccessfulSubmit, entityType}) => {
     const [considerations, setConsiderations] = useState(initialConsiderations);
     const [visibility, setVisibility] = useState({Pro: true, Con: true, Neutral: true});
 
     const stances = Object.entries(considerations);
+    const isComparisonSolution = entityType === "ComparisonSolution";
+    const isComparisonElement = entityType === "ComparisonElement";
 
 
     useEffect(() => {
@@ -73,12 +76,16 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
                     </div>
                 )
             )}
-            <ConsiderationInput
-                onSuccessfulSubmit={handleSuccessfulSubmit}
-                parentType={parentType}
-                parentNumber={parentNumber}
-                considerationFormId={"generalConsiderationForm"}
-            />
+            {(!isComparisonSolution && !isComparisonElement) ? (
+                <ConsiderationInput
+                    onSuccessfulSubmit={handleSuccessfulSubmit}
+                    parentType={parentType}
+                    parentNumber={parentNumber}
+                    considerationFormId={"generalConsiderationForm"}
+                />
+            ) : (
+                <div className="solution-overview-section"></div>
+            )}
         </div>
     );
 };
