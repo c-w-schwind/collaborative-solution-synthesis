@@ -31,7 +31,8 @@ function SolutionElementModal(props) {
     const {elementNumber, comparisonEntityNumber} = useParams();
     const {handleDiscardElementDraft, handleSubmitElementDraft, handlePublishElement} = useElementDraftOperations(
         {elementNumber, title: solutionElement?.title, status: solutionElement?.status},
-        isElementDraft
+        isElementDraft,
+        isChangeProposal
     );
 
     const location = useLocation();
@@ -343,7 +344,7 @@ function SolutionElementModal(props) {
                     <div className="solution-element-button-section">
                         {isUserAuthor && <button className="action-button action-button--discard-draft" onClick={handleDiscardElementDraft}><img src={DELETE_ICON_SRC} alt="delete draft"/> Discard Element</button>}
                         {!isSolutionDraft && solutionElement.status === "draft" && <button className="action-button action-button--submit-draft" onClick={handleSubmitElementDraft}><img src={SUBMIT_ICON_SRC} alt="submit draft"/> Submit Proposal</button>}
-                        {!isSolutionDraft && solutionElement.status === "under_review" && isUserAuthor && <button className="action-button action-button--submit-draft" onClick={handlePublishElement}><img src={SUBMIT_ICON_SRC} alt="submit draft"/> Submit Proposal</button>}
+                        {!isSolutionDraft && solutionElement.status === "under_review" && isUserAuthor && <button className="action-button action-button--submit-draft" onClick={handlePublishElement}><img src={SUBMIT_ICON_SRC} alt="publish proposal"/> Publish Proposal</button>}
                         <button className="info-button info-button--footer" onClick={handleInfoButtonClick} aria-expanded={isShowingInfo} aria-controls="modal-footer-info">i</button>
                     </div>
                 </div>
