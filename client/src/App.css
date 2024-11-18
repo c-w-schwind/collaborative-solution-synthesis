@@ -1,11 +1,15 @@
 .App {
-  overflow-x: hidden;
   white-space: pre-wrap;
   /*background-color: #cccccc; /* #eef2ff  #432199 */
 }
 
 body {
   background-color: #cccccc;
+  overflow-x: hidden;
+}
+
+.body-scroll-lock {
+  overflow: hidden;
 }
 
 button {

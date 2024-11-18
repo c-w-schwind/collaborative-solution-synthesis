@@ -44,6 +44,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
             }
         }, []);
 
+
         // Update side panel type based on URL and comparison solution outlet states
         useLayoutEffect(() => {
             const pathSegments = location.pathname.split("/");
@@ -59,6 +60,18 @@ const withSidePanel = (WrappedComponent, entityType) => {
 
             setIsSolutionSidePanelOutletOpen(!isElementPath);
         }, [location.pathname]);
+
+
+        // Remove scroll function underneath element modal
+        useLayoutEffect(() => {
+            isModalOpen
+                ? document.body.classList.add('body-scroll-lock')
+                : document.body.classList.remove('body-scroll-lock');
+
+            return () => {
+                document.body.classList.remove('body-scroll-lock');
+            };
+        }, [isModalOpen]);
 
 
         // Activate overlay for solution elements
@@ -120,7 +133,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
 
 
         // Preserve scroll position of solution details page after closing side panel
-        /*useEffect(() => {
+        useEffect(() => {
             const originalScrollRestoration = window.history.scrollRestoration;
             if ("scrollRestoration" in window.history) {
                 window.history.scrollRestoration = "manual";
@@ -129,7 +142,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
             return () => {
                 window.history.scrollRestoration = originalScrollRestoration;
             };
-        }, []);*/
+        }, []);
 
 
         // Handle pending side panel transitions (when toggling new side panel while different one is still open)
@@ -361,7 +374,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
     };
 };
 
-const EnhancedSolutionDetailsPage = React.memo(withSidePanel(SolutionDetailsPage, "Solution"));
-const EnhancedSolutionElementModal = React.memo(withSidePanel(SolutionElementModal, "SolutionElement"));
+const EnhancedSolutionDetailsPage = withSidePanel(SolutionDetailsPage, "Solution");
+const EnhancedSolutionElementModal = withSidePanel(SolutionElementModal, "SolutionElement");
 
 export {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal};

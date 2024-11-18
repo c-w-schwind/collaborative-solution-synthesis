@@ -1,6 +1,6 @@
 import "./SolutionElementModal.css";
 import {EDIT_ICON_SRC, DELETE_ICON_SRC, SUBMIT_ICON_SRC} from "../../constants";
-import {memo, useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {useAuth} from "../../context/AuthContext";
 import {useLocation, useOutletContext, useParams} from "react-router-dom";
 import {useGlobal} from "../../context/GlobalContext";
@@ -381,4 +381,4 @@ function SolutionElementModal(props) {
     );
 }
 
-export default memo(SolutionElementModal);
+export default SolutionElementModal;
