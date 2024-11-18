@@ -2,7 +2,7 @@ import './ConfirmationModal.css';
 import {useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
 
-const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, buttonMode = "standard", size = 400}) => {
+const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, entityType, buttonMode = "standard", size = 400}) => {
     const previouslyFocusedElement = useRef(null);
     const cancelButtonRef = useRef(null);
     const confirmButtonRef = useRef(null);
@@ -53,8 +53,8 @@ const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, butt
         standard: "Confirm",
         delete: "Delete",
         submit_for_review: "Submit for Review",
-        initiate_review: "Initiate Reviewing Phase",
-        publish: "Publish Solution",
+        initiate_review: "Initiate Review Phase",
+        publish: `Publish ${entityType}`
     };
 
 

@@ -12,12 +12,14 @@ export const ConfirmationModalProvider = ({children}) => {
         onCancel: () => {},
         buttonMode: "standard",
         followUp: false,
-        size: "400"
+        size: "400",
+        entityType: "Solution"
     });
 
-    const showConfirmationModal = useCallback(({title, message, onConfirm, onCancel, buttonMode = "standard", size = "400", followUp = false, followUpMessage}) => {
+    // entityType only required for "publish" button mode
+    const showConfirmationModal = useCallback(({title, message, onConfirm, onCancel, entityType, buttonMode = "standard", size = "400", followUp = false, followUpMessage}) => {
         if (!followUp) {
-            setConfirmationModalContent({isVisible: true, title, message, onConfirm, onCancel, buttonMode, followUp, size});
+            setConfirmationModalContent({isVisible: true, title, message, onConfirm, onCancel, entityType, buttonMode, followUp, size});
         } else {
             setConfirmationModalContent({
                 isVisible: true,
@@ -28,10 +30,12 @@ export const ConfirmationModalProvider = ({children}) => {
                     title: "WARNING",
                     message: followUpMessage ? followUpMessage : "This action cannot be undone.\n\nDo you want to proceed?",
                     onConfirm: onConfirm,
+                    entityType,
                     buttonMode: buttonMode === "submit_for_review" ? "initiate_review" : buttonMode,
                     followUp: false
                 }),
                 onCancel,
+                entityType,
                 buttonMode,
                 followUp,
                 size
@@ -63,6 +67,7 @@ export const ConfirmationModalProvider = ({children}) => {
                     if (confirmationModalContent.onCancel) confirmationModalContent.onCancel();
                     hideConfirmationModal();
                 }}
+                entityType={confirmationModalContent.entityType}
                 buttonMode={confirmationModalContent.buttonMode}
                 size={confirmationModalContent.size}
             />
