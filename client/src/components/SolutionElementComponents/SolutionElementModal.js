@@ -51,13 +51,16 @@ function SolutionElementModal(props) {
 
     const titleRef = useRef(null);
     const footerRef = useOutsideClick(() => setIsShowingInfo(false));
+    const stableEntityType = useRef(entityType);
+    const stableElementNumber = useRef(elementNumber);
+    const stableComparisonEntityNumber = useRef(comparisonEntityNumber);
 
-
-    const fetchSolutionElement = useCallback(async () => {
+    const fetchElementData = useCallback(async () => {
         try {
-            const elementData = await handleRequest("GET", "element", entityType === "ComparisonElement" ? comparisonEntityNumber : elementNumber);
+            const id = stableEntityType.current === "ComparisonElement" ? stableComparisonEntityNumber.current : stableElementNumber.current;
+            const elementData = await handleRequest("GET", "element", id);
             setSolutionElement(elementData);
-            if (entityType === "SolutionElement") {
+            if (stableEntityType.current === "SolutionElement") {
                 setIsElementDraft(elementData.status === "draft" || elementData.status === "under_review");
             }
             setIsChangeProposal(Boolean(elementData.changeProposalFor) && ["draft", "under_review", "proposal"].includes(elementData.status));
@@ -71,12 +74,12 @@ function SolutionElementModal(props) {
                 return () => clearTimeout(retryTimeout);
             }
         }
-    }, [elementNumber, entityType, comparisonEntityNumber, setIsElementDraft, retryCount]);
+    }, [setIsElementDraft, retryCount]);
 
 
     useEffect(() => {
-        fetchSolutionElement();
-    }, [fetchSolutionElement]);
+        fetchElementData();
+    }, [fetchElementData]);
 
     useEffect(() => {
         if (solutionElement) setEntityTitle(solutionElement.title);
@@ -334,7 +337,7 @@ function SolutionElementModal(props) {
                     considerations={solutionElement.considerations}
                     parentType={"SolutionElement"}
                     parentNumber={elementNumber}
-                    onSuccessfulSubmit={fetchSolutionElement}
+                    onSuccessfulSubmit={fetchElementData}
                     entityType={entityType}
                 />
             </div>

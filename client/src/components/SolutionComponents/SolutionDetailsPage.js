@@ -1,6 +1,6 @@
 import "./SolutionDetailsPage.css";
 import {Outlet, useLocation, useOutletContext, useParams} from "react-router-dom";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import SolutionOverviewSection from "./SolutionOverviewSection";
 import SolutionElementList from "../SolutionElementComponents/SolutionElementList";
 import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
@@ -23,23 +23,29 @@ function SolutionDetailsPage(props) {
     const [errorMessage, setErrorMessage] = useState("");
     const [isFooterDisabled, setIsFooterDisabled] = useState(false);
 
-    const {isSolutionDraft, setIsSolutionDraft, shouldRefetchSolution, clearSolutionRefetchFlag} = useGlobal();
+    const {user} = useAuth();
     const location = useLocation();
     const {solutionNumber, comparisonEntityNumber} = useParams();
+    const {isSolutionDraft, setIsSolutionDraft, shouldRefetchSolution, clearSolutionRefetchFlag} = useGlobal();
     const {handleDiscardDraft, handleSubmitDraft, handlePublishSolution} = useDraftOperations(
         {solutionNumber: solution?.solutionNumber, title: solution?.title, status: solution?.status},
         isSolutionDraft
     );
-    const {user} = useAuth();
+
     const isUserAuthor = user?._id === solution?.proposedBy?._id;
     const isChangeProposal = Boolean(solution?.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution?.status);
+
+    const stableEntityType = useRef(entityType);
+    const stableSolutionNumber = useRef(solutionNumber);
+    const stableComparisonEntityNumber = useRef(comparisonEntityNumber);
 
 
     const fetchSolutionData = useCallback(async () => {
         try {
-            const solutionData = await handleRequest("GET", "solution", entityType === "ComparisonSolution" ? comparisonEntityNumber : solutionNumber);
+            const id = stableEntityType.current === "ComparisonSolution" ? stableComparisonEntityNumber.current : stableSolutionNumber.current;
+            const solutionData = await handleRequest("GET", "solution", id);
             setSolution(solutionData);
-            if (entityType === "Solution") {
+            if (stableEntityType.current === "Solution") {
                 setIsSolutionDraft(solutionData.status === "draft" || solutionData.status === "under_review");
             }
             setRetryCount(0);
@@ -55,10 +61,11 @@ function SolutionDetailsPage(props) {
                 }, 5000);
             }
         }
-    }, [entityType, comparisonEntityNumber, solutionNumber, retryCount, setIsSolutionDraft]);
+    }, [setIsSolutionDraft, retryCount]);
 
 
     useEffect(() => {
+        if (!stableEntityType.current || !stableSolutionNumber.current) return;
         fetchSolutionData();
     }, [fetchSolutionData]);
 

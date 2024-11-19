@@ -11,7 +11,6 @@ import {useGlobal} from "../../context/GlobalContext";
 const withSidePanel = (WrappedComponent, entityType) => {
     return function EnhancedComponent({...props}) {
         const [pendingSidePanel, setPendingSidePanel] = useState(null);
-        const [isSolutionSidePanelOutletOpen, setIsSolutionSidePanelOutletOpen] = useState(true);
         const [sidePanelType, setSidePanelType] = useState(null);
         const [displayedSidePanelType, setDisplayedSidePanelType] = useState(null);
         const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,8 +56,6 @@ const withSidePanel = (WrappedComponent, entityType) => {
                 setSidePanelType(isDiscussionSpacePath ? "DiscussionSpace" : isComparisonPath ? "Comparison" : null);
                 setDisplayedSidePanelType(isDiscussionSpacePath ? "DiscussionSpace" : isComparisonPath ? "Comparison" : null);
             }
-
-            setIsSolutionSidePanelOutletOpen(!isElementPath);
         }, [location.pathname]);
 
 
@@ -308,7 +305,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
                                     </div>
                                 </div>
                                 <div className={`modal-container-scrollable ${displayedSidePanelType === "Comparison" ? "comparison" : ""}`}>
-                                    {isSolutionSidePanelOutletOpen && <Outlet context={solutionOutletContext}/>}
+                                    {!location.pathname.includes("/element/") && <Outlet context={solutionOutletContext}/>}
                                 </div>
                             </div>
                         </div>
@@ -345,7 +342,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
                 default:
                     return null;
             }
-        }, [sidePanelType, handleFullScreenButton, displayedSidePanelType, toggleDiscussionSpace, toggleComparison, isSolutionSidePanelOutletOpen, solutionOutletContext, elementOutletContext, stopPropagation]);
+        }, [sidePanelType, handleFullScreenButton, displayedSidePanelType, toggleDiscussionSpace, toggleComparison, location.pathname, solutionOutletContext, elementOutletContext, stopPropagation]);
 
         return (
             <div
