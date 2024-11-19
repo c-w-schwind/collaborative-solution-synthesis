@@ -1,4 +1,3 @@
-import "./SolutionElementCard.css";
 import {useNavigate, useParams} from "react-router-dom";
 import {useFormData} from "../../context/FormDataContext";
 import {useCallback, useEffect} from "react";
@@ -18,7 +17,7 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
     const {showConfirmationModal} = useConfirmationModal();
 
     const navigateToElement = useCallback(() => {
-        if ((entityType === "ComparisonSolution")) {
+        if (entityType === "ComparisonSolution") {
             showConfirmationModal({
                 title: "Navigate to Original Solution?",
                 message: `\nYou are about to leave the current Change Proposal view and navigate to the original Solution to view the Element${isChangeProposal ? " Change Proposal" : ""} "${element.title}".\n\nDo you wish to proceed?`,
@@ -27,7 +26,7 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
         } else {
             navigate(`./element/${element.elementNumber}`, {state: {fromElementCard: true}});
         }
-    }, [entityType,showConfirmationModal, isChangeProposal, element.title, comparisonEntityNumber, navigate, element.elementNumber]);
+    }, [entityType, showConfirmationModal, isChangeProposal, element.title, comparisonEntityNumber, navigate, element.elementNumber]);
 
     const handleTransitionEnd = useCallback((event) => {
         if (event.propertyName === "opacity") {
@@ -73,7 +72,7 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
 
 
     const getCardClasses = () => {
-        let classes = "solution-element-card ";
+        let classes = "card solution-element-card ";
 
         if (isDraft) {
             classes += isSolutionDraft && (entityType !== "ComparisonSolution") ? "new-element-proposal" : "draft";
@@ -84,6 +83,10 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
         } else if (element.status === "proposal") {
             classes += "new-element-proposal";
         }
+
+        /*if (unreadContentInside) {
+            classes += " with-shimmer-border";
+        }*/
 
         return classes;
     };
@@ -96,17 +99,19 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
         const cardType = isChangeProposal ? "Change Proposal" : "Element Proposal";
         let statusInfo = isDraft ? " - Private Draft" : isUnderReview ? " - Under Review" : "";
 
-        return (<h4 className="solution-element-card-type-info">{cardType + statusInfo}</h4>)
-    }
+        return (<h4 className="solution-element-card-type-info">{cardType + statusInfo}</h4>);
+    };
 
 
     return (
         <div className={getCardClasses()} onClick={handleClick} style={{cursor: "pointer"}}>
-            <div className="element-card-header">
-                <h4>{element.title} ({element.elementType})</h4>
-                {getTypeInfo()}
+            <div className={`content ${isChangeProposal && !isDraft ? "change-proposal" : ""} ${isUnderReview && !isSolutionDraft ? "review" : ""}`}>
+                <div className="element-card-header">
+                    <h4>{element.title} ({element.elementType})</h4>
+                    {getTypeInfo()}
+                </div>
+                <p>{isChangeProposal ? element.changeSummary : element.overview}</p>
             </div>
-            <p>{isChangeProposal ? element.changeSummary : element.overview}</p>
         </div>
     );
 };

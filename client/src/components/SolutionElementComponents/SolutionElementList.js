@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import SolutionElementCard from "./SolutionElementCard.js";
+import SolutionElementCard from "../Cards/SolutionElementCard.js";
 import SolutionElementInput from "./SolutionElementInput";
 import {useNavigate} from "react-router-dom";
 import {useGlobal} from "../../context/GlobalContext";

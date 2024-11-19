@@ -1,6 +1,6 @@
 import "./SolutionListPage.css";
 import {useCallback, useEffect, useState} from "react";
-import SolutionCard from "./SolutionCard";
+import SolutionCard from "../Cards/SolutionCard";
 import SolutionInput from "./SolutionInput";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {handleRequest} from "../../services/solutionApiService";

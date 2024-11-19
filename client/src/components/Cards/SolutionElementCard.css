@@ -1,0 +1,47 @@
+.solution-element-card {
+    border: 1px solid #dee2e6;
+    transition: box-shadow 0.15s, color 0.15s, background-color 0.15s;
+    color: #282828;
+}
+
+.solution-element-card.change-proposal {
+    margin: 4px 10px 0 40px;
+}
+
+.solution-element-card:hover {
+    box-shadow: 0 0 5px 3px rgba(100, 100, 100, 0.15);
+    color: #000000;
+    transform: scale(1.005);
+    filter: brightness(102%);
+}
+
+.solution-element-card:hover h4 {
+    color: #000000;
+}
+
+.element-card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.solution-element-card h4 {
+    margin: 5px 0;
+    color: #2c2c2c;
+}
+
+.solution-element-card p {
+    margin: 11px 0 16px 0;
+}
+
+.solution-element-card-type-info {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: lighter;
+    line-height: 1.3;
+    color: #555;
+    margin: 0 0 10px 0;
+    align-self: flex-end;
+    text-align: end;
+    transform: translateY(-12px);
+}
