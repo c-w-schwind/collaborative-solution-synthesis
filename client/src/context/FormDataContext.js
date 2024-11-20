@@ -506,7 +506,7 @@ export const FormDataProvider = ({children}) => {
     }, [checkLoggedIn, isConsiderationFormFilled, openedConsiderationFormId, initFormData]);
 
 
-    const toggleCommentSection = useCallback((considerationId, ref) => {
+    const toggleCommentSection = useCallback((considerationId, ref, scrollContainerRef) => {
         setOpenedCommentSectionId(prevId => {
             const sameForm = prevId === considerationId;
             const message = `You have unsaved text in ${sameForm ? "this" : "a different"} comment form. ${sameForm ? "Closing it" : "Opening this one"} will delete your ${sameForm ? "input" : "other comment"}. Proceed?`;
@@ -521,13 +521,23 @@ export const FormDataProvider = ({children}) => {
 
             setTimeout(() => {
                 if (ref?.current) {
-                    const refPosition = ref.current.getBoundingClientRect().top + window.scrollY;
-                    const offsetPosition = refPosition - 180;
+                    if (scrollContainerRef?.current) {
+                        const containerPosition = ref.current.getBoundingClientRect().top - scrollContainerRef.current.getBoundingClientRect().top + scrollContainerRef.current.scrollTop;
+                        const containerOffset = containerPosition - 180;
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
+                        scrollContainerRef.current.scrollTo({
+                            top: containerOffset,
+                            behavior: "smooth"
+                        });
+                    } else {
+                        const refPosition = ref.current.getBoundingClientRect().top + window.scrollY;
+                        const offsetPosition = refPosition - 180;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
                 }
             }, 300); // Matching animation's completion time
 

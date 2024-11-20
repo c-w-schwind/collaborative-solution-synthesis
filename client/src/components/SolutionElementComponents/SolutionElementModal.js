@@ -51,6 +51,7 @@ function SolutionElementModal(props) {
 
     const titleRef = useRef(null);
     const footerRef = useOutsideClick(() => setIsShowingInfo(false));
+    const scrollContainerRef = useRef(null);
     const stableEntityType = useRef(entityType);
     const stableElementNumber = useRef(elementNumber);
     const stableComparisonEntityNumber = useRef(comparisonEntityNumber);
@@ -273,7 +274,7 @@ function SolutionElementModal(props) {
 
             <div className={`element-modal-footer-overlay ${isShowingInfo ? "element-modal-footer-overlay-active" : ""}`} onClick={() => setIsShowingInfo(false)}></div>
 
-            <div className={entityType === "SolutionElement" ? "modal-container-scrollable" : "modal-container-non-scrollable"} style={isShowingInfo ? {maxHeight: "30vh"} : {}}>
+            <div ref={scrollContainerRef} className={entityType === "SolutionElement" ? "modal-container-scrollable" : "modal-container-non-scrollable"} style={isShowingInfo ? {maxHeight: "30vh"} : {}}>
 
                 {isChangeProposal && <div className="element-details-container change-summary">
                     <div className="solution-header">
@@ -339,6 +340,7 @@ function SolutionElementModal(props) {
                     parentNumber={elementNumber}
                     onSuccessfulSubmit={fetchElementData}
                     entityType={entityType}
+                    scrollContainerRef={scrollContainerRef}
                 />
             </div>
 

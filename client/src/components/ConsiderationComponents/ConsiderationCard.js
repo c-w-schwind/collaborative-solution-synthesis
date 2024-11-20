@@ -7,7 +7,7 @@ import {useAuth} from "../../context/AuthContext";
 import ConsiderationInput from "./ConsiderationInput";
 
 
-const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
+const ConsiderationCard = ({considerationData, parentType, parentNumber, scrollContainerRef}) => {
     const [consideration, setConsideration] = useState(considerationData);
     const [showComments, setShowComments] = useState(false);
     const [renderComments, setRenderComments] = useState(false);
@@ -85,7 +85,7 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber}) => {
                                 onVoteSuccess={handleInteractionSuccess}
                                 voteEndpoint={`considerations/${consideration._id}/vote`}
                             />
-                            <button onClick={() => toggleCommentSection(consideration._id, commentsContainerRef)}>
+                            <button onClick={() => toggleCommentSection(consideration._id, commentsContainerRef, scrollContainerRef)}>
                                 <img src="http://localhost:3000/comments.png" alt="comments"/>
                                 {consideration.comments.length}
                             </button>

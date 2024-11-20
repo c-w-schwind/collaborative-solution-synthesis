@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import ConsiderationInput from "./ConsiderationInput";
 
 
-const ConsiderationList = ({considerations: initialConsiderations, parentType, parentNumber, onSuccessfulSubmit, entityType}) => {
+const ConsiderationList = ({considerations: initialConsiderations, parentType, parentNumber, onSuccessfulSubmit, entityType, scrollContainerRef = null}) => {
     const [considerations, setConsiderations] = useState(initialConsiderations);
     const [visibility, setVisibility] = useState({Pro: true, Con: true, Neutral: true});
 
@@ -67,6 +67,7 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
                                         considerationData={consideration}
                                         parentType={parentType}
                                         parentNumber={parentNumber}
+                                        scrollContainerRef={scrollContainerRef}
                                     />
                                 ))}
                             </div>

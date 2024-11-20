@@ -52,11 +52,11 @@ const VotingModule = ({votableItem, onVoteSuccess, voteEndpoint}) => {
         <div className="voting-module">
             <section>
                 <div>{votableItem.votes.upvotes.length}</div>
-                <button className={`vote-button upvote ${upvoteClass}`} onClick={() => handleVote('upvote')}>^</button>
+                <button className={`vote-button upvote ${upvoteClass}`} onClick={() => handleVote('upvote')}>Λ</button>
             </section>
             <section>
                 <div>{votableItem.votes.downvotes.length}</div>
-                <button className={`vote-button downvote ${downvoteClass}`} onClick={() => handleVote('downvote')}>v</button>
+                <button className={`vote-button downvote ${downvoteClass}`} onClick={() => handleVote('downvote')}>V</button>
             </section>
         </div>
     );
