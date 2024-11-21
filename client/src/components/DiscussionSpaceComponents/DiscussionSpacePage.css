@@ -23,6 +23,15 @@
     box-shadow: inset 0 0 7px 1px rgba(140, 140, 140, 0.1);
 }
 
+.discussion-space-container {
+    position: relative;
+}
+
+.discussion-space-content {
+    position: relative;
+    min-height: 400px;
+}
+
 .discussion-space-pagination {
     display: flex;
     justify-content: center;
@@ -85,6 +94,7 @@
 }
 
 .discussion-space-full-screen-container {
+    position: relative;
     padding: 0 0 40px 0;
     width: 50vw;
     background-color: #fff;
@@ -107,7 +117,10 @@
 }
 
 .discussion-space-full-screen-content {
+    position: relative;
     padding: 0 20px;
+    margin: 0 40px;
+    min-height: 400px;
 }
 
 .discussion-space-full-screen-title {

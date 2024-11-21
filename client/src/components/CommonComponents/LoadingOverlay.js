@@ -1,18 +1,23 @@
 import './LoadingOverlay.css';
-import {createPortal} from "react-dom";
+import { createPortal } from "react-dom";
 
-const LoadingOverlay = ({isVisible, message}) => {
+const LoadingOverlay = ({ isVisible, message, isFullScreen = true }) => {
     if (!isVisible) return null;
 
-    return createPortal(
-        <div className="loading-overlay" role="alert" aria-busy="true" aria-live="assertive">
+    const overlayContent = (
+        <div className={`loading-overlay ${isFullScreen ? 'full-screen' : 'component-level'}`}>
             <div className="loading-content">
                 <div className="spinner"></div>
                 {message && <div className="loading-message">{message}</div>}
             </div>
-        </div>,
-        document.body
+        </div>
     );
+
+    if (isFullScreen) {
+        return createPortal(overlayContent, document.body);
+    }
+
+    return overlayContent;
 };
 
 export default LoadingOverlay;
