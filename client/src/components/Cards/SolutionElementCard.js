@@ -1,7 +1,7 @@
+import React, {useCallback, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {useFormData} from "../../context/FormDataContext";
-import {useCallback, useEffect} from "react";
 import {useGlobal} from "../../context/GlobalContext";
+import {useFormData} from "../../context/FormDataContext";
 import {useConfirmationModal} from "../../context/ConfirmationModalContext";
 
 
@@ -116,4 +116,4 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
     );
 };
 
-export default SolutionElementCard;
+export default React.memo(SolutionElementCard);

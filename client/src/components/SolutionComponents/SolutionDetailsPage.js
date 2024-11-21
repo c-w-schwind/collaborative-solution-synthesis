@@ -156,6 +156,7 @@ function SolutionDetailsPage(props) {
                             currentSidePanelType={currentSidePanelType}
                             parentNumber={solutionNumber}
                             isUserAuthor={isUserAuthor}
+                            isPublicChangeProposal={solution.status === "proposal"}
                         />
                         <ConsiderationList
                             considerations={solution.considerations}

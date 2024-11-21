@@ -1,11 +1,11 @@
 import {useCallback, useEffect, useState} from "react";
-import SolutionElementCard from "../Cards/SolutionElementCard.js";
-import SolutionElementInput from "./SolutionElementInput";
 import {useNavigate} from "react-router-dom";
 import {useGlobal} from "../../context/GlobalContext";
+import SolutionElementCard from "../Cards/SolutionElementCard.js";
+import SolutionElementInput from "./SolutionElementInput";
 
 
-const SolutionElementList = ({elements, elementDrafts, entityType, onToggleDiscussionSpace, onToggleComparison, currentSidePanelType, parentNumber, isUserAuthor}) => {
+const SolutionElementList = ({elements, elementDrafts, entityType, onToggleDiscussionSpace, onToggleComparison, currentSidePanelType, parentNumber, isUserAuthor, isPublicChangeProposal}) => {
     const [localElements, setLocalElements] = useState(elements);
     const [localElementDrafts, setLocalElementDrafts] = useState(elementDrafts);
 
@@ -72,6 +72,10 @@ const SolutionElementList = ({elements, elementDrafts, entityType, onToggleDiscu
         navigate(`element/${newElement.elementNumber}`, {state: {fromCreation: true}});
     }, [navigate]);
 
+    const shouldAllowNewElementProposals = !isComparisonSolution && (
+        (isSolutionDraft && isUserAuthor) ||
+        (!isSolutionDraft && !isPublicChangeProposal)
+    );
 
     return (
         <div className="solution-details-list-container">
@@ -123,7 +127,7 @@ const SolutionElementList = ({elements, elementDrafts, entityType, onToggleDiscu
             ) : (
                 <div className="solution-overview-section-text">No solution elements proposed yet.</div>
             )}
-            {!isComparisonSolution && ((isSolutionDraft && isUserAuthor) || !isSolutionDraft) && <SolutionElementInput
+            {shouldAllowNewElementProposals && <SolutionElementInput
                 onSuccessfulSubmit={handleSubmit}
                 parentNumber={parentNumber}
             />}
