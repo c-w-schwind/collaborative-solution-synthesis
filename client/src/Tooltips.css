@@ -1,0 +1,84 @@
+[data-tooltip], [data-tooltip-down] {
+    position: relative;
+}
+
+/* Tooltip upwards */
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    transform: translateY(-30%);
+    background-color: rgb(91, 91, 91);
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.1s ease-in-out;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Arrow below tooltip */
+[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    transform: translateY(-110%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(91, 91, 91) transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.1s ease-in-out;
+}
+
+
+/* Tooltip downwards */
+[data-tooltip-down]::after {
+    content: attr(data-tooltip-down);
+    position: absolute;
+    top: 100%;
+    transform: translateY(30%);
+    background-color: rgb(91, 91, 91);
+    color: #fff;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.1s ease-in-out;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Arrow below tooltip */
+[data-tooltip-down]::before {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    transform: translateY(110%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent rgb(91, 91, 91) transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.1s ease-in-out;
+}
+
+[data-tooltip]:hover::after,
+[data-tooltip]:hover::before,
+[data-tooltip]:focus-visible::after,
+[data-tooltip]:focus-visible::before,
+[data-tooltip-down]:hover::after,
+[data-tooltip-down]:hover::before,
+[data-tooltip-down]:focus-visible::after,
+[data-tooltip-down]:focus-visible::before {
+    opacity: 1;
+    visibility: visible;
+}

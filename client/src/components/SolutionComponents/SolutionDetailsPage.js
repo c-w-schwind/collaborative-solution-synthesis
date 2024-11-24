@@ -146,6 +146,7 @@ function SolutionDetailsPage(props) {
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
                             onToggleComparison={onToggleComparison}
                             isUserAuthor={isUserAuthor}
+                            currentSidePanelType={currentSidePanelType}
                         />
                         <SolutionElementList
                             elements={solution.solutionElements}

@@ -135,6 +135,12 @@
     font-style: italic;
 }
 
+.title-container {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
 .element-title {
     display: flex;
     flex-direction: row;
@@ -163,7 +169,7 @@
     display: block;
 }
 
-.solution-element-button-section {
+.button-section {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;

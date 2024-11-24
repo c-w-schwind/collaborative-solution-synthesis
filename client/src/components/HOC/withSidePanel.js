@@ -290,7 +290,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
                             >
                                 <div className="modal-header">
                                     <h2>{sidePanelType === "DiscussionSpace" ? "Discussion Space" : "Original Solution"}</h2>
-                                    <div className="solution-element-button-section">
+                                    <div className="button-section">
                                         <button
                                             className="action-button action-button--propose-changes"
                                             onClick={handleFullScreenButton}
@@ -319,7 +319,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
                         >
                             <div className="modal-header">
                                 <h2>{sidePanelType === "DiscussionSpace" ? "Discussion Space" : "Original Element"}</h2>
-                                <div className="solution-element-button-section">
+                                <div className="button-section">
                                     <button
                                         className="action-button action-button--propose-changes"
                                         onClick={handleFullScreenButton}

@@ -1,5 +1,5 @@
 import "./SolutionElementModal.css";
-import {EDIT_ICON_SRC, DELETE_ICON_SRC, SUBMIT_ICON_SRC} from "../../constants";
+import {EDIT_ICON_SRC, DELETE_ICON_SRC, SUBMIT_ICON_SRC, DISCUSSION_ICON_SRC} from "../../constants";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useAuth} from "../../context/AuthContext";
 import {useLocation, useOutletContext, useParams} from "react-router-dom";
@@ -38,6 +38,7 @@ function SolutionElementModal(props) {
     const location = useLocation();
     const {user} = useAuth();
     const isUserAuthor = user?._id === solutionElement?.proposedBy?._id;
+    const discussionTooltipText = currentSidePanelType === "DiscussionSpace" ? "Close Discussion Space" : "Open Discussion Space";
 
     const {
         elementDraftTitleFormData, setElementDraftTitleFormData,
@@ -171,13 +172,18 @@ function SolutionElementModal(props) {
     },[]);
 
 
-    const renderEditButton = useCallback((isOpen, onClick, label, style = {}) => {
+    const renderEditButton = useCallback((isOpen, onClick, label, style = {}, tooltip) => {
         if (entityType === "ComparisonElement") return;
         return isUserAuthor && !isOpen && (
-            <button className="draft-edit-button" onClick={onClick} style={style}>
+            <button
+                className="draft-edit-button"
+                onClick={onClick}
+                style={style}
+                data-tooltip-down={tooltip}
+            >
                 {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
             </button>
-        )
+        );
     }, [entityType, isUserAuthor]);
 
     const renderComparisonButton = useCallback(() => {
@@ -205,7 +211,6 @@ function SolutionElementModal(props) {
         return <h2>{title}</h2>
     }, [solutionElement, isChangeProposal])
 
-
     const outerClassName = () => {
         let className = "modal-container";
 
@@ -218,6 +223,7 @@ function SolutionElementModal(props) {
         return className;
     }
 
+
     if (solutionElement === null) {
         return (
             <LoadingRetryOverlay
@@ -229,18 +235,34 @@ function SolutionElementModal(props) {
         );
     }
 
+
     return (
         <div className={outerClassName()} onClick={(e) => e.stopPropagation()}>
             <div className={entityType === "SolutionElement" ? "modal-header" : ""}>
-                <h2 className="element-title" style={entityType === "ComparisonElement" ? {padding: "0 30px", marginBottom: 0} : {}}>
-                    {entityType === "SolutionElement" ? (
-                        <span ref={titleRef} className="element-title-text">
-                            {getDisplayTitle()}
-                            {isTitleOverflowing && <div className="full-title-overlay">{getDisplayTitle()}</div>}
-                        </span>
-                    ) : (
-                        getDisplayTitle()
-                    )}
+                <div className="title-container">
+                    <h2 className="element-title" style={entityType === "ComparisonElement" ? {padding: "0 30px", marginBottom: 0} : {}}>
+                        {entityType === "SolutionElement" ? (
+                            <span ref={titleRef} className="element-title-text">
+                                {getDisplayTitle()}
+                                {isTitleOverflowing && <div className="full-title-overlay">{getDisplayTitle()}</div>}
+                            </span>
+                        ) : (
+                            getDisplayTitle()
+                        )}
+
+                        {isElementDraftTitleFormOpen && (
+                            <div className="draft-form" style={{width: "30vw", marginTop: "-20px", fontSize: "16px", fontWeight: "lighter", textWrap: "wrap"}}>{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
+                                <GenericForm
+                                    onSubmit={handleTitleEditSubmit}
+                                    config={formConfigurations.draftTitleForm}
+                                    formData={elementDraftTitleFormData}
+                                    setFormData={setElementDraftTitleFormData}
+                                    previousData={solutionElement}
+                                    onCancel={toggleElementDraftTitleForm}
+                                />
+                            </div>
+                        )}
+                    </h2>
 
                     {isElementDraft && renderEditButton(isElementDraftTitleFormOpen, handleTitleEditButton, "", {
                         alignSelf: "start",
@@ -249,25 +271,12 @@ function SolutionElementModal(props) {
                         paddingLeft: "9px",
                         paddingRight: "12px",
                         height: "30px"
-                    })}
+                    }, "Edit Title")}
+                </div>
 
-                    {isElementDraftTitleFormOpen && (
-                        <div className="draft-form" style={{width: "30vw", marginTop: "-20px", fontSize: "16px", fontWeight: "lighter", textWrap: "wrap"}}>{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}
-                            <GenericForm
-                                onSubmit={handleTitleEditSubmit}
-                                config={formConfigurations.draftTitleForm}
-                                formData={elementDraftTitleFormData}
-                                setFormData={setElementDraftTitleFormData}
-                                previousData={solutionElement}
-                                onCancel={toggleElementDraftTitleForm}
-                            />
-                        </div>
-                    )}
-                </h2>
-
-                <div className="solution-element-button-section">
-                    {!isElementDraft && entityType === "SolutionElement" && !isChangeProposal && <button className="action-button action-button--propose-changes">Propose Changes</button>}
-                    {entityType === "SolutionElement" && <button className="action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>}
+                <div className="button-section">
+                    {!isElementDraft && entityType === "SolutionElement" && !isChangeProposal && <button className="action-button icon-action-button action-button--propose-changes" data-tooltip-down="Propose Change"><img src={EDIT_ICON_SRC} alt="propose change"/></button>}
+                    {entityType === "SolutionElement" && <button className="action-button icon-action-button discussion-space-button" data-tooltip-down={discussionTooltipText} onClick={onToggleDiscussionSpace}><img src={DISCUSSION_ICON_SRC} alt="discussion space"/></button>}
                     {entityType === "SolutionElement" && <button className="action-button action-button--close" aria-label="Close" onClick={onClosingModal}>X</button>}
                 </div>
             </div>
@@ -347,7 +356,7 @@ function SolutionElementModal(props) {
             {isElementDraft && entityType === "SolutionElement" && <div ref={footerRef} className={`modal-footer ${isShowingInfo ? "expanded" : ""}`}>
                 <div className="footer-top">
                     {getFooterTitle()}
-                    <div className="solution-element-button-section">
+                    <div className="button-section">
                         {isUserAuthor && <button className="action-button action-button--discard-draft" onClick={handleDiscardElementDraft}><img src={DELETE_ICON_SRC} alt="delete draft"/> Discard Element</button>}
                         {!isSolutionDraft && solutionElement.status === "draft" && <button className="action-button action-button--submit-draft" onClick={handleSubmitElementDraft}><img src={SUBMIT_ICON_SRC} alt="submit draft"/> Submit Proposal</button>}
                         {!isSolutionDraft && solutionElement.status === "under_review" && isUserAuthor && <button className="action-button action-button--submit-draft" onClick={handlePublishElement}><img src={SUBMIT_ICON_SRC} alt="publish proposal"/> Publish Proposal</button>}

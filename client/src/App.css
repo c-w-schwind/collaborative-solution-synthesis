@@ -45,6 +45,7 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 }
 
 .action-button {
+  justify-content: center;
   display: flex;
   padding: 8px 13px;
   font-size: 14px;
@@ -65,9 +66,14 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 .discussion-space-button:hover {background: linear-gradient(125deg, #9553d3, #521DA6FF);}
 .discussion-space-button:active {background: linear-gradient(125deg, #8046b6, #451A8AFF);}
 
-.action-button--propose-changes {background: linear-gradient(125deg, #6b8be1, #3866de);}
-.action-button--propose-changes:hover {background: linear-gradient(125deg, #5772bb, #2f56bb);}
-.action-button--propose-changes:active {background: linear-gradient(125deg, #2c53b9, #223f97);}
+.discussion-space-button img {
+  height: 15px;
+  margin-top: 2px;
+}
+
+.action-button--propose-changes {background: linear-gradient(125deg, #5ba0f3, #226cd9);}
+.action-button--propose-changes:hover {background: linear-gradient(125deg, #4d86ca, #1b56b1);}
+.action-button--propose-changes:active {background: linear-gradient(125deg, #1d5ab4, #15488e);}
 
 .action-button--close {background-color: #bd0000;}
 .action-button--close:hover {background-color: #9a0000;}
@@ -95,7 +101,9 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 
 .info-button {
   margin-left: 5px;
-  background: linear-gradient(125deg, #49b2ff, #1182ff);
+  background: linear-gradient(125deg, #ffb746, #b27500);
+  background-size: 150%; /* Enable animation by doubling the size */
+  background-position: left; /* Default position */
   border-radius: 4px;
   position: relative;
   z-index: 1;
@@ -103,6 +111,8 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   font-weight: bold;
   transition: all 0.3s ease-in-out;
 }
+.info-button:hover {background-position: center;}
+.info-button:active {background-position: right;}
 
 .info-button--footer {
   height: 35px;
@@ -111,7 +121,6 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 }
 
 .info-button:hover, .info-button.active {
-  background: linear-gradient(125deg, #49a5ff, #1175ff);
   border-radius: 7px;
   color: white;
 }
@@ -130,10 +139,15 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 .draft-edit-button:hover {background-image: linear-gradient(125deg, #00b45f, #00773d);}
 .draft-edit-button:active {background-image: linear-gradient(125deg, #008340, #006b35);}
 
-.draft-edit-button img {
+.draft-edit-button img, .action-button--propose-changes img {
   height: 20px;
-  margin-right: -5px;
+  margin-right: -4px;
   margin-top: -2px;
+}
+
+.icon-action-button {
+  width: 45px;
+  height: 33px;
 }
 
 .comparison-button {
@@ -151,9 +165,6 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 
 .comparison-button:hover {background: linear-gradient(125deg, #ff9a00, #c9861a);}
 .comparison-button:active {background: linear-gradient(125deg, #e68f00, #b57a17);}
-
-
-
 
 .action-button--submit-draft img, .action-button--discard-draft img {
   height: 16px;

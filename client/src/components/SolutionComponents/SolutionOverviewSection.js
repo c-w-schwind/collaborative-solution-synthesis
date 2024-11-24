@@ -1,5 +1,5 @@
 import "./SolutionOverviewSection.css";
-import {EDIT_ICON_SRC} from "../../constants";
+import {DISCUSSION_ICON_SRC, EDIT_ICON_SRC} from "../../constants";
 import {useCallback, useState} from "react";
 import {useLoading} from "../../context/LoadingContext";
 import {useFormData} from "../../context/FormDataContext";
@@ -10,10 +10,8 @@ import useOutsideClick from "../../hooks/useOutsideClickHook";
 import {useLocation} from "react-router-dom";
 
 
-const SolutionOverviewSection = ({solution, setSolution, onToggleComparison, onToggleDiscussionSpace, isUserAuthor, entityType}) => {
+const SolutionOverviewSection = ({solution, setSolution, onToggleComparison, onToggleDiscussionSpace, isUserAuthor, entityType, currentSidePanelType}) => {
     const [showMeta, setShowMeta] = useState(false);
-    const isChangeProposal = Boolean(solution.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution.status);
-    const isLocalSolutionDraft = solution.status === "draft" || solution.status === "under_review"; // Not using global isSolutionDraft to handle side-panel comparison solutions independently
 
     const location = useLocation();
     const {showLoading, hideLoading} = useLoading();
@@ -28,6 +26,10 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleComparison, onT
     } = useFormData();
 
     const metaRef = useOutsideClick(() => setShowMeta(false));
+
+    const isChangeProposal = Boolean(solution.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution.status);
+    const isLocalSolutionDraft = solution.status === "draft" || solution.status === "under_review"; // Not using GlobalContext's isSolutionDraft to handle side-panel comparison solutions independently
+    const discussionTooltipText = currentSidePanelType === "DiscussionSpace" ? "Close Discussion Space" : "Open Discussion Space";
 
 
     const handleUpdateSolution = (updatedFields) => {
@@ -137,11 +139,11 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleComparison, onT
                     )}
                 </h2>
 
-                <div className="solution-element-button-section">
-                    {!isLocalSolutionDraft && entityType === "Solution" && <button className="action-button action-button--propose-changes">Propose Changes</button>}
-                    {entityType === "Solution" && <button className="action-button discussion-space-button" onClick={onToggleDiscussionSpace}>Discussion Space</button>}
+                <div className="button-section">
+                    {!isLocalSolutionDraft && entityType === "Solution" && <button className="action-button icon-action-button action-button--propose-changes" data-tooltip="Propose Change"><img src={EDIT_ICON_SRC} alt="propose change"/></button>}
+                    {entityType === "Solution" && <button className="action-button icon-action-button discussion-space-button" data-tooltip={discussionTooltipText} onClick={onToggleDiscussionSpace}><img src={DISCUSSION_ICON_SRC} alt="discussion space"/></button>}
                     <div ref={metaRef} className="meta-button-container">
-                        <button className={`action-button info-button ${showMeta ? "active" : ""}`} style={{padding: "8px 15px"}} onClick={handleMetaButtonClick}>i</button>
+                        <button className={`action-button info-button ${showMeta ? "active" : ""}`} style={{padding: "8px 15px", width: "33px", height: "33px"}} onClick={handleMetaButtonClick}>i</button>
                         {showMeta && (
                             <div className="solution-overview-meta">
                                 <span className="proposed-by">Proposed by: {solution.proposedBy.username}</span>

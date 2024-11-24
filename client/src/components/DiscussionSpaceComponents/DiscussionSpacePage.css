@@ -82,8 +82,9 @@
 
 .discussion-space-full-screen-button {
     margin: 0 20px;
-    border: 3px solid #9ca1ff;
+    border: 5px solid transparent;
     box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.1);
+    border-image: linear-gradient(125deg, #a4abf8, #9ca1ff) 1;
 }
 
 .fullscreen-wrapper {

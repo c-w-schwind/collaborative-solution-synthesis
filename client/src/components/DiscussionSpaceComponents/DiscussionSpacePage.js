@@ -88,7 +88,7 @@ function DiscussionSpacePage() {
     return (
         <>
             {isFullscreenMode && <div className="discussion-space-full-screen-button-area">
-                <button className="discussion-space-full-screen-button" onClick={() => navigate(-1)}>Close Fullscreen Mode</button>
+                <button className="discussion-space-full-screen-button action-button--propose-changes" onClick={() => navigate(-1)}>Close Fullscreen Mode</button>
             </div>}
             <div className={isFullscreenMode ? "fullscreen-wrapper" : ""}>
                 <div className={isFullscreenMode ? "discussion-space-full-screen-container" : "discussion-space-container"} style={{ position: 'relative' }}>{/* Ensure relative positioning for absolute overlay*/}

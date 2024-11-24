@@ -1,4 +1,5 @@
 import './App.css';
+import './Tooltips.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 import {GlobalProvider} from "./context/GlobalContext";
