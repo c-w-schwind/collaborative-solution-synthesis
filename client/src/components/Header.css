@@ -179,7 +179,7 @@
 }
 
 .logout-button {
-    background-color: rgba(170, 0, 0, 0.28);
+    background: linear-gradient(125deg, #fda4a4, #b67e7e);
     color: #000;
     text-align: right;
     font-weight: bold;
@@ -193,7 +193,7 @@
 }
 
 .logout-button:hover {
-    background-color: rgba(199, 0, 0, 0.78);
+    background: linear-gradient(125deg, #ff6262, #a43131);
     color: #f0f0f0;
 }
 

@@ -5,6 +5,7 @@ import {useAuth} from "../context/AuthContext";
 import {useToasts} from "../context/ToastContext";
 import useOutsideClick from "../hooks/useOutsideClickHook";
 import {useFormData} from "../context/FormDataContext";
+import {PAGE_LOGO} from "../constants";
 
 
 function Header() {
@@ -35,10 +36,10 @@ function Header() {
     };
 
     return (
-        <header className="header-container">
+        <div className="header-container">
             <header className="header">
                 <div className="logo" >
-                    <NavLink to="/" tabIndex={-1} onClick={(e) => handleNavigation(e,{checkAll: true}, '/')}><img src="http://localhost:3000/PlaceholderLogoCollectiveSynthesis.jpg" alt="Your Logo"/></NavLink>
+                    <NavLink to="/" tabIndex={-1} onClick={(e) => handleNavigation(e,{checkAll: true}, '/')}><img src={PAGE_LOGO} alt="Your Logo"/></NavLink>
                 </div>
                 <div ref={navMenuRef}>
                     <button className={`nav-menu-toggle${isNavMenuVisible ? ' menu-open' : ''}`} onClick={() => setIsNavMenuVisible(!isNavMenuVisible)}>
@@ -76,7 +77,7 @@ function Header() {
                     )}
                 </div>
             </header>
-        </header>
+        </div>
     );
 }
 

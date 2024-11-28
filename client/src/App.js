@@ -1,5 +1,6 @@
 import './App.css';
 import './Tooltips.css';
+import {HOMEPAGE_PICTURE} from "./constants";
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 import {GlobalProvider} from "./context/GlobalContext";
@@ -14,10 +15,10 @@ import PublicRoute from "./routes/PublicRoute";
 import LoginPage from './components/AuthenticationComponents/LoginPage';
 import SolutionListPage from "./components/SolutionComponents/SolutionListPage";
 import DiscussionSpacePage from "./components/DiscussionSpaceComponents/DiscussionSpacePage";
-
-import {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal} from "./components/HOC/withSidePanel";
 import SolutionDetailsPage from "./components/SolutionComponents/SolutionDetailsPage";
 import SolutionElementModal from "./components/SolutionElementComponents/SolutionElementModal";
+
+import {EnhancedSolutionDetailsPage, EnhancedSolutionElementModal} from "./components/HOC/withSidePanel";
 
 
 function App() {
@@ -67,7 +68,7 @@ function IndexPage () {
             alignItems: 'center',
             height: '80vh',
         }}>
-            <img src="http://localhost:3000/PlaceholderPictureCollectiveSynthesis.jpg" alt="Your Logo"
+            <img src={HOMEPAGE_PICTURE} alt="Your Logo"
                  style={{maxHeight: '500px', margin: 'auto', borderRadius: '10%'}}/>
             <h1>Collective Solution Synthesis</h1>
         </div>

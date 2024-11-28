@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
-import {NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
+import {BadRequestError, NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import {Solution} from "../solution/solutionModel.js";
 import {SolutionElement} from "./solutionElementModel.js";
@@ -62,7 +62,7 @@ solutionElementRoutes.put("/solutionElements/:elementNumber", authenticateToken(
     const solutionElement = req.entity;
 
     if (!["draft", "under_review"].includes(solutionElement.status)) {
-        throw new UnauthorizedError("Cannot modify a public Solution Element");
+        throw new BadRequestError("Cannot modify a public Solution Element");
     }
 
     if (req.user._id.toString() !== solutionElement.proposedBy._id.toString()) {
@@ -85,7 +85,7 @@ solutionElementRoutes.delete("/solutionElements/:elementNumber", authenticateTok
         if (!solutionElement) throw new NotFoundError("Solution Element not found");
 
         if (!["draft", "under_review"].includes(solutionElement.status)) {
-            throw new UnauthorizedError("Cannot delete a public Solution Element");
+            throw new BadRequestError("Cannot delete a public Solution Element");
         }
 
         await Consideration.deleteMany({parentType: "SolutionElement", parentId: solutionElement._id}).session(session);

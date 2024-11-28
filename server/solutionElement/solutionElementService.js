@@ -8,7 +8,7 @@ function validateSolutionElementData(solutionElementData) {
     validateRequiredFields(solutionElementData, ['parentSolutionId', 'elementType', 'title', 'overview', 'description'], "Solution element validation")
 
     if (!['Primary', 'Supportive'].includes(solutionElementData.elementType)) {
-        throw new BadRequestError("Invalid elementType. Must be 'primary' or 'supportive'.");
+        throw new BadRequestError("Invalid elementType. Must be 'Primary' or 'Supportive'.");
     }
 }
 
