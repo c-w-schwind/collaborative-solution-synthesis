@@ -15,9 +15,9 @@ export const GlobalProvider = ({children}) => {
     const lastRefetchTimeRef = useRef(0);
     const REFETCH_DELAY = 120000; // 2 minutes
 
-    const requestSolutionRefetch = useCallback(() => {
+    const requestSolutionRefetch = useCallback((bypassDelay = false) => {
         const currentTime = Date.now();
-        if (currentTime - lastRefetchTimeRef.current > REFETCH_DELAY) {
+        if (bypassDelay || currentTime - lastRefetchTimeRef.current > REFETCH_DELAY) {
             setShouldRefetchSolution(true);
             lastRefetchTimeRef.current = currentTime;
         }

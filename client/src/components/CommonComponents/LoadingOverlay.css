@@ -1,3 +1,13 @@
+.loading-overlay {
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out; /* Fade-out */ /* Warning: Transition time matched by effect in LoadingOverlay.js */
+}
+
+.loading-overlay.visible {
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out; /* Fade-in */
+}
+
 .loading-overlay.full-screen {
     position: fixed;
     top: 0;
@@ -5,11 +15,11 @@
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    animation: fadeIn 0.3s ease-in-out;
 }
 
 .loading-overlay.component-level {
@@ -24,13 +34,22 @@
     align-items: center;
     justify-content: center;
     z-index: 999;
-    animation: fadeIn 0.3s ease-in-out;
 }
 
 .loading-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.full-screen .loading-content {
+    background: linear-gradient(0deg, rgb(68, 74, 89), rgb(59, 64, 82));
+    border: 3px solid grey;
+    width: 450px;
+    padding: 50px 30px;
+    border-radius: 19px;
+    box-sizing: border-box;
+    box-shadow: 0 0 29px 15px rgba(0, 0, 0, 0.1);
 }
 
 .spinner {
@@ -65,9 +84,4 @@
 @keyframes spin {
     0% {transform: rotate(0deg);}
     100% {transform: rotate(360deg);}
-}
-
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
 }

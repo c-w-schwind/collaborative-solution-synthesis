@@ -14,7 +14,7 @@ export const LoadingProvider = ({children}) => {
 
     const hideLoading = useCallback(() => {
         setIsLoading(false);
-        setMessage("");
+        setTimeout(() => setMessage(""), 100); // Matches the overlay's hide transition.
     }, []);
 
     const value = useMemo(() => ({
