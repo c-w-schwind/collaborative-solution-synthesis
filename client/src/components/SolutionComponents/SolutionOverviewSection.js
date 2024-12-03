@@ -86,11 +86,16 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleComparison, onT
     const handleMetaButtonClick = () => setShowMeta(prev => !prev);
 
 
-    const renderEditButton = (isOpen, onClick, label, style = {}) => {
+    const renderEditButton = (isOpen, onClick, label, style = {}, tooltip) => {
         if (!isUserAuthor) return null;
         return (
             !isOpen && (
-                <button className="draft-edit-button" onClick={onClick} style={style}>
+                <button
+                    className="draft-edit-button"
+                    onClick={onClick}
+                    style={style}
+                    data-tooltip={tooltip}
+                >
                     {label} <img src={EDIT_ICON_SRC} alt="edit section"/>
                 </button>
             )
@@ -122,8 +127,8 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleComparison, onT
                         margin: "0 15px",
                         paddingLeft: "9px",
                         paddingRight: "12px",
-                        height: "30px"
-                    })}
+                        width: "37px"
+                    }, "Edit Title")}
 
                     {isSolutionDraftTitleFormOpen && (
                         <div className="draft-form" style={{width: "30vw", marginTop: "-20px", fontSize: "16px", fontWeight: "lighter"}}>{/* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */}

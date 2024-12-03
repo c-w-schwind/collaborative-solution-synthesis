@@ -35,9 +35,23 @@ const ProposeChangeButton = ({entityType, entityTitle, entityNumber, onClosingMo
     }, [showLoading, entityTitle, entityType, entityNumber, onClosingModal, addToast, hideLoading]);
 
     const handleCreateChangeProposal = () => {
+        const solutionNote = <>
+            <br/><br/><strong>Important:</strong><br/><br/>
+            Note that when creating a Change Proposal for a Solution, you can only propose changes to its Title, Overview, and Description.
+            <br/><br/>
+            <IndentedModalText><i>To change Elements, propose changes directly to them.</i></IndentedModalText>
+            <br/>
+        </>;
+
+        const message = <>
+            You are about to create a <strong>Change Proposal</strong>.
+            <br/><br/>
+            <IndentedModalText>This will create a copy of the {entityType === "Solution" ? entityType : "Solution Element"} <i>"{entityTitle}"</i> as a <strong>private draft</strong>, which you can then modify and submit for review when ready.</IndentedModalText>
+            {entityType === "Solution" ? solutionNote : ""}
+        </>;
+
         setIsMenuVisible(false);
-        const modalMessage = <>You are about to create a <strong>Change Proposal</strong>.<br/><br/>This will ...</>;
-        showConfirmationModal({title: "Proposing Changes", message: modalMessage, onConfirm: createChangeProposal, size: 500});
+        showConfirmationModal({title: "Proposing Changes", message, onConfirm: createChangeProposal, size: 500});
     };
 
 
@@ -47,8 +61,8 @@ const ProposeChangeButton = ({entityType, entityTitle, entityNumber, onClosingMo
 
     const handleCreateDeletionProposal = () => {
         setIsMenuVisible(false);
-        const modalMessage = <>You are about to create a <strong>Deletion Proposal</strong>.<br/><br/>This will ...</>;
-        showConfirmationModal({title: "Proposing Deletion", modalMessage, onConfirm: createChangeProposal});
+        const message = <>You are about to create a <strong>Deletion Proposal</strong>.<br/><br/>This will ...</>;
+        showConfirmationModal({title: "Proposing Deletion", message, onConfirm: createChangeProposal});
     };
 
 

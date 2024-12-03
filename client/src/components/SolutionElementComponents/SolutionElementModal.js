@@ -275,7 +275,7 @@ function SolutionElementModal(props) {
                         margin: "0 15px",
                         paddingLeft: "9px",
                         paddingRight: "12px",
-                        height: "30px"
+                        width: "37px"
                     }, "Edit Title")}
                 </div>
 

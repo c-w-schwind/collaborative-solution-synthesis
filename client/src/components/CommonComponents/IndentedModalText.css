@@ -1,0 +1,15 @@
+.indented-line {
+    display: flex;
+    align-items: flex-start;
+}
+
+.arrow-symbol {
+    flex-shrink: 0;
+    width: 15px;
+    text-align: center;
+}
+
+.indented-text {
+    flex-grow: 1;
+    margin-left: 10px;
+}

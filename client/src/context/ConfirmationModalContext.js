@@ -12,12 +12,12 @@ export const ConfirmationModalProvider = ({children}) => {
         onCancel: () => {},
         buttonMode: "standard",
         followUp: false,
-        size: "400",
+        size: 400,
         entityType: "Solution"
     });
 
     // entityType only required for "publish" button mode
-    const showConfirmationModal = useCallback(({title, message, onConfirm, onCancel, entityType, buttonMode = "standard", size = "400", followUp = false, followUpMessage}) => {
+    const showConfirmationModal = useCallback(({title, message, onConfirm, onCancel, entityType, buttonMode = "standard", size = 400, followUp = false, followUpMessage}) => {
         if (!followUp) {
             setConfirmationModalContent({isVisible: true, title, message, onConfirm, onCancel, entityType, buttonMode, followUp, size});
         } else {
