@@ -1,0 +1,50 @@
+.propose-change-button-container {
+    position: relative;
+}
+
+.propose-change-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 33px;
+    right: 4px;
+    background-color: #f3f4f6;
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,0.3);
+    border: 1px solid #bbbbbb;
+    border-radius: 5px 0 5px 5px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.propose-change-menu-item {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: #fff;
+    color: #555;
+    font-size: 14px;
+    text-align: end;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.propose-change-menu-item:last-child {
+    border-bottom: none;
+}
+
+.propose-change-menu-item:hover {
+    background-color: rgba(241, 241, 241, 0.25);
+}
+
+.propose-change-menu-item:focus {
+    outline: none;
+    background-color: rgba(241, 241, 241, 0.25);
+}
+
+.icon-action-button.action-button--propose-changes.active {
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,0.3);
+    background: linear-gradient(125deg, #7faffa, #3786f8);
+}

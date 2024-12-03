@@ -13,6 +13,7 @@ import useElementDraftOperations from "../../hooks/useElementDraftOperations";
 import {formConfigurations} from "../Forms/formConfigurations";
 import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
 import GenericForm from "../Forms/GenericForm";
+import ProposeChangeButton from "../Buttons/ProposeChangeButton";
 import LoadingRetryOverlay from "../CommonComponents/LoadingRetryOverlay";
 import {debounce} from "../../utils/utils";
 
@@ -24,6 +25,7 @@ function SolutionElementModal(props) {
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
     const [isChangeProposal, setIsChangeProposal] = useState(false);
+    const [isElementProposal, setIsElementProposal] = useState(false);
     const [isShowingInfo, setIsShowingInfo] = useState(false);
 
     const {setElementListChange, isSolutionDraft} = useGlobal();
@@ -51,21 +53,23 @@ function SolutionElementModal(props) {
     } = useFormData();
 
     const titleRef = useRef(null);
-    const footerRef = useOutsideClick(() => setIsShowingInfo(false));
     const scrollContainerRef = useRef(null);
     const stableEntityType = useRef(entityType);
-    const stableElementNumber = useRef(elementNumber);
     const stableComparisonEntityNumber = useRef(comparisonEntityNumber);
+
+    const footerRef = useOutsideClick(() => setIsShowingInfo(false));
+
 
     const fetchElementData = useCallback(async () => {
         try {
-            const id = stableEntityType.current === "ComparisonElement" ? stableComparisonEntityNumber.current : stableElementNumber.current;
+            const id = stableEntityType.current === "ComparisonElement" ? stableComparisonEntityNumber.current : elementNumber;
             const elementData = await handleRequest("GET", "element", id);
             setSolutionElement(elementData);
             if (stableEntityType.current === "SolutionElement") {
                 setIsElementDraft(elementData.status === "draft" || elementData.status === "under_review");
             }
             setIsChangeProposal(Boolean(elementData.changeProposalFor) && ["draft", "under_review", "proposal"].includes(elementData.status));
+            setIsElementProposal(!Boolean(elementData.changeProposalFor) && elementData.status === "proposal");
             setRetryCount(0);
             setErrorMessage("");
         } catch (err) {
@@ -76,12 +80,13 @@ function SolutionElementModal(props) {
                 return () => clearTimeout(retryTimeout);
             }
         }
-    }, [setIsElementDraft, retryCount]);
+    }, [elementNumber, setIsElementDraft, retryCount]);
 
 
     useEffect(() => {
+        setSolutionElement(null);
         fetchElementData();
-    }, [fetchElementData]);
+    }, [elementNumber, fetchElementData]);
 
     useEffect(() => {
         if (solutionElement) setEntityTitle(solutionElement.title);
@@ -169,7 +174,7 @@ function SolutionElementModal(props) {
 
     const handleInfoButtonClick = useCallback(() => {
         setIsShowingInfo(prev => !prev);
-    },[]);
+    }, []);
 
 
     const renderEditButton = useCallback((isOpen, onClick, label, style = {}, tooltip) => {
@@ -275,9 +280,9 @@ function SolutionElementModal(props) {
                 </div>
 
                 <div className="button-section">
-                    {!isElementDraft && entityType === "SolutionElement" && !isChangeProposal && <button className="action-button icon-action-button action-button--propose-changes" data-tooltip-down="Propose Change"><img src={EDIT_ICON_SRC} alt="propose change"/></button>}
+                    {!isElementDraft && !isChangeProposal && !isElementProposal && entityType === "SolutionElement" && <ProposeChangeButton entityType={entityType} entityTitle={solutionElement.title} entityNumber={elementNumber} onClosingModal={onClosingModal}/>}
                     {entityType === "SolutionElement" && <button className="action-button icon-action-button discussion-space-button" data-tooltip-down={discussionTooltipText} onClick={onToggleDiscussionSpace}><img src={DISCUSSION_ICON_SRC} alt="discussion space"/></button>}
-                    {entityType === "SolutionElement" && <button className="action-button action-button--close" aria-label="Close" onClick={onClosingModal}>X</button>}
+                    {entityType === "SolutionElement" && <button className="action-button action-button--close" aria-label="Close" onClick={() => onClosingModal(null)}>X</button>}
                 </div>
             </div>
 

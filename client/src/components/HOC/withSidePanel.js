@@ -238,22 +238,28 @@ const withSidePanel = (WrappedComponent, entityType) => {
         }, [canNavigate, sidePanelType, navigate, entityTitle, comparisonEntityNumber, solutionNumber]);
 
 
-        const handleClosingModal = useCallback(() => {
+        const handleClosingModal = useCallback((reopeningRoute = null) => {
             if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftChangeSummaryForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
                 setIsModalOpen(false);
-                requestSolutionRefetch();
+                requestSolutionRefetch(reopeningRoute);
                 const modalElement = overlayRef.current;
                 if (modalElement) {
                     const handleModalTransition = (event) => {
                         if (event.propertyName === "opacity") {
                             modalElement.removeEventListener("transitionend", handleModalTransition);
-                            navigate(location.state?.fromElementCard ? -1 : "../..", {relative: "path"});
+                            if (!reopeningRoute) {
+                                navigate(location.state?.fromElementCard ? -1 : "../..", {relative: "path"});
+                            } else {
+                                navigate(reopeningRoute);
+                                setIsModalOpen(true);
+                            }
                         }
                     };
                     modalElement.addEventListener("transitionend", handleModalTransition);
                 }
             }
         }, [canNavigate, requestSolutionRefetch, navigate, location.state?.fromElementCard]);
+
 
         const stopPropagation = useCallback((e) => e.stopPropagation(), []);
 
@@ -348,7 +354,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
             <div
                 ref={overlayRef}
                 className={entityType === "SolutionElement" ? `overlay ${isElementDraft ? "draft" : ""} ${isModalOpen ? "overlay-active" : ""}` : ""}
-                onClick={entityType === "SolutionElement" ? handleClosingModal : undefined}
+                onClick={entityType === "SolutionElement" ? () => handleClosingModal(null) : undefined}
             >
                 <div ref={entityContainerRef} className="entity-container-for-side-panel-addition">
                     <WrappedComponent

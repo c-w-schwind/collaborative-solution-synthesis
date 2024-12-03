@@ -33,6 +33,41 @@ solutionElementRoutes.post("/solutionElements", authenticateToken(), (req, res, 
 }));
 
 
+// Create Change Proposal for an existing Solution Element
+solutionElementRoutes.post("/solutionElements/:elementNumber/changeProposal", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res, next) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        const originalElement = await SolutionElement.findById(req.entityId).session(session).lean();
+
+        if (!originalElement) throw new NotFoundError("Original Solution Element not found");
+        if (originalElement.changeProposalFor) throw new BadRequestError("Cannot create a change proposal for a change proposal.");
+        if (originalElement.status !== "accepted") throw new BadRequestError("Change proposals can only be created for elements that have been accepted.");
+
+        // Excluding unwanted fields
+        const {authorizedUsers, _id, createdAt, updatedAt, ...rest} = originalElement;
+
+        const changeProposalData = {
+            ...rest,
+            activeConsiderationsCount: 0,
+            changeProposalFor: req.entityId,
+            changeSummary: "Here you should ... [Add user description]"
+        }
+
+        const changeProposalArray = await validateAndCreateSolutionElements(changeProposalData, originalElement.parentSolutionId, req.user._id, session);
+        const changeProposal = changeProposalArray[0];
+
+        await session.commitTransaction();
+        res.status(201).send({elementNumber: changeProposal.elementNumber});
+    } catch (err) {
+        await session.abortTransaction();
+        next(err);
+    } finally {
+        await session.endSession();
+    }
+}));
+
+
 // Get single Solution Element w/ Considerations by elementNumber
 solutionElementRoutes.get("/solutionElements/:elementNumber", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res) => {
     const solutionElement = req.entity;

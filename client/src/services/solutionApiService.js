@@ -1,12 +1,16 @@
 const API_URL = process.env.REACT_APP_API_URL;
 
 // entityType: "solution" or "element"
-export const handleRequest = async (method, entityType, entityNumber = null) => {
+export const handleRequest = async (method, entityType, entityNumber = null, additionalPath) => {
     const routePrefix = entityType === "solution" ? "solutions" : "solutionElements";
     let url = `${API_URL}/${routePrefix}`;
 
     if (entityNumber) {
         url += `/${entityNumber}`;
+    }
+
+    if (additionalPath) {
+        url += `/${additionalPath}`;
     }
 
     const token = localStorage.getItem("token");
@@ -18,6 +22,7 @@ export const handleRequest = async (method, entityType, entityNumber = null) => 
     const response = await fetch(url, {
         method: method,
         headers: {
+            "Content-Type": "application/json",
             ...(token && {"Authorization": `Bearer ${token}`})
         }
     });
@@ -28,7 +33,8 @@ export const handleRequest = async (method, entityType, entityNumber = null) => 
             const errorData = await response.json();
             error = new Error(errorData.message || `Failed to delete ${entityType}. Status: ${response.status}`);
         } else {
-            error = new Error(`HTTP error! Status: ${response.status}`);
+            const errorData = await response.json();
+            error = new Error(errorData.message || `HTTP error! Status: ${response.status}`);
         }
 
         if (response.status === 400) {
