@@ -41,6 +41,27 @@ export const debounce = (func, wait) => {
     };
 };
 
+
 export const getScrollbarWidth = () => {
     return window.innerWidth - document.documentElement.clientWidth;
+};
+
+
+// Manage scroll locking by tracking active locks to prevent re-enabling scroll prematurely
+let scrollLockCount = 0;
+
+export const lockBodyScroll = () => {
+    if (scrollLockCount === 0) {
+        document.body.classList.add('body-scroll-lock');
+        document.body.setAttribute('aria-hidden', 'true');
+    }
+    scrollLockCount += 1;
+};
+
+export const unlockBodyScroll = () => {
+    scrollLockCount = Math.max(scrollLockCount - 1, 0);
+    if (scrollLockCount === 0) {
+        document.body.classList.remove('body-scroll-lock');
+        document.body.removeAttribute('aria-hidden');
+    }
 };

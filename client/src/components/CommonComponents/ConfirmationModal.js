@@ -1,17 +1,20 @@
 import './ConfirmationModal.css';
 import {useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
+import {lockBodyScroll, unlockBodyScroll} from "../../utils/utils";
 
 const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, entityType, buttonMode = "standard", size = 400}) => {
     const previouslyFocusedElement = useRef(null);
     const cancelButtonRef = useRef(null);
     const confirmButtonRef = useRef(null);
 
-    // Handle focus trapping within modal, keydown events (Tab f. navigation & Escape to cancel), restore focus after modal close
+    // Handle focus trapping within modal, keydown events (Tab for navigation & Escape to cancel), restore focus after modal close
     useEffect(() => {
         if (isVisible) {
             previouslyFocusedElement.current = document.activeElement;
             confirmButtonRef.current.focus();
+
+            lockBodyScroll();
 
             const handleKeyDown = (e) => {
                 if (e.key === 'Tab') {
@@ -36,11 +39,10 @@ const ConfirmationModal = ({isVisible, title, message, onConfirm, onCancel, enti
             };
 
             document.addEventListener('keydown', handleKeyDown);
-            document.body.setAttribute('aria-hidden', 'true');
 
             return () => {
                 document.removeEventListener('keydown', handleKeyDown);
-                document.body.removeAttribute('aria-hidden');
+                unlockBodyScroll();
                 if (previouslyFocusedElement.current) {
                     previouslyFocusedElement.current.focus();
                 }

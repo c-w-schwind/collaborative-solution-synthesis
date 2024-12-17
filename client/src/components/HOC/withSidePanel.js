@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useStat
 import SolutionDetailsPage from "../SolutionComponents/SolutionDetailsPage";
 import SolutionElementModal from "../SolutionElementComponents/SolutionElementModal";
 import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
-import {debounce} from "../../utils/utils";
+import {debounce, lockBodyScroll, unlockBodyScroll} from "../../utils/utils";
 import {useFormData} from "../../context/FormDataContext";
 import {useGlobal} from "../../context/GlobalContext";
 
@@ -62,12 +62,10 @@ const withSidePanel = (WrappedComponent, entityType) => {
 
         // Remove scroll function underneath element modal
         useLayoutEffect(() => {
-            isModalOpen
-                ? document.body.classList.add('body-scroll-lock')
-                : document.body.classList.remove('body-scroll-lock');
+            isModalOpen ? lockBodyScroll() : unlockBodyScroll();
 
             return () => {
-                document.body.classList.remove('body-scroll-lock');
+                unlockBodyScroll();
             };
         }, [isModalOpen]);
 
