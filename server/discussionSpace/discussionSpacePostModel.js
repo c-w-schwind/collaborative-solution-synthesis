@@ -7,7 +7,7 @@ const discussionSpacePostSchema = new mongoose.Schema({
     },
     content: {
         type: String,
-        required: true,
+        required: true
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,
@@ -26,7 +26,11 @@ const discussionSpacePostSchema = new mongoose.Schema({
     },
     parentNumber: {
         type: Number,
-        required: true,
+        required: true
+    },
+    parentVersion: {
+        type: Number,
+        required: true
     }
 }, {timestamps: true});
 

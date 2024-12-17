@@ -4,7 +4,7 @@ import {useFormData} from "../../context/FormDataContext";
 import {formConfigurations} from "../Forms/formConfigurations";
 import formSubmissionService from "../Forms/formSubmissionService";
 
-function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, considerationFormId, existingData}) {
+function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, parentVersionNumber, considerationFormId, existingData}) {
     // Enables a smooth closing transition by delaying the form's disappearance
     const [renderConsiderationForm, setRenderConsiderationForm] = useState(false);
     const [isConsiderationFormOpen, setIsConsiderationFormOpen] = useState(false);
@@ -56,7 +56,7 @@ function ConsiderationInput({onSuccessfulSubmit, parentType, parentNumber, consi
     }, [isConsiderationFormOpen]);
 
     const submitConsiderationPost = async (formData) => {
-        const postData = {...formData, parentType, parentNumber};
+        const postData = {...formData, parentType, parentNumber, parentVersionNumber};
         const method = existingData ? "PUT" : "POST";
         const url = existingData ? `considerations/${openedConsiderationFormId}` : "considerations";
 

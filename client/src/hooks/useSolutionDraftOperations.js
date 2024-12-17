@@ -6,18 +6,18 @@ import {useConfirmationModal} from "../context/ConfirmationModalContext";
 import {handleRequest} from "../services/solutionApiService";
 
 
-const useDraftOperations = (solutionProps, isSolutionDraft) => {
+const useSolutionDraftOperations = (solutionProps, isSolutionDraft, isChangeProposal) => {
     const {showConfirmationModal} = useConfirmationModal();
     const {showLoading, hideLoading} = useLoading();
     const {addToast} = useToasts();
     const navigate = useNavigate();
-    const {solutionNumber, title, status} = solutionProps;
+    const {solutionNumber, solutionVersion, title, status} = solutionProps;
 
-    const deleteDraft = useCallback(async () => {
+    const deleteSolutionDraft = useCallback(async () => {
         try {
-            showLoading(`Deleting Solution\n"${title}"`);
-            await handleRequest("DELETE", "solution", solutionNumber);
-            addToast(`Successfully deleted the solution draft titled "${title}".`, 4000);
+            showLoading(`Deleting ${isChangeProposal ? "Change Proposal" : "Solution"}\n"${title}"`);
+            await handleRequest("DELETE", "solution", solutionNumber, solutionVersion);
+            addToast(`Successfully deleted the ${isChangeProposal ? "change proposal" : "solution"} draft titled "${title}".`, 4000);
             navigate("/solutions");
         } catch (err) {
             console.error("Error deleting solution:", err);
@@ -25,21 +25,20 @@ const useDraftOperations = (solutionProps, isSolutionDraft) => {
         } finally {
             hideLoading();
         }
-    }, [showLoading, hideLoading, addToast, navigate, solutionNumber, title]);
-
+    }, [showLoading, isChangeProposal, title, solutionNumber, solutionVersion, addToast, navigate, hideLoading]);
 
     const handleDiscardDraft = useCallback(() => {
         if (!isSolutionDraft) return;
-        const discardDraftMessage = `You are about to permanently delete the solution draft titled "${title}", along with all associated elements.${status === "under_review" ? "\n\nThis draft is currently under review. If you haven't already, you may want to discuss this step with the assigned reviewers before proceeding." : ""}`;
+        const discardDraftMessage = `You are about to permanently delete the ${isChangeProposal ? "change proposal" : "solution"} draft titled "${title}", along with all associated elements.${status === "under_review" ? "\n\nThis draft is currently under review. If you haven't already, you may want to discuss this step with the assigned reviewers before proceeding." : ""}`;
 
         showConfirmationModal({
             title: "Delete Solution Draft?",
             message: discardDraftMessage,
-            onConfirm: deleteDraft,
+            onConfirm: deleteSolutionDraft,
             buttonMode: "delete",
             followUp: true
         });
-    }, [showConfirmationModal, status, title, deleteDraft, isSolutionDraft]);
+    }, [isSolutionDraft, isChangeProposal, title, status, showConfirmationModal, deleteSolutionDraft]);
 
 
     const submitDraft = useCallback(async () => {
@@ -102,4 +101,4 @@ const useDraftOperations = (solutionProps, isSolutionDraft) => {
     return {handleDiscardDraft, handleSubmitDraft, handlePublishSolution};
 };
 
-export default useDraftOperations;
+export default useSolutionDraftOperations;

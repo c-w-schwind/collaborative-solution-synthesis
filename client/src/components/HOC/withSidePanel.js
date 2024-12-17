@@ -16,12 +16,13 @@ const withSidePanel = (WrappedComponent, entityType) => {
         const [isModalOpen, setIsModalOpen] = useState(false);
         const [entityTitle, setEntityTitle] = useState("");
         const [isElementDraft, setIsElementDraft] = useState(false);
+        const [entityVersion, setEntityVersion] = useState(null);
 
         const location = useLocation();
         const navigate = useNavigate();
         const {canNavigate} = useFormData();
         const {requestSolutionRefetch} = useGlobal();
-        const {solutionNumber, comparisonEntityNumber} = useParams();
+        const {solutionNumber, comparisonEntityNumber, elementVersion} = useParams();
 
         const entityContainerRef = useRef(null);
         const solutionDetailsContainerRef = useRef(null);
@@ -102,7 +103,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
             // Retry adjusting container height to handle cases where DOM elements might not be immediately ready
             const tryAdjustHeight = (retries = 20) => {
                 if (!adjustContainerHeight() && retries > 0) {
-                    setTimeout(() => tryAdjustHeight(retries - 1), 100);
+                    setTimeout(() => tryAdjustHeight(retries - 1), 200);
                 }
             };
 
@@ -149,7 +150,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
             const handleTransition = (event) => {
                 handleSidePanelTransitionEnd(event, () => {
                     if (pendingSidePanel.type === "DiscussionSpace") {
-                        navigate("./discussionSpace");
+                        navigate("./discussionSpace", {state: {entityVersion}});
                     } else if (pendingSidePanel.type === "Comparison") {
                         navigate(`./comparison/${pendingSidePanel.comparisonEntityNumber}`);
                     }
@@ -170,7 +171,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
                     sidePanelContainer.removeEventListener("transitionend", handleTransition);
                 }
             };
-        }, [pendingSidePanel, handleSidePanelTransitionEnd, navigate]);
+        }, [pendingSidePanel, handleSidePanelTransitionEnd, navigate, entityVersion]);
 
 
         // Handle side panel close transitions
@@ -179,6 +180,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
 
             const handleTransition = (event) => {
                 handleSidePanelTransitionEnd(event, () => {
+                    // Case of no fromInAppNavigation happens when opening a Solution Element with open Discussion Space
                     navigate(location.state?.fromInAppNavigation ? -1 : ".", {relative: "path"});
                     setDisplayedSidePanelType(null);
                 });
@@ -207,9 +209,9 @@ const withSidePanel = (WrappedComponent, entityType) => {
                 setSidePanelType(null);
             } else {
                 setSidePanelType("DiscussionSpace");
-                navigate("./discussionSpace", {state: {fromInAppNavigation: true}});
+                navigate("./discussionSpace", {state: {fromInAppNavigation: true, entityVersion}});
             }
-        }, [canNavigate, navigate, sidePanelType]);
+        }, [canNavigate, sidePanelType, navigate, entityVersion]);
 
 
         const toggleComparison = useCallback((comparisonEntityNumber = null) => {
@@ -229,26 +231,27 @@ const withSidePanel = (WrappedComponent, entityType) => {
 
         const handleFullScreenButton = useCallback(() => {
             if (canNavigate({checkSolutionDraftTitleForm: true, checkSolutionDraftChangeSummaryForm: true, checkSolutionDraftOverviewForm: true, checkSolutionDraftDescriptionForm: true, checkElementForm: true, checkElementDraftTitleForm: true, checkElementDraftChangeSummaryForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true, checkConsiderationForm: true, checkCommentForm: true, saveDiscussionSpaceData: true})) {
+                const searchParams = new URLSearchParams(location.search);
                 if (sidePanelType === "DiscussionSpace") {
-                    navigate("./discussionSpace/fullscreen", {state: {entityTitle}});
+                    navigate(`./discussionSpace/fullscreen?${searchParams.toString()}`, {state: {entityTitle, entityVersion}});
                 } else {
                     window.location.href = entityType === "Solution" ? `/solutions/${comparisonEntityNumber}` : `/solutions/${solutionNumber}/element/${comparisonEntityNumber}`;
                 }
             }
-        }, [canNavigate, sidePanelType, navigate, entityTitle, comparisonEntityNumber, solutionNumber]);
+        }, [canNavigate, sidePanelType, navigate, entityTitle, entityVersion, comparisonEntityNumber, solutionNumber, location.search]);
 
 
         const handleClosingModal = useCallback((reopeningRoute = null) => {
             if (canNavigate({checkConsiderationForm: true, checkCommentForm: true, checkDiscussionSpaceForm: true, checkElementDraftTitleForm: true, checkElementDraftChangeSummaryForm: true, checkElementDraftOverviewForm: true, checkElementDraftDescriptionForm: true})) {
                 setIsModalOpen(false);
-                requestSolutionRefetch(reopeningRoute);
+                requestSolutionRefetch(Boolean(reopeningRoute));
                 const modalElement = overlayRef.current;
                 if (modalElement) {
                     const handleModalTransition = (event) => {
                         if (event.propertyName === "opacity") {
                             modalElement.removeEventListener("transitionend", handleModalTransition);
                             if (!reopeningRoute) {
-                                navigate(location.state?.fromElementCard ? -1 : "../..", {relative: "path"});
+                                navigate(location.state?.fromElementCard ? -1 : `../..${elementVersion ? "/.." : ""}`, {relative: "path"});
                             } else {
                                 navigate(reopeningRoute);
                                 setIsModalOpen(true);
@@ -258,7 +261,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
                     modalElement.addEventListener("transitionend", handleModalTransition);
                 }
             }
-        }, [canNavigate, requestSolutionRefetch, navigate, location.state?.fromElementCard]);
+        }, [canNavigate, requestSolutionRefetch, navigate, location.state?.fromElementCard, elementVersion]);
 
 
         const stopPropagation = useCallback((e) => e.stopPropagation(), []);
@@ -353,7 +356,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
         return (
             <div
                 ref={overlayRef}
-                className={entityType === "SolutionElement" ? `overlay ${isElementDraft ? "draft" : ""} ${isModalOpen ? "overlay-active" : ""}` : ""}
+                className={entityType === "SolutionElement" ? `overlay ${isElementDraft ? "draft" : ""} ${isModalOpen ? "overlay-active" : ""}` : "solution-container"}
                 onClick={entityType === "SolutionElement" ? () => handleClosingModal(null) : undefined}
             >
                 <div ref={entityContainerRef} className="entity-container-for-side-panel-addition">
@@ -364,6 +367,7 @@ const withSidePanel = (WrappedComponent, entityType) => {
                         onClosingModal={handleClosingModal}
                         currentSidePanelType={sidePanelType}
                         setEntityTitle={setEntityTitle}
+                        setEntityVersion={setEntityVersion}
                         solutionDetailsContainerRef={solutionDetailsContainerRef}
                         solutionDetailsAreaRef={solutionDetailsAreaRef}
                         entityType={entityType}

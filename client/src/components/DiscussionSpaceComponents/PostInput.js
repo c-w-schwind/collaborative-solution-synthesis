@@ -3,12 +3,13 @@ import {useFormData} from "../../context/FormDataContext";
 import {formConfigurations} from "../Forms/formConfigurations";
 import formSubmissionService from "../Forms/formSubmissionService";
 
-function PostInput({onSuccessfulSubmit, parentType, parentNumber}) {
+function PostInput({onSuccessfulSubmit, parentType, parentNumber, parentVersion, setIsSubmitting}) {
     const {discussionSpaceFormData, setDiscussionSpaceFormData} = useFormData();
     const discussionSpaceConfig = formConfigurations.discussionSpaceForm;
 
     const submitPost = async (formData) => {
-        const postData = {...formData, parentType, parentNumber};
+        setIsSubmitting(true);
+        const postData = {...formData, parentType, parentNumber, parentVersion};
         await formSubmissionService("discussionSpace", postData, "discussion space post", onSuccessfulSubmit);
     };
 

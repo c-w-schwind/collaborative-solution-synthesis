@@ -1,6 +1,6 @@
 import "./SolutionDetailsPage.css";
 import {Outlet, useLocation, useOutletContext, useParams} from "react-router-dom";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import SolutionOverviewSection from "./SolutionOverviewSection";
 import SolutionElementList from "../SolutionElementComponents/SolutionElementList";
 import ConsiderationList from "../ConsiderationComponents/ConsiderationList";
@@ -10,30 +10,40 @@ import {useGlobal} from "../../context/GlobalContext";
 import {useAuth} from "../../context/AuthContext";
 import {getScrollbarWidth} from "../../utils/utils";
 import {handleRequest} from "../../services/solutionApiService";
-import useDraftOperations from "../../hooks/useDraftOperations";
+import useSolutionDraftOperations from "../../hooks/useSolutionDraftOperations";
 
 
 function SolutionDetailsPage(props) {
     // In case of change proposal comparison view props will be imported via useOutletContext instead of HOC passing them down
-    const {onToggleDiscussionSpace, onToggleComparison, currentSidePanelType, setEntityTitle, solutionDetailsContainerRef, solutionDetailsAreaRef, entityType} = useOutletContext() || props;
+    const {onToggleDiscussionSpace, onToggleComparison, currentSidePanelType, setEntityTitle, setEntityVersion, solutionDetailsContainerRef, solutionDetailsAreaRef, entityType} = useOutletContext() || props;
 
     const [solution, setSolution] = useState(null);
-    const [renderElementOutlet, setRenderElementOutlet] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
     const [isFooterDisabled, setIsFooterDisabled] = useState(false);
 
     const {user} = useAuth();
     const location = useLocation();
-    const {solutionNumber, comparisonEntityNumber} = useParams();
-    const {isSolutionDraft, setIsSolutionDraft, shouldRefetchSolution, clearSolutionRefetchFlag} = useGlobal();
-    const {handleDiscardDraft, handleSubmitDraft, handlePublishSolution} = useDraftOperations(
-        {solutionNumber: solution?.solutionNumber, title: solution?.title, status: solution?.status},
-        isSolutionDraft
-    );
+    const {solutionNumber, solutionVersion, comparisonEntityNumber} = useParams();
+    const {isSolutionDraft, setIsSolutionDraft, setIsSolutionCP, shouldRefetchSolution, clearSolutionRefetchFlag} = useGlobal();
 
     const isUserAuthor = user?._id === solution?.proposedBy?._id;
     const isChangeProposal = Boolean(solution?.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution?.status);
+
+    const {handleDiscardDraft, handleSubmitDraft, handlePublishSolution} = useSolutionDraftOperations(
+        {solutionNumber, solutionVersion, title: solution?.title, status: solution?.status},
+        isSolutionDraft,
+        isChangeProposal
+    );
+
+    const pathSegments = location.pathname.split("/");
+    const isDiscussionPath = pathSegments.includes("discussionSpace");
+    const isComparisonPath = pathSegments.includes("comparison");
+    const isElementPath = pathSegments.includes("element");
+
+    const shouldRenderElementOutlet = useMemo(() => {
+        return !((isDiscussionPath || isComparisonPath) && !isElementPath);
+    }, [isDiscussionPath, isComparisonPath, isElementPath]);
 
     const stableEntityType = useRef(entityType);
     const stableSolutionNumber = useRef(solutionNumber);
@@ -42,11 +52,16 @@ function SolutionDetailsPage(props) {
 
     const fetchSolutionData = useCallback(async () => {
         try {
-            const id = stableEntityType.current === "ComparisonSolution" ? stableComparisonEntityNumber.current : stableSolutionNumber.current;
-            const solutionData = await handleRequest("GET", "solution", id);
+            const entityNumber = stableEntityType.current === "ComparisonSolution" ? stableComparisonEntityNumber.current : stableSolutionNumber.current;
+            const versionToFetch = stableEntityType.current === "ComparisonSolution" ? undefined : solutionVersion;
+
+            const solutionData = await handleRequest("GET", "solution", entityNumber, versionToFetch);
+
             setSolution(solutionData);
             if (stableEntityType.current === "Solution") {
                 setIsSolutionDraft(solutionData.status === "draft" || solutionData.status === "under_review");
+                setIsSolutionCP(Boolean(solutionData.changeProposalFor));
+                setEntityVersion(solutionData.versionNumber);
             }
             setRetryCount(0);
             setErrorMessage("");
@@ -61,7 +76,7 @@ function SolutionDetailsPage(props) {
                 }, 5000);
             }
         }
-    }, [setIsSolutionDraft, retryCount]);
+    }, [solutionVersion, setEntityVersion, setIsSolutionDraft, setIsSolutionCP, retryCount]);
 
 
     useEffect(() => {
@@ -81,16 +96,6 @@ function SolutionDetailsPage(props) {
     }, [solution, setEntityTitle]);
 
     useEffect(() => {
-        const pathSegments = location.pathname.split("/");
-        const isDiscussionPath = pathSegments.includes("discussionSpace");
-        const isComparisonPath = pathSegments.includes("comparison");
-        const isElementPath = pathSegments.includes("element");
-
-        setRenderElementOutlet(!((isDiscussionPath || isComparisonPath) && !isElementPath));
-    }, [location.pathname]);
-
-    useEffect(() => {
-        const isElementPath = location.pathname.split("/").includes("element");
         let timeoutId;
 
         if (isElementPath) {
@@ -103,7 +108,7 @@ function SolutionDetailsPage(props) {
         return () => {
             if (timeoutId) clearTimeout(timeoutId);
         };
-    }, [location.pathname]);
+    }, [location.pathname, isElementPath]);
 
     useEffect(() => {
         // Skip draft background change for instances of type "ComparisonSolution"
@@ -155,7 +160,7 @@ function SolutionDetailsPage(props) {
                             onToggleDiscussionSpace={onToggleDiscussionSpace}
                             onToggleComparison={onToggleComparison}
                             currentSidePanelType={currentSidePanelType}
-                            parentNumber={solutionNumber}
+                            parentSolutionNumber={solutionNumber}
                             isUserAuthor={isUserAuthor}
                             isPublicChangeProposal={solution.status === "proposal"}
                         />
@@ -163,13 +168,14 @@ function SolutionDetailsPage(props) {
                             considerations={solution.considerations}
                             parentType={"Solution"}
                             parentNumber={solutionNumber}
+                            parentVersionNumber={solutionVersion}
                             onSuccessfulSubmit={fetchSolutionData}
                             entityType={entityType}
                         />
                     </div>
                 </div>
 
-                {renderElementOutlet && <Outlet/>}
+                {shouldRenderElementOutlet && <Outlet/>}
 
                 {isSolutionDraft && <SolutionDraftFooter
                     onDiscardDraft={handleDiscardDraft}

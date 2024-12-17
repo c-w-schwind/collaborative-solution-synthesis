@@ -14,18 +14,19 @@ const useElementDraftOperations = (elementProps, isElementDraft, isChangeProposa
     const navigate = useNavigate();
     const location = useLocation();
     const {setElementListChange} = useGlobal();
-    const {elementNumber, title, status} = elementProps;
+    const {elementNumber, elementVersion, title, status} = elementProps;
 
     const deleteElementDraft = useCallback(async () => {
         try {
             showLoading(`Deleting ${isChangeProposal ? "Change Proposal" : "Solution Element"}\n"${title}"`);
-            await handleRequest("DELETE", "element", elementNumber);
+            await handleRequest("DELETE", "element", elementNumber, elementVersion);
             setElementListChange({
                 changeType: "delete",
-                elementNumber: Number(elementNumber)
+                elementNumber: Number(elementNumber),
+                versionNumber: Number(elementVersion)
             });
             addToast(`Successfully deleted the ${isChangeProposal ? "change proposal" : "element"} draft titled "${title}".`, 4000);
-            navigate(location.state?.fromElementCard || location.state?.fromCreation ? -1 : "../..", {relative: "path"});
+            navigate(location.state?.fromElementCard || location.state?.fromCreation ? -1 : "../../..", {relative: "path"});
         } catch (err) {
             console.error("Error deleting element:", err);
             setElementListChange(null);
@@ -33,7 +34,7 @@ const useElementDraftOperations = (elementProps, isElementDraft, isChangeProposa
         } finally {
             hideLoading();
         }
-    }, [showLoading, isChangeProposal, hideLoading, addToast, setElementListChange, navigate, elementNumber, title, location.state?.fromElementCard, location.state?.fromCreation]);
+    }, [showLoading, isChangeProposal, hideLoading, addToast, setElementListChange, navigate, elementNumber, elementVersion, title, location.state?.fromElementCard, location.state?.fromCreation]);
 
 
     const handleDiscardElementDraft = useCallback(() => {

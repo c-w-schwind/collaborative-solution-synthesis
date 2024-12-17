@@ -8,6 +8,10 @@
     transition: opacity 0.2s ease-in-out; /* Fade-in */
 }
 
+.loading-overlay:focus {
+    outline: none;
+}
+
 .loading-overlay.full-screen {
     position: fixed;
     top: 0;
@@ -24,7 +28,7 @@
 
 .loading-overlay.component-level {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
@@ -34,6 +38,10 @@
     align-items: center;
     justify-content: center;
     z-index: 999;
+}
+
+.loading-overlay.side-panel {
+    max-height: calc(88vh - 150px);
 }
 
 .loading-content {

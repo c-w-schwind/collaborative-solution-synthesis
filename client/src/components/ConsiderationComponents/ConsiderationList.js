@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import ConsiderationInput from "./ConsiderationInput";
 
 
-const ConsiderationList = ({considerations: initialConsiderations, parentType, parentNumber, onSuccessfulSubmit, entityType, scrollContainerRef = null}) => {
+const ConsiderationList = ({considerations: initialConsiderations, parentType, parentNumber, parentVersionNumber, onSuccessfulSubmit, entityType, scrollContainerRef = null}) => {
     const [considerations, setConsiderations] = useState(initialConsiderations);
     const [visibility, setVisibility] = useState({Pro: true, Con: true, Neutral: true});
 
@@ -17,18 +17,6 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
         setConsiderations(initialConsiderations);
     }, [initialConsiderations]);
 
-    /*const fetchConsiderations = useCallback(async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/considerations/${parentType}/${parentNumber}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            setConsiderations(data);
-        } catch (err) {
-            console.error("Failed to fetch considerations:", err);
-        }
-    }, [parentType, parentNumber]);*/
 
     const toggleVisibility = (stance) => {
         setVisibility(prevState => ({...prevState, [stance]: !prevState[stance]}));
@@ -41,6 +29,7 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
         }));
         onSuccessfulSubmit();
     }
+
 
     return (
         <div className="solution-details-list-container">
@@ -67,6 +56,7 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
                                         considerationData={consideration}
                                         parentType={parentType}
                                         parentNumber={parentNumber}
+                                        parentVersionNumber={parentVersionNumber}
                                         scrollContainerRef={scrollContainerRef}
                                     />
                                 ))}
@@ -82,6 +72,7 @@ const ConsiderationList = ({considerations: initialConsiderations, parentType, p
                     onSuccessfulSubmit={handleSuccessfulSubmit}
                     parentType={parentType}
                     parentNumber={parentNumber}
+                    parentVersionNumber={parentVersionNumber}
                     considerationFormId={"generalConsiderationForm"}
                 />
             ) : (

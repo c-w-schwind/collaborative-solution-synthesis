@@ -41,7 +41,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleComparison, onT
         showLoading(`Updating ${capitalizedKey}`);
 
         try {
-            await formSubmissionService(`solutions/${solution.solutionNumber}`, formData, label, handleUpdateSolution, "PUT");
+            await formSubmissionService(`solutions/${solution.solutionNumber}/${solution.versionNumber}`, formData, label, handleUpdateSolution, "PUT");
             toggleSolutionDraftForm(false);
         } catch (error) {
             throw error;

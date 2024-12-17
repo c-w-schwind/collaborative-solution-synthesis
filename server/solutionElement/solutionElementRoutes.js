@@ -1,75 +1,20 @@
 import express from "express";
 import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
-import {BadRequestError, NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
+import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
-import {Solution} from "../solution/solutionModel.js";
 import {SolutionElement} from "./solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
-import {updateParentSolutionElementsCount, validateAndCreateSolutionElements} from "./solutionElementService.js";
+import {updateParentSolutionElementsCount, createSolutionElementChangeProposal, createSolutionElement} from "./solutionElementService.js";
 import translateEntityNumberToId from "../middleware/translateEntityNumberToId.js";
 import {groupAndSortConsiderationsByStance} from "../consideration/considerationService.js";
 import authorizeAccess from "../middleware/authorizeAccess.js";
 
-
 const solutionElementRoutes = express.Router();
 
-// Create new Solution Element
-solutionElementRoutes.post("/solutionElements", authenticateToken(), (req, res, next) => translateEntityNumberToId("Solution", req.body.parentNumber, "parentSolutionId")(req, res, next), authorizeAccess("Solution", {entityIdField: "parentSolutionId"}), asyncHandler(async (req, res, next) => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    try {
-        const solutionElement = await validateAndCreateSolutionElements(req.body, req.parentSolutionId, req.user._id, session);
-        await updateParentSolutionElementsCount(req.parentSolutionId, 1, session);
 
-        await session.commitTransaction();
-        res.status(201).send(solutionElement[0]);
-    } catch (err) {
-        await session.abortTransaction();
-        next(err);
-    } finally {
-        await session.endSession();
-    }
-}));
-
-
-// Create Change Proposal for an existing Solution Element
-solutionElementRoutes.post("/solutionElements/:elementNumber/changeProposal", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res, next) => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    try {
-        const originalElement = await SolutionElement.findById(req.entityId).session(session).lean();
-
-        if (!originalElement) throw new NotFoundError("Original Solution Element not found");
-        if (originalElement.changeProposalFor) throw new BadRequestError("Cannot create a change proposal for a change proposal.");
-        if (originalElement.status !== "accepted") throw new BadRequestError("Change proposals can only be created for elements that have been accepted.");
-
-        // Excluding unwanted fields
-        const {authorizedUsers, _id, createdAt, updatedAt, ...rest} = originalElement;
-
-        const changeProposalData = {
-            ...rest,
-            activeConsiderationsCount: 0,
-            changeProposalFor: req.entityId,
-            changeSummary: "Here you should ... [Add user description]"
-        }
-
-        const changeProposalArray = await validateAndCreateSolutionElements(changeProposalData, originalElement.parentSolutionId, req.user._id, session);
-        const changeProposal = changeProposalArray[0];
-
-        await session.commitTransaction();
-        res.status(201).send({elementNumber: changeProposal.elementNumber});
-    } catch (err) {
-        await session.abortTransaction();
-        next(err);
-    } finally {
-        await session.endSession();
-    }
-}));
-
-
-// Get single Solution Element w/ Considerations by elementNumber
-solutionElementRoutes.get("/solutionElements/:elementNumber", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res) => {
+// Get single Solution Element w/ Considerations by elementNumber and versionNumber
+solutionElementRoutes.get("/solutionElements/:elementNumber/:versionNumber?", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res) => {
     const solutionElement = req.entity;
 
     // For change proposals, also fetch original elementNumber
@@ -92,41 +37,77 @@ solutionElementRoutes.get("/solutionElements/:elementNumber", authenticateToken(
 }));
 
 
+// Create new Solution Element draft
+solutionElementRoutes.post("/solutionElements", authenticateToken(), asyncHandler(async (req, res, next) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        const solutionElement = await createSolutionElement(req.body, req.user._id, session);
+
+        await session.commitTransaction();
+        res.status(201).send(solutionElement);
+    } catch (err) {
+        await session.abortTransaction();
+        next(err);
+    } finally {
+        await session.endSession();
+    }
+}));
+
+
+// Create Change Proposal for an existing Solution Element
+solutionElementRoutes.post("/solutionElements/:elementNumber/changeProposal", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res, next) => {
+    // No versionNumbers needed, since CPs can only be made to established Elements within established Solutions
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        // Re-fetch Solution Element within transaction session
+        const originalElement = await SolutionElement.findById(req.entity._id).session(session).lean();
+        if (!originalElement) throw new NotFoundError("Original Solution Element not found");
+        if (originalElement.status !== "accepted") throw new BadRequestError("Change proposals can only be created for established elements.");
+
+        const changeProposal = await createSolutionElementChangeProposal(originalElement, req.user._id, session);
+
+        await session.commitTransaction();
+        res.status(201).send({elementNumber: changeProposal.elementNumber, versionNumber: changeProposal.versionNumber});
+    } catch (err) {
+        await session.abortTransaction();
+        next(err);
+    } finally {
+        await session.endSession();
+    }
+}));
+
+
 // Update a single field or multiple fields of a Solution Element draft
-solutionElementRoutes.put("/solutionElements/:elementNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res, next) => {
+solutionElementRoutes.put("/solutionElements/:elementNumber/:versionNumber?", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
     const solutionElement = req.entity;
 
     if (!["draft", "under_review"].includes(solutionElement.status)) {
-        throw new BadRequestError("Cannot modify a public Solution Element");
+        throw new BadRequestError("Cannot modify an established or non-draft Solution Element");
     }
 
-    if (req.user._id.toString() !== solutionElement.proposedBy._id.toString()) {
-        throw new UnauthorizedError("Access Denied: Modification only allowed for Solution Element author");
-    }
-
-    const updatedSolutionElement = await SolutionElement.findByIdAndUpdate(req.entityId, {$set: req.body}, {new: true}).populate("proposedBy", "username").lean();
+    const updatedSolutionElement = await SolutionElement.findByIdAndUpdate(req.entity._id, {$set: req.body}, {new: true}).populate("proposedBy", "username").lean();
 
     res.status(200).send(updatedSolutionElement);
 }));
 
 
-// Delete a single Solution Element
-solutionElementRoutes.delete("/solutionElements/:elementNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
+// Delete a single, unpublished Solution Element
+solutionElementRoutes.delete("/solutionElements/:elementNumber/:versionNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
         // Re-fetch Solution Element within transaction session
-        const solutionElement = await SolutionElement.findById(req.entityId).session(session).lean();
+        const solutionElement = await SolutionElement.findById(req.entity._id).session(session).lean();
         if (!solutionElement) throw new NotFoundError("Solution Element not found");
 
         if (!["draft", "under_review"].includes(solutionElement.status)) {
-            throw new BadRequestError("Cannot delete a public Solution Element");
+            throw new BadRequestError("Cannot delete an established or non-draft Solution Element");
         }
 
         await Consideration.deleteMany({parentType: "SolutionElement", parentId: solutionElement._id}).session(session);
         await SolutionElement.deleteOne({_id: solutionElement._id}).session(session);
-
-        await updateParentSolutionElementsCount(solutionElement.parentSolutionId, -1, session);
 
         await session.commitTransaction();
         res.status(204).send();

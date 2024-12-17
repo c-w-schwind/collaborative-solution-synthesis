@@ -1,12 +1,16 @@
 const API_URL = process.env.REACT_APP_API_URL;
 
 // entityType: "solution" or "element"
-export const handleRequest = async (method, entityType, entityNumber = null, additionalPath) => {
+export const handleRequest = async (method, entityType, entityNumber = null, versionNumber = null, additionalPath) => {
     const routePrefix = entityType === "solution" ? "solutions" : "solutionElements";
     let url = `${API_URL}/${routePrefix}`;
 
     if (entityNumber) {
         url += `/${entityNumber}`;
+    }
+
+    if (versionNumber) {
+        url += `/${versionNumber}`;
     }
 
     if (additionalPath) {

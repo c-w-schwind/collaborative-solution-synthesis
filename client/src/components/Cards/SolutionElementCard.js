@@ -12,7 +12,7 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
 
     const navigate = useNavigate();
     const {canNavigate} = useFormData();
-    const {isSolutionDraft} = useGlobal();
+    const {isSolutionDraft, isSolutionCP} = useGlobal();
     const {comparisonEntityNumber} = useParams();
     const {showConfirmationModal} = useConfirmationModal();
 
@@ -21,12 +21,12 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
             showConfirmationModal({
                 title: "Navigate to Original Solution?",
                 message: `\nYou are about to leave the current Change Proposal view and navigate to the original Solution to view the Element${isChangeProposal ? " Change Proposal" : ""} "${element.title}".\n\nDo you wish to proceed?`,
-                onConfirm: () => window.location.href = `/solutions/${comparisonEntityNumber}/element/${element.elementNumber}`
+                onConfirm: () => window.location.href = `/solutions/${comparisonEntityNumber}/element/${element.elementNumber}${element.status === "accepted" ? "" : `/${element.versionNumber}`}`
             });
         } else {
-            navigate(`./element/${element.elementNumber}`, {state: {fromElementCard: true}});
+            navigate(`./element/${element.elementNumber}${element.status === "accepted" ? "" : `/${element.versionNumber}`}`, {state: {fromElementCard: true}});
         }
-    }, [entityType, showConfirmationModal, isChangeProposal, element.title, comparisonEntityNumber, navigate, element.elementNumber]);
+    }, [entityType, showConfirmationModal, isChangeProposal, element.title, element.status, comparisonEntityNumber, navigate, element.elementNumber, element.versionNumber]);
 
     const handleTransitionEnd = useCallback((event) => {
         if (event.propertyName === "opacity") {
@@ -75,9 +75,9 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
         let classes = "card solution-element-card ";
 
         if (isDraft) {
-            classes += isSolutionDraft && (entityType !== "ComparisonSolution") ? "new-element-proposal" : "draft";
+            classes += isSolutionDraft && !isSolutionCP && (entityType !== "ComparisonSolution") ? "new-element-proposal" : "draft";
         } else if (isUnderReview) {
-            classes += (isSolutionDraft && entityType !== "ComparisonSolution") ? "new-element-proposal" : isChangeProposal ? "change-proposal review change-proposal-review" : "review";
+            classes += (isSolutionDraft && !isSolutionCP && entityType !== "ComparisonSolution") ? "new-element-proposal" : isChangeProposal ? "change-proposal review change-proposal-review" : "review";
         } else if (isChangeProposal) {
             classes += "change-proposal";
         } else if (element.status === "proposal") {
@@ -92,7 +92,7 @@ const SolutionElementCard = ({element, entityType, onToggleDiscussionSpace, onTo
     };
 
     const getTypeInfo = () => {
-        if ((isSolutionDraft && (entityType !== "ComparisonSolution")) || !["draft", "under_review", "proposal"].includes(element.status)) {
+        if ((isSolutionDraft && !isSolutionCP && (entityType !== "ComparisonSolution")) || !["draft", "under_review", "proposal"].includes(element.status)) {
             return null;
         }
 

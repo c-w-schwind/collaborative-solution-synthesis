@@ -3,18 +3,19 @@ import {Solution} from "./solutionModel.js";
 import {getNextCounterValue} from "../counters/counterService.js";
 
 
-export async function validateAndCreateSolution(solutionInput, userId, session) {
+export async function createSolution(solutionInput, userId, session, originalSolutionNumber = null) {
     validateRequiredFields(solutionInput, ["title", "overview", "description"], "Solution validation")
 
-    const solutionCounterValue = await getNextCounterValue("solutionCounter", session)
+    const newSolutionNumber = originalSolutionNumber || await getNextCounterValue("solutionCounter", session);
 
-    return new Solution({
-        solutionNumber: solutionCounterValue,
+    const solution = new Solution({
+        ...solutionInput,
+        solutionNumber: newSolutionNumber,
         status: "draft",
-        title: solutionInput.title,
-        overview: solutionInput.overview,
-        description: solutionInput.description,
         proposedBy: userId,
         authorizedUsers: [userId]
     });
+
+    await solution.save({session});
+    return solution;
 }

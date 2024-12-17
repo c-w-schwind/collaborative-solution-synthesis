@@ -10,6 +10,7 @@ const GlobalContext = createContext();
  */
 export const GlobalProvider = ({children}) => {
     const [isSolutionDraft, setIsSolutionDraft] = useState(false); // Use only for currently displayed "main" solution. Do not use for side-by-side comparison solutions displayed in side panel (in case of change proposals).
+    const [isSolutionCP, setIsSolutionCP] = useState(false);
     const [elementListChange, setElementListChange] = useState(null);
     const [shouldRefetchSolution, setShouldRefetchSolution] = useState(false);
     const lastRefetchTimeRef = useRef(0);
@@ -30,6 +31,8 @@ export const GlobalProvider = ({children}) => {
     const value = useMemo(() => ({
         isSolutionDraft,
         setIsSolutionDraft,
+        isSolutionCP,
+        setIsSolutionCP,
         elementListChange,
         setElementListChange,
         shouldRefetchSolution,
@@ -38,6 +41,8 @@ export const GlobalProvider = ({children}) => {
     }), [
         isSolutionDraft,
         setIsSolutionDraft,
+        isSolutionCP,
+        setIsSolutionCP,
         elementListChange,
         setElementListChange,
         shouldRefetchSolution,

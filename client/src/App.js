@@ -36,16 +36,16 @@ function App() {
                                                 <Route index element={<IndexPage/>}/>
                                                 <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
                                                 <Route path="solutions" element={<SolutionListPage/>}/>
-                                                <Route path="solutions/:solutionNumber" element={<EnhancedSolutionDetailsPage/>}>
+                                                <Route path="solutions/:solutionNumber/:solutionVersion?" element={<EnhancedSolutionDetailsPage/>}>
                                                     <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
                                                     <Route path="comparison/:comparisonEntityNumber" element={<SolutionDetailsPage/>}/>
-                                                    <Route path="element/:elementNumber" element={<EnhancedSolutionElementModal/>}>
+                                                    <Route path="element/:elementNumber/:elementVersion?" element={<EnhancedSolutionElementModal/>}>
                                                         <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
                                                         <Route path="comparison/:comparisonEntityNumber" element={<SolutionElementModal/>}/>
                                                     </Route>
                                                 </Route>
-                                                <Route path="solutions/:solutionNumber/element/:elementNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
-                                                <Route path="solutions/:solutionNumber/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
+                                                <Route path="solutions/:solutionNumber/:solutionVersion?/element/:elementNumber/:elementVersion?/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
+                                                <Route path="solutions/:solutionNumber/:solutionVersion?/discussionSpace/fullscreen" element={<DiscussionSpacePage/>}/>
                                             </Route>
                                         </Routes>
                                     </FormDataProvider>

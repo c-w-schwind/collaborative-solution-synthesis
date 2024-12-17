@@ -14,7 +14,7 @@ function SolutionCard({solution}) {
     const isChangeProposal = Boolean(solution.changeProposalFor) && ["draft", "under_review", "proposal"].includes(solution.status);
 
     const handleDetailsClick = () => {
-        if (canNavigate({checkSolutionForm: true})) navigate(`/solutions/${solution.solutionNumber}`);
+        if (canNavigate({checkSolutionForm: true})) navigate(`/solutions/${solution.solutionNumber}${solution.status === "public" ? "" : `/${solution.versionNumber}`}`);
     };
 
     const getCardClasses = () => {

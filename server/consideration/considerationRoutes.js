@@ -18,21 +18,8 @@ import translateEntityNumberToId from "../middleware/translateEntityNumberToId.j
 const considerationRoutes = express.Router();
 
 
-// Get grouped & sorted Considerations for Solution or Solution Element
-considerationRoutes.get("/considerations/:parentType/:parentNumber", (req, res, next) => translateEntityNumberToId(req.params.parentType, req.params.parentNumber)(req, res, next), asyncHandler(async (req, res) => {
-    const unsortedConsiderations = await Consideration.find({
-        parentType: req.params.parentType,
-        parentId: req.entityId
-    }).select("_id title stance description comments votes proposedBy").lean();
-
-    const considerations = groupAndSortConsiderationsByStance(unsortedConsiderations);
-
-    return res.status(200).send(considerations);
-}));
-
-
 // Create new Consideration
-considerationRoutes.post("/considerations", (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber)(req, res, next), authenticateToken(), asyncHandler(async (req, res, next) => {
+considerationRoutes.post("/considerations", authenticateToken(), (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber, req.body.parentVersionNumber)(req, res, next), asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -53,11 +40,11 @@ considerationRoutes.post("/considerations", (req, res, next) => translateEntityN
 
 
 // Update an existing Consideration
-considerationRoutes.put("/considerations/:id", (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber, "parentId")(req, res, next), authenticateToken(), asyncHandler(async (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) throw new BadRequestError("Invalid Consideration ID.");
+considerationRoutes.put("/considerations/:considerationId", authenticateToken(), (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber, req.body.parentVersionNumber, "parentId")(req, res, next), asyncHandler(async (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) throw new BadRequestError("Invalid Consideration ID.");
     await validateConsiderationData({...req.body, parentId: req.parentId});
 
-    const consideration = await Consideration.findByIdAndUpdate(req.params.id, req.body, {new: true});
+    const consideration = await Consideration.findByIdAndUpdate(req.params.considerationId, req.body, {new: true});
     if (!consideration) throw new NotFoundError("Consideration not found.");
 
     res.status(201).send(consideration);
@@ -65,11 +52,11 @@ considerationRoutes.put("/considerations/:id", (req, res, next) => translateEnti
 
 
 // Create a new comment for a Consideration
-considerationRoutes.post("/considerations/:id/comment", authenticateToken(), asyncHandler(async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) throw new BadRequestError("Invalid Consideration ID.");
+considerationRoutes.post("/considerations/:considerationId/comment", authenticateToken(), asyncHandler(async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) throw new BadRequestError("Invalid Consideration ID.");
     if (!req.body.text) throw new BadRequestError("Consideration Comment: Missing required field: text.");
 
-    const consideration = await Consideration.findById(req.params.id);
+    const consideration = await Consideration.findById(req.params.considerationId);
     if (!consideration) throw new NotFoundError("Consideration not found.");
 
     const comment = {

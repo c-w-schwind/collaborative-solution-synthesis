@@ -2,7 +2,7 @@ import './LoadingOverlay.css';
 import {createPortal} from "react-dom";
 import {useEffect, useRef, useState} from "react";
 
-const LoadingOverlay = ({isVisible, message, isFullScreen = true}) => {
+const LoadingOverlay = ({isVisible, message, isFullScreen = true, isSidePanel = false}) => {
     const [overlayVisible, setOverlayVisible] = useState(false);
     const [shouldRender, setShouldRender] = useState(false);
     const overlayRef = useRef(null);
@@ -22,13 +22,17 @@ const LoadingOverlay = ({isVisible, message, isFullScreen = true}) => {
             }, 100);
         } else {
             setOverlayVisible(false);
-            timeoutId = setTimeout(() => setShouldRender(false), 100); // Matching .loading-overlay CSS fade-out transition time
+            if (isSidePanel) {
+                setShouldRender(false); // Preventing glitching behavior of modal during discussion space opening
+            } else {
+                timeoutId = setTimeout(() => setShouldRender(false), 100); // Matching .loading-overlay CSS fade-out transition time
+            }
             return () => clearTimeout(timeoutId);
         }
         return () => {
             clearTimeout(timeoutId);
         };
-    }, [isVisible]);
+    }, [isVisible, isSidePanel]);
 
 
     useEffect(() => {
@@ -49,7 +53,7 @@ const LoadingOverlay = ({isVisible, message, isFullScreen = true}) => {
     if (!shouldRender) return null;
 
     const overlayContent = (
-        <div ref={overlayRef} tabIndex="-1" className={`loading-overlay ${isFullScreen ? 'full-screen' : 'component-level'} ${overlayVisible ? 'visible' : ''}`}>
+        <div ref={overlayRef} tabIndex="-1" className={`loading-overlay ${isFullScreen ? 'full-screen' : 'component-level'} ${isSidePanel ? "side-panel" : ""} ${overlayVisible ? 'visible' : ''}`}>
             <div className="loading-content">
                 <div className="spinner"></div>
                 {message && <div className="loading-message">{message}</div>}

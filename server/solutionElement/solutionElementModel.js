@@ -3,18 +3,22 @@ import mongoose from "mongoose";
 const solutionElementSchema = new mongoose.Schema({
     elementNumber: {
         type: Number,
+        required: true
+    },
+    versionNumber: {
+        type: Number,
         required: true,
-        unique: true
+        default: 1
+    },
+    parentSolutionNumber: {
+        type: Number,
+        required: true
     },
     status: {
         type: String,
         enum: ['draft', 'under_review', 'proposal', 'accepted', 'rejected', 'deprecated'],
         default: 'draft',
         required: true
-    },
-    parentSolutionId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Solution'
     },
     elementType: {                          // primary = specific strategies, methods, actions
         type: String,                       // supportive = additional components that enhance the solution
@@ -63,9 +67,10 @@ const solutionElementSchema = new mongoose.Schema({
     }]*/
 }, {timestamps: true});
 
+solutionElementSchema.index({elementNumber: 1, versionNumber: 1}, {unique: true});
 solutionElementSchema.index({status: 1});
 solutionElementSchema.index({proposedBy: 1});
 solutionElementSchema.index({authorizedUsers: 1});
-solutionElementSchema.index({parentSolutionId: 1});
+solutionElementSchema.index({parentSolutionNumber: 1});
 
 export const SolutionElement = mongoose.model('SolutionElement', solutionElementSchema);

@@ -27,7 +27,7 @@ const authorizeAccess = (entityType, options = {}) => {
                 return next(new UnauthorizedError("Access Denied: Only the author can perform this action"));
             }
         } else if (entity.status === "draft" || entity.status === "under_review") {
-            // When entityIdField is "parentSolutionId" access for adding an Element to a Solution draft is authorized, so reviewers will be blocked
+            // When entityIdField is "parentSolutionId": access for adding an Element to a Solution draft is authorized, so reviewers will be blocked
             if (entityIdField === "parentSolutionId" && (entity.proposedBy._id.toString() !== req.user._id.toString())) {
                 return next(new UnauthorizedError("Access Denied: Only the author of a Solution draft can add Elements"));
             } else if (!req.user || !entity.authorizedUsers.some(authUserId => authUserId.equals(req.user._id))) {

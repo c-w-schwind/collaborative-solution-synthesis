@@ -7,7 +7,7 @@ import {useAuth} from "../../context/AuthContext";
 import ConsiderationInput from "./ConsiderationInput";
 
 
-const ConsiderationCard = ({considerationData, parentType, parentNumber, scrollContainerRef}) => {
+const ConsiderationCard = ({considerationData, parentType, parentNumber, parentVersionNumber, scrollContainerRef}) => {
     const [consideration, setConsideration] = useState(considerationData);
     const [showComments, setShowComments] = useState(false);
     const [renderComments, setRenderComments] = useState(false);
@@ -65,6 +65,7 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber, scrollC
                             onSuccessfulSubmit={handleInteractionSuccess}
                             parentType={parentType}
                             parentNumber={parentNumber}
+                            parentVersionNumber={parentVersionNumber}
                             considerationFormId={consideration._id}
                             existingData={{
                                 stance: consideration.stance,

@@ -60,7 +60,7 @@ const SolutionInput = () => {
     const submitSolution = async (formData) => {
         const onSuccessfulSubmit = (newSolution) => {
             addToast(`New solution "${newSolution.title}" has been successfully created.`, 6000);
-            navigate(`${newSolution.solutionNumber}`);
+            navigate(`${newSolution.solutionNumber}/${newSolution.versionNumber}`);
             toggleSolutionForm(false);
         }
 

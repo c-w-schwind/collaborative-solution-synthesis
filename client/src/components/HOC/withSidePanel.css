@@ -1,3 +1,7 @@
+.solution-container {
+    position: absolute;
+}
+
 .entity-container-for-side-panel-addition {
     position: relative;
     margin-top: 40px;

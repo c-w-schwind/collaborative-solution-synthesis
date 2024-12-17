@@ -19,7 +19,7 @@ import {debounce} from "../../utils/utils";
 
 
 function SolutionElementModal(props) {
-    const {onToggleDiscussionSpace, onToggleComparison, onClosingModal, currentSidePanelType, displayedSidePanelType, setEntityTitle, isElementDraft, setIsElementDraft, entityType} = useOutletContext() || props;
+    const {onToggleDiscussionSpace, onToggleComparison, onClosingModal, currentSidePanelType, displayedSidePanelType, setEntityTitle, setEntityVersion, isElementDraft, setIsElementDraft, entityType} = useOutletContext() || props;
     const [solutionElement, setSolutionElement] = useState(null);
     const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
@@ -30,9 +30,9 @@ function SolutionElementModal(props) {
 
     const {setElementListChange, isSolutionDraft} = useGlobal();
     const {showLoading, hideLoading} = useLoading();
-    const {elementNumber, comparisonEntityNumber} = useParams();
+    const {elementNumber, elementVersion, comparisonEntityNumber, comparisonEntityVersion} = useParams();
     const {handleDiscardElementDraft, handleSubmitElementDraft, handlePublishElement} = useElementDraftOperations(
-        {elementNumber, title: solutionElement?.title, status: solutionElement?.status},
+        {elementNumber, elementVersion, title: solutionElement?.title, status: solutionElement?.status},
         isElementDraft,
         isChangeProposal
     );
@@ -56,17 +56,22 @@ function SolutionElementModal(props) {
     const scrollContainerRef = useRef(null);
     const stableEntityType = useRef(entityType);
     const stableComparisonEntityNumber = useRef(comparisonEntityNumber);
+    const stableComparisonEntityVersion = useRef(comparisonEntityVersion);
 
     const footerRef = useOutsideClick(() => setIsShowingInfo(false));
 
 
     const fetchElementData = useCallback(async () => {
         try {
-            const id = stableEntityType.current === "ComparisonElement" ? stableComparisonEntityNumber.current : elementNumber;
-            const elementData = await handleRequest("GET", "element", id);
+            const entityNumber = stableEntityType.current === "ComparisonElement" ? stableComparisonEntityNumber.current : elementNumber;
+            const versionNumber = stableEntityType.current === "ComparisonElement" ? stableComparisonEntityVersion.current : elementVersion;
+
+            const elementData = await handleRequest("GET", "element", entityNumber, versionNumber);
+
             setSolutionElement(elementData);
             if (stableEntityType.current === "SolutionElement") {
                 setIsElementDraft(elementData.status === "draft" || elementData.status === "under_review");
+                setEntityVersion(elementData.versionNumber);
             }
             setIsChangeProposal(Boolean(elementData.changeProposalFor) && ["draft", "under_review", "proposal"].includes(elementData.status));
             setIsElementProposal(!Boolean(elementData.changeProposalFor) && elementData.status === "proposal");
@@ -80,7 +85,7 @@ function SolutionElementModal(props) {
                 return () => clearTimeout(retryTimeout);
             }
         }
-    }, [elementNumber, setIsElementDraft, retryCount]);
+    }, [elementNumber, elementVersion, setEntityVersion, setIsElementDraft, retryCount]);
 
 
     useEffect(() => {
@@ -126,18 +131,18 @@ function SolutionElementModal(props) {
         showLoading(`Updating ${capitalizedKey}`);
 
         try {
-            await formSubmissionService(`solutionElements/${elementNumber}`, formData, label, handleUpdateSolutionElement, "PUT");
+            await formSubmissionService(`solutionElements/${elementNumber}/${elementVersion}`, formData, label, handleUpdateSolutionElement, "PUT");
             toggleElementDraftForm(false);
 
             if (label !== "Solution Element Description") {
-                setElementListChange({changeType: "update", elementNumber: Number(elementNumber), ...changedField});
+                setElementListChange({changeType: "update", elementNumber: Number(elementNumber), versionNumber: Number(elementVersion), ...changedField});
             }
         } catch (error) {
             throw error;
         } finally {
             hideLoading();
         }
-    }, [elementNumber, showLoading, hideLoading, handleUpdateSolutionElement, setElementListChange]);
+    }, [elementNumber, elementVersion, showLoading, hideLoading, handleUpdateSolutionElement, setElementListChange]);
 
     const handleTitleEditSubmit = useCallback((formData) => handleEditSubmit(formData, "Solution Element Title", toggleElementDraftTitleForm, {title: formData.title}), [handleEditSubmit, toggleElementDraftTitleForm]);
     const handleOverviewEditSubmit = useCallback((formData) => handleEditSubmit(formData, "Solution Element Overview", toggleElementDraftOverviewForm, {overview: formData.overview}), [handleEditSubmit, toggleElementDraftOverviewForm]);
@@ -352,6 +357,7 @@ function SolutionElementModal(props) {
                     considerations={solutionElement.considerations}
                     parentType={"SolutionElement"}
                     parentNumber={elementNumber}
+                    parentVersionNumber={elementVersion}
                     onSuccessfulSubmit={fetchElementData}
                     entityType={entityType}
                     scrollContainerRef={scrollContainerRef}

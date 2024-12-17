@@ -3,8 +3,12 @@ import mongoose from "mongoose";
 const solutionSchema = new mongoose.Schema({
     solutionNumber: {
         type: Number,
+        required: true
+    },
+    versionNumber: {
+        type: Number,
         required: true,
-        unique: true
+        default: 1
     },
     status: {
         type: String,
@@ -54,6 +58,7 @@ const solutionSchema = new mongoose.Schema({
     }
 }, {timestamps: true});
 
+solutionSchema.index({solutionNumber: 1, versionNumber: 1}, {unique: true});
 solutionSchema.index({status: 1});
 solutionSchema.index({proposedBy: 1});
 solutionSchema.index({authorizedUsers: 1});

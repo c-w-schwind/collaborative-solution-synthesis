@@ -6,7 +6,7 @@ import {useEffect, useRef, useState} from "react";
 import {useToasts} from "../../context/ToastContext";
 import {useLoading} from "../../context/LoadingContext";
 
-const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
+const SolutionElementInput = ({onSuccessfulSubmit, parentSolutionNumber}) => {
     // Enables a smooth closing transition by delaying the form's disappearance
     const [renderElementForm, setRenderElementForm] = useState(false);
 
@@ -58,7 +58,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentNumber}) => {
 
     const submitElementProposal = async (formData) => {
         showLoading(`Creating New Element Draft\n"${formData.title}"`);
-        const proposalData = {...formData, parentNumber};
+        const proposalData = {...formData, parentSolutionNumber};
         try {
             await formSubmissionService("solutionElements", proposalData, "solution element", onSuccessfulSubmit);
             toggleElementForm(false);
