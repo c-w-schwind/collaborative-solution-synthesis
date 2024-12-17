@@ -6,6 +6,7 @@ import {useFormData} from "../../context/FormDataContext";
 import formSubmissionService from "../Forms/formSubmissionService";
 import {formConfigurations} from "../Forms/formConfigurations";
 import GenericForm from "../Forms/GenericForm";
+import ProposeChangeButton from "../Buttons/ProposeChangeButton";
 import useOutsideClick from "../../hooks/useOutsideClickHook";
 import {useLocation} from "react-router-dom";
 
@@ -145,7 +146,7 @@ const SolutionOverviewSection = ({solution, setSolution, onToggleComparison, onT
                 </h2>
 
                 <div className="button-section">
-                    {!isLocalSolutionDraft && entityType === "Solution" && <button className="action-button icon-action-button action-button--propose-changes" data-tooltip="Propose Change"><img src={EDIT_ICON_SRC} alt="propose change"/></button>}
+                    {!isLocalSolutionDraft && !isChangeProposal && entityType === "Solution" && <ProposeChangeButton entityType={entityType} entityTitle={solution.title} entityNumber={solution.solutionNumber}/>}
                     {entityType === "Solution" && <button className="action-button icon-action-button discussion-space-button" data-tooltip={discussionTooltipText} onClick={onToggleDiscussionSpace}><img src={DISCUSSION_ICON_SRC} alt="discussion space"/></button>}
                     <div ref={metaRef} className="meta-button-container">
                         <button className={`action-button info-button ${showMeta ? "active" : ""}`} style={{padding: "8px 15px", width: "33px", height: "33px"}} onClick={handleMetaButtonClick}>i</button>

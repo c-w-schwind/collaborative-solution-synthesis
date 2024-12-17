@@ -1,12 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
-import {NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
+import {BadRequestError, NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import {Solution} from "./solutionModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
-import {createSolution} from "./solutionService.js";
+import {createSolution, createSolutionChangeProposal} from "./solutionService.js";
 import {groupAndSortConsiderationsByStance} from "../consideration/considerationService.js";
 import translateEntityNumberToId from "../middleware/translateEntityNumberToId.js";
 import authorizeAccess from "../middleware/authorizeAccess.js";
@@ -119,6 +119,30 @@ solutionRoutes.post("/solutions", authenticateToken(), asyncHandler(async (req, 
         await session.commitTransaction();
 
         return res.status(201).send(solution);
+    } catch (err) {
+        await session.abortTransaction();
+        next(err);
+    } finally {
+        await session.endSession();
+    }
+}));
+
+
+// Create Change Proposal for a Solution
+solutionRoutes.post("/solutions/:solutionNumber/changeProposal", authenticateToken(), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res, next) => {
+    // No versionNumbers needed, since CPs can only be made to established Solutions
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        // Re-fetch Solution within transaction session
+        const originalSolution = await Solution.findById(req.entity._id).session(session).lean();
+        if (!originalSolution) throw new NotFoundError("Original Solution not found");
+        if (originalSolution.status !== "public") throw new BadRequestError("Change proposals can only be created for established solutions.");
+
+        const changeProposal = await createSolutionChangeProposal(originalSolution, req.user._id, session);
+
+        await session.commitTransaction();
+        res.status(201).send({solutionNumber: changeProposal.solutionNumber, versionNumber: changeProposal.versionNumber});
     } catch (err) {
         await session.abortTransaction();
         next(err);

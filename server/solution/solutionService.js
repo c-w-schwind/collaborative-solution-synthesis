@@ -19,3 +19,20 @@ export async function createSolution(solutionInput, userId, session, originalSol
     await solution.save({session});
     return solution;
 }
+
+
+export async function createSolutionChangeProposal(originalSolution, userId, session) {
+    // Exclude unwanted fields
+    const {authorizedUsers, _id, createdAt, updatedAt, ...rest} = originalSolution;
+    const newVersionNumber = originalSolution.versionNumber + 1;
+
+    const changeProposalData = {
+        ...rest,
+        versionNumber: newVersionNumber,
+        activeConsiderationsCount: 0,
+        changeProposalFor: originalSolution._id,
+        changeSummary: "Here you should ... [Add user description]"
+    };
+
+    return createSolution(changeProposalData, userId, session, originalSolution.solutionNumber);
+}

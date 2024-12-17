@@ -6,25 +6,32 @@ import {useConfirmationModal} from "../../context/ConfirmationModalContext";
 import {useLoading} from "../../context/LoadingContext";
 import {handleRequest} from "../../services/solutionApiService";
 import {useToasts} from "../../context/ToastContext";
+import {useNavigate} from "react-router-dom";
+import IndentedModalText from "../CommonComponents/IndentedModalText";
 
 
-const ProposeChangeButton = ({entityType, entityTitle, entityNumber, onClosingModal}) => {
+const ProposeChangeButton = ({entityType, entityTitle, entityNumber, onClosingModal = () => {}}) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
 
     const {addToast} = useToasts();
     const {showLoading, hideLoading} = useLoading();
     const {showConfirmationModal} = useConfirmationModal();
 
+    const navigate = useNavigate();
     const menuRef = useOutsideClick(() => setIsMenuVisible(false));
 
 
-    const createChangeProposal = useCallback(async () => {
+    const createChangeProposal = async () => {
         showLoading(`Creating Change Proposal for\n"${entityTitle}"`);
         const requestEntityType = entityType === "Solution" ? "solution" : "element";
 
         try {
-            const changeProposalResponse = await handleRequest("POST", requestEntityType, entityNumber, "changeProposal");
-            onClosingModal(`../element/${changeProposalResponse.elementNumber}`);
+            const changeProposalResponse = await handleRequest("POST", requestEntityType, entityNumber, null, "changeProposal");
+            if (entityType === "SolutionElement") {
+                onClosingModal(`../element/${changeProposalResponse.elementNumber}/${changeProposalResponse.versionNumber}`);
+            } else {
+                navigate(`../solutions/${changeProposalResponse.solutionNumber}/${changeProposalResponse.versionNumber}`);
+            }
             addToast(`Successfully created Change Proposal for "${entityTitle}"`);
         } catch (err) {
             console.error(`Failed to create change proposal for ${entityType}:`, err);
@@ -32,7 +39,7 @@ const ProposeChangeButton = ({entityType, entityTitle, entityNumber, onClosingMo
         } finally {
             hideLoading();
         }
-    }, [showLoading, entityTitle, entityType, entityNumber, onClosingModal, addToast, hideLoading]);
+    };
 
     const handleCreateChangeProposal = () => {
         const solutionNote = <>
