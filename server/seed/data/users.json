@@ -1,0 +1,72 @@
+[
+  {
+    "_id": "659e6ddb985b979a4084a076",
+    "username": "John Doe",
+    "email": "user@platform.com",
+    "passwordHash": "$2a$10$iG//NrKQYz31XBdPJkCggOQjMSlHSLQedugSQa4HcsV3h5cV.yN8S",
+    "avatarUrl": "https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
+  },
+  {
+    "_id": "6671a1234d4531dba695fe0d",
+    "username": "Samantha Smith",
+    "email": "samantha@fakemail.com",
+    "passwordHash": "$2a$10$XnF0H7u.lzPdD3fB6gTjDOyU1Xa5Mt5N5BzX7jYO7kRTs4K8ZLh8m",
+    "avatarUrl": ""
+  },
+  {
+    "_id": "6671a5678fff00c99a33b5d0",
+    "username": "David Johnson",
+    "email": "david@johnson.com",
+    "passwordHash": "$2a$10$Tq2lmP/bKIVI8Fmc3uHstOrv6p3kjMnsR.Zi9U88FgYvVY7TAdE9G",
+    "avatarUrl": ""
+  },
+  {
+    "_id": "6671a8901d4531dba695fe0d",
+    "username": "Emily Parker",
+    "email": "emily@parker.com",
+    "passwordHash": "$2a$10$Zy7fHcY9J6gTeQRTxOLo0.BX8fPfGnNHd8QmXEDVvA8H6lK7XQPuG",
+    "avatarUrl": ""
+  },
+  {
+    "_id": "6671abcdefff00c99a33b5d0",
+    "username": "Michael Lee",
+    "email": "michael@lee.com",
+    "passwordHash": "$2a$10$WuX7BmY8HcOvRLp2Dx7GaOr3M/Y0qE1W9LZC2FRYh8T1k7A6Hq5KS",
+    "avatarUrl": ""
+  },
+  {
+    "_id": "6671b2345d4531dba695fe0d",
+    "username": "Sophia Martinez",
+    "email": "sophia@martinez.com",
+    "passwordHash": "$2a$10$H8QXm9RJ0nYPdT3VkOLPZnY4YXz6LrJWq7KLT9uVF1B7M3ZYQ5pKC",
+    "avatarUrl": ""
+  },
+  {
+    "_id": "6671c3456abcdef012345678",
+    "username": "Olivia Brown",
+    "email": "olivia@brown.com",
+    "passwordHash": "$2a$10$SampleHashOlivia",
+    "avatarUrl": ""
+  },
+  {
+    "_id": "6671d4567fedcba098765432",
+    "username": "Liam Wilson",
+    "email": "liam@wilson.com",
+    "passwordHash": "$2a$10$SampleHashLiam",
+    "avatarUrl": ""
+  },
+  {
+    "_id": "6671e5678a1b2c3d4e5f6789",
+    "username": "Ava Davis",
+    "email": "ava@davis.com",
+    "passwordHash": "$2a$10$SampleHashAva",
+    "avatarUrl": ""
+  },
+  {
+    "_id": "6671f6789b2c3d4e5f6a7890",
+    "username": "Noah Miller",
+    "email": "noah@miller.com",
+    "passwordHash": "$2a$10$SampleHashNoah",
+    "avatarUrl": ""
+  }
+]

@@ -9,7 +9,7 @@ export async function getNextCounterValue(counterName, session) {
 }
 
 export async function initializeCounters() {
-    const counters = ['solutionCounter', 'elementCounter', 'considerationCounter'];
+    const counters = ['solutionCounter', 'elementCounter'];
     for (const counterId of counters) {
         const counter = await Counter.findById(counterId);
         if (!counter) {

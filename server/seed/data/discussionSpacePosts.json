@@ -1,0 +1,142 @@
+[
+  {
+    "title": "Clarification on the Scope of This Example",
+    "content": "Hey John, I see this is an example solution to showcase how the review phase works. Just to confirm—should we evaluate it as if it were a real solution, or is the focus more on making sure the structure is clear for others using the platform?",
+    "author": "6671a5678fff00c99a33b5d0",
+    "parentType": "Solution",
+    "parentNumber": 6,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T15:00:00Z",
+    "updatedAt": "2023-12-29T15:00:00Z"
+  },
+  {
+    "title": "Re: Clarification on the Scope of This Example",
+    "content": "Good question! The main purpose here is to illustrate how this phase works. That said, feel free to engage with it like a normal proposal—it might help highlight potential confusion or missing details that could be useful for real drafts in the future.",
+    "author": "659e6ddb985b979a4084a076",
+    "parentType": "Solution",
+    "parentNumber": 6,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T15:05:00Z",
+    "updatedAt": "2023-12-29T15:05:00Z"
+  },
+  {
+    "title": "Does the Footer Menu Info Cover Everything?",
+    "content": "I like how the footer menu provides information on the process, but do you think it would be helpful to explicitly mention where to find discussion spaces for solution elements? Some users might overlook that and only check the main solution discussion.",
+    "author": "6671abcdefff00c99a33b5d0",
+    "parentType": "Solution",
+    "parentNumber": 6,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T15:15:00Z",
+    "updatedAt": "2023-12-29T15:15:00Z"
+  },
+  {
+    "title": "Re: Does the Footer Menu Info Cover Everything?",
+    "content": "That's a great point! The main discussion space is pretty obvious, but I agree that some users might not realize there are separate ones for elements. Maybe a brief note in the footer could help direct them?",
+    "author": "659e6ddb985b979a4084a076",
+    "parentType": "Solution",
+    "parentNumber": 6,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T15:20:00Z",
+    "updatedAt": "2023-12-29T15:20:00Z"
+  },
+  {
+    "title": "Meta Feedback on Example Wording",
+    "content": "The example does a solid job of explaining how the review phase works, but do you think we should clarify that reviewers are not 'approving' anything? Some users might assume they need to get approval rather than just feedback.",
+    "author": "6671a8901d4531dba695fe0d",
+    "parentType": "Solution",
+    "parentNumber": 6,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T15:30:00Z",
+    "updatedAt": "2023-12-29T15:30:00Z"
+  },
+  {
+    "title": "Re: Meta Feedback on Example Wording",
+    "content": "That's a really good point! I could tweak the wording a bit to reinforce that reviewers are just providing feedback, and the proposer has full control over what changes to make. Thanks for catching that!",
+    "author": "659e6ddb985b979a4084a076",
+    "parentType": "Solution",
+    "parentNumber": 6,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T15:35:00Z",
+    "updatedAt": "2023-12-29T15:35:00Z"
+  },
+  {
+    "title": "Clarifying the Purpose of This Example Element",
+    "content": "Hey John, I see this element is part of the example solution. Should we treat this discussion as if we were evaluating a real element? Or is it mainly meant to illustrate how element-level discussions work?",
+    "author": "6671a5678fff00c99a33b5d0",
+    "parentType": "SolutionElement",
+    "parentNumber": 15,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T16:00:00Z",
+    "updatedAt": "2023-12-29T16:00:00Z"
+  },
+  {
+    "title": "Scope of Feedback – What to Focus On?",
+    "content": "Also wondering—should we focus on structure, like whether the element description is clear and well-defined? Or do you want feedback on how well it integrates with the rest of the solution?",
+    "author": "6671abcdefff00c99a33b5d0",
+    "parentType": "SolutionElement",
+    "parentNumber": 15,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T16:05:00Z",
+    "updatedAt": "2023-12-29T16:05:00Z"
+  },
+  {
+    "title": "Re: Scope of Feedback – What to Focus On?",
+    "content": "Great questions! This discussion is mainly here to illustrate how these element-level spaces work. But if you want to engage as if this were a real element, that’s totally fine too! Structure and clarity are always useful points to focus on, and seeing how it fits within the broader solution is also a valuable perspective.",
+    "author": "659e6ddb985b979a4084a076",
+    "parentType": "SolutionElement",
+    "parentNumber": 15,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T16:10:00Z",
+    "updatedAt": "2023-12-29T16:10:00Z"
+  },
+  {
+    "title": "Re: Re: Scope of Feedback – What to Focus On?",
+    "content": "Sounds good! I think keeping these discussions flexible is helpful, so people can use them for clarity, refinement, or integration feedback depending on the needs of the element. Thanks for confirming!",
+    "author": "6671a5678fff00c99a33b5d0",
+    "parentType": "SolutionElement",
+    "parentNumber": 15,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T16:15:00Z",
+    "updatedAt": "2023-12-29T16:15:00Z"
+  },
+  {
+    "title": "Clarifying the Purpose of This Example Element",
+    "content": "Hey John, I see this element is part of the example solution. Should we treat this discussion as if we were evaluating a real element? Or is it mainly meant to illustrate how element-level discussions work?",
+    "author": "6671a5678fff00c99a33b5d0",
+    "parentType": "SolutionElement",
+    "parentNumber": 16,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T16:00:00Z",
+    "updatedAt": "2023-12-29T16:00:00Z"
+  },
+  {
+    "title": "Scope of Feedback – What to Focus On?",
+    "content": "Also wondering—should we focus on structure, like whether the element description is clear and well-defined? Or do you want feedback on how well it integrates with the rest of the solution?",
+    "author": "6671abcdefff00c99a33b5d0",
+    "parentType": "SolutionElement",
+    "parentNumber": 16,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T16:05:00Z",
+    "updatedAt": "2023-12-29T16:05:00Z"
+  },
+  {
+    "title": "Re: Scope of Feedback – What to Focus On?",
+    "content": "Great questions! This discussion is mainly here to illustrate how these element-level spaces work. But if you want to engage as if this were a real element, that’s totally fine too! Structure and clarity are always useful points to focus on, and seeing how it fits within the broader solution is also a valuable perspective.",
+    "author": "659e6ddb985b979a4084a076",
+    "parentType": "SolutionElement",
+    "parentNumber": 16,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T16:10:00Z",
+    "updatedAt": "2023-12-29T16:10:00Z"
+  },
+  {
+    "title": "Re: Re: Scope of Feedback – What to Focus On?",
+    "content": "Sounds good! I think keeping these discussions flexible is helpful, so people can use them for clarity, refinement, or integration feedback depending on the needs of the element. Thanks for confirming!",
+    "author": "6671a5678fff00c99a33b5d0",
+    "parentType": "SolutionElement",
+    "parentNumber": 16,
+    "parentVersion": 1,
+    "createdAt": "2023-12-29T16:15:00Z",
+    "updatedAt": "2023-12-29T16:15:00Z"
+  }
+]

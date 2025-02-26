@@ -1,0 +1,153 @@
+[
+  {
+    "_id": "6675a2d4f9e2c31d8c9f7e12",
+    "solutionNumber": 1,
+    "versionNumber": 1,
+    "status": "public",
+    "title": "[Example Solution – Understanding the Structure]",
+    "overview": "This is an example solution that illustrates how solutions are structured on the platform. It includes solution elements, considerations, and a discussion space to showcase the collaborative process. This example solution also contains login details for an example account, allowing you to explore private drafts and proposals in the review phase—details can be found in the description.",
+    "description": "This example solution serves as a guide to understanding how solutions function within the platform. Each solution consists of:\n\n- A title that summarizes the main idea.\n- An overview providing a quick explanation of what the solution aims to achieve.\n- A description that elaborates on the details and purpose of the solution.\n- Solution elements, which represent the modular components that define the solution in detail.\n- Considerations, where users can add pros, cons, and neutral points to evaluate different aspects.\n- A discussion space, allowing users to discuss the solution as a whole.\n\nSolutions go through multiple phases, from private drafts to review to public discussion, ensuring they are refined collaboratively. Users can propose changes through structured change proposals, which follow the same iterative process.\n\n\nWhen you log in, you will also have access to:\n\n- Your private drafts (whether they are new solutions, new elements, or change proposals) that are not yet public. These will be displayed with a red background.\n- Proposals under review, including both those you have been made a reviewer of and those you have submitted yourself. Proposals already in the review phase will additionally have dashed borders.\n- The ability to vote on considerations, add considerations, and create solution/element/change proposal drafts to test the platform.\n\nTo help you explore the platform, an example account has been set up with non-public drafts that include additional explanations of the platform’s structure. You can log in with the following credentials:\n\nLogin Details for Testing:\n- Email: user@platform.com\n- Password: password\n\nAlternatively, you can create a new account, but this will not grant access to the pre-created drafts with meta explanations.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "authorizedUsers": [
+      "659e6ddb985b979a4084a076",
+      "6671a5678fff00c99a33b5d0",
+      "6671abcdefff00c99a33b5d0",
+      "6671a8901d4531dba695fe0d"
+    ],
+    "activeSolutionElementsCount": 3,
+    "activeConsiderationsCount": 3,
+    "changeProposalFor": null,
+    "changeSummary": null,
+    "createdAt": "2023-12-30T10:00:00Z",
+    "updatedAt": "2023-12-30T10:00:00Z"
+  },
+  {
+    "_id": "6672b3d5e2b9a14f8c3f4d02",
+    "solutionNumber": 2,
+    "versionNumber": 1,
+    "status": "public",
+    "title": "Tiered Membership & Shared Governance Model",
+    "overview": "This solution introduces a structured membership system that balances affordability and exclusivity. Members can opt for different tiers (standard, premium, team) based on their needs, ensuring fair access to resources while maintaining financial sustainability. A co-governance model allows members to have a say in policies, balancing inclusivity and efficiency. Decision-making is facilitated through a rotating community board to ensure fair representation.",
+    "description": "This solution introduces a tiered membership system and a shared governance model to address conflicting workspace needs and financial sustainability. The primary challenge is that different groups of users have different expectations—some members prefer a communal, open-access model, while others require structured resource allocation, privacy, and guaranteed workspace access. At the same time, the co-working space must remain financially viable without alienating core members.\n\nTo resolve these tensions, this solution establishes three membership tiers (Standard, Premium, and Team) that provide different levels of access and benefits. This allows members to self-select the best tier based on their needs rather than compete for the same resources. Additionally, to maintain fairness and inclusivity, a co-governance model is implemented, where members collectively participate in decision-making through a rotating community board.\n\nTo ensure financial sustainability, the solution also introduces revenue diversification strategies, including external event rentals, partnerships, and non-intrusive monetization methods. Lastly, a structured conflict resolution mechanism helps handle disputes regarding space usage and policy changes fairly and transparently.\n\nBy combining structured access, financial sustainability, and democratic governance, this solution creates a balanced and fair co-working ecosystem that meets diverse member needs.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "authorizedUsers": [
+      "6671b2345d4531dba695fe0d",
+      "6671a5678fff00c99a33b5d0",
+      "6671abcdefff00c99a33b5d0",
+      "6671a8901d4531dba695fe0d"
+    ],
+    "activeSolutionElementsCount": 4,
+    "activeConsiderationsCount": 5,
+    "changeProposalFor": null,
+    "changeSummary": null,
+    "createdAt": "2023-12-22T14:45:00Z",
+    "updatedAt": "2023-12-22T14:45:00Z"
+  },
+  {
+    "_id": "6672a9c5f1a8e12d7b2f3b01",
+    "solutionNumber": 3,
+    "versionNumber": 1,
+    "status": "public",
+    "title": "Flexible Zoning & Smart Space Management",
+    "overview": "This solution introduces dynamic zoning within the co-working space to address conflicting needs. By implementing time-based flexible zones, smart booking systems, and sound-management strategies, members can access the right type of environment when needed. Smart booking ensures fair desk and room allocation, while soundproofing and quiet zones reduce disturbances. The system adapts dynamically based on demand, ensuring a balanced and frictionless workspace experience.",
+    "description": "The Flexible Zoning & Smart Space Management solution is designed to eliminate conflicts in space usage by dynamically adapting the co-working environment to meet members' needs. The current issues stem from overlapping work styles—some members prefer a quiet, focused atmosphere, while others thrive in open, collaborative settings. Additionally, resource allocation (such as meeting rooms and desks) is currently informal and inconsistent, leading to disputes.\n\nTo solve these problems, this solution implements a dynamic zoning system, where workspace areas shift between different usage modes (collaborative, quiet, private) based on demand. This is supported by a smart booking system that ensures fair access to shared and private resources. Noise management strategies, including soundproofing and designated quiet areas, help minimize disruptions. Lastly, the system continuously gathers feedback and usage analytics, allowing for real-time adjustments to optimize space distribution.\n\nBy adopting technology-driven space management, this solution maximizes workspace efficiency while maintaining a fair and inclusive environment for all members.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "authorizedUsers": [
+      "6671a1234d4531dba695fe0d",
+      "6671a5678fff00c99a33b5d0",
+      "6671a8901d4531dba695fe0d",
+      "6671abcdefff00c99a33b5d0"
+    ],
+    "activeSolutionElementsCount": 3,
+    "activeConsiderationsCount": 6,
+    "changeProposalFor": null,
+    "changeSummary": null,
+    "createdAt": "2023-12-15T10:30:00Z",
+    "updatedAt": "2023-12-15T10:30:00Z"
+  },
+  {
+    "_id": "67b5bcaf369d3a4207da70f4",
+    "solutionNumber": 3,
+    "versionNumber": 2,
+    "status": "proposal",
+    "title": "Example and Guide for Change Proposals",
+    "overview": "How to create a Change Proposal:\n- Open any Solution (detailed view) \n- Click the pen symbol in the top right corner\n- In the menu, click \"Create Change Proposal\"\n- It will be saved as a draft first, so you can take your time and edit it\n- Note: A Solution Change Proposal will only change Solution content; Elements remain unaffected\n    → For Element changes create a Change Proposal from within the Element",
+    "description": "The Flexible Zoning & Smart Space Management solution is designed to eliminate conflicts in space usage by dynamically adapting the co-working environment to meet members' needs. The current issues stem from overlapping work styles—some members prefer a quiet, focused atmosphere, while others thrive in open, collaborative settings. Additionally, resource allocation (such as meeting rooms and desks) is currently informal and inconsistent, leading to disputes.\n\nTo solve these problems, this solution implements a dynamic zoning system, where workspace areas shift between different usage modes (collaborative, quiet, private) based on demand. This is supported by a smart booking system that ensures fair access to shared and private resources. Noise management strategies, including soundproofing and designated quiet areas, help minimize disruptions. Lastly, the system continuously gathers feedback and usage analytics, allowing for real-time adjustments to optimize space distribution.\n\nBy adopting technology-driven space management, this solution maximizes workspace efficiency while maintaining a fair and inclusive environment for all members.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "authorizedUsers": [
+      "659e6ddb985b979a4084a076",
+      "6671a5678fff00c99a33b5d0",
+      "6671abcdefff00c99a33b5d0",
+      "6671a8901d4531dba695fe0d"
+    ],
+    "activeSolutionElementsCount": 3,
+    "activeConsiderationsCount": 0,
+    "changeProposalFor": "6672a9c5f1a8e12d7b2f3b01",
+    "changeSummary": "- Here should be a concise overview of the changes proposed\n- Opening this will allow a side by side comparison w/ the original\n- Also contained in here: A guide on how to creat a Change Proposal",
+    "createdAt": "2024-02-19T11:12:47.609Z",
+    "updatedAt": "2024-02-19T11:31:50.400Z"
+  },
+  {
+    "_id": "6672c4e7f3d2a15f9d4e5f03",
+    "solutionNumber": 4,
+    "versionNumber": 1,
+    "status": "public",
+    "title": "Hybrid Space Model with Time-Sensitive Access",
+    "overview": "This solution leverages a hybrid workspace model, combining permanent workstations with time-sensitive access slots. Members can reserve desks and rooms for specific timeframes while allowing walk-in access during off-peak hours. Shared spaces operate on a rotating priority system, ensuring that different groups (freelancers, teams, remote workers) get fair access at different times of the day.",
+    "description": "The Hybrid Space Model with Time-Sensitive Access aims to balance flexibility and structure by introducing a blend of permanent workspaces and dynamically allocated time-sensitive access slots. One of the biggest sources of tension in The Hatchery is competition for workspaces—freelancers want open, unstructured areas, startup teams need consistent access to desks, and remote corporate workers require quiet, private spaces.\n\nThis solution mitigates these issues by introducing:\n\n1. Permanent & Rotational Workspaces – Some desks are permanently assigned to high-need members, while others are dynamically allocated based on real-time demand and reservation priority.\n2. Priority Scheduling System – A fair allocation mechanism ensures different user groups get prioritized access to shared resources at designated times.\n3. Hybrid Open & Reserved Areas – Certain zones remain open-access, while others require pre-booking to ensure fair use.\n4. Member Feedback-Driven Adjustments – Usage trends and real-time feedback help optimize scheduling and adapt space distribution based on evolving member needs.\n\nBy introducing a hybrid system of open and reserved spaces, this solution prevents overcrowding, ensures equitable workspace allocation, and adapts dynamically to changing demand.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "authorizedUsers": [
+      "6671a5678fff00c99a33b5d0",
+      "6671a8901d4531dba695fe0d",
+      "6671abcdefff00c99a33b5d0",
+      "6671b2345d4531dba695fe0d"
+    ],
+    "activeSolutionElementsCount": 4,
+    "activeConsiderationsCount": 4,
+    "changeProposalFor": null,
+    "changeSummary": null,
+    "createdAt": "2023-12-18T11:20:00Z",
+    "updatedAt": "2023-12-18T11:20:00Z"
+  },
+  {
+    "_id": "6674f8dbe8a9f31b5c7d6a10",
+    "solutionNumber": 5,
+    "versionNumber": 1,
+    "status": "draft",
+    "title": "[Example Draft Solution – How Drafts Work]",
+    "overview": "This is an example of a draft solution. Here, you can continue refining your idea, edit the title, overview, and description, and add, remove, or modify solution elements. Once ready, you can submit it for review through the footer menu, which also provides information on how this process works. You can also delete the draft entirely if needed.",
+    "description": "This is an example of how draft solutions work on the platform. When you create a new solution, it starts as a private draft, visible only to you. Here, you can:\n\n- Edit the title, overview, and description to refine your idea.\n- Add, remove, or modify solution elements as needed.\n- Save your progress and return to it at any time.\n\nOnce you're satisfied with your draft, you can submit it for review. This is done through the footer menu, where you will also find useful information about the review and approval process. If you decide not to move forward, you can delete the draft entirely, removing all its contents.\n\nWhen you submit for review, a small group of randomly selected users will provide feedback before the solution moves to the next stage. Until then, you can continue editing freely without restrictions.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "authorizedUsers": [
+      "659e6ddb985b979a4084a076"
+    ],
+    "activeSolutionElementsCount": 2,
+    "activeConsiderationsCount": 3,
+    "changeProposalFor": null,
+    "changeSummary": null,
+    "createdAt": "2023-12-28T09:15:00Z",
+    "updatedAt": "2023-12-28T09:15:00Z"
+  },
+  {
+    "_id": "6674f9b5a2d9e31b6c8d7b22",
+    "solutionNumber": 6,
+    "versionNumber": 1,
+    "status": "under_review",
+    "title": "[Example Review Solution – How Review Works]",
+    "overview": "This solution is currently in the review phase. Three randomly selected reviewers are evaluating it and providing feedback in the Discussion Spaces. You are encouraged to engage in the discussion, respond to feedback, and refine your proposal as needed. Once feedback has been considered, the solution can proceed to community consideration and voting.",
+    "description": "This example solution is currently in the review phase, which means it is being evaluated by three randomly selected reviewers before moving forward. During this stage:\n\n- Reviewers can provide feedback in the Discussion Spaces, which are available for the solution as a whole and for each individual solution element.\n- You are encouraged to actively discuss the feedback with reviewers, ask for clarifications, and refine your proposal based on the conversation.\n- You are free to make changes based on their feedback—but you are not required to. Incorporating their suggestions may help with later consensus, but the final decision is yours.\n\nOnce you are satisfied with your solution—whether or not you've applied reviewer feedback—you can proceed by publishing it for the whole community to engage with in the next phases.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "authorizedUsers": [
+      "659e6ddb985b979a4084a076",
+      "6671a5678fff00c99a33b5d0",
+      "6671abcdefff00c99a33b5d0",
+      "6671a8901d4531dba695fe0d"
+    ],
+    "activeSolutionElementsCount": 2,
+    "activeConsiderationsCount": 6,
+    "changeProposalFor": null,
+    "changeSummary": null,
+    "createdAt": "2023-12-29T14:30:00Z",
+    "updatedAt": "2023-12-29T14:30:00Z"
+  }
+]

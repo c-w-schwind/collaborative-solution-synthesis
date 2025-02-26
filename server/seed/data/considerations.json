@@ -1,0 +1,3875 @@
+[
+  {
+    "_id": "6680c9c5f1a8e12d7b2f3b40",
+    "parentType": "Solution",
+    "parentId": "6672a9c5f1a8e12d7b2f3b01",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Adaptive to Changing Needs",
+    "description": "The solution dynamically adjusts workspace allocation based on real-time demand, ensuring members can access the type of environment they need at any given time.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-17T08:00:00Z",
+    "updatedAt": "2023-12-17T08:00:00Z"
+  },
+  {
+    "_id": "6680c9c5f1a8e12d7b2f3b41",
+    "parentType": "Solution",
+    "parentId": "6672a9c5f1a8e12d7b2f3b01",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Reduces Space Conflicts",
+    "description": "By introducing structured zoning and a transparent booking system, the solution minimizes disputes over workspace availability and noise levels.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671c3456abcdef012345678",
+        "6671a1234d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6680c9c5f1a8e12d7b2f3b42",
+        "text": "I love the idea of a more transparent booking system. It should end the daily scramble for meeting rooms.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671c3456abcdef012345678",
+            "6671abcdefff00c99a33b5d0",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-18T09:15:00Z"
+      },
+      {
+        "_id": "6680c9c5f1a8e12d7b2f3b43",
+        "text": "Agree. As a freelancer, I often worry about desk availability. A fair system would help everyone.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671b2345d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-18T09:20:00Z"
+      }
+    ],
+    "createdAt": "2023-12-18T09:00:00Z",
+    "updatedAt": "2023-12-18T09:00:00Z"
+  },
+  {
+    "_id": "6680c9c5f1a8e12d7b2f3b44",
+    "parentType": "Solution",
+    "parentId": "6672a9c5f1a8e12d7b2f3b01",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Data-Driven Optimization",
+    "description": "The inclusion of occupancy analytics and user feedback loops ensures that the system continuously improves over time, adapting to the community's evolving needs.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671b2345d4531dba695fe0d",
+        "6671c3456abcdef012345678",
+        "6671a5678fff00c99a33b5d0",
+        "6671a1234d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d",
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6680c9c5f1a8e12d7b2f3b45",
+        "text": "Automated feedback loops can really help with continuous improvement. This is a game changer.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671c3456abcdef012345678",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2023-12-18T10:00:00Z"
+      }
+    ],
+    "createdAt": "2023-12-18T09:55:00Z",
+    "updatedAt": "2023-12-18T09:55:00Z"
+  },
+  {
+    "_id": "6680c9c5f1a8e12d7b2f3b46",
+    "parentType": "Solution",
+    "parentId": "6672a9c5f1a8e12d7b2f3b01",
+    "stance": "Con",
+    "status": "active",
+    "title": "Implementation Complexity",
+    "description": "Integrating AI-driven space management, smart booking, and adaptive zoning requires significant upfront investment in technology and infrastructure.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0",
+        "6671c3456abcdef012345678",
+        "659e6ddb985b979a4084a076",
+        "6671d4567fedcba098765432",
+        "6671b2345d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-18T10:10:00Z",
+    "updatedAt": "2023-12-18T10:10:00Z"
+  },
+  {
+    "_id": "6680c9c5f1a8e12d7b2f3b47",
+    "parentType": "Solution",
+    "parentId": "6672a9c5f1a8e12d7b2f3b01",
+    "stance": "Con",
+    "status": "active",
+    "title": "Potential Over-Regulation",
+    "description": "Some members may feel restricted by automated space allocation and scheduled zoning changes, preferring a more informal and organic approach to workspace use.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671a1234d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076",
+        "6671abcdefff00c99a33b5d0",
+        "6671c3456abcdef012345678"
+      ],
+      "downvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671b2345d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6680c9c5f1a8e12d7b2f3b48",
+        "text": "I worry that we’ll lose the casual vibe. Not everyone wants to ‘book’ a seat just to have a short chat.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671abcdefff00c99a33b5d0",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2023-12-18T10:15:00Z"
+      }
+    ],
+    "createdAt": "2023-12-18T10:12:00Z",
+    "updatedAt": "2023-12-18T10:12:00Z"
+  },
+  {
+    "_id": "6680c9c5f1a8e12d7b2f3b49",
+    "parentType": "Solution",
+    "parentId": "6672a9c5f1a8e12d7b2f3b01",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Learning Curve for Members",
+    "description": "Users will need to familiarize themselves with the booking system, zoning schedules, and noise management protocols, which could initially cause friction.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671d4567fedcba098765432",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671c3456abcdef012345678",
+        "6671a8901d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6680c9c5f1a8e12d7b2f3b50",
+        "text": "Totally manageable, but we should provide tutorials or quick guides to ease the transition.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671abcdefff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671f6789b2c3d4e5f6a7890"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432",
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2023-12-18T10:20:00Z"
+      },
+      {
+        "_id": "6680c9c5f1a8e12d7b2f3b51",
+        "text": "Agreed, a quick orientation session would be great. The tech isn’t too hard if explained properly.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432",
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-18T10:25:00Z"
+      }
+    ],
+    "createdAt": "2023-12-18T10:18:00Z",
+    "updatedAt": "2023-12-18T10:18:00Z"
+  },
+  {
+    "_id": "6673a9c5f1a8e12d7b2f3b01",
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b10",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Maximizes Space Efficiency",
+    "description": "Shifting between collaborative, quiet, and private zones ensures that the workspace is always used optimally without leaving areas underutilized.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671abcdefff00c99a33b5d0",
+        "6671a1234d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a8901d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6673a9c5f1a8e12d7b2f3b02",
+        "text": "I agree with this point. It's crucial to fully utilize the space.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671f6789b2c3d4e5f6a7890",
+            "6671abcdefff00c99a33b5d0",
+            "6671c3456abcdef012345678",
+            "6671a1234d4531dba695fe0d",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671b2345d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2025-02-18T10:00:00Z"
+      },
+      {
+        "_id": "6673a9c5f1a8e12d7b2f3b03",
+        "text": "I worry that we might overbook though. Efficiency might lead to crowding.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a8901d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a5678fff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432"
+          ]
+        },
+        "createdAt": "2025-02-18T10:05:00Z"
+      }
+    ],
+    "createdAt": "2025-02-18T10:00:00Z",
+    "updatedAt": "2025-02-18T10:00:00Z"
+  },
+  {
+    "_id": "6673a9c5f1a8e12d7b2f3b04",
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b10",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Encourages Diverse Work Styles",
+    "description": "By providing adaptable environments, the system supports freelancers, startup teams, and corporate remote workers without prioritizing one group over another.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "6671a1234d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a8901d4531dba695fe0d",
+        "659e6ddb985b979a4084a076"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6673a9c5f1a8e12d7b2f3b05",
+        "text": "I love the idea of supporting different work styles in one place.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671f6789b2c3d4e5f6a7890",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432"
+          ]
+        },
+        "createdAt": "2025-02-18T10:10:00Z"
+      },
+      {
+        "_id": "6673a9c5f1a8e12d7b2f3b06",
+        "text": "We definitely need a sense of inclusivity. Great approach.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "659e6ddb985b979a4084a076",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2025-02-18T10:12:00Z"
+      },
+      {
+        "_id": "6673a9c5f1a8e12d7b2f3b07",
+        "text": "But let's not forget about the cost to implement all these changes.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671c3456abcdef012345678",
+            "6671a1234d4531dba695fe0d",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671abcdefff00c99a33b5d0",
+            "6671a5678fff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2025-02-18T10:15:00Z"
+      }
+    ],
+    "createdAt": "2025-02-18T10:10:00Z",
+    "updatedAt": "2025-02-18T10:10:00Z"
+  },
+  {
+    "_id": "6673a9c5f1a8e12d7b2f3b08",
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b10",
+    "stance": "Con",
+    "status": "active",
+    "title": "Disruptive Transitions",
+    "description": "Members may find it inconvenient when a zone switches modes at an inopportune time, such as a collaborative area becoming a quiet zone mid-discussion.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671a8901d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671a5678fff00c99a33b5d0",
+        "6671a1234d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6673a9c5f1a8e12d7b2f3b09",
+        "text": "Transitions can be chaotic, but maybe strong signage helps.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671b2345d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2025-02-18T10:20:00Z"
+      }
+    ],
+    "createdAt": "2025-02-18T10:20:00Z",
+    "updatedAt": "2025-02-18T10:20:00Z"
+  },
+  {
+    "_id": "6673a9c5f1a8e12d7b2f3b10",
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b10",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Requires Clear Communication",
+    "description": "Real-time indicators and zoning schedules must be well-implemented to prevent confusion and ensure members understand when and how spaces will change.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a8901d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a1234d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076",
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2025-02-18T10:30:00Z",
+    "updatedAt": "2025-02-18T10:30:00Z"
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b11",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Fair Access to Resources",
+    "description": "AI-powered booking prevents resource hoarding and ensures that meeting rooms, desks, and private areas are distributed equitably.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671d4567fedcba098765432",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671b2345d4531dba695fe0d",
+        "6671c3456abcdef012345678",
+        "6671abcdefff00c99a33b5d0",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b11",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Reduces Uncertainty",
+    "description": "With a structured reservation system, members can plan their workdays in advance rather than worrying about desk or meeting room availability.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671b2345d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "6671a1234d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "659e6ddb985b979a4084a076",
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b11",
+    "stance": "Con",
+    "status": "active",
+    "title": "Risk of Over-Complexity",
+    "description": "If the booking system becomes too restrictive or difficult to use, members may find it frustrating rather than helpful.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0",
+        "6671a8901d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": [
+      {
+        "text": "I'm worried about older members who might struggle with a complex system. Maybe we need a simpler user interface or staff support at first.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671c3456abcdef012345678",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-18T10:00:00Z"
+      },
+      {
+        "text": "A pilot phase with optional usage could help people adapt gradually.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671a8901d4531dba695fe0d",
+            "6671a5678fff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432"
+          ]
+        },
+        "createdAt": "2023-12-18T10:05:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b11",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Balancing Flexibility and Structure",
+    "description": "While automation provides fairness, allowing some flexibility (such as last-minute bookings or open spaces) may be necessary to maintain user satisfaction.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671abcdefff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "6671a8901d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671c3456abcdef012345678",
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "text": "A purely automated system might overlook human nuances. For example, spontaneous collaborations or pop-up meetings might need a flexible approach.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671d4567fedcba098765432",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671c3456abcdef012345678",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2023-12-18T11:00:00Z"
+      },
+      {
+        "text": "Agreed. We have to find a balance so that people can still quickly grab a desk without fuss if there’s space available.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "659e6ddb985b979a4084a076",
+            "6671a1234d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432",
+            "6671c3456abcdef012345678"
+          ]
+        },
+        "createdAt": "2023-12-18T11:10:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b12",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Creates a Better Work Environment",
+    "description": "Soundproofing, designated quiet zones, and noise monitoring reduce distractions and improve the overall workspace experience.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a1234d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0",
+        "6671a8901d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671d4567fedcba098765432",
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": [
+      {
+        "text": "As a remote corporate worker, I appreciate the quiet zones for focus. It’s a big improvement over the old environment.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671abcdefff00c99a33b5d0",
+            "659e6ddb985b979a4084a076",
+            "6671a1234d4531dba695fe0d",
+            "6671e5678a1b2c3d4e5f6789"
+          ],
+          "downvotes": [
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2024-01-05T09:20:00Z"
+      },
+      {
+        "text": "I agree that controlling noise is essential, but we must ensure it doesn’t become overly restrictive for those who thrive in interactive spaces.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671d4567fedcba098765432",
+            "6671abcdefff00c99a33b5d0",
+            "6671c3456abcdef012345678",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2024-01-05T10:45:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b12",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Supports Both Social and Quiet Workstyles",
+    "description": "Instead of favoring one group over another, this system ensures that both interactive and focused workers have suitable environments.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671b2345d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0",
+        "6671abcdefff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "text": "This approach might help freelancers like me who switch between collaboration and quiet focus time. It’s the best of both worlds!",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671e5678a1b2c3d4e5f6789",
+            "659e6ddb985b979a4084a076",
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678"
+          ],
+          "downvotes": [
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2024-01-06T11:30:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b12",
+    "stance": "Con",
+    "status": "active",
+    "title": "Enforcement Challenges",
+    "description": "Managing noise levels requires compliance from members, and some may ignore or resist guidelines even with monitoring in place.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671a1234d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671d4567fedcba098765432",
+        "6671a5678fff00c99a33b5d0",
+        "6671a8901d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": [
+      {
+        "text": "Enforcing noise policies might require staff intervention, which could create a policing atmosphere. We need a solid strategy for that.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671b2345d4531dba695fe0d",
+            "6671a1234d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2024-01-07T14:00:00Z"
+      },
+      {
+        "text": "Some members might feel singled out if repeatedly reminded to quiet down. We need a fair system to handle repeat offenders.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671c3456abcdef012345678",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671d4567fedcba098765432",
+            "659e6ddb985b979a4084a076",
+            "6671a5678fff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2024-01-07T15:10:00Z"
+      },
+      {
+        "text": "Alternatively, positive reinforcement could work better than strict penalties. Maybe a reward system for consistent low-noise compliance?",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671b2345d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0",
+            "6671a5678fff00c99a33b5d0",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2024-01-07T15:45:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b12",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Subjective Noise Tolerance",
+    "description": "Different members have varying noise thresholds, making it difficult to create a universally satisfying solution without causing friction.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671d4567fedcba098765432",
+        "6671abcdefff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "659e6ddb985b979a4084a076"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "text": "Even white noise or moderate chatter can annoy some people. Perhaps we need smaller specialized zones to accommodate extremes in preference.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671a8901d4531dba695fe0d",
+            "6671a5678fff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2024-01-08T09:00:00Z"
+      },
+      {
+        "text": "A robust feedback system could track what most people find acceptable noise-wise. Data can guide us, though we can’t please everyone.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671d4567fedcba098765432",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2024-01-08T10:15:00Z"
+      }
+    ]
+  },
+  {
+    "_id": "6683a9c5f1a8e12d7b2f3c01",
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b13",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Continuous Improvement",
+    "description": "By tracking usage patterns and integrating feedback, the system can refine itself over time to better meet the needs of members.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671b2345d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671d4567fedcba098765432",
+        "6671a5678fff00c99a33b5d0",
+        "6671a8901d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6683a9c5f1a8e12d7b2f4c11",
+        "text": "This data-driven approach really resonates with me, but I'd like to see more info about how we handle user surveys and privacy protections.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a5678fff00c99a33b5d0",
+            "6671d4567fedcba098765432",
+            "6671abcdefff00c99a33b5d0",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671c3456abcdef012345678",
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2025-02-18T10:30:00Z"
+      },
+      {
+        "_id": "6683a9c5f1a8e12d7b2f4c12",
+        "text": "I've used a similar analytics tool in another co-working space. It helped a lot, but we had to watch out for 'analysis paralysis'—too much data can slow decisions.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "659e6ddb985b979a4084a076",
+            "6671a8901d4531dba695fe0d",
+            "6671f6789b2c3d4e5f6a7890"
+          ],
+          "downvotes": [
+            "6671c3456abcdef012345678",
+            "6671abcdefff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2025-02-18T10:40:00Z"
+      }
+    ]
+  },
+  {
+    "_id": "6683a9c5f1a8e12d7b2f3c02",
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b13",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Helps Prevent Overcrowding",
+    "description": "Predictive analytics enable proactive space adjustments, ensuring that high-demand areas don’t become bottlenecks.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671a5678fff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890",
+        "659e6ddb985b979a4084a076",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6683a9c5f1a8e12d7b2f4c13",
+        "text": "We could set capacity thresholds that trigger new quiet zones or remind people to book in advance once occupancy hits a certain level.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671d4567fedcba098765432",
+            "6671a5678fff00c99a33b5d0",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671c3456abcdef012345678"
+          ]
+        },
+        "createdAt": "2025-02-18T11:00:00Z"
+      }
+    ]
+  },
+  {
+    "_id": "6683a9c5f1a8e12d7b2f3c03",
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b13",
+    "stance": "Con",
+    "status": "active",
+    "title": "Privacy Concerns",
+    "description": "Some users may feel uncomfortable with data being collected on their workspace habits, even if anonymized.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671a5678fff00c99a33b5d0",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a8901d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a1234d4531dba695fe0d",
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "_id": "6683a9c5f1a8e12d7b2f3c04",
+    "parentType": "SolutionElement",
+    "parentId": "6672b9c5f1a8e12d7b2f3b13",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Data Interpretation Challenges",
+    "description": "While analytics provide valuable insights, misinterpreting trends or over-relying on automation could lead to ineffective changes.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671abcdefff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6672b3d5e2b9a14f8c3f4d02",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Financially Sustainable & Inclusive",
+    "description": "The tiered system ensures financial sustainability while keeping options open for lower-budget members. Revenue from higher tiers can subsidize basic access, preventing exclusivity from becoming a barrier.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "6671a1234d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671b2345d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "text": "From my perspective, the subsidized approach is a game-changer for those on tight budgets—great idea!",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671c3456abcdef012345678",
+            "6671f6789b2c3d4e5f6a7890",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2025-02-18T12:00:00.000Z"
+      },
+      {
+        "text": "I agree with this point. It can encourage more diverse participation without driving costs up for everyone.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671c3456abcdef012345678",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432",
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2025-02-18T12:05:00.000Z"
+      }
+    ]
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6672b3d5e2b9a14f8c3f4d02",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Reduces Workspace Conflict",
+    "description": "By allowing members to choose the tier that best suits their needs, friction between user groups is minimized, ensuring more predictable access to space and resources.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671b2345d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a1234d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6672b3d5e2b9a14f8c3f4d02",
+    "stance": "Con",
+    "status": "active",
+    "title": "Potential for a Two-Tier Community",
+    "description": "Dividing members into tiers may create a hierarchy where premium members feel entitled to better treatment, while standard members feel excluded from prime workspaces.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671b2345d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "659e6ddb985b979a4084a076",
+        "6671a8901d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "6671c3456abcdef012345678",
+        "6671d4567fedcba098765432",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671abcdefff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "text": "I worry this could create tension if premium users start expecting special privileges beyond their paid perks.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671c3456abcdef012345678",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671b2345d4531dba695fe0d",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2025-02-18T12:10:00.000Z"
+      },
+      {
+        "text": "Agreed. We need strong guidelines to keep things fair and prevent an ‘us versus them’ mentality.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "659e6ddb985b979a4084a076",
+            "6671d4567fedcba098765432",
+            "6671abcdefff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678"
+          ],
+          "downvotes": [
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2025-02-18T12:15:00.000Z"
+      }
+    ]
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6672b3d5e2b9a14f8c3f4d02",
+    "stance": "Con",
+    "status": "active",
+    "title": "Governance Model May Slow Decision-Making",
+    "description": "Although co-governance improves transparency, the rotating board may lead to inefficiencies as new members get up to speed, slowing urgent decisions.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671abcdefff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671c3456abcdef012345678",
+        "6671a1234d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6672b3d5e2b9a14f8c3f4d02",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Requires Strong Initial Implementation",
+    "description": "Success hinges on fair pricing, well-structured governance, and effective conflict resolution. A poor rollout could lead to confusion or dissatisfaction.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671c3456abcdef012345678",
+        "6671a1234d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": [
+      {
+        "text": "Clear communication from day one will be vital. We can’t just drop this on people and hope they adapt seamlessly.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2025-02-18T12:20:00.000Z"
+      }
+    ]
+  },
+  {
+    "_id": "6692b4d5f2b9a14f8c3f4a01",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d10",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Clearer Access Rights Reduce Disputes",
+    "description": "Defined membership tiers remove ambiguity about workspace entitlements, ensuring members know exactly what to expect in terms of access and privileges.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "659e6ddb985b979a4084a076",
+        "6671a1234d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6692b4d5f2b9a14f8c3f4a11",
+        "text": "I've seen a lot of arguments in other co-working spaces simply because no one was sure who could use what. This definitely helps!",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671a5678fff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2023-12-23T10:05:00Z"
+      },
+      {
+        "_id": "6692b4d5f2b9a14f8c3f4a12",
+        "text": "But we need to be careful about making the rules too rigid. If it's super strict, we might lose the casual vibe.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671a8901d4531dba695fe0d",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-23T10:10:00Z"
+      }
+    ],
+    "createdAt": "2023-12-23T10:00:00Z",
+    "updatedAt": "2023-12-23T10:00:00Z"
+  },
+  {
+    "_id": "6692b4d5f2b9a14f8c3f4a02",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d10",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Flexibility Accommodates Changing Needs",
+    "description": "Members can adjust their tier as their workspace needs evolve, offering both stability for long-term members and adaptability for fluctuating work demands.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671a1234d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "659e6ddb985b979a4084a076",
+        "6671c3456abcdef012345678",
+        "6671d4567fedcba098765432",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6692b4d5f2b9a14f8c3f4a13",
+        "text": "It’s crucial for freelancers who might need premium access only during major project times.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671b2345d4531dba695fe0d",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671c3456abcdef012345678"
+          ]
+        },
+        "createdAt": "2023-12-23T10:20:00Z"
+      }
+    ],
+    "createdAt": "2023-12-23T10:15:00Z",
+    "updatedAt": "2023-12-23T10:15:00Z"
+  },
+  {
+    "_id": "6692b4d5f2b9a14f8c3f4a03",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d10",
+    "stance": "Con",
+    "status": "active",
+    "title": "Risk of Standard Members Being Marginalized",
+    "description": "Standard members may struggle to book key resources (like meeting rooms) if premium members receive priority access, leading to frustration among those on lower-cost plans.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "659e6ddb985b979a4084a076",
+        "6671c3456abcdef012345678",
+        "6671b2345d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0",
+        "6671a1234d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671a8901d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6692b4d5f2b9a14f8c3f4a14",
+        "text": "I've been in situations like this before, and it can really create a 'have vs. have-not' culture.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a1234d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d",
+            "6671a5678fff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-23T10:25:00Z"
+      },
+      {
+        "_id": "6692b4d5f2b9a14f8c3f4a15",
+        "text": "Maybe we can reserve some meeting slots exclusively for standard members to keep it fair?",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "659e6ddb985b979a4084a076",
+            "6671d4567fedcba098765432",
+            "6671a1234d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-23T10:30:00Z"
+      },
+      {
+        "_id": "6692b4d5f2b9a14f8c3f4a16",
+        "text": "That’s a good point. Let’s be sure to keep some resources guaranteed for everyone.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671c3456abcdef012345678",
+            "6671a1234d4531dba695fe0d",
+            "6671b2345d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2023-12-23T10:35:00Z"
+      }
+    ],
+    "createdAt": "2023-12-23T10:25:00Z",
+    "updatedAt": "2023-12-23T10:25:00Z"
+  },
+  {
+    "_id": "6692b4d5f2b9a14f8c3f4a04",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d10",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Dynamic Pricing Could Cause Uncertainty",
+    "description": "While adjusting access levels based on occupancy makes sense, fluctuating availability could result in unpredictable price adjustments, making planning difficult for some users.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671a1234d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6692b4d5f2b9a14f8c3f4a17",
+        "text": "Totally, it's a double-edged sword. It might be great for times when the space is low on occupancy, but could be shocking if it suddenly gets crowded.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "659e6ddb985b979a4084a076",
+            "6671c3456abcdef012345678"
+          ],
+          "downvotes": [
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-23T10:40:00Z"
+      },
+      {
+        "_id": "6692b4d5f2b9a14f8c3f4a18",
+        "text": "Perhaps we can implement a cap on how often prices can change within a quarter, so there's some predictability.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671d4567fedcba098765432",
+            "6671a5678fff00c99a33b5d0",
+            "6671e5678a1b2c3d4e5f6789"
+          ],
+          "downvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671c3456abcdef012345678"
+          ]
+        },
+        "createdAt": "2023-12-23T10:45:00Z"
+      }
+    ],
+    "createdAt": "2023-12-23T10:40:00Z",
+    "updatedAt": "2023-12-23T10:40:00Z"
+  },
+  {
+    "_id": "66bd1111e2b9a14f8c3f4001",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d11",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Increases Member Engagement & Buy-In",
+    "description": "By giving members a voice in policy decisions, the space fosters a sense of ownership and collective responsibility, improving overall satisfaction.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671abcdefff00c99a33b5d0",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a8901d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671b2345d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671c3456abcdef012345678",
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "77cd1111e2b9a14f8c3f4a11",
+        "text": "I totally agree. In my last co-working space, having a say made me feel more invested and less like a passive customer.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a5678fff00c99a33b5d0",
+            "6671b2345d4531dba695fe0d",
+            "6671a1234d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432",
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-23T09:15:00Z"
+      },
+      {
+        "_id": "77cd1111e2b9a14f8c3f4a12",
+        "text": "We just have to ensure that the process is transparent so it doesn't turn into a popularity contest.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671a5678fff00c99a33b5d0",
+            "6671abcdefff00c99a33b5d0",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2023-12-23T09:30:00Z"
+      }
+    ],
+    "createdAt": "2023-12-23T09:00:00Z",
+    "updatedAt": "2023-12-23T09:00:00Z"
+  },
+  {
+    "_id": "66bd1111e2b9a14f8c3f4002",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d11",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Helps Prevent Founder-Centric Decision-Making",
+    "description": "A rotating board prevents decisions from being made solely by management, reducing potential bias or favoritism in how rules and policies are applied.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671c3456abcdef012345678",
+        "6671abcdefff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-23T09:05:00Z",
+    "updatedAt": "2023-12-23T09:05:00Z"
+  },
+  {
+    "_id": "66bd1111e2b9a14f8c3f4003",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d11",
+    "stance": "Con",
+    "status": "active",
+    "title": "Voting Power Disparities Could Be Controversial",
+    "description": "Weighted voting based on membership tier could create tensions if lower-tier members feel their voices carry less weight in decisions that affect them equally.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671c3456abcdef012345678",
+        "6671abcdefff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671e5678a1b2c3d4e5f6789"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "77cd1111e2b9a14f8c3f4a13",
+        "text": "I'm worried that those who pay more will have all the say, even though the changes affect everyone.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671abcdefff00c99a33b5d0",
+            "659e6ddb985b979a4084a076",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a1234d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-23T10:00:00Z"
+      }
+    ],
+    "createdAt": "2023-12-23T09:10:00Z",
+    "updatedAt": "2023-12-23T09:10:00Z"
+  },
+  {
+    "_id": "66bd1111e2b9a14f8c3f4004",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d11",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Effectiveness Depends on Participation",
+    "description": "If too few members engage in elections or decision-making processes, the system may not function as intended, leaving only a small, vocal subset shaping policies.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a1234d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671d4567fedcba098765432"
+      ],
+      "downvotes": [
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-23T09:20:00Z",
+    "updatedAt": "2023-12-23T09:20:00Z"
+  },
+  {
+    "_id": "6673c3d5e2b9a14f8c3f4d31",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d12",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Reduces Over-Reliance on Membership Fees",
+    "description": "By introducing additional income sources like event rentals and partnerships, the space remains financially viable without continually raising membership costs.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "6671a5678fff00c99a33b5d0",
+        "659e6ddb985b979a4084a076",
+        "6671a8901d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789"
+      ],
+      "downvotes": [
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-23T15:00:00Z",
+    "updatedAt": "2023-12-23T15:00:00Z"
+  },
+  {
+    "_id": "6673c3d5e2b9a14f8c3f4d32",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d12",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Creates More Networking & Collaboration Opportunities",
+    "description": "Corporate partnerships and sponsored events could bring valuable networking opportunities for members, enhancing the co-working community.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a8901d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671c3456abcdef012345678",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a1234d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-23T15:00:00Z",
+    "updatedAt": "2023-12-23T15:00:00Z"
+  },
+  {
+    "_id": "6673c3d5e2b9a14f8c3f4d33",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d12",
+    "stance": "Con",
+    "status": "active",
+    "title": "External Events May Disrupt Work Atmosphere",
+    "description": "If meeting rooms and common areas are frequently rented out for non-member events, it may impact the availability and experience for core users.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671c3456abcdef012345678",
+        "6671a5678fff00c99a33b5d0",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a1234d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0",
+        "6671d4567fedcba098765432"
+      ],
+      "downvotes": [
+        "6671f6789b2c3d4e5f6a7890"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6681a1234d4531dba695fe01",
+        "text": "But maybe the schedule can be carefully arranged so there's minimal disruption. As a part-time user, I'd appreciate advanced notice of events.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d",
+            "6671a5678fff00c99a33b5d0",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671f6789b2c3d4e5f6a7890"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-23T15:10:00Z"
+      },
+      {
+        "_id": "6681a1234d4531dba695fe02",
+        "text": "We should definitely track usage patterns to reduce conflicts. I personally find it manageable if the events are after usual working hours.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a5678fff00c99a33b5d0",
+            "6671a8901d4531dba695fe0d",
+            "6671c3456abcdef012345678"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432",
+            "6671abcdefff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-23T15:10:00Z"
+      }
+    ],
+    "createdAt": "2023-12-23T15:00:00Z",
+    "updatedAt": "2023-12-23T15:00:00Z"
+  },
+  {
+    "_id": "6673c3d5e2b9a14f8c3f4d34",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d12",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Balancing Monetization & Member Experience Is Tricky",
+    "description": "Generating additional revenue is important, but it must be done carefully to avoid shifting focus away from the original purpose of the space as a co-working hub.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671a5678fff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a8901d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671e5678a1b2c3d4e5f6789"
+      ],
+      "downvotes": [
+        "6671d4567fedcba098765432"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6681a1234d4531dba695fe03",
+        "text": "It's essential we get external funding, but we don't want to lose the sense of community. Possibly designate certain days or times for events only.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671d4567fedcba098765432",
+            "6671c3456abcdef012345678"
+          ],
+          "downvotes": [
+            "6671a8901d4531dba695fe0d",
+            "6671a1234d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-23T15:10:00Z"
+      },
+      {
+        "_id": "6681a1234d4531dba695fe04",
+        "text": "I think we can gradually test different event types and gather feedback to refine the approach.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671e5678a1b2c3d4e5f6789",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671d4567fedcba098765432"
+          ]
+        },
+        "createdAt": "2023-12-23T15:10:00Z"
+      }
+    ],
+    "createdAt": "2023-12-23T15:00:00Z",
+    "updatedAt": "2023-12-23T15:00:00Z"
+  },
+  {
+    "_id": "66a100000000000000000001",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d13",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Provides a Fair & Transparent Dispute Process",
+    "description": "Having a structured system for handling complaints and conflicts ensures that issues are resolved in a way that feels fair and impartial to all members.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671a1234d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671d4567fedcba098765432",
+        "6671c3456abcdef012345678",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a8901d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671f6789b2c3d4e5f6a7890"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "77b100000000000000000001",
+        "text": "I think this is a huge improvement over unstructured arguments. People often feel unheard in conflicts, so a transparent system helps a lot.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0",
+            "6671c3456abcdef012345678",
+            "6671b2345d4531dba695fe0d",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "659e6ddb985b979a4084a076"
+          ]
+        },
+        "createdAt": "2025-01-10T10:00:00Z"
+      },
+      {
+        "_id": "77b100000000000000000002",
+        "text": "Yes, and it might also ensure that important issues don’t get swept under the rug. The formal process can keep track of repeated problems.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678"
+          ],
+          "downvotes": [
+            "659e6ddb985b979a4084a076"
+          ]
+        },
+        "createdAt": "2025-01-10T10:05:00Z"
+      },
+      {
+        "_id": "77b100000000000000000003",
+        "text": "On the flip side, we have to be careful about overloading the system with petty disputes, but that’s a policy detail.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671c3456abcdef012345678",
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2025-01-10T10:10:00Z"
+      }
+    ],
+    "createdAt": "2025-01-10T09:00:00Z",
+    "updatedAt": "2025-01-10T09:00:00Z"
+  },
+  {
+    "_id": "66a100000000000000000002",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d13",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Encourages a More Cooperative Culture",
+    "description": "By formalizing mediation and dispute resolution, members may feel more encouraged to resolve conflicts constructively rather than escalating tensions.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671d4567fedcba098765432",
+        "6671b2345d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0",
+        "6671a1234d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2025-01-11T09:00:00Z",
+    "updatedAt": "2025-01-11T09:00:00Z"
+  },
+  {
+    "_id": "66a100000000000000000003",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d13",
+    "stance": "Con",
+    "status": "active",
+    "title": "Could Become Bureaucratic & Slow",
+    "description": "If too many minor grievances are escalated through the system, it may slow down responses to more serious disputes, frustrating members who need quicker resolutions.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a1234d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671b2345d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0",
+        "659e6ddb985b979a4084a076",
+        "6671c3456abcdef012345678",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2025-01-12T09:00:00Z",
+    "updatedAt": "2025-01-12T09:00:00Z"
+  },
+  {
+    "_id": "66a100000000000000000004",
+    "parentType": "SolutionElement",
+    "parentId": "6672b3d5e2b9a14f8c3f4d13",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Success Depends on Neutrality & Enforcement",
+    "description": "For the mechanism to work, mediators must be genuinely impartial, and policy enforcement must be consistent. Otherwise, the system risks losing credibility.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671b2345d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671a8901d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "6671d4567fedcba098765432"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "77b100000000000000000004",
+        "text": "Absolutely. If members sense favoritism or inconsistent enforcement, they’ll lose trust in the entire process.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671a8901d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2025-01-13T10:00:00Z"
+      },
+      {
+        "_id": "77b100000000000000000005",
+        "text": "Yes, clarity in how rules are applied is crucial. Otherwise, it can do more harm than good.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671a1234d4531dba695fe0d",
+            "659e6ddb985b979a4084a076",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2025-01-13T10:05:00Z"
+      }
+    ],
+    "createdAt": "2025-01-13T09:00:00Z",
+    "updatedAt": "2025-01-13T09:00:00Z"
+  },
+  {
+    "_id": "6690c0013fcb3e22b9d1b101",
+    "parentType": "Solution",
+    "parentId": "6672c4e7f3d2a15f9d4e5f03",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Fairness in Space Allocation",
+    "description": "The rotating priority system ensures that different groups receive fair access to workspaces, reducing frustration and conflicts over desk availability.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671a8901d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671b2345d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6690c0013fcb3e22b9d1b201",
+        "text": "I strongly support this approach. As a freelancer, it makes me feel more included and ensures I'm not competing unfairly with larger teams.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671c3456abcdef012345678"
+          ]
+        },
+        "createdAt": "2024-01-02T12:00:00Z"
+      },
+      {
+        "_id": "6690c0013fcb3e22b9d1b202",
+        "text": "While I appreciate the fairness, I'd like to see specific data on usage patterns to ensure it truly remains equitable over time.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671a5678fff00c99a33b5d0",
+            "6671c3456abcdef012345678",
+            "6671b2345d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "659e6ddb985b979a4084a076"
+          ]
+        },
+        "createdAt": "2024-01-02T12:05:00Z"
+      }
+    ],
+    "createdAt": "2024-01-02T12:00:00Z",
+    "updatedAt": "2024-01-02T12:00:00Z"
+  },
+  {
+    "_id": "6690c0013fcb3e22b9d1b102",
+    "parentType": "Solution",
+    "parentId": "6672c4e7f3d2a15f9d4e5f03",
+    "stance": "Con",
+    "status": "active",
+    "title": "Complexity of Implementation",
+    "description": "The system requires significant logistical oversight, including scheduling algorithms, check-in tracking, and real-time adjustments, which may be challenging to implement and maintain efficiently.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671c3456abcdef012345678",
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076",
+        "6671a5678fff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671a1234d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6690c0013fcb3e22b9d1b203",
+        "text": "As an operator, I'm worried about the overhead. We might need to hire additional staff or invest in costly software to handle scheduling.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671b2345d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671d4567fedcba098765432",
+            "6671a5678fff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671a1234d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2024-01-03T08:30:00Z"
+      },
+      {
+        "_id": "6690c0013fcb3e22b9d1b204",
+        "text": "Software solutions could automate some of this, but let's not underestimate the learning curve for members unfamiliar with high-tech scheduling tools.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671c3456abcdef012345678",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "659e6ddb985b979a4084a076"
+          ]
+        },
+        "createdAt": "2024-01-03T08:35:00Z"
+      },
+      {
+        "_id": "6690c0013fcb3e22b9d1b205",
+        "text": "I think the complexity might be worth it if it truly prevents all those daily conflicts over desks and rooms.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671f6789b2c3d4e5f6a7890",
+            "6671abcdefff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2024-01-03T08:40:00Z"
+      }
+    ],
+    "createdAt": "2024-01-03T08:30:00Z",
+    "updatedAt": "2024-01-03T08:30:00Z"
+  },
+  {
+    "_id": "6690c0013fcb3e22b9d1b103",
+    "parentType": "Solution",
+    "parentId": "6672c4e7f3d2a15f9d4e5f03",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Flexibility for Changing Needs",
+    "description": "The ability to adjust access rules based on feedback and demand means that the model can evolve dynamically rather than remaining a rigid one-size-fits-all approach.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671a8901d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671a5678fff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671d4567fedcba098765432"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6690c0013fcb3e22b9d1b206",
+        "text": "This is definitely a selling point. If members know the system can adapt, they'll be more willing to give it a chance.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2024-01-04T09:15:00Z"
+      },
+      {
+        "_id": "6690c0013fcb3e22b9d1b207",
+        "text": "Agreed. I'd even suggest monthly check-ins to see what's working and what's not, so we can pivot quickly.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671a1234d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2024-01-04T09:20:00Z"
+      }
+    ],
+    "createdAt": "2024-01-04T09:15:00Z",
+    "updatedAt": "2024-01-04T09:15:00Z"
+  },
+  {
+    "_id": "6690c0013fcb3e22b9d1b104",
+    "parentType": "Solution",
+    "parentId": "6672c4e7f3d2a15f9d4e5f03",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Potential for User Resistance",
+    "description": "Long-time members accustomed to the old system may initially resist structured access slots, seeing them as restrictive or bureaucratic.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "659e6ddb985b979a4084a076",
+        "6671a5678fff00c99a33b5d0",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a1234d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6690c0013fcb3e22b9d1b208",
+        "text": "I'm one of those longtime members, and I'm torn. I understand the need for order, but I loved the open vibe we had before.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "659e6ddb985b979a4084a076",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2024-01-05T10:00:00Z"
+      },
+      {
+        "_id": "6690c0013fcb3e22b9d1b209",
+        "text": "Implementation should include training sessions or Q&A forums so people don’t feel blindsided by the new system.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "659e6ddb985b979a4084a076",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2024-01-05T10:10:00Z"
+      }
+    ],
+    "createdAt": "2024-01-05T10:00:00Z",
+    "updatedAt": "2024-01-05T10:00:00Z"
+  },
+  {
+    "_id": "6673d001f3e2e34f9b1f2c11",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b14",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Addresses Diverse Needs",
+    "description": "Providing both permanent and rotational desks ensures that members with different work habits—such as full-time remote employees vs. occasional freelancers—can find a workspace that suits their needs.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671abcdefff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671c3456abcdef012345678",
+        "6671d4567fedcba098765432",
+        "6671a1234d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0",
+        "6671a8901d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671b2345d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6673d002f3e2e34f9b1f2c12",
+        "text": "This is exactly the flexibility freelancers need. We shouldn’t pay for a dedicated desk if we're only in a few days a week.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-20T10:05:00Z"
+      },
+      {
+        "_id": "6673d002f3e2e34f9b1f2c13",
+        "text": "Agreed, but we need a fair way to reassign those permanent desks if they go unused for too long.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a8901d4531dba695fe0d",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671b2345d4531dba695fe0d",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-20T10:07:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:00:00Z",
+    "updatedAt": "2023-12-20T10:08:00Z"
+  },
+  {
+    "_id": "6673d001f3e2e34f9b1f2c14",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b14",
+    "stance": "Con",
+    "status": "active",
+    "title": "Risk of Underutilization",
+    "description": "If permanent desk holders don’t show up consistently, valuable space could sit unused, potentially leading to inefficiencies unless strict reallocation policies are enforced.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671a1234d4531dba695fe0d",
+        "6671c3456abcdef012345678",
+        "659e6ddb985b979a4084a076",
+        "6671d4567fedcba098765432",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671e5678a1b2c3d4e5f6789"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6673d002f3e2e34f9b1f2c15",
+        "text": "A minimum usage threshold might help. If they don’t use the desk enough hours per month, it goes back into the pool.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671c3456abcdef012345678",
+            "6671a1234d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-20T10:10:00Z"
+      },
+      {
+        "_id": "6673d002f3e2e34f9b1f2c16",
+        "text": "True, but we should be cautious not to penalize people who have a slow week or are on vacation. That might create bad blood.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671c3456abcdef012345678",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671b2345d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d",
+            "6671a1234d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-20T10:12:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:09:00Z",
+    "updatedAt": "2023-12-20T10:12:00Z"
+  },
+  {
+    "_id": "6673d001f3e2e34f9b1f2c17",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b14",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Incentivizes Commitment",
+    "description": "The tiered system encourages members to be more intentional about their workspace usage, reducing casual desk-hogging.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671b2345d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0",
+        "659e6ddb985b979a4084a076",
+        "6671abcdefff00c99a33b5d0",
+        "6671c3456abcdef012345678"
+      ],
+      "downvotes": [
+        "6671d4567fedcba098765432",
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-20T10:15:00Z",
+    "updatedAt": "2023-12-20T10:15:00Z"
+  },
+  {
+    "_id": "6673d001f3e2e34f9b1f2c18",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b14",
+    "stance": "Con",
+    "status": "active",
+    "title": "Administrative Overhead",
+    "description": "Managing priority-based desk assignments, tracking check-ins, and reallocating underused spaces requires an automated system or dedicated staff, adding operational complexity.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671d4567fedcba098765432",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a1234d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6673d002f3e2e34f9b1f2c19",
+        "text": "A booking app might simplify this, but development and ongoing support costs could be high for a small coworking space.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671abcdefff00c99a33b5d0",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671b2345d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-20T10:18:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:16:00Z",
+    "updatedAt": "2023-12-20T10:18:00Z"
+  },
+  {
+    "_id": "6673c1e7f3d2a15f9d4e5f00",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b15",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Reduces Conflict Over Space",
+    "description": "By structuring access based on predefined time blocks, the system prevents last-minute booking chaos and ensures fair distribution of resources.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0",
+        "6671abcdefff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a1234d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789"
+      ],
+      "downvotes": [
+        "6671d4567fedcba098765432",
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "76a6530c54df2ef4dcd3abf1",
+        "text": "We've used a similar approach in my last co-working arrangement, and it helped reduce scheduling disputes significantly.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671e5678a1b2c3d4e5f6789",
+            "6671abcdefff00c99a33b5d0",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-20T10:32:00Z",
+        "updatedAt": "2023-12-20T10:32:00Z"
+      },
+      {
+        "_id": "76a6530c54df2ef4dcd3abf2",
+        "text": "One thing to watch out for is making sure the reservation system is intuitive. Otherwise, people might ignore it and revert to ad-hoc booking.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671a1234d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-20T10:33:00Z",
+        "updatedAt": "2023-12-20T10:33:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:30:00Z",
+    "updatedAt": "2023-12-20T10:30:00Z"
+  },
+  {
+    "_id": "6673c1e7f3d2a15f9d4e5f01",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b15",
+    "stance": "Con",
+    "status": "active",
+    "title": "Might Not Reflect Real-Time Demand",
+    "description": "Fixed priority time slots may not always align with actual usage patterns, leading to inefficient space allocation if certain slots go underutilized.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671c3456abcdef012345678",
+        "6671b2345d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a1234d4531dba695fe0d",
+        "6671d4567fedcba098765432"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "76a6530c54df2ef4dcd3abf3",
+        "text": "I've seen peak times shift from morning to afternoon once freelancers changed their schedule. Fixed blocks would miss that nuance.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671a5678fff00c99a33b5d0",
+            "6671d4567fedcba098765432",
+            "6671a1234d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671f6789b2c3d4e5f6a7890"
+          ]
+        },
+        "createdAt": "2023-12-20T10:37:00Z",
+        "updatedAt": "2023-12-20T10:37:00Z"
+      },
+      {
+        "_id": "76a6530c54df2ef4dcd3abf4",
+        "text": "We could address this by allowing managers to override blocks in real-time if underutilized. That might help keep the space dynamic.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0",
+            "6671a5678fff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2023-12-20T10:38:00Z",
+        "updatedAt": "2023-12-20T10:38:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:35:00Z",
+    "updatedAt": "2023-12-20T10:35:00Z"
+  },
+  {
+    "_id": "6673c1e7f3d2a15f9d4e5f02",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b15",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Encourages Predictability",
+    "description": "Members can plan their work schedules with more certainty, knowing when they will have access to specific work areas without worrying about unexpected disruptions.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671c3456abcdef012345678",
+        "6671a1234d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671d4567fedcba098765432"
+      ],
+      "downvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-20T10:40:00Z",
+    "updatedAt": "2023-12-20T10:40:00Z"
+  },
+  {
+    "_id": "6673c1e7f3d2a15f9d4e5f03",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b15",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Could Favor Certain Groups",
+    "description": "Some members might perceive the priority system as biased if their preferred work hours don’t align with designated access windows.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671a1234d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a8901d4531dba695fe0d",
+        "659e6ddb985b979a4084a076"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "76a6530c54df2ef4dcd3abf5",
+        "text": "We might need a rotation in the priority schedule so that each group gets prime hours occasionally.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671a8901d4531dba695fe0d",
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671b2345d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-20T10:47:00Z",
+        "updatedAt": "2023-12-20T10:47:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:45:00Z",
+    "updatedAt": "2023-12-20T10:45:00Z"
+  },
+  {
+    "_id": "6673caaa445566dba695fe0d",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b16",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Balances Structure and Flexibility",
+    "description": "Having a mix of open and reserved areas allows for spontaneity while ensuring that members who need guaranteed workspaces can secure them.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671d4567fedcba098765432",
+        "6671a1234d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671abcdefff00c99a33b5d0",
+        "6671a8901d4531dba695fe0d",
+        "6671c3456abcdef012345678",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6673caaa445566dba695fe0f",
+        "text": "I really appreciate the open areas for networking, but it's good to have a fallback plan for guaranteed seats.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671f6789b2c3d4e5f6a7890",
+            "6671d4567fedcba098765432",
+            "6671b2345d4531dba695fe0d",
+            "6671a8901d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-20T10:05:00Z"
+      },
+      {
+        "_id": "6673caaa445566dba695fe0f",
+        "text": "Exactly! The blend keeps freelancers happy without alienating corporate workers who want reserved spots.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671c3456abcdef012345678",
+            "6671abcdefff00c99a33b5d0",
+            "6671d4567fedcba098765432",
+            "6671b2345d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a1234d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-20T10:10:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:00:00Z",
+    "updatedAt": "2023-12-20T10:00:00Z"
+  },
+  {
+    "_id": "6673cbbb445566dba695fe0d",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b16",
+    "stance": "Con",
+    "status": "active",
+    "title": "Risk of Reservation Abuse",
+    "description": "Members might book reserved areas and not use them, creating frustration among others who could have utilized the space.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671b2345d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671d4567fedcba098765432",
+        "6671e5678a1b2c3d4e5f6789"
+      ],
+      "downvotes": [
+        "6671c3456abcdef012345678",
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6673cbbb445566dba695fe01",
+        "text": "We should definitely have a no-show penalty or an auto-release system after 30 minutes to prevent desk hogging.",
+        "postedBy": "6671a8901d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "6671a8901d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671f6789b2c3d4e5f6a7890",
+            "6671c3456abcdef012345678"
+          ]
+        },
+        "createdAt": "2023-12-20T11:00:00Z"
+      },
+      {
+        "_id": "6673cbbb445566dba695fe02",
+        "text": "I agree. If someone repeatedly misses their reserved slot, they should lose priority privileges.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671abcdefff00c99a33b5d0",
+            "659e6ddb985b979a4084a076",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-20T11:05:00Z"
+      },
+      {
+        "_id": "6673cbbb445566dba695fe03",
+        "text": "Maybe a simple check-in system via the mobile app could solve this. No check-in = auto-release the reservation.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671b2345d4531dba695fe0d",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671abcdefff00c99a33b5d0",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-20T11:10:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:00:00Z",
+    "updatedAt": "2023-12-20T10:00:00Z"
+  },
+  {
+    "_id": "6673cccc445566dba695fe0d",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b16",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Adapts to Demand",
+    "description": "The dynamic nature of on-demand flex areas allows the space to be reconfigured based on actual usage patterns, making the system responsive rather than rigid.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671d4567fedcba098765432",
+        "659e6ddb985b979a4084a076",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a5678fff00c99a33b5d0",
+        "6671abcdefff00c99a33b5d0",
+        "6671a8901d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-20T10:00:00Z",
+    "updatedAt": "2023-12-20T10:00:00Z"
+  },
+  {
+    "_id": "6673cddd445566dba695fe0d",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b16",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Possible Overcomplication",
+    "description": "Some members may find the distinction between open, reserved, and flex areas confusing, requiring clear guidelines and enforcement to prevent misunderstandings.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a8901d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671a1234d4531dba695fe0d",
+        "6671b2345d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6673cddd445566dba695fe0f",
+        "text": "We might need a quick orientation or signage to help new members navigate the different workspace types.",
+        "postedBy": "6671a1234d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671d4567fedcba098765432",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671a1234d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671e5678a1b2c3d4e5f6789"
+          ]
+        },
+        "createdAt": "2023-12-20T11:15:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:00:00Z",
+    "updatedAt": "2023-12-20T10:00:00Z"
+  },
+  {
+    "_id": "6688aaaa9999b19a55ee0001",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b17",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Continuous Improvement",
+    "description": "Regular feedback ensures that workspace policies evolve in response to actual user needs, preventing stagnation and maintaining member satisfaction.",
+    "proposedBy": "6671a1234d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671d4567fedcba098765432",
+        "6671c3456abcdef012345678",
+        "6671a8901d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671b2345d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6688aaaa9999b19a55ee0101",
+        "text": "This really keeps us agile. I like the idea of regularly checking in with members so we can spot issues early.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671a1234d4531dba695fe0d",
+            "6671a5678fff00c99a33b5d0",
+            "6671abcdefff00c99a33b5d0",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "6671c3456abcdef012345678"
+          ]
+        },
+        "createdAt": "2023-12-20T10:05:00Z"
+      },
+      {
+        "_id": "6688aaaa9999b19a55ee0102",
+        "text": "One concern: we need a simple survey format or else members might burn out on feedback requests.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671a1234d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671a8901d4531dba695fe0d"
+          ],
+          "downvotes": [
+            "659e6ddb985b979a4084a076"
+          ]
+        },
+        "createdAt": "2023-12-20T10:06:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:00:00Z",
+    "updatedAt": "2023-12-20T10:00:00Z"
+  },
+  {
+    "_id": "6688aaaa9999b19a55ee0002",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b17",
+    "stance": "Con",
+    "status": "active",
+    "title": "Data Reliability Concerns",
+    "description": "Feedback-based adjustments depend on members actively participating in surveys and reporting issues, which may not always happen consistently.",
+    "proposedBy": "6671b2345d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671a5678fff00c99a33b5d0",
+        "6671c3456abcdef012345678",
+        "6671b2345d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671abcdefff00c99a33b5d0"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-20T10:10:00Z",
+    "updatedAt": "2023-12-20T10:10:00Z"
+  },
+  {
+    "_id": "6688aaaa9999b19a55ee0003",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b17",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Enhances Transparency",
+    "description": "Members feel heard and valued when their input shapes workspace policies, fostering a stronger sense of community and engagement.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "659e6ddb985b979a4084a076",
+        "6671b2345d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671c3456abcdef012345678",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671abcdefff00c99a33b5d0"
+      ]
+    },
+    "comments": [
+      {
+        "_id": "6688aaaa9999b19a55ee0103",
+        "text": "I’ve seen transparency efforts fail when they’re not followed by real actions, so we must ensure real follow-through.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671b2345d4531dba695fe0d",
+            "6671c3456abcdef012345678",
+            "6671a5678fff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-20T10:21:00Z"
+      },
+      {
+        "_id": "6688aaaa9999b19a55ee0104",
+        "text": "Agreed. If members see their feedback is actually implemented, it builds trust and more engagement.",
+        "postedBy": "6671b2345d4531dba695fe0d",
+        "votes": {
+          "upvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671abcdefff00c99a33b5d0",
+            "6671a5678fff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d",
+            "6671d4567fedcba098765432",
+            "6671e5678a1b2c3d4e5f6789"
+          ],
+          "downvotes": [
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-20T10:22:00Z"
+      }
+    ],
+    "createdAt": "2023-12-20T10:20:00Z",
+    "updatedAt": "2023-12-20T10:20:00Z"
+  },
+  {
+    "_id": "6688aaaa9999b19a55ee0004",
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e12d7b2f3b17",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Potential for Conflicting Requests",
+    "description": "Different member groups may have opposing needs, making it challenging to implement changes that satisfy everyone without causing new issues.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671b2345d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671c3456abcdef012345678",
+        "659e6ddb985b979a4084a076",
+        "6671d4567fedcba098765432"
+      ],
+      "downvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": [],
+    "createdAt": "2023-12-20T10:30:00Z",
+    "updatedAt": "2023-12-20T10:30:00Z"
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6674f9b5a2d9e31b6c8d7b22",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Encourages Thoughtful Collaboration",
+    "description": "The structured review and discussion spaces help ensure ideas are thoroughly considered before moving forward. Users can engage with feedback in a focused way.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671b2345d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671d4567fedcba098765432"
+      ]
+    },
+    "comments": [
+      {
+        "text": "I agree—having a dedicated space for structured feedback makes it easier to refine ideas before they reach the wider community.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671c3456abcdef012345678"
+          ],
+          "downvotes": []
+        },
+        "createdAt": "2023-12-29T17:00:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6674f9b5a2d9e31b6c8d7b22",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Clear Versioning System",
+    "description": "Each element has a version number, making it easy to track changes and understand how a solution has evolved over time.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "6671abcdefff00c99a33b5d0",
+        "659e6ddb985b979a4084a076"
+      ],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6674f9b5a2d9e31b6c8d7b22",
+    "stance": "Con",
+    "status": "active",
+    "title": "Potentially Overwhelming for New Users",
+    "description": "The structured process is great for depth but may feel complicated at first. A clear onboarding guide could help mitigate this issue.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671a5678fff00c99a33b5d0",
+        "6671a1234d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": [
+      {
+        "text": "Maybe a tutorial mode for first-time users would help? Something that walks them through the drafting and review process step by step.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671a1234d4531dba695fe0d"
+          ],
+          "downvotes": []
+        },
+        "createdAt": "2023-12-29T17:10:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6674f9b5a2d9e31b6c8d7b22",
+    "stance": "Con",
+    "status": "active",
+    "title": "Can Lead to Lengthy Discussions",
+    "description": "Having discussions at both the solution and element levels is useful, but it may slow down the process if too many discussions happen at once.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671abcdefff00c99a33b5d0",
+        "6671c3456abcdef012345678",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6674f9b5a2d9e31b6c8d7b22",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Flexible but Requires Participation",
+    "description": "Users have full control over whether they incorporate feedback, which allows for flexibility but also means the quality of a solution depends on engagement.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "659e6ddb985b979a4084a076"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6674f9b5a2d9e31b6c8d7b22",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Requires Balancing Between Structure and Speed",
+    "description": "The platform aims to be thorough but also needs to ensure solutions don’t get stuck in endless iterations. Users should aim for a balance.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "text": "Good point. Maybe setting a time limit on review phases would help keep things moving.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [],
+          "downvotes": []
+        },
+        "createdAt": "2023-12-29T17:20:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e42d7b2f3b17",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Encourages Thoughtful Collaboration",
+    "description": "The structured review and discussion spaces help ensure ideas are thoroughly considered before moving forward. Users can engage with feedback in a focused way.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671a1234d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671c3456abcdef012345678",
+        "6671b2345d4531dba695fe0d",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "text": "I agree—having a dedicated space for structured feedback makes it easier to refine ideas before they reach the wider community.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671b2345d4531dba695fe0d",
+            "6671a5678fff00c99a33b5d0"
+          ],
+          "downvotes": [
+            "6671abcdefff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-29T17:00:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e42d7b2f3b17",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Clear Versioning System",
+    "description": "Each element has a version number, making it easy to track changes and understand how a solution has evolved over time.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671b2345d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0",
+        "6671c3456abcdef012345678",
+        "6671d4567fedcba098765432",
+        "6671a8901d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d"
+      ],
+      "downvotes": [
+        "6671f6789b2c3d4e5f6a7890"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e42d7b2f3b17",
+    "stance": "Con",
+    "status": "active",
+    "title": "Potentially Overwhelming for New Users",
+    "description": "The structured process is great for depth but may feel complicated at first. A clear onboarding guide could help mitigate this issue.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671abcdefff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "6671c3456abcdef012345678",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "text": "Maybe a tutorial mode for first-time users would help? Something that walks them through the drafting and review process step by step.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671f6789b2c3d4e5f6a7890",
+            "6671abcdefff00c99a33b5d0",
+            "659e6ddb985b979a4084a076"
+          ],
+          "downvotes": [
+            "6671a8901d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-29T17:10:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e42d7b2f3b17",
+    "stance": "Con",
+    "status": "active",
+    "title": "Can Lead to Lengthy Discussions",
+    "description": "Having discussions at both the solution and element levels is useful, but it may slow down the process if too many discussions happen at once.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671a8901d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671abcdefff00c99a33b5d0",
+        "6671d4567fedcba098765432",
+        "6671c3456abcdef012345678",
+        "6671e5678a1b2c3d4e5f6789"
+      ],
+      "downvotes": [
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e42d7b2f3b17",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Flexible but Requires Participation",
+    "description": "Users have full control over whether they incorporate feedback, which allows for flexibility but also means the quality of a solution depends on engagement.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671c3456abcdef012345678",
+        "6671d4567fedcba098765432"
+      ],
+      "downvotes": [
+        "6671b2345d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e42d7b2f3b17",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Requires Balancing Between Structure and Speed",
+    "description": "The platform aims to be thorough but also needs to ensure solutions don’t get stuck in endless iterations. Users should aim for a balance.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a8901d4531dba695fe0d",
+        "659e6ddb985b979a4084a076",
+        "6671abcdefff00c99a33b5d0",
+        "6671a5678fff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671b2345d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "text": "Good point. Maybe setting a time limit on review phases would help keep things moving.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d",
+            "659e6ddb985b979a4084a076",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671a8901d4531dba695fe0d",
+            "6671c3456abcdef012345678"
+          ]
+        },
+        "createdAt": "2023-12-29T17:20:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e52d7b2f3b17",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Encourages Thoughtful Collaboration",
+    "description": "The structured review and discussion spaces help ensure ideas are thoroughly considered before moving forward. Users can engage with feedback in a focused way.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671b2345d4531dba695fe0d",
+        "6671a1234d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671abcdefff00c99a33b5d0",
+        "6671a8901d4531dba695fe0d",
+        "659e6ddb985b979a4084a076"
+      ],
+      "downvotes": [
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": [
+      {
+        "text": "I agree—having a dedicated space for structured feedback makes it easier to refine ideas before they reach the wider community.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671abcdefff00c99a33b5d0",
+            "6671a1234d4531dba695fe0d",
+            "659e6ddb985b979a4084a076",
+            "6671f6789b2c3d4e5f6a7890"
+          ],
+          "downvotes": [
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-29T17:00:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e52d7b2f3b17",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Clear Versioning System",
+    "description": "Each element has a version number, making it easy to track changes and understand how a solution has evolved over time.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671abcdefff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671a8901d4531dba695fe0d",
+        "6671c3456abcdef012345678",
+        "6671a5678fff00c99a33b5d0",
+        "6671d4567fedcba098765432"
+      ],
+      "downvotes": [
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a1234d4531dba695fe0d"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e52d7b2f3b17",
+    "stance": "Con",
+    "status": "active",
+    "title": "Potentially Overwhelming for New Users",
+    "description": "The structured process is great for depth but may feel complicated at first. A clear onboarding guide could help mitigate this issue.",
+    "proposedBy": "6671a8901d4531dba695fe0d",
+    "votes": {
+      "upvotes": [
+        "6671a1234d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890",
+        "6671d4567fedcba098765432",
+        "6671b2345d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0"
+      ],
+      "downvotes": [
+        "6671a5678fff00c99a33b5d0",
+        "6671c3456abcdef012345678",
+        "659e6ddb985b979a4084a076"
+      ]
+    },
+    "comments": [
+      {
+        "text": "Maybe a tutorial mode for first-time users would help? Something that walks them through the drafting and review process step by step.",
+        "postedBy": "659e6ddb985b979a4084a076",
+        "votes": {
+          "upvotes": [
+            "6671c3456abcdef012345678",
+            "6671e5678a1b2c3d4e5f6789",
+            "6671f6789b2c3d4e5f6a7890",
+            "6671d4567fedcba098765432"
+          ],
+          "downvotes": [
+            "6671a5678fff00c99a33b5d0"
+          ]
+        },
+        "createdAt": "2023-12-29T17:10:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e52d7b2f3b17",
+    "stance": "Con",
+    "status": "active",
+    "title": "Can Lead to Lengthy Discussions",
+    "description": "Having discussions at both the solution and element levels is useful, but it may slow down the process if too many discussions happen at once.",
+    "proposedBy": "6671abcdefff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "659e6ddb985b979a4084a076",
+        "6671b2345d4531dba695fe0d",
+        "6671a8901d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671a5678fff00c99a33b5d0",
+        "6671f6789b2c3d4e5f6a7890"
+      ],
+      "downvotes": [
+        "6671c3456abcdef012345678"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e52d7b2f3b17",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Flexible but Requires Participation",
+    "description": "Users have full control over whether they incorporate feedback, which allows for flexibility but also means the quality of a solution depends on engagement.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [
+        "6671c3456abcdef012345678",
+        "6671b2345d4531dba695fe0d",
+        "6671abcdefff00c99a33b5d0",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671d4567fedcba098765432"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d",
+        "6671f6789b2c3d4e5f6a7890"
+      ]
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e52d7b2f3b17",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Requires Balancing Between Structure and Speed",
+    "description": "The platform aims to be thorough but also needs to ensure solutions don’t get stuck in endless iterations. Users should aim for a balance.",
+    "proposedBy": "6671a5678fff00c99a33b5d0",
+    "votes": {
+      "upvotes": [
+        "6671f6789b2c3d4e5f6a7890",
+        "6671b2345d4531dba695fe0d",
+        "6671d4567fedcba098765432",
+        "6671a1234d4531dba695fe0d",
+        "6671e5678a1b2c3d4e5f6789",
+        "6671a5678fff00c99a33b5d0",
+        "6671c3456abcdef012345678"
+      ],
+      "downvotes": [
+        "6671a8901d4531dba695fe0d"
+      ]
+    },
+    "comments": [
+      {
+        "text": "Good point. Maybe setting a time limit on review phases would help keep things moving.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [
+            "6671d4567fedcba098765432",
+            "6671c3456abcdef012345678",
+            "6671a1234d4531dba695fe0d",
+            "6671f6789b2c3d4e5f6a7890"
+          ],
+          "downvotes": [
+            "659e6ddb985b979a4084a076",
+            "6671a5678fff00c99a33b5d0",
+            "6671b2345d4531dba695fe0d"
+          ]
+        },
+        "createdAt": "2023-12-29T17:20:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6674f8dbe8a9f31b5c7d6a10",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Helps Others Understand the Strengths",
+    "description": "Adding pros early can highlight the most valuable aspects of the solution or its elements, making it easier for reviewers to see why certain choices were made.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6674f8dbe8a9f31b5c7d6a10",
+    "stance": "Con",
+    "status": "active",
+    "title": "Identifying Weaknesses Before Review",
+    "description": "By adding cons in the draft phase, the author can acknowledge potential issues and guide reviewers toward aspects that may need improvement.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6674f8dbe8a9f31b5c7d6a10",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Self-Reflection Can Shape the Review",
+    "description": "Adding neutral considerations in the draft phase can help frame aspects of the solution that might not be inherently good or bad but are worth discussing further.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e22d7b2f3b17",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Helps Others Understand the Strengths",
+    "description": "Adding pros early can highlight the most valuable aspects of the solution or its elements, making it easier for reviewers to see why certain choices were made.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e22d7b2f3b17",
+    "stance": "Con",
+    "status": "active",
+    "title": "Identifying Weaknesses Before Review",
+    "description": "By adding cons in the draft phase, the author can acknowledge potential issues and guide reviewers toward aspects that may need improvement.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e22d7b2f3b17",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Self-Reflection Can Shape the Review",
+    "description": "Adding neutral considerations in the draft phase can help frame aspects of the solution that might not be inherently good or bad but are worth discussing further.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e32d7b2f3b17",
+    "stance": "Pro",
+    "status": "active",
+    "title": "Helps Others Understand the Strengths",
+    "description": "Adding pros early can highlight the most valuable aspects of the solution or its elements, making it easier for reviewers to see why certain choices were made.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e32d7b2f3b17",
+    "stance": "Con",
+    "status": "active",
+    "title": "Identifying Weaknesses Before Review",
+    "description": "By adding cons in the draft phase, the author can acknowledge potential issues and guide reviewers toward aspects that may need improvement.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "SolutionElement",
+    "parentId": "6672d111f3a8e32d7b2f3b17",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "Self-Reflection Can Shape the Review",
+    "description": "Adding neutral considerations in the draft phase can help frame aspects of the solution that might not be inherently good or bad but are worth discussing further.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": []
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6675a2d4f9e2c31d8c9f7e12",
+    "stance": "Pro",
+    "status": "active",
+    "title": "[Positive Consideration Example - Demonstrates How Pros Work]",
+    "description": "This consideration serves as an example of a 'pro'. Adding positive considerations allows users to highlight the strongest aspects of an item, helping the community understand its value and reasoning more clearly. Users can also engage with comments to discuss or refine these points further. Considerations can be upvoted or downvoted to indicate how much the community agrees with their relevance or importance.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": [
+      {
+        "text": "This is an example comment demonstrating how users can engage with considerations. Comments allow for additional discussion, clarifications, and counterpoints. Upvotes and downvotes on comments help surface the most insightful contributions, ensuring that valuable input stands out.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [],
+          "downvotes": []
+        },
+        "createdAt": "2023-12-30T12:00:00Z"
+      },
+      {
+        "text": "A great example of how discussions can evolve from a single consideration. Comments help refine points, add nuance, or provide alternative views. By voting on comments, users can indicate which responses are most helpful or relevant to the discussion.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [],
+          "downvotes": []
+        },
+        "createdAt": "2023-12-30T12:05:00Z"
+      }
+    ]
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6675a2d4f9e2c31d8c9f7e12",
+    "stance": "Con",
+    "status": "active",
+    "title": "[Negative Consideration Example - Demonstrates How Cons Work]",
+    "description": "This consideration serves as an example of a 'con'. By adding negative considerations, users can highlight potential weaknesses or limitations, which can help guide the community toward areas that might need improvement. Comments allow for deeper discussion and refinement of these points. Upvotes and downvotes help prioritize the most relevant concerns, ensuring that the most pressing issues get attention.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": [
+      {
+        "text": "This is an example comment demonstrating how users can engage with considerations. Comments allow for additional discussion, clarifications, and counterpoints. Upvotes and downvotes on comments help surface the most insightful contributions, ensuring that valuable input stands out.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [],
+          "downvotes": []
+        },
+        "createdAt": "2023-12-30T12:00:00Z"
+      },
+      {
+        "text": "A great example of how discussions can evolve from a single consideration. Comments help refine points, add nuance, or provide alternative views. By voting on comments, users can indicate which responses are most helpful or relevant to the discussion.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [],
+          "downvotes": []
+        },
+        "createdAt": "2023-12-30T12:05:00Z"
+      }
+    ]
+
+  },
+  {
+    "parentType": "Solution",
+    "parentId": "6675a2d4f9e2c31d8c9f7e12",
+    "stance": "Neutral",
+    "status": "active",
+    "title": "[Neutral Consideration Example - Demonstrates How Neutrals Work]",
+    "description": "This consideration serves as an example of a 'neutral' point. Neutral considerations help capture observations that are neither strictly positive nor negative but still important for discussion. Users can add comments to explore different interpretations and perspectives. Voting on neutral considerations allows the community to indicate how relevant or thought-provoking they find the point.",
+    "proposedBy": "659e6ddb985b979a4084a076",
+    "votes": {
+      "upvotes": [],
+      "downvotes": []
+    },
+    "comments": [
+      {
+        "text": "This is an example comment demonstrating how users can engage with considerations. Comments allow for additional discussion, clarifications, and counterpoints. Upvotes and downvotes on comments help surface the most insightful contributions, ensuring that valuable input stands out.",
+        "postedBy": "6671a5678fff00c99a33b5d0",
+        "votes": {
+          "upvotes": [],
+          "downvotes": []
+        },
+        "createdAt": "2023-12-30T12:00:00Z"
+      },
+      {
+        "text": "A great example of how discussions can evolve from a single consideration. Comments help refine points, add nuance, or provide alternative views. By voting on comments, users can indicate which responses are most helpful or relevant to the discussion.",
+        "postedBy": "6671abcdefff00c99a33b5d0",
+        "votes": {
+          "upvotes": [],
+          "downvotes": []
+        },
+        "createdAt": "2023-12-30T12:05:00Z"
+      }
+    ]
+
+  }
+]
