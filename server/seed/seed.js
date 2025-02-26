@@ -10,6 +10,7 @@ import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
 import {DiscussionSpacePost} from "../discussionSpace/discussionSpacePostModel.js";
 import Counter from "../counters/counterModel.js";
+import Setting from "../settings/settingModel.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -36,6 +37,7 @@ const seedDatabase = async () => {
         await Consideration.deleteMany();
         await DiscussionSpacePost.deleteMany();
         await Counter.deleteMany();
+        await Setting.deleteMany();
 
         // Insert seed data
         await User.insertMany(users);
@@ -44,6 +46,9 @@ const seedDatabase = async () => {
         await Consideration.insertMany(considerations);
         await DiscussionSpacePost.insertMany(discussionSpacePosts);
         await Counter.insertMany(counters);
+
+        // Store "seedCompleted" flag in the database
+        await Setting.updateOne({key: "seedCompleted"}, {value: true}, {upsert: true});
 
         console.log("Database seeded successfully!");
         await mongoose.connection.close();

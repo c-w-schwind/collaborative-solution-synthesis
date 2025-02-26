@@ -18,12 +18,14 @@ import solutionElementRoutes from "./solutionElement/solutionElementRoutes.js";
 import considerationRoutes from "./consideration/considerationRoutes.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 import {initializeCounters} from "./counters/counterService.js";
+import settingRoutes from "./settings/settingRoutes.js";
 
 app.use(userRoutes);
-app.use(discussionSpaceRoutes); //could also use app.use("/discussionSpace", discussionSpaceRoutes);
+app.use(discussionSpaceRoutes);
 app.use(solutionRoutes);
 app.use(solutionElementRoutes);
 app.use(considerationRoutes);
+app.use(settingRoutes);
 app.use(errorMiddleware);
 
 mongoose.connect(process.env.MONGODB_URI)
