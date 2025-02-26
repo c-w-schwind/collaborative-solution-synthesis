@@ -41,7 +41,8 @@
     line-height: 1.3;
     color: #555;
     margin: 0 0 10px 0;
-    align-self: flex-end;
+    align-self: flex-start;
     text-align: end;
-    transform: translateY(-12px);
+    white-space: nowrap;
+    transform: translateY(-10px);
 }
