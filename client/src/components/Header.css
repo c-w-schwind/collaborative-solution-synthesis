@@ -84,6 +84,17 @@
     box-shadow: 0 -5px 60px 1px rgba(0,0,0,0.15);
 }
 
+.nav-menu a.distance {
+    margin-right: -10px;
+}
+
+.nav-menu a.feedback {
+    margin-left: 20px;
+    padding-left: 20px;
+    border-radius: 0;
+    border-left: 2px solid #ccc;
+}
+
 .user-section {
     display: flex;
     align-items: center;

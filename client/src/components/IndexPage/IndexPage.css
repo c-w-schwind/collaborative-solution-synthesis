@@ -1,0 +1,21 @@
+.index-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 60px 0 200px;
+}
+
+.index-page img {
+    max-height: 500px;
+    margin: auto;
+    border-radius: 10%;
+}
+
+.index-page h1 {
+    font-size: 30px;
+}
+
+.index-title {
+    margin: 40px 0;
+}

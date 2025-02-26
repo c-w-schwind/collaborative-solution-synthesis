@@ -47,10 +47,9 @@ function Header() {
                     </button>
                     <nav className={`nav-menu${isNavMenuVisible ? ' displayed' : ''}`}>
                         <NavLink to="/" onClick={(e) => handleNavigation(e, {checkAll: true}, '/')} className={({isActive}) => isActive ? 'active' : undefined}>Home</NavLink>
-                        <NavLink to="/problemSpace" onClick={(e) => {e.preventDefault(); showWIPMessage();}} className={({isActive}) => isActive ? 'active' : undefined}>Problem Space</NavLink>
-                        <NavLink to="/solutions" onClick={(e) => handleNavigation(e, {checkAll: true}, '/solutions')} className={({isActive}) => isActive ? 'active' : undefined}>Solutions</NavLink>
-                        {/*<NavLink to="/discussionSpace" onClick={closeNavMenu} className={({isActive}) => isActive ? 'active' : undefined}>Discussion Space</NavLink>
-                        <NavLink to="/considerations" onClick={closeNavMenu} className={({isActive}) => isActive ? 'active' : undefined}>Considerations</NavLink>*/}
+                        <NavLink to="/challenge" onClick={(e) => handleNavigation(e, {checkAll: true}, '/challenge')} className={({isActive}) => isActive ? 'active' : undefined}>Challenge</NavLink>
+                        <NavLink to="/solutions" onClick={(e) => handleNavigation(e, {checkAll: true}, '/solutions')} className={({isActive}) => isActive ? 'active' : 'distance'}>Solutions</NavLink>
+                        <NavLink to="/feedback" onClick={(e) => {e.preventDefault();showWIPMessage();}} className={({isActive}) => isActive ? 'active feedback' : 'feedback'}>Platform Feedback</NavLink>
                     </nav>
                 </div>
                 <div className="user-section">

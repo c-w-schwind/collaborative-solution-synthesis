@@ -1,18 +1,19 @@
-import './App.css';
-import './Tooltips.css';
-import {HOMEPAGE_PICTURE} from "./constants";
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import "./App.css";
+import "./Tooltips.css";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 import {GlobalProvider} from "./context/GlobalContext";
 import {ToastProvider} from "./context/ToastContext";
 import {LoadingProvider} from "./context/LoadingContext";
 import {ConfirmationModalProvider} from "./context/ConfirmationModalContext";
-import {AuthProvider} from './context/AuthContext';
+import {AuthProvider} from "./context/AuthContext";
 import {FormDataProvider} from "./context/FormDataContext";
 
 import Layout from "./components/Layout";
 import PublicRoute from "./routes/PublicRoute";
-import LoginPage from './components/AuthenticationComponents/LoginPage';
+import IndexPage from "./components/IndexPage/IndexPage";
+import ChallengePage from "./components/ChallengeComponents/ChallengePage";
+import LoginPage from "./components/AuthenticationComponents/LoginPage";
 import SolutionListPage from "./components/SolutionComponents/SolutionListPage";
 import DiscussionSpacePage from "./components/DiscussionSpaceComponents/DiscussionSpacePage";
 import SolutionDetailsPage from "./components/SolutionComponents/SolutionDetailsPage";
@@ -35,6 +36,7 @@ function App() {
                                             <Route path="/" element={<Layout/>}>
                                                 <Route index element={<IndexPage/>}/>
                                                 <Route path="login" element={<PublicRoute><LoginPage/></PublicRoute>}/>
+                                                <Route path="challenge" element={<ChallengePage/>}/>
                                                 <Route path="solutions" element={<SolutionListPage/>}/>
                                                 <Route path="solutions/:solutionNumber/:solutionVersion?" element={<EnhancedSolutionDetailsPage/>}>
                                                     <Route path="discussionSpace" element={<DiscussionSpacePage/>}/>
@@ -55,22 +57,6 @@ function App() {
                     </LoadingProvider>
                 </ToastProvider>
             </GlobalProvider>
-        </div>
-    );
-}
-
-function IndexPage () {
-    return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '80vh',
-        }}>
-            <img src={HOMEPAGE_PICTURE} alt="Your Logo"
-                 style={{maxHeight: '500px', margin: 'auto', borderRadius: '10%'}}/>
-            <h1>Collective Solution Synthesis</h1>
         </div>
     );
 }
