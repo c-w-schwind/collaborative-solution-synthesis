@@ -160,7 +160,7 @@ function DiscussionSpacePage() {
                                     content={post.content}
                                     author={post.author.username}
                                     createdAt={formatToGermanTimezone(post.createdAt)}
-                                    authorPictureUrl={post.authorPictureUrl}
+                                    profilePicture={post.author.profilePicture}
                                 />))
                         ) : !isLoading ? (
                             <div className="discussion-space-no-posts-message-area">

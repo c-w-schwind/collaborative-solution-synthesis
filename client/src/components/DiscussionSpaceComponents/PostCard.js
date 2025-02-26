@@ -1,7 +1,7 @@
 import "./PostCard.css";
 import React from "react";
 
-function PostCard({title, content, author, createdAt, authorPictureUrl}) {
+function PostCard({title, content, author, createdAt, profilePicture}) {
     const handleImageError = (e) => {
         e.target.src = "./default_profile_picture.jpg";
     };
@@ -10,7 +10,7 @@ function PostCard({title, content, author, createdAt, authorPictureUrl}) {
         <article className="post-card">
             <section className="user-info">
                 <img
-                    src={authorPictureUrl || "https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"}
+                    src={profilePicture}
                     alt={`${author}'s profile pic`}
                     className="author-picture"
                     onError={handleImageError}

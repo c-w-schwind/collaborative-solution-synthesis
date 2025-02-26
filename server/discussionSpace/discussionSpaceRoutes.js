@@ -61,13 +61,13 @@ discussionSpaceRoutes.get("/discussionSpace", asyncHandler(async (req, res) => {
         .sort({createdAt: 1})
         .limit(limit)
         .skip(skipIndex)
-        .populate("author", "username", "User")
+        .populate("author", "username avatarUrl", "User")
         .populate({
             path: "replyingTo",
             populate: {
                 path: "author",
                 model: "User",
-                select: "username"
+                select: "username avatarUrl"
             }
         });
 
