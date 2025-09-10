@@ -4,7 +4,7 @@
     "content": "Hey John, I see this is an example solution to showcase how the review phase works. Just to confirm—should we evaluate it as if it were a real solution, or is the focus more on making sure the structure is clear for others using the platform?",
     "author": "6671a5678fff00c99a33b5d0",
     "parentType": "Solution",
-    "parentNumber": 6,
+    "parentNumber": 1,
     "parentVersion": 1,
     "createdAt": "2023-12-29T15:00:00Z",
     "updatedAt": "2023-12-29T15:00:00Z"
@@ -14,7 +14,7 @@
     "content": "Good question! The main purpose here is to illustrate how this phase works. That said, feel free to engage with it like a normal proposal—it might help highlight potential confusion or missing details that could be useful for real drafts in the future.",
     "author": "659e6ddb985b979a4084a076",
     "parentType": "Solution",
-    "parentNumber": 6,
+    "parentNumber": 1,
     "parentVersion": 1,
     "createdAt": "2023-12-29T15:05:00Z",
     "updatedAt": "2023-12-29T15:05:00Z"
@@ -24,7 +24,7 @@
     "content": "I like how the footer menu provides information on the process, but do you think it would be helpful to explicitly mention where to find discussion spaces for solution elements? Some users might overlook that and only check the main solution discussion.",
     "author": "6671abcdefff00c99a33b5d0",
     "parentType": "Solution",
-    "parentNumber": 6,
+    "parentNumber": 1,
     "parentVersion": 1,
     "createdAt": "2023-12-29T15:15:00Z",
     "updatedAt": "2023-12-29T15:15:00Z"
@@ -34,7 +34,7 @@
     "content": "That's a great point! The main discussion space is pretty obvious, but I agree that some users might not realize there are separate ones for elements. Maybe a brief note in the footer could help direct them?",
     "author": "659e6ddb985b979a4084a076",
     "parentType": "Solution",
-    "parentNumber": 6,
+    "parentNumber": 1,
     "parentVersion": 1,
     "createdAt": "2023-12-29T15:20:00Z",
     "updatedAt": "2023-12-29T15:20:00Z"
@@ -44,7 +44,7 @@
     "content": "The example does a solid job of explaining how the review phase works, but do you think we should clarify that reviewers are not 'approving' anything? Some users might assume they need to get approval rather than just feedback.",
     "author": "6671a8901d4531dba695fe0d",
     "parentType": "Solution",
-    "parentNumber": 6,
+    "parentNumber": 1,
     "parentVersion": 1,
     "createdAt": "2023-12-29T15:30:00Z",
     "updatedAt": "2023-12-29T15:30:00Z"
@@ -54,7 +54,7 @@
     "content": "That's a really good point! I could tweak the wording a bit to reinforce that reviewers are just providing feedback, and the proposer has full control over what changes to make. Thanks for catching that!",
     "author": "659e6ddb985b979a4084a076",
     "parentType": "Solution",
-    "parentNumber": 6,
+    "parentNumber": 1,
     "parentVersion": 1,
     "createdAt": "2023-12-29T15:35:00Z",
     "updatedAt": "2023-12-29T15:35:00Z"

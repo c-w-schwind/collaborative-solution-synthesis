@@ -55,7 +55,7 @@ cd your-project-folder
 3. Create a `.env` file and configure the required variables:
    ```sh
    PORT=5000
-   MONGO_URI=your-mongodb-connection-string
+   MONGODB_URI=your-mongodb-connection-string
    JWT_SECRET=your-secret-key
    ```
 4. Start the backend server:
@@ -89,14 +89,33 @@ If you want to populate the database with sample data, follow these steps:
    ```sh
    cd server
    ```
-3. Run the following command:
+3. Run the following command to insert the base seed data:
    ```sh
    npm run seed
    ```
 
 This will insert sample data into the database. To modify or reset the seed data, update the relevant JSON file in `server/seed/data/` before running the script again.
 
-**Note:** Running `node seed.js` will overwrite existing data in the database. If you want to preserve your current data, back it up before running the script.
+> **Note:** Running `node seed.js` will overwrite existing data in the database. If you want to preserve your current data, back it up before running the script.
+
+### Adding Synthetic Voting Data (Optional)
+
+By default, the seed script only inserts users, solutions, considerations, etc., without votes.
+If you want to simulate voting activity among users:
+
+```sh
+node addVotes.js
+```
+
+This script will:
+
+* Randomly assign upvotes and downvotes to considerations and their comments.
+* Overwrite any existing vote data in `considerations.json`.
+
+> **Note:** Running this script modifies the local seed JSON file (`server/seed/data/considerations.json`).
+> If you re-run `npm run seed`, the modified data will be used to repopulate the database.
+
+
 
 ## **Usage**
 
