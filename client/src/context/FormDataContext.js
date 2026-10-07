@@ -4,27 +4,27 @@ import {useLocation} from "react-router-dom";
 import {useAuth} from "./AuthContext";
 import {useToasts} from "./ToastContext";
 
+const initFormData = (config) => config.fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {});
+
 const FormDataContext = createContext();
 
 export const FormDataProvider = ({children}) => {
-    const initFormData = useCallback((config) => config.fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}), []);
+    const [solutionFormData, setSolutionFormData] = useState(() => initFormData(formConfigurations.solutionForm));
+    const [solutionDraftTitleFormData, setSolutionDraftTitleFormData] = useState(() => initFormData(formConfigurations.draftTitleForm));
+    const [solutionDraftOverviewFormData, setSolutionDraftOverviewFormData] = useState(() => initFormData(formConfigurations.draftOverviewForm));
+    const [solutionDraftDescriptionFormData, setSolutionDraftDescriptionFormData] = useState(() => initFormData(formConfigurations.draftDescriptionForm));
+    const [solutionDraftChangeSummaryFormData, setSolutionDraftChangeSummaryFormData] = useState(() => initFormData(formConfigurations.draftChangeSummaryForm));
 
-    const [solutionFormData, setSolutionFormData] = useState(initFormData(formConfigurations.solutionForm));
-    const [solutionDraftTitleFormData, setSolutionDraftTitleFormData] = useState(initFormData(formConfigurations.draftTitleForm));
-    const [solutionDraftOverviewFormData, setSolutionDraftOverviewFormData] = useState(initFormData(formConfigurations.draftOverviewForm));
-    const [solutionDraftDescriptionFormData, setSolutionDraftDescriptionFormData] = useState(initFormData(formConfigurations.draftDescriptionForm));
-    const [solutionDraftChangeSummaryFormData, setSolutionDraftChangeSummaryFormData] = useState(initFormData(formConfigurations.draftChangeSummaryForm));
+    const [elementFormData, setElementFormData] = useState(() => initFormData(formConfigurations.elementForm));
+    const [elementDraftTitleFormData, setElementDraftTitleFormData] = useState(() => initFormData(formConfigurations.draftTitleForm));
+    const [elementDraftOverviewFormData, setElementDraftOverviewFormData] = useState(() => initFormData(formConfigurations.draftOverviewForm));
+    const [elementDraftDescriptionFormData, setElementDraftDescriptionFormData] = useState(() => initFormData(formConfigurations.draftDescriptionForm));
+    const [elementDraftChangeSummaryFormData, setElementDraftChangeSummaryFormData] = useState(() => initFormData(formConfigurations.draftChangeSummaryForm));
 
-    const [elementFormData, setElementFormData] = useState(initFormData(formConfigurations.elementForm));
-    const [elementDraftTitleFormData, setElementDraftTitleFormData] = useState(initFormData(formConfigurations.draftTitleForm));
-    const [elementDraftOverviewFormData, setElementDraftOverviewFormData] = useState(initFormData(formConfigurations.draftOverviewForm));
-    const [elementDraftDescriptionFormData, setElementDraftDescriptionFormData] = useState(initFormData(formConfigurations.draftDescriptionForm));
-    const [elementDraftChangeSummaryFormData, setElementDraftChangeSummaryFormData] = useState(initFormData(formConfigurations.draftChangeSummaryForm));
-
-    const [considerationFormData, setConsiderationFormData] = useState(initFormData(formConfigurations.considerationForm));
-    const [commentFormData, setCommentFormData] = useState(initFormData(formConfigurations.commentForm));
-    const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(initFormData(formConfigurations.discussionSpaceForm));
-    const [registrationFormData, setRegistrationFormData] = useState(initFormData(formConfigurations.registrationForm));
+    const [considerationFormData, setConsiderationFormData] = useState(() => initFormData(formConfigurations.considerationForm));
+    const [commentFormData, setCommentFormData] = useState(() => initFormData(formConfigurations.commentForm));
+    const [discussionSpaceFormData, setDiscussionSpaceFormData] = useState(() => initFormData(formConfigurations.discussionSpaceForm));
+    const [registrationFormData, setRegistrationFormData] = useState(() => initFormData(formConfigurations.registrationForm));
 
     const [isSolutionFormOpen, setIsSolutionFormOpen] = useState(false);
     const [isSolutionDraftTitleFormOpen, setIsSolutionDraftTitleFormOpen] = useState(false);
@@ -44,7 +44,7 @@ export const FormDataProvider = ({children}) => {
     const [modalNavigationDetected, setModalNavigationDetected] = useState(false);
 
     const location = useLocation();
-    let previousPathRef = useRef(location.pathname.split("/").includes("element") ? "element" : "solution");
+    const previousPathRef = useRef(location.pathname.split("/").includes("element") ? "element" : "solution");
 
     const {isLoggedIn} = useAuth();
     const {addToast} = useToasts();
@@ -57,58 +57,21 @@ export const FormDataProvider = ({children}) => {
     }, [location]);
 
 
-    const isSolutionFormFilled = useMemo(() =>
-        Object.values(solutionFormData).some(val => val.trim() !== ''), [solutionFormData]
-    );
+    const isSolutionFormFilled = Object.values(solutionFormData).some(val => val.trim() !== '');
+    const isSolutionDraftTitleFormFilled = Object.values(solutionDraftTitleFormData).some(val => val.trim() !== '');
+    const isSolutionDraftOverviewFormFilled = Object.values(solutionDraftOverviewFormData).some(val => val.trim() !== '');
+    const isSolutionDraftDescriptionFormFilled = Object.values(solutionDraftDescriptionFormData).some(val => val.trim() !== '');
+    const isSolutionDraftChangeSummaryFormFilled = Object.values(solutionDraftChangeSummaryFormData).some(val => val.trim() !== '');
 
-    const isSolutionDraftTitleFormFilled = useMemo(() =>
-        Object.values(solutionDraftTitleFormData).some(val => val.trim() !== ''), [solutionDraftTitleFormData]
-    );
+    const isElementFormFilled = Object.values(elementFormData).some(val => val.trim() !== '');
+    const isElementDraftTitleFormFilled = Object.values(elementDraftTitleFormData).some(val => val.trim() !== '');
+    const isElementDraftOverviewFormFilled = Object.values(elementDraftOverviewFormData).some(val => val.trim() !== '');
+    const isElementDraftDescriptionFormFilled = Object.values(elementDraftDescriptionFormData).some(val => val.trim() !== '');
+    const isElementDraftChangeSummaryFormFilled = Object.values(elementDraftChangeSummaryFormData).some(val => val.trim() !== '');
 
-    const isSolutionDraftOverviewFormFilled = useMemo(() =>
-        Object.values(solutionDraftOverviewFormData).some(val => val.trim() !== ''), [solutionDraftOverviewFormData]
-    );
-
-    const isSolutionDraftDescriptionFormFilled = useMemo(() =>
-        Object.values(solutionDraftDescriptionFormData).some(val => val.trim() !== ''), [solutionDraftDescriptionFormData]
-    );
-
-    const isSolutionDraftChangeSummaryFormFilled = useMemo(() =>
-        Object.values(solutionDraftChangeSummaryFormData).some(val => val.trim() !== ''), [solutionDraftChangeSummaryFormData]
-    );
-
-    const isElementFormFilled = useMemo(() =>
-        Object.values(elementFormData).some(val => val.trim() !== ''), [elementFormData]
-    );
-
-    const isElementDraftTitleFormFilled = useMemo(() =>
-        Object.values(elementDraftTitleFormData).some(val => val.trim() !== ''), [elementDraftTitleFormData]
-    );
-
-    const isElementDraftOverviewFormFilled = useMemo(() =>
-        Object.values(elementDraftOverviewFormData).some(val => val.trim() !== ''), [elementDraftOverviewFormData]
-    );
-
-    const isElementDraftDescriptionFormFilled = useMemo(() =>
-        Object.values(elementDraftDescriptionFormData).some(val => val.trim() !== ''), [elementDraftDescriptionFormData]
-    );
-
-    const isElementDraftChangeSummaryFormFilled = useMemo(() =>
-        Object.values(elementDraftChangeSummaryFormData).some(val => val.trim() !== ''), [elementDraftChangeSummaryFormData]
-    );
-
-    const isConsiderationFormFilled = useMemo(() =>
-        Object.values(considerationFormData).some(val => val.trim() !== ''), [considerationFormData]
-    );
-
-    const isCommentFormFilled = useMemo(() =>
-        Object.values(commentFormData).some(val => val.trim() !== ''), [commentFormData]
-    );
-
-    const isDiscussionSpaceFormFilled = useMemo(() =>
-        Object.values(discussionSpaceFormData).some(val => val.trim() !== ''), [discussionSpaceFormData]
-    );
-
+    const isConsiderationFormFilled = Object.values(considerationFormData).some(val => val.trim() !== '');
+    const isCommentFormFilled = Object.values(commentFormData).some(val => val.trim() !== '');
+    const isDiscussionSpaceFormFilled = Object.values(discussionSpaceFormData).some(val => val.trim() !== '');
 
     const wipeFormData = useCallback(({
                                           wipeAll,
@@ -143,7 +106,7 @@ export const FormDataProvider = ({children}) => {
         shouldWipe(wipeCommentForm) && setCommentFormData(initFormData(formConfigurations.commentForm));
         shouldWipe(wipeDiscussionSpaceForm) && setDiscussionSpaceFormData(initFormData(formConfigurations.discussionSpaceForm));
         shouldWipe(wipeRegistrationFormData) && setRegistrationFormData(initFormData(formConfigurations.registrationForm));
-    }, [initFormData]);
+    }, []);
 
     // Manages form states during browser navigations. Ensures that open forms are appropriately closed or reset based on their presence in the
     // DOM and user input. Warns users of potential data loss before making any changes, and provides instructions on how to save their data
@@ -503,7 +466,7 @@ export const FormDataProvider = ({children}) => {
 
             return considerationId;
         });
-    }, [checkLoggedIn, isConsiderationFormFilled, openedConsiderationFormId, initFormData]);
+    }, [checkLoggedIn, isConsiderationFormFilled, openedConsiderationFormId]);
 
 
     const toggleCommentSection = useCallback((considerationId, ref, scrollContainerRef) => {
@@ -543,7 +506,7 @@ export const FormDataProvider = ({children}) => {
 
             return considerationId;
         });
-    }, [isCommentFormFilled, initFormData]);
+    }, [isCommentFormFilled]);
 
 
     const value = useMemo(() => ({
