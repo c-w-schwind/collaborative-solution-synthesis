@@ -82,39 +82,68 @@ The application should now be running at `http://localhost:3000` (frontend) and 
 
 ## **Seeding the Database (Optional)**
 
-If you want to populate the database with sample data, follow these steps:
+To populate the database with the included sample data, follow these steps:
 
-1. Ensure that MongoDB is running.
+1. Ensure that MongoDB is running and that your `MONGODB_URI` is configured correctly.
 2. Navigate to the `server` directory:
    ```sh
    cd server
    ```
-3. Run the following command to insert the base seed data:
+3. Run the seed script:
    ```sh
    npm run seed
    ```
 
-This will insert sample data into the database. To modify or reset the seed data, update the relevant JSON file in `server/seed/data/` before running the script again.
+The seed script clears the existing application data and repopulates the database with the sample users, solutions, solution elements, considerations, discussion posts, and counters contained in `server/seed/data/`.
 
-> **Note:** Running `node seed.js` will overwrite existing data in the database. If you want to preserve your current data, back it up before running the script.
+> **Warning:** Running `npm run seed` deletes and replaces the existing application data in the configured database. Do not run it against a database containing data you want to preserve.
 
-### Adding Synthetic Voting Data (Optional)
+To modify the sample dataset, edit the corresponding JSON files in `server/seed/data/` before running the seed command again.
 
-By default, the seed script only inserts users, solutions, considerations, etc., without votes.
-If you want to simulate voting activity among users:
+### **Demo Account**
+
+The seed data includes a demo account that is connected to several pre-populated private drafts and review-stage proposals.
+
+Use the following credentials after seeding the database:
+
+```text
+Email: user@platform.com
+Password: password
+```
+
+Using this account is recommended when exploring the project, as it provides access to functionality and example content that is not visible to anonymous users or newly registered accounts, including:
+
+- Private solution drafts
+- Private solution element drafts
+- Change proposals
+- Proposals in the review phase
+- Pre-populated examples explaining the draft and review workflows
+
+You can also register a new account through the application. A newly registered user can create and interact with their own content, but will not have access to the private example drafts associated with the seeded demo account.
+
+> **Note:** These credentials are intended exclusively for the local seeded development/demo environment and should not be used for a production deployment.
+
+### **Adding Synthetic Voting Data (Optional)**
+
+By default, the seed script inserts the existing voting data contained in the seed files.
+
+If you want to generate synthetic voting activity, navigate to the `server/seed` directory and run:
 
 ```sh
 node addVotes.js
 ```
 
-This script will:
+This script randomly assigns upvotes and downvotes to considerations and their comments and modifies the local `considerations.json` seed file.
 
-* Randomly assign upvotes and downvotes to considerations and their comments.
-* Overwrite any existing vote data in `considerations.json`.
+Afterwards, run:
 
-> **Note:** Running this script modifies the local seed JSON file (`server/seed/data/considerations.json`).
-> If you re-run `npm run seed`, the modified data will be used to repopulate the database.
+```sh
+npm run seed
+```
 
+from the `server` directory to populate the database with the updated seed data.
+
+> **Note:** `addVotes.js` modifies the local seed JSON file. Running `npm run seed` afterwards will use that modified data when rebuilding the database.
 
 
 ## **Usage**
