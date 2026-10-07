@@ -20,7 +20,7 @@ export const AuthProvider = ({children}) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isFirstTime, setIsFirstTime] = useState(false);
     const navigate = useNavigate();
-    const {addToast} = useToasts();
+    const addToast = useToasts();
 
     const login = useCallback((userData, token) => {
         localStorage.setItem('token', token);

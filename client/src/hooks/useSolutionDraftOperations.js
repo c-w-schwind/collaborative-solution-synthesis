@@ -9,7 +9,7 @@ import {handleRequest} from "../services/solutionApiService";
 const useSolutionDraftOperations = (solutionProps, isSolutionDraft, isChangeProposal) => {
     const {showConfirmationModal} = useConfirmationModal();
     const {showLoading, hideLoading} = useLoading();
-    const {addToast} = useToasts();
+    const addToast = useToasts();
     const navigate = useNavigate();
     const {solutionNumber, solutionVersion, title, status} = solutionProps;
 

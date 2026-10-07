@@ -11,7 +11,7 @@ const SolutionInput = () => {
     const [renderSolutionForm, setRenderSolutionForm] = useState(false);
 
     const {solutionFormData, setSolutionFormData, toggleSolutionForm, isSolutionFormOpen} = useFormData();
-    const {addToast} = useToasts();
+    const addToast = useToasts();
 
     const solutionFormContainerRef = useRef(null);
     const navigate = useNavigate();

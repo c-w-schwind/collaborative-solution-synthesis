@@ -10,7 +10,7 @@ const GenericForm = ({onSubmit, config, formData, setFormData, authorizationChec
     const [error, setError] = useState('');
     const isDraftMode = previousData !== null;
 
-    const {addToast} = useToasts();
+    const addToast = useToasts();
 
 
     useEffect(() => {

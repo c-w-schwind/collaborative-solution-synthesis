@@ -13,7 +13,7 @@ import IndentedModalText from "../CommonComponents/IndentedModalText";
 const ProposeChangeButton = ({entityType, entityTitle, entityNumber, onClosingModal = () => {}}) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
 
-    const {addToast} = useToasts();
+    const addToast = useToasts();
     const {showLoading, hideLoading} = useLoading();
     const {showConfirmationModal} = useConfirmationModal();
 

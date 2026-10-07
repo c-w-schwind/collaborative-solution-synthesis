@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 const VotingModule = ({votableItem, onVoteSuccess, voteEndpoint}) => {
     const [userId, setUserId] = useState(null);
 
-    const {addToast} = useToasts();
+    const addToast = useToasts();
     const {user} = useAuth();
 
     useEffect(() => {

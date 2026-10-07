@@ -7,7 +7,7 @@ import {useToasts} from "../../context/ToastContext";
 const RegistrationInput = ({onSuccessfulSubmit}) => {
     const registrationFormConfig = formConfigurations.registrationForm;
     const {registrationFormData, setRegistrationFormData, wipeFormData} = useFormData();
-    const {addToast} = useToasts();
+    const addToast = useToasts();
 
     useEffect(()=> {
         return () => {

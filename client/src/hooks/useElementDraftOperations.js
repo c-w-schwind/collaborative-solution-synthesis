@@ -10,7 +10,7 @@ import {useGlobal} from "../context/GlobalContext";
 const useElementDraftOperations = (elementProps, isElementDraft, isChangeProposal) => {
     const {showConfirmationModal} = useConfirmationModal();
     const {showLoading, hideLoading} = useLoading();
-    const {addToast} = useToasts();
+    const addToast = useToasts();
     const navigate = useNavigate();
     const location = useLocation();
     const {setElementListChange} = useGlobal();

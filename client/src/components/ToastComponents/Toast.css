@@ -23,6 +23,7 @@
     position: relative;
     opacity: 1;
     transition: opacity 0.8s ease-in-out, scale 0.25s ease;
+    animation: slideIn 0.5s;
 }
 
 .toast:hover {

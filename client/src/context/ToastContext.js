@@ -1,28 +1,34 @@
-import {createContext, useCallback, useContext, useMemo, useState} from "react";
-import ToastManager from "../components/ToastComponents/ToastManager";
+import {createContext, useCallback, useContext, useState} from "react";
+import Toast from "../components/ToastComponents/Toast";
 
 const ToastContext = createContext();
 
 export const ToastProvider = ({children}) => {
     const [toasts, setToasts] = useState([]);
 
-    const removeToast = useCallback((id) => {
+    const removeToast = (id) => {
         setToasts(currentToasts => currentToasts.filter(toast => toast.id !== id));
-    }, []);
+    };
 
-    const addToast = useCallback((message, timeout = 4000) => {
+    const addToast = useCallback((message, timeout = 3500) => {
         const id = Date.now() + Math.random();
         setToasts(currentToasts => [...currentToasts, {message, id, timeout}]);
     }, []);
 
-    const value = useMemo(() => ({
-        addToast, removeToast
-    }), [addToast, removeToast]);
 
     return (
-        <ToastContext.Provider value={value}>
+        <ToastContext.Provider value={addToast}>
             {children}
-            <ToastManager toasts={toasts} removeToast={removeToast}/>
+            <div className="toast-container">
+                {toasts.map(toast => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        onClose={() => removeToast(toast.id)}
+                        timeout={toast.timeout}
+                    />
+                ))}
+            </div>
         </ToastContext.Provider>
     );
 };

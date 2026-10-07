@@ -47,7 +47,7 @@ export const FormDataProvider = ({children}) => {
     const previousPathRef = useRef(location.pathname.split("/").includes("element") ? "element" : "solution");
 
     const {isLoggedIn} = useAuth();
-    const {addToast} = useToasts();
+    const addToast = useToasts();
 
 
     useEffect(() => {

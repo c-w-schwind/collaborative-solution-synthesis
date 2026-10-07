@@ -12,7 +12,7 @@ function Header() {
     const [isNavMenuVisible, setIsNavMenuVisible] = useState(false);
     const [isUserMenuVisible, setIsUserMenuVisible] = useState(false);
 
-    const {addToast} = useToasts();
+    const addToast = useToasts();
     const {isLoggedIn, user, logout} = useAuth();
     const {canNavigate} = useFormData();
     const navigate = useNavigate();

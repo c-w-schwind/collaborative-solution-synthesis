@@ -11,7 +11,7 @@ const SolutionElementInput = ({onSuccessfulSubmit, parentSolutionNumber}) => {
     const [renderElementForm, setRenderElementForm] = useState(false);
 
     const {elementFormData, setElementFormData, toggleElementForm, isElementFormOpen} = useFormData();
-    const {addToast} = useToasts();
+    const addToast = useToasts();
     const {showLoading, hideLoading} = useLoading();
 
     const elementFormContainerRef = useRef(null);
