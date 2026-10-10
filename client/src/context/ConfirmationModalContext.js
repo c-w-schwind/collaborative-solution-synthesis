@@ -1,11 +1,11 @@
-import {createContext, useCallback, useContext, useMemo, useState} from "react";
+import {createContext, useCallback, useContext, useMemo, useRef, useState} from "react";
 import ConfirmationModal from "../components/CommonComponents/ConfirmationModal";
 
 const ConfirmationModalContext = createContext();
 
 export const ConfirmationModalProvider = ({children}) => {
     const [confirmationModalContent, setConfirmationModalContent] = useState({
-        isVisible: false,
+        isOpen: false,
         title: "",
         message: "",
         onConfirm: () => {},
@@ -15,18 +15,19 @@ export const ConfirmationModalProvider = ({children}) => {
         size: 400,
         entityType: "Solution"
     });
+    const isModalOpenRef = useRef(false);
 
     // entityType only required for "publish" button mode
     const showConfirmationModal = useCallback(({title, message, onConfirm, onCancel, entityType, buttonMode = "standard", size = 400, followUp = false, followUpMessage}) => {
+        isModalOpenRef.current = true;
         if (!followUp) {
-            setConfirmationModalContent({isVisible: true, title, message, onConfirm, onCancel, entityType, buttonMode, followUp, size});
+            setConfirmationModalContent({isOpen: true, title, message, onConfirm, onCancel, entityType, buttonMode, followUp, size});
         } else {
             setConfirmationModalContent({
-                isVisible: true,
+                isOpen: true,
                 title,
                 message,
                 onConfirm: () => showConfirmationModal({
-                    isVisible: true,
                     title: "WARNING",
                     message: followUpMessage ? followUpMessage : "This action cannot be undone.\n\nDo you want to proceed?",
                     onConfirm: onConfirm,
@@ -45,18 +46,19 @@ export const ConfirmationModalProvider = ({children}) => {
     },[]);
 
     const hideConfirmationModal = useCallback(() => {
-        setConfirmationModalContent(prev => ({...prev, isVisible: false}));
+        isModalOpenRef.current = false;
+        setConfirmationModalContent(prev => ({...prev, isOpen: false}));
     },[]);
 
     const value = useMemo(() => ({
-        showConfirmationModal, confirmationModalContent
-    }), [showConfirmationModal, confirmationModalContent]);
+        showConfirmationModal, isModalOpenRef
+    }), [showConfirmationModal]);
 
     return (
         <ConfirmationModalContext.Provider value={value}>
             {children}
             <ConfirmationModal
-                isVisible={confirmationModalContent.isVisible}
+                isOpen={confirmationModalContent.isOpen}
                 title={confirmationModalContent.title}
                 message={confirmationModalContent.message}
                 onConfirm={() => {

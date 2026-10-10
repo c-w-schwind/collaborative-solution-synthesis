@@ -5,31 +5,21 @@ import {useLoading} from "../context/LoadingContext";
 
 function useOutsideClick (callback) {
     const ref = useRef();
-    const {confirmationModalContent} = useConfirmationModal();
-    const {isLoading} = useLoading();
+    const {isModalOpenRef} = useConfirmationModal();
+    const {isLoadingRef} = useLoading();
 
-    const isModalVisibleRef = useRef(confirmationModalContent.isVisible);
-    const isLoadingRef = useRef(isLoading);
     const callbackRef = useRef(callback);
-
-    useEffect(() => {
-        isModalVisibleRef.current = confirmationModalContent.isVisible;
-    }, [confirmationModalContent.isVisible]);
-
-    useEffect(() => {
-        isLoadingRef.current = isLoading;
-    }, [isLoading]);
 
     useEffect(() => {
         callbackRef.current = callback;
     }, [callback]);
 
     const handleClickOutside = useCallback((event) => {
-        if (isModalVisibleRef.current || isLoadingRef.current) return;
+        if (isModalOpenRef.current || isLoadingRef.current) return;
         if (ref.current && !ref.current.contains(event.target)) {
             callbackRef.current();
         }
-    }, []);
+    }, [isModalOpenRef, isLoadingRef]);
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside, {passive: true});

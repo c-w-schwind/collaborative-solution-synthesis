@@ -5,49 +5,60 @@ import {useEffect, useRef, useState} from "react";
 const LoadingOverlay = ({isVisible, message, isFullScreen = true, isSidePanel = false}) => {
     const [overlayVisible, setOverlayVisible] = useState(false);
     const [shouldRender, setShouldRender] = useState(false);
+
     const overlayRef = useRef(null);
+    const previouslyFocusedElementRef = useRef(null);
 
 
     useEffect(() => {
         let timeoutId;
         if (isVisible) {
             setShouldRender(true);
-            // Use setTimeout to activate overlay smoothly after UI updates, preventing rendering glitches
-            setTimeout(() => {
-                setOverlayVisible(true)
+            // Delay visibility until after the overlay has mounted, allowing the fade-in transition to run
+            timeoutId = setTimeout(() => {
+                setOverlayVisible(true);
 
-                if (overlayRef.current) {
-                    overlayRef.current.focus(); // Trap focus on overlay
+                if (isFullScreen && overlayRef.current) {
+                    overlayRef.current.focus();
                 }
             }, 100);
         } else {
             setOverlayVisible(false);
             if (isSidePanel) {
-                setShouldRender(false); // Preventing glitching behavior of modal during discussion space opening
+                setShouldRender(false); // Prevent glitching behavior of modal during discussion space opening
             } else {
-                timeoutId = setTimeout(() => setShouldRender(false), 100); // Matching .loading-overlay CSS fade-out transition time
+                timeoutId = setTimeout(() => setShouldRender(false), 100); // Matches .loading-overlay fade-out transition
             }
-            return () => clearTimeout(timeoutId);
         }
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, [isVisible, isSidePanel]);
+        return () => clearTimeout(timeoutId);
+    }, [isVisible, isFullScreen, isSidePanel]);
 
 
     useEffect(() => {
+        if (!isVisible || !isFullScreen) return;
+
+        previouslyFocusedElementRef.current = document.activeElement;
+
         const handleKeyDown = (e) => {
-            if (isVisible) {
-                e.stopPropagation();
+            if (e.key === 'Tab') {
+                e.preventDefault();
             }
+            e.stopPropagation();
         };
 
-        if (isVisible) {
-            document.addEventListener('keydown', handleKeyDown, true);
-        }
+        document.addEventListener('keydown', handleKeyDown, true);
 
-        return () => document.removeEventListener('keydown', handleKeyDown, true);
-    }, [isVisible]);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown, true);
+
+            if (
+                previouslyFocusedElementRef.current &&
+                document.contains(previouslyFocusedElementRef.current)
+            ) {
+                previouslyFocusedElementRef.current.focus();
+            }
+        };
+    }, [isVisible, isFullScreen]);
 
 
     if (!shouldRender) return null;

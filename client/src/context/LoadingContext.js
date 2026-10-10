@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState, useCallback, useMemo} from "react";
+import React, {createContext, useContext, useState, useCallback, useMemo, useRef} from "react";
 import LoadingOverlay from "../components/CommonComponents/LoadingOverlay";
 
 const LoadingContext = createContext();
@@ -6,22 +6,24 @@ const LoadingContext = createContext();
 export const LoadingProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState("");
+    const isLoadingRef = useRef(false);
 
     const showLoading = useCallback((message) => {
-        setIsLoading(true);
+        isLoadingRef.current = true;
         setMessage(message);
+        setIsLoading(true);
     }, []);
 
     const hideLoading = useCallback(() => {
+        isLoadingRef.current = false;
         setIsLoading(false);
-        setTimeout(() => setMessage(""), 100); // Matches the overlay's hide transition.
     }, []);
 
     const value = useMemo(() => ({
-        isLoading,
+        isLoadingRef,
         showLoading,
         hideLoading
-    }), [isLoading, showLoading, hideLoading]);
+    }), [showLoading, hideLoading]);
 
 
     return (
