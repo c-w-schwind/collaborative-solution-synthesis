@@ -1,188 +1,178 @@
-# **[Collaborative Solution Synthesis] (Untitled)**
 
-## **Overview**
+# Collaborative Solution Synthesis
 
-**Collaborative Solution Synthesis** is a platform prototype designed to facilitate **collective intelligence** in structured problem-solving. It enables communities to collaboratively **define challenges, develop solutions, and iteratively refine them**, ensuring a more structured and productive discourse than traditional discussion platforms.
+*A full-stack prototype for structured collaborative problem-solving.*
 
-Beyond problem-solving, the platform aims to **foster collective wisdom**, helping communities better understand **which issues matter most, where challenges arise, and how different perspectives align or diverge**. Through structured deliberation, users gain insight into underlying complexities, ultimately leading to **better solutions and stronger consensus**.
+## Overview
 
-The system is intended for **small communities**, where structured dialogue and thoughtful contributions are prioritized over high-volume interactions.
+Collaborative Solution Synthesis explores how communities can analyze complex problems, develop solution proposals, and improve ideas through structured contributions rather than unstructured discussion alone.
 
-## **Key Features**
+The underlying concept is to support **collective intelligence**: participants can examine proposed solutions and their individual elements, discuss implications, contribute arguments for and against them, and iteratively develop alternatives. The long-term vision includes community review and decision-making workflows that help ideas evolve over time.
 
-- **Structured Challenge Definition** – Challenges are broken down into **key aspects** before solutions are proposed.
-- **Solution Evolution** – Users **merge, refine, and enhance** solutions rather than posting independent ideas.
-- **Consideration System** – Contributions are assessed through **pros, cons, and neutral points**, helping the community evaluate their impact.
-- **Discussion Spaces** – Each challenge, solution, and element has a dedicated discussion space.
-- **Proposal & Voting Mechanism** – Users can propose **new solutions, modifications, or refinements**, which undergo a **community review & voting process**.
-- **Authentication & Authorization** – User access is managed with **JWT-based authentication** and role-based access control.
+The prototype is intended primarily for **small communities**, where thoughtful participation and the relationships between contributions matter more than high-volume activity.
 
-## **Tech Stack**
+> **Project status:** This is an unfinished prototype, not a production-ready platform. Several core interaction and data-management features are implemented; the complete proposal review, approval, and publication workflow is not.
 
-- **Frontend**: React.js, React Router
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB, Mongoose
-- **Authentication**: JWT, bcrypt.js
-- **Configuration**: dotenv
+## Implemented Features
 
-## **Project Status**
+- **Solutions and solution elements** — Create and edit private drafts, view existing solutions, and organize solution proposals into individual components.
+- **Structured considerations** — Attach pro, con, or neutral considerations to solutions and solution elements; add comments and vote on considerations and their comments.
+- **Discussion spaces** — Participate in discussions associated with solutions and solution elements, including replies and paginated posts.
+- **Change proposal drafts** — Create drafts for proposed changes to existing solutions or solution elements. The complete review and acceptance process is not yet implemented.
+- **Authentication and access control** — JWT-based sign-in and author-/permission-based access to private drafts and related content.
+- **Context-aware interface** — React-based forms, detail views, side panels, dialogs, loading states, and notifications for interacting with interconnected content.
 
-This project is a **work in progress**. While many core functionalities are implemented, additional features and refinements are still in development. The platform will undergo **live testing in a controlled small-scale environment** once it reaches a minimum viable version.
+## Planned or Partially Implemented Features
 
-## **Installation & Setup**
+- **Structured challenge creation** — Define new challenges and break them down into key aspects. The prototype currently contains example challenge content, but users cannot create challenges through a complete workflow.
+- **Multi-stage proposal review** — Submit drafts for review, collaborate with reviewers, and transition proposals between review and publication stages. Status fields and example review-stage records exist, but the end-to-end workflow is unfinished.
+- **Proposal approval and voting** — Community decisions on accepting, rejecting, or replacing solutions and elements. This is distinct from the *implemented* voting on considerations and comments.
+- **Solution evolution** — Complete workflows for integrating accepted changes, tracking historical versions, and deprecating or removing outdated content.
+- **Further improvements** — More granular consideration interactions, activity highlighting, notifications, and optional anonymous contributions.
+- **Potential future extension** — LLM-assisted structuring or clarification of contributions.
 
-### **Prerequisites**
-Ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (recommended version: 16+)
-- [MongoDB](https://www.mongodb.com/) (local instance or cloud service)
+## Tech Stack
 
-### **Clone the Repository**
-```sh
-git clone https://github.com/your-repo-url.git
-cd your-project-folder
+- **Frontend:** React, React Router, JavaScript, CSS
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB, Mongoose
+- **Authentication:** JSON Web Tokens (JWT), bcryptjs
+- **Configuration:** Create React App environment files (frontend), dotenv (backend)
+
+The project is organized into separate `client/` and `server/` directories. The backend provides a REST API and data models for solutions, solution elements, considerations, discussions, and users.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm
+- A MongoDB database (local or hosted)
+
+**MongoDB transactions:** Some backend operations use MongoDB transactions. These require a **replica set or sharded deployment**; a standalone MongoDB instance does not support them. MongoDB Atlas or a locally configured replica set can be used.
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/c-w-schwind/collaborative-solution-synthesis.git
+cd collaborative-solution-synthesis
 ```
 
-### **Backend Setup**
+The repository must be public, or your GitHub account must have access to it.
 
-1. Navigate to the `server` directory:
-   ```sh
-   cd server
-   ```
-2. Install dependencies:
-   ```sh
-   npm install
-   ```
-3. Create a `.env` file and configure the required variables:
-   ```sh
-   PORT=5000
-   MONGODB_URI=your-mongodb-connection-string
-   JWT_SECRET=your-secret-key
-   ```
-4. Start the backend server:
-   ```sh
-   npm run dev
-   ```
+### Backend Setup
 
-### **Frontend Setup**
+From the repository root:
 
-1. Navigate to the `client` directory:
-   ```sh
-   cd client
-   ```
-2. Install dependencies:
-   ```sh
-   npm install
-   ```
-3. Start the frontend:
-   ```sh
-   npm start
-   ```
+```bash
+cd server
+npm install
+```
 
-The application should now be running at `http://localhost:3000` (frontend) and `http://localhost:5000` (backend).
+Create `config.env` in the server/ directory with your own settings:
 
-## **Seeding the Database (Optional)**
+```env
+PORT=5555
+MONGODB_URI=your-mongodb-connection-string
+JWT_SECRET=your-secret-key
+```
 
-To populate the database with the included sample data, follow these steps:
+Start the backend:
 
-1. Ensure that MongoDB is running and that your `MONGODB_URI` is configured correctly.
-2. Navigate to the `server` directory:
-   ```sh
-   cd server
-   ```
-3. Run the seed script:
-   ```sh
-   npm run seed
-   ```
+```bash
+npm run dev
+```
 
-The seed script clears the existing application data and repopulates the database with the sample users, solutions, solution elements, considerations, discussion posts, and counters contained in `server/seed/data/`.
+The API runs on **http://localhost:5555** by default, provided the database connection succeeds. The port can be changed with `PORT`.
 
-> **Warning:** Running `npm run seed` deletes and replaces the existing application data in the configured database. Do not run it against a database containing data you want to preserve.
+### Frontend Setup
 
-To modify the sample dataset, edit the corresponding JSON files in `server/seed/data/` before running the seed command again.
+Open a **second terminal** in the repository root:
 
-### **Demo Account**
+```bash
+cd client
+npm install
+```
 
-The seed data includes a demo account that is connected to several pre-populated private drafts and review-stage proposals.
+Create `client/.env.development`:
 
-Use the following credentials after seeding the database:
+```env
+REACT_APP_API_URL=http://localhost:5555
+```
+
+Start the React development server:
+
+```bash
+npm start
+```
+
+The application is then available at **http://localhost:3000**. Keep both the frontend and backend processes running while using it.
+
+**Environment configuration:** This project uses `react-scripts`, which automatically loads `.env.development` for `npm start` and `.env.production` for `npm run build` (subject to higher-priority local overrides). For a production build, `REACT_APP_API_URL` must point to the intended deployed API. Values beginning with `REACT_APP_` are included in the client bundle and **must not contain secrets**. Keep backend credentials and other sensitive settings out of version control.
+
+## Demo Data
+
+The repository includes a seed dataset with users, solutions, solution elements, considerations, discussions, and example draft/review states. Seeding is **optional**, but recommended for exploring the prototype because some features depend on existing content.
+
+### Seed the Database
+
+From `server/`, with the database running and `MONGODB_URI` configured:
+
+```bash
+npm run seed
+```
+
+> **Warning:** The seed script **deletes and replaces existing application data** in the configured database. Use a disposable development database and do not run it against data you want to keep.
+
+The seed files are stored in `server/seed/data/`. Edit those files if you want to change the examples before seeding.
+
+### Demo Account
+
+After seeding, use the following account to explore private drafts and pre-populated example content:
 
 ```text
 Email: user@platform.com
 Password: password
 ```
 
-Using this account is recommended when exploring the project, as it provides access to functionality and example content that is not visible to anonymous users or newly registered accounts, including:
+The seeded examples include private solution drafts, private solution-element drafts, change proposal drafts, and records already marked as being under review. **These review-stage examples illustrate the intended workflow; they do not mean the end-to-end review process is functional.**
 
-- Private solution drafts
-- Private solution element drafts
-- Change proposals
-- Proposals in the review phase
-- Pre-populated examples explaining the draft and review workflows
+You can also register a new account, create your own draft content, and interact with accessible discussions and considerations. New accounts do not automatically have access to the demo user's private drafts.
 
-You can also register a new account through the application. A newly registered user can create and interact with their own content, but will not have access to the private example drafts associated with the seeded demo account.
+> **Demo only:** The credentials above are intentionally simple and intended solely for a local, isolated test environment. Do not use them in a public deployment.
 
-> **Note:** These credentials are intended exclusively for the local seeded development/demo environment and should not be used for a production deployment.
+### Generate Synthetic Voting Data (Optional)
 
-### **Adding Synthetic Voting Data (Optional)**
+The seed files already contain voting data. To regenerate synthetic votes on considerations and their comments, run the following from `server/seed/`:
 
-By default, the seed script inserts the existing voting data contained in the seed files.
-
-If you want to generate synthetic voting activity, navigate to the `server/seed` directory and run:
-
-```sh
+```bash
 node addVotes.js
 ```
 
-This script randomly assigns upvotes and downvotes to considerations and their comments and modifies the local `considerations.json` seed file.
+This script **overwrites voting data in `server/seed/data/considerations.json`**. To load the modified data into MongoDB, return to `server/` and rerun:
 
-Afterwards, run:
-
-```sh
+```bash
 npm run seed
 ```
 
-from the `server` directory to populate the database with the updated seed data.
+This resets the database again. Back up the JSON file first if you want to preserve the original sample votes.
 
-> **Note:** `addVotes.js` modifies the local seed JSON file. Running `npm run seed` afterwards will use that modified data when rebuilding the database.
+## Using the Prototype
 
+With the frontend, backend, and (optionally) seeded database running, you can:
 
-## **Usage**
+- Browse existing public solutions and inspect their constituent elements.
+- Register and log in to create and edit private solution and solution-element drafts.
+- Create drafts proposing changes to existing published solutions or accepted elements.
+- Read or contribute to discussion spaces, subject to access permissions.
+- Add pro, con, and neutral considerations; comment on them; and vote on considerations or comments.
+- Explore different content views, comparison interfaces, contextual dialogs, and navigation between related objects.
 
-Once the application is running, users can:
-- **Sign up & log in** to access the platform.
-- ~~**Create a new challenge**, defining key aspects of the problem.~~ *(Not yet implemented.)*
-- **Propose solutions** and contribute to existing ones.
-- **Engage in discussions** via dedicated discussion spaces.
-- **Add considerations** to existing solutions, solution elements, and proposals to help assess their strengths, weaknesses, and implications.
-- **Vote on considerations** to refine ideas collectively.
-- **Draft proposals privately**, iterate on them, and submit them for **review**. After an initial review phase, proposals are refined collaboratively before being published for **community evaluation** and **final voting**.
+**Not yet functional end to end:** Creating new challenges; submitting drafts through a real review phase; publishing or approving proposals through community voting; and automatically integrating accepted changes into a new published version.
 
-## **Future Development**
+## Scope and Limitations
 
-The platform is still in development and not yet fully functional. The following features are necessary to reach a **minimum viable testable version**:
+This project was developed as a **technical and interaction-design prototype** for exploring structured collaborative reasoning. It is not a finished deliberation platform, a binding decision-making system, or a tool that automatically resolves disputes.
 
-- **Phased proposal process** – While proposal states exist, the backend logic connecting them is still to be implemented.
-- **Deletion proposals** – Allowing users to propose the removal of solutions or solution elements when they are obsolete or redundant.
-- **Expanded consideration functionality** – Introducing a **more granular interaction model** for evaluating contributions beyond the current prototype version.
-- **Proposal voting system** – Implementing a structured **community voting mechanism** for approving or rejecting proposals.
-- **Highlighting system** – Mechanisms to clearly mark **new contributions and recent changes** within discussions and solution spaces.
-- **Notification system** – Ensuring users are informed of **important updates**, such as voting phases, major content changes, or review assignments.
-- **Anonymity options** – Introducing the ability for users to contribute anonymously where appropriate.
-- **Potentially:** **LLM integration** to assist in structuring content and improving clarity.
+The broader goals are to make complex proposals easier to examine, allow different perspectives to remain visible, and help communities refine ideas through deliberate iteration. A controlled small-scale user test is an intended future step, not a completed validation study.
 
-## **Limitations & Acknowledgements**
-
-This platform is a **prototype** designed to test structured problem-solving in small communities. While it enhances collective intelligence, it is **not a decision-making tool** but rather a framework for **exploring and refining ideas collaboratively**.
-
-### **Goals**
-- Enable **structured discussions** that go beyond unstructured debates.
-- Foster **collective wisdom**, ensuring that users develop a deeper understanding of **community priorities, obstacles, and perspectives**.
-- Integrate **diverse viewpoints** into the problem-solving process, helping participants work toward **more comprehensive and refined solutions**.
-- Create a space where ideas **evolve through structured iteration**, rather than being drowned out by noise.
-
-### **What This Platform is NOT**
-- A place for **quick debates or casual discussions**.
-- A system that **automatically resolves disputes**.
-- A decision-making tool for **binding resolutions**.
-
-The platform will undergo real-world testing to assess its effectiveness and be refined based on community feedback.
+The implementation remains incomplete and has not been established as production-ready. Additional development, testing, and operational hardening would be needed before a public deployment.
