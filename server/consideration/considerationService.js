@@ -6,20 +6,32 @@ import {Solution} from "../solution/solutionModel.js";
 
 
 export async function validateParentDocument(parentType, parentId) {
-    if (!['Solution', 'SolutionElement'].includes(parentType)) {
+    if (!["Solution", "SolutionElement"].includes(parentType)) {
         throw new BadRequestError("Invalid parent type. Must be 'Solution', or 'SolutionElement'.");
     }
-    const Model = parentType === 'Solution' ? Solution : SolutionElement;
+    const Model = parentType === "Solution" ? Solution : SolutionElement;
     if (!await Model.exists({_id: parentId})) {
         throw new NotFoundError(`${parentType} not found.`);
     }
 }
 
 export function validateConsiderationData(considerationData) {
-    validateRequiredFields(considerationData, ['parentType', 'parentId', 'stance', 'title', 'description'], "Consideration validation");
+    validateRequiredFields(considerationData, ["parentType", "parentId", "stance", "title", "description"], "Consideration validation");
 
-    if (!['Pro', 'Con', 'Neutral'].includes(considerationData.stance)) {
+    if (!["Solution", "SolutionElement"].includes(considerationData.parentType)) {
+        throw new BadRequestError("Invalid parent type. Must be 'Solution' or 'SolutionElement'.");
+    }
+
+    if (!["Pro", "Con", "Neutral"].includes(considerationData.stance)) {
         throw new BadRequestError("Invalid stance. Must be 'Pro', 'Con', or 'Neutral'.");
+    }
+
+    if (typeof considerationData.title !== "string" || !considerationData.title.trim()) {
+        throw new BadRequestError("Invalid title. Must be a non-empty string.");
+    }
+
+    if (typeof considerationData.description !== "string" || !considerationData.description.trim()) {
+        throw new BadRequestError("Invalid description. Must be a non-empty string.");
     }
 }
 
@@ -48,15 +60,15 @@ export async function validateAndCreateConsiderations(considerationsData, parent
 
 
 export async function updateParentConsiderationsCount(parentType, parentId, delta, session) {    //delta: 1 = increase, -1 = decrease
-    if (parentType === 'SolutionElement') {
+    if (parentType === "SolutionElement") {
         await SolutionElement.findByIdAndUpdate(parentId, {$inc: {activeConsiderationsCount: delta}}).session(session);
-    } else if (parentType === 'Solution') {
+    } else if (parentType === "Solution") {
         await Solution.findByIdAndUpdate(parentId, {$inc: {activeConsiderationsCount: delta}}).session(session);
     }
 }
 
 async function validateAndToggleVote(item, userId, voteType) {
-    if (!['upvote', 'downvote'].includes(voteType)) throw new BadRequestError("Invalid vote type. Must be 'upvote' or 'downvote'.");
+    if (!["upvote", "downvote"].includes(voteType)) throw new BadRequestError("Invalid vote type. Must be 'upvote' or 'downvote'.");
 
     const upvotes = item.votes.upvotes.map(id => id.toString());
     const downvotes = item.votes.downvotes.map(id => id.toString());
@@ -64,14 +76,14 @@ async function validateAndToggleVote(item, userId, voteType) {
     const hasUpvoted = upvotes.includes(userId);
     const hasDownvoted = downvotes.includes(userId);
 
-    if (voteType === 'upvote') {
+    if (voteType === "upvote") {
         if (hasUpvoted) {
             item.votes.upvotes.pull(userId);
         } else {
             item.votes.upvotes.push(userId);
             if (hasDownvoted) item.votes.downvotes.pull(userId);
         }
-    } else if (voteType === 'downvote') {
+    } else if (voteType === "downvote") {
         if (hasDownvoted) {
             item.votes.downvotes.pull(userId);
         } else {
@@ -84,17 +96,17 @@ async function validateAndToggleVote(item, userId, voteType) {
 
 export async function toggleConsiderationVote(considerationId, userId, voteType) {
     const consideration = await Consideration.findById(considerationId);
-    if (!consideration) throw new NotFoundError('Consideration not found');
+    if (!consideration) throw new NotFoundError("Consideration not found");
     await validateAndToggleVote(consideration, userId, voteType);
     return consideration;
 }
 
 export async function toggleCommentVote(considerationId, commentId, userId, voteType) {
     const consideration = await Consideration.findById(considerationId);
-    if (!consideration) throw new NotFoundError('Consideration not found');
+    if (!consideration) throw new NotFoundError("Consideration not found");
 
     const comment = consideration.comments.id(commentId);
-    if (!comment) throw new NotFoundError('Comment not found');
+    if (!comment) throw new NotFoundError("Comment not found");
 
     await validateAndToggleVote(comment, userId, voteType);
 
@@ -107,11 +119,11 @@ export function groupAndSortConsiderationsByStance(considerations) {
 
     considerations.forEach(consideration => {
         consideration.netScore = consideration.votes.upvotes.length - consideration.votes.downvotes.length;
-        if (consideration.stance === 'Pro') {
+        if (consideration.stance === "Pro") {
             groupedConsiderations.Pro.push(consideration);
-        } else if (consideration.stance === 'Con') {
+        } else if (consideration.stance === "Con") {
             groupedConsiderations.Con.push(consideration);
-        } else if (consideration.stance === 'Neutral') {
+        } else if (consideration.stance === "Neutral") {
             groupedConsiderations.Neutral.push(consideration);
         }
     });

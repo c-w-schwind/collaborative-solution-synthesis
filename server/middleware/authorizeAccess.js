@@ -1,11 +1,13 @@
 import {Solution} from "../solution/solutionModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
+import {Consideration} from "../consideration/considerationModel.js";
 import {BadRequestError, NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
 import {asyncHandler} from "../utils/asyncHandler.js";
 
 const modelMap = {
     "Solution": Solution,
     "SolutionElement": SolutionElement,
+    "Consideration": Consideration,
 };
 
 const authorizeAccess = (entityType, options = {}) => {

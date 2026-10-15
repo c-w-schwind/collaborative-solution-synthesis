@@ -1,11 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-import {asyncHandler} from "../utils/asyncHandler.js";
-import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
-import authenticateToken from "../middleware/authenticateToken.js";
 import {Consideration} from "./considerationModel.js";
 import {
-    groupAndSortConsiderationsByStance,
     toggleCommentVote,
     toggleConsiderationVote,
     updateParentConsiderationsCount,
@@ -13,7 +9,11 @@ import {
     validateConsiderationData,
     validateParentDocument
 } from "./considerationService.js";
+import authenticateToken from "../middleware/authenticateToken.js";
+import authorizeAccess from "../middleware/authorizeAccess.js";
 import translateEntityNumberToId from "../middleware/translateEntityNumberToId.js";
+import {asyncHandler} from "../utils/asyncHandler.js";
+import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 
 const considerationRoutes = express.Router();
 
@@ -40,14 +40,25 @@ considerationRoutes.post("/considerations", authenticateToken(), (req, res, next
 
 
 // Update an existing Consideration
-considerationRoutes.put("/considerations/:considerationId", authenticateToken(), (req, res, next) => translateEntityNumberToId(req.body.parentType, req.body.parentNumber, req.body.parentVersionNumber, "parentId")(req, res, next), asyncHandler(async (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) throw new BadRequestError("Invalid Consideration ID.");
-    await validateConsiderationData({...req.body, parentId: req.parentId});
+considerationRoutes.put("/considerations/:considerationId", authenticateToken(), (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) return next(new BadRequestError("Invalid Consideration ID."));
 
-    const consideration = await Consideration.findByIdAndUpdate(req.params.considerationId, req.body, {new: true});
+    req.entityId = req.params.considerationId;
+    next();
+}, authorizeAccess("Consideration", {requireAuthor: true}), asyncHandler(async (req, res) => {
+    const {title, description, stance} = req.body;
+    const updatedFields = {title, description, stance};
+
+    validateConsiderationData({
+        ...updatedFields,
+        parentType: req.entity.parentType,
+        parentId: req.entity.parentId
+    });
+
+    const consideration = await Consideration.findByIdAndUpdate(req.entity._id, {$set: updatedFields}, {new: true, runValidators: true});
     if (!consideration) throw new NotFoundError("Consideration not found.");
 
-    res.status(201).send(consideration);
+    res.status(200).send(consideration);
 }));
 
 
