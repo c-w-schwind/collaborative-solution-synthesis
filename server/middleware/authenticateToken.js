@@ -30,11 +30,14 @@ const authenticateToken = (options = {required: true}) => {
         } catch (err) {
             if (!options.required) {
                 req.user = null;
-                next();
+                return next();
             }
             throw new UnauthorizedError("Access Denied: Invalid Token");
         }
     });
 };
 
-export default authenticateToken;
+const requiredAuth = authenticateToken();
+const optionalAuth = authenticateToken({required: false});
+
+export {requiredAuth, optionalAuth};

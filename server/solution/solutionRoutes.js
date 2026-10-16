@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {BadRequestError, NotFoundError, UnauthorizedError} from "../utils/customErrors.js";
-import authenticateToken from "../middleware/authenticateToken.js";
+import {requiredAuth, optionalAuth} from "../middleware/authenticateToken.js";
 import {Solution} from "./solutionModel.js";
 import {SolutionElement} from "../solutionElement/solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
@@ -15,7 +15,7 @@ const solutionRoutes = express.Router();
 
 
 // Get all Solutions
-solutionRoutes.get("/solutions", authenticateToken({required: false}), asyncHandler(async (req, res) => {
+solutionRoutes.get("/solutions", optionalAuth, asyncHandler(async (req, res) => {
     const publicStatuses = ["public", "proposal"];
     let query;
 
@@ -53,7 +53,7 @@ solutionRoutes.get("/solutions", authenticateToken({required: false}), asyncHand
 
 
 // Get single Solution w/ Solution Elements & Considerations by SolutionNumber
-solutionRoutes.get("/solutions/:solutionNumber/:versionNumber?", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber, req.params.versionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res) => {
+solutionRoutes.get("/solutions/:solutionNumber/:versionNumber?", optionalAuth, (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber, req.params.versionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res) => {
     const solution = req.entity;
     const publicStatuses = ["proposal", "accepted"];
 
@@ -110,7 +110,7 @@ solutionRoutes.get("/solutions/:solutionNumber/:versionNumber?", authenticateTok
 
 
 // Create new Solution
-solutionRoutes.post("/solutions", authenticateToken(), asyncHandler(async (req, res, next) => {
+solutionRoutes.post("/solutions", requiredAuth, asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -129,7 +129,7 @@ solutionRoutes.post("/solutions", authenticateToken(), asyncHandler(async (req, 
 
 
 // Create Change Proposal for a Solution
-solutionRoutes.post("/solutions/:solutionNumber/changeProposal", authenticateToken(), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res, next) => {
+solutionRoutes.post("/solutions/:solutionNumber/changeProposal", requiredAuth, (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber)(req, res, next), authorizeAccess("Solution"), asyncHandler(async (req, res, next) => {
     // No versionNumbers needed, since CPs can only be made to established Solutions
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -153,7 +153,7 @@ solutionRoutes.post("/solutions/:solutionNumber/changeProposal", authenticateTok
 
 
 // Update a single field or multiple fields of an unpublished Solution
-solutionRoutes.put("/solutions/:solutionNumber/:versionNumber?", authenticateToken(), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber, req.params.versionNumber)(req, res, next), authorizeAccess("Solution", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
+solutionRoutes.put("/solutions/:solutionNumber/:versionNumber?", requiredAuth, (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber, req.params.versionNumber)(req, res, next), authorizeAccess("Solution", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
     const solution = req.entity;
 
     if (!["draft", "under_review"].includes(solution.status)) {
@@ -167,7 +167,7 @@ solutionRoutes.put("/solutions/:solutionNumber/:versionNumber?", authenticateTok
 
 
 // Delete a single unpublished Solution w/ its Elements
-solutionRoutes.delete("/solutions/:solutionNumber/:versionNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber, req.params.versionNumber)(req, res, next), authorizeAccess("Solution", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
+solutionRoutes.delete("/solutions/:solutionNumber/:versionNumber", requiredAuth, (req, res, next) => translateEntityNumberToId("Solution", req.params.solutionNumber, req.params.versionNumber)(req, res, next), authorizeAccess("Solution", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {

@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
-import authenticateToken from "../middleware/authenticateToken.js";
+import {requiredAuth, optionalAuth} from "../middleware/authenticateToken.js";
 import {SolutionElement} from "./solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
 import {updateParentSolutionElementsCount, createSolutionElementChangeProposal, createSolutionElement} from "./solutionElementService.js";
@@ -14,7 +14,7 @@ const solutionElementRoutes = express.Router();
 
 
 // Get single Solution Element w/ Considerations by elementNumber and versionNumber
-solutionElementRoutes.get("/solutionElements/:elementNumber/:versionNumber?", authenticateToken({required: false}), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res) => {
+solutionElementRoutes.get("/solutionElements/:elementNumber/:versionNumber?", optionalAuth, (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res) => {
     const solutionElement = req.entity;
 
     // For change proposals, also fetch original elementNumber
@@ -38,7 +38,7 @@ solutionElementRoutes.get("/solutionElements/:elementNumber/:versionNumber?", au
 
 
 // Create new Solution Element draft
-solutionElementRoutes.post("/solutionElements", authenticateToken(), asyncHandler(async (req, res, next) => {
+solutionElementRoutes.post("/solutionElements", requiredAuth, asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -56,7 +56,7 @@ solutionElementRoutes.post("/solutionElements", authenticateToken(), asyncHandle
 
 
 // Create Change Proposal for an existing Solution Element
-solutionElementRoutes.post("/solutionElements/:elementNumber/changeProposal", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res, next) => {
+solutionElementRoutes.post("/solutionElements/:elementNumber/changeProposal", requiredAuth, (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement"), asyncHandler(async (req, res, next) => {
     // No versionNumbers needed, since CPs can only be made to established Elements within established Solutions
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -80,7 +80,7 @@ solutionElementRoutes.post("/solutionElements/:elementNumber/changeProposal", au
 
 
 // Update a single field or multiple fields of a Solution Element draft
-solutionElementRoutes.put("/solutionElements/:elementNumber/:versionNumber?", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
+solutionElementRoutes.put("/solutionElements/:elementNumber/:versionNumber?", requiredAuth, (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
     const solutionElement = req.entity;
 
     if (!["draft", "under_review"].includes(solutionElement.status)) {
@@ -94,7 +94,7 @@ solutionElementRoutes.put("/solutionElements/:elementNumber/:versionNumber?", au
 
 
 // Delete a single, unpublished Solution Element
-solutionElementRoutes.delete("/solutionElements/:elementNumber/:versionNumber", authenticateToken(), (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
+solutionElementRoutes.delete("/solutionElements/:elementNumber/:versionNumber", requiredAuth, (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {

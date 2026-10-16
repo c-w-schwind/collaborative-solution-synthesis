@@ -2,7 +2,7 @@ import express from "express";
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {NotFoundError} from "../utils/customErrors.js";
 import {validateRequiredFields} from "../utils/utils.js";
-import authenticateToken from "../middleware/authenticateToken.js";
+import {requiredAuth} from "../middleware/authenticateToken.js";
 import {DiscussionSpacePost} from "./discussionSpacePostModel.js";
 import {User} from "../user/userModel.js";
 import {getEstablishedEntityVersionNumber} from "./discussionSpaceService.js";
@@ -11,7 +11,7 @@ const discussionSpaceRoutes = express.Router();
 
 
 // Create new Discussion Space post
-discussionSpaceRoutes.post("/discussionSpace", authenticateToken(), asyncHandler(async (req, res) => {
+discussionSpaceRoutes.post("/discussionSpace", requiredAuth, asyncHandler(async (req, res) => {
     validateRequiredFields(req.body, ["title", "content", "parentType", "parentNumber"], "Discussion Space Post");
 
     if (!req.body.parentVersion) {
