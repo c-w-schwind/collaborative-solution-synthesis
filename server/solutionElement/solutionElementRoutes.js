@@ -5,7 +5,7 @@ import {BadRequestError, NotFoundError} from "../utils/customErrors.js";
 import {requiredAuth, optionalAuth} from "../middleware/authenticateToken.js";
 import {SolutionElement} from "./solutionElementModel.js";
 import {Consideration} from "../consideration/considerationModel.js";
-import {updateParentSolutionElementsCount, createSolutionElementChangeProposal, createSolutionElement} from "./solutionElementService.js";
+import {createSolutionElementChangeProposal, createSolutionElement} from "./solutionElementService.js";
 import translateEntityNumberToId from "../middleware/translateEntityNumberToId.js";
 import {groupAndSortConsiderationsByStance} from "../consideration/considerationService.js";
 import authorizeAccess from "../middleware/authorizeAccess.js";
@@ -80,7 +80,7 @@ solutionElementRoutes.post("/solutionElements/:elementNumber/changeProposal", re
 
 
 // Update a single field or multiple fields of a Solution Element draft
-solutionElementRoutes.put("/solutionElements/:elementNumber/:versionNumber?", requiredAuth, (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res, next) => {
+solutionElementRoutes.put("/solutionElements/:elementNumber/:versionNumber?", requiredAuth, (req, res, next) => translateEntityNumberToId("SolutionElement", req.params.elementNumber, req.params.versionNumber)(req, res, next), authorizeAccess("SolutionElement", {requireAuthor: true}), asyncHandler(async (req, res) => {
     const solutionElement = req.entity;
 
     if (!["draft", "under_review"].includes(solutionElement.status)) {

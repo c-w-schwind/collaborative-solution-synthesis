@@ -36,8 +36,14 @@ export function validateConsiderationData(considerationData) {
 }
 
 async function createConsideration(considerationData, userId, session = null) {
+    const {parentType, parentId, stance, title, description} = considerationData;
+
     const consideration = new Consideration({
-        ...considerationData,
+        parentType,
+        parentId,
+        stance,
+        title,
+        description,
         proposedBy: userId
     });
     await consideration.save({session});
@@ -91,20 +97,16 @@ async function validateAndToggleVote(item, userId, voteType) {
             if (hasUpvoted) item.votes.upvotes.pull(userId);
         }
     }
-    if (item instanceof Consideration) await item.save();
 }
 
-export async function toggleConsiderationVote(considerationId, userId, voteType) {
-    const consideration = await Consideration.findById(considerationId);
-    if (!consideration) throw new NotFoundError("Consideration not found");
+export async function toggleConsiderationVote(consideration, userId, voteType) {
     await validateAndToggleVote(consideration, userId, voteType);
+
+    await consideration.save();
     return consideration;
 }
 
-export async function toggleCommentVote(considerationId, commentId, userId, voteType) {
-    const consideration = await Consideration.findById(considerationId);
-    if (!consideration) throw new NotFoundError("Consideration not found");
-
+export async function toggleCommentVote(consideration, commentId, userId, voteType) {
     const comment = consideration.comments.id(commentId);
     if (!comment) throw new NotFoundError("Comment not found");
 
