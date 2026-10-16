@@ -39,8 +39,20 @@ considerationRoutes.post("/considerations", requiredAuth, (req, res, next) => tr
 }));
 
 
+const loadConsideration = asyncHandler(async (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) throw new BadRequestError("Invalid Consideration ID.");
+
+    req.consideration = await Consideration.findById(req.params.considerationId);
+    if (!req.consideration) throw new NotFoundError("Consideration not found.");
+
+    req.entityId = req.consideration.parentId;
+
+    next();
+});
+
+
 // Update an existing Consideration
-considerationRoutes.put("/considerations/:considerationId", requiredAuth, (req, res, next) => {
+considerationRoutes.put("/considerations/:considerationId", requiredAuth, loadConsideration, (req, res, next) => authorizeAccess(req.consideration.parentType)(req, res, next), (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) return next(new BadRequestError("Invalid Consideration ID."));
 
     req.entityId = req.params.considerationId;
@@ -60,18 +72,6 @@ considerationRoutes.put("/considerations/:considerationId", requiredAuth, (req, 
 
     res.status(200).send(consideration);
 }));
-
-
-const loadConsideration = asyncHandler(async (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.considerationId)) throw new BadRequestError("Invalid Consideration ID.");
-
-    req.consideration = await Consideration.findById(req.params.considerationId);
-    if (!req.consideration) throw new NotFoundError("Consideration not found.");
-
-    req.entityId = req.consideration.parentId;
-
-    next();
-});
 
 
 // Create a new comment for a Consideration
