@@ -87,7 +87,7 @@ const ConsiderationCard = ({considerationData, parentType, parentNumber, parentV
                                 voteEndpoint={`considerations/${consideration._id}/vote`}
                             />
                             <button onClick={() => toggleCommentSection(consideration._id, commentsContainerRef, scrollContainerRef)}>
-                                <img src="http://localhost:3000/comments.png" alt="comments"/>
+                                <img src="/comments.png" alt="Comments"/>
                                 {consideration.comments.length}
                             </button>
                             {userId === consideration.proposedBy && <button onClick={() => toggleConsiderationForm({considerationId: consideration._id, ref: considerationRef})}>edit</button>}
