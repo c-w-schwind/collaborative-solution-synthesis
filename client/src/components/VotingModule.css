@@ -31,6 +31,18 @@
     filter: brightness(1.1);
 }
 
+.vote-button:disabled {
+    cursor: wait;
+}
+
+.vote-button.upvote:disabled {
+    background-color: #5ba81c;
+}
+
+.vote-button.downvote:disabled {
+    background-color: #c03030;
+}
+
 .vote-button.upvote {
     background-color: #67bd21;
 }
@@ -65,4 +77,26 @@
     color: #6c6c6c;
     scale: 0.95;
     box-shadow: inset 0 0 8px 1px rgb(0, 0, 0);
+}
+
+.vote-spinner {
+    box-sizing: border-box;
+    display: block;
+    flex: 0 0 16px;
+
+    width: 16px;
+    height: 16px;
+    aspect-ratio: 1;
+
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+
+    animation: vote-spin 0.7s linear infinite;
+}
+
+@keyframes vote-spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
