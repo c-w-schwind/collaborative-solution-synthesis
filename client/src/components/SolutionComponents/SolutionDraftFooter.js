@@ -1,19 +1,28 @@
 import "./SolutionDraftFooter.css";
-import {useCallback, useState} from "react";
+import {useCallback, useLayoutEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
-import {getScrollbarWidth} from "../../utils/utils";
+import {getScrollbarWidth, lockBodyScroll, unlockBodyScroll} from "../../utils/utils";
 import useOutsideClick from "../../hooks/useOutsideClickHook";
 import {DELETE_ICON_SRC, SUBMIT_ICON_SRC} from "../../constants";
 
 
 const SolutionDraftFooter = ({onDiscardDraft, onSubmitDraft, onPublishSolution, solutionStatus, isFooterDisabled, isUserAuthor, isChangeProposal}) => {
     const [isShowingInfo, setIsShowingInfo] = useState(false);
-    const [scrollbarWidth] = useState(getScrollbarWidth() || 16); // Initialize in state to prevent transition on mount
+    const [scrollbarWidth] = useState(() => getScrollbarWidth() || 16); // Initialize in state to prevent transition on mount
 
     const location = useLocation();
     const isHidden = location.pathname.split("/").includes("element");
 
     const infoRef = useOutsideClick(() => setIsShowingInfo(false));
+
+
+    useLayoutEffect(() => {
+        if (!isShowingInfo || isHidden) return;
+
+        lockBodyScroll();
+
+        return () => unlockBodyScroll();
+    }, [isShowingInfo, isHidden]);
 
 
     const handleInfoButtonClick = useCallback(() => {

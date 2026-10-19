@@ -62,11 +62,11 @@ const withSidePanel = (WrappedComponent, entityType) => {
 
         // Remove scroll function underneath element modal
         useLayoutEffect(() => {
-            isModalOpen ? lockBodyScroll() : unlockBodyScroll();
+            if (!isModalOpen) return;
 
-            return () => {
-                unlockBodyScroll();
-            };
+            lockBodyScroll();
+
+            return () => unlockBodyScroll();
         }, [isModalOpen]);
 
 

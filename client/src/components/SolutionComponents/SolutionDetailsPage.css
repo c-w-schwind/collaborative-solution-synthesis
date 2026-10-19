@@ -3,13 +3,12 @@
     position: absolute;
     margin-top: 0;
     padding-bottom: 300px;
-    left: 25vw;
+    left: min(25vw, calc(50vw - 400px - var(--scrollbar-half)));
     top: 0;
-    width: calc(50vw - 16px); /* Subtracting the average of various browser's scrollbar widths */
+    width: max(800px, calc(50vw - var(--scrollbar-width)));
     z-index: 2;
     transition: width 0.4s ease-in-out, left 0.4s ease-in-out;
 }
-
 .solution-details-area-comparison {
     display: flex;
     position: relative;
@@ -25,6 +24,8 @@
 }
 
 .solution-details-container {
+    width: 100%;
+    min-width: 0;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -67,4 +68,17 @@
 .solution-details-add-card-button-container { /* Warning: Class referenced in handleBrowserNavigation for DOM checks. Changes need to be synchronized. */
     text-align: right;
     margin-top: 30px;
+}
+
+@media (max-width: 848px) {
+    .solution-details-area:not(.solution-details-area-side-panel-open) {
+        width: calc(100vw - var(--scrollbar-width) - 32px);
+        left: 16px;
+    }
+}
+
+.solution-details-area {
+    /* Fallbacks; actual scrollbar width is set dynamically in React. */
+    --scrollbar-width: 16px;
+    --scrollbar-half: 8px;
 }

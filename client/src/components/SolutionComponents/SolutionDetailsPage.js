@@ -21,6 +21,7 @@ function SolutionDetailsPage(props) {
     const [retryCount, setRetryCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
     const [isFooterDisabled, setIsFooterDisabled] = useState(false);
+    const [scrollbarWidth] = useState(() => getScrollbarWidth() || 16); // Initialize in state to prevent transition on mount
 
     const {user} = useAuth();
     const location = useLocation();
@@ -142,8 +143,8 @@ function SolutionDetailsPage(props) {
     return (
         solution ? (
             <>
-                <div ref={solutionDetailsAreaRef} className={detailsAreaClassName()}>
-                    <div ref={solutionDetailsContainerRef ? solutionDetailsContainerRef : null} className="solution-details-container" style={{width: `calc(50vw - ${getScrollbarWidth()}px)`}}>
+                <div ref={solutionDetailsAreaRef} className={detailsAreaClassName()} style={{"--scrollbar-width": `${scrollbarWidth}px`, "--scrollbar-half": `${scrollbarWidth / 2}px`}}>
+                    <div ref={solutionDetailsContainerRef ?? null} className="solution-details-container">
                         <SolutionOverviewSection
                             solution={solution}
                             setSolution={setSolution}
